@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Welcome Back</title>
+  <script src="./tailwindcss.js"></script>
+  <script src="./iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" type="text/css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" type="text/css" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #181821;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .auth-card-radius {
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+    }
+
+    .mesh-gradient {
+      background-color: #FAF9FF;
+      background-image: 
+        radial-gradient(at 0% 0%, hsla(253,16%,7%,0) 0, hsla(253,16%,7%,0) 50%, hsla(253,16%,7%,0.05) 100%),
+        radial-gradient(at 100% 0%, hsla(263, 85%, 95%, 1) 0, hsla(263, 85%, 95%, 0) 50%),
+        radial-gradient(at 0% 100%, hsla(263, 85%, 98%, 1) 0, hsla(263, 85%, 98%, 0) 50%);
+    }
+
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #8463E9;
+      box-shadow: 0 0 0 4px rgba(132, 99, 233, 0.1);
+    }
+
+    .login-btn-gradient {
+      background: linear-gradient(90deg, #8463E9 0%, #8B84FF 100%);
+    }
+
+    /* Custom scrollbar for desktop */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c7d2fe;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="mesh-gradient min-h-screen flex flex-col">
+
+  <!-- Status Bar (Mobile Only) -->
+  <header class="flex justify-between items-center px-6 py-3 md:hidden">
+    <img src="./assets/IMG_1.svg" alt="Time" class="h-5">
+    <img src="./assets/IMG_2.svg" alt="Status Icons" class="h-5">
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow flex flex-col lg:flex-row items-center justify-center lg:gap-12 xl:gap-24 p-0 md:p-8">
+    
+    <!-- Branding Section (Logo & Decorative Blobs) -->
+    <section class="relative w-full lg:w-1/2 flex flex-col items-center justify-center py-12 md:py-20 lg:py-0">
+      <!-- Decorative Blobs -->
+      <div class="absolute top-0 right-0 w-48 h-48 bg-[#8B84FF] rounded-full blur-[80px] opacity-20 -z-10"></div>
+      <div class="absolute bottom-0 left-0 w-48 h-48 bg-[#6C63FF] rounded-full blur-[80px] opacity-40 -z-10"></div>
+      
+      <!-- Logo Container -->
+      <div class="relative z-10 w-20 h-20 md:w-32 md:h-32 overflow-hidden flex items-center justify-center">
+        <img src="./assets/IMG_3.png" alt="Logo" class="w-full h-full object-contain">
+      </div>
+      
+      <!-- Desktop Only Branding Text -->
+      <div class="hidden lg:block mt-8 text-center">
+        <h2 class="text-4xl text-[#181821] mb-4">Education Portal</h2>
+        <p class="text-[#595973] max-w-md">Empowering educators with seamless access to classroom management and student progress tracking.</p>
+      </div>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="w-full lg:max-w-[500px] bg-[#F9F9FB] auth-card-radius lg:rounded-3xl shadow-[0px_-12px_40px_0px_#6C63FF1f] lg:shadow-2xl p-6 md:p-10 lg:p-12 flex flex-col">
+      
+      <div class="mb-8">
+        <h1 class="text-[30px] leading-[36px] font-bold text-[#181821] mb-2">Welcome back</h1>
+        <p class="text-[16px] text-[#595973]">Please log in to your account to continue</p>
+      </div>
+
+      <form class="space-y-6">
+        <!-- Email Field -->
+        <div class="space-y-2">
+          <label for="email" class="text-[14px] font-medium text-[#181821] ml-1">Email Address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <img src="./assets/IMG_4.svg" alt="Email" class="w-5 h-5 opacity-60">
+            </div>
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="teacher@school.edu" 
+              class="w-full h-14 pl-12 pr-4 bg-white border border-[#F3F3F6] rounded-[14px] text-[16px] transition-all"
+            >
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-2">
+          <label for="password" class="text-[14px] font-medium text-[#181821] ml-1">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <img src="./assets/IMG_6.svg" alt="Lock" class="w-5 h-5 opacity-60">
+            </div>
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="••••••••" 
+              class="w-full h-14 pl-12 pr-12 bg-white border border-[#F3F3F6] rounded-[14px] text-[16px] transition-all"
+            >
+            <button type="button" class="absolute inset-y-0 right-0 pr-4 flex items-center text-[#595973] hover:text-[#8463E9] transition-colors">
+              <img src="./assets/IMG_5.svg" alt="Show Password" class="w-5 h-5">
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember & Forgot -->
+        <div class="flex items-center justify-between">
+          <label class="flex items-center gap-2 cursor-pointer group">
+            <div class="relative flex items-center">
+              <input type="checkbox" class="peer sr-only">
+              <div class="w-5 h-5 border-2 border-[#595973]/30 rounded bg-white peer-checked:bg-[#8463E9] peer-checked:border-[#8463E9] transition-all"></div>
+              <iconify-icon icon="lucide:check" class="absolute text-white text-xs left-1 opacity-0 peer-checked:opacity-100"></iconify-icon>
+            </div>
+            <span class="text-[14px] font-medium text-[#595973] group-hover:text-[#181821] transition-colors">Remember me</span>
+          </label>
+          <a href="#" class="text-[14px] font-medium text-[#8463E9] hover:underline">Forgot password?</a>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit" class="w-full h-14 login-btn-gradient text-white text-[18px] font-semibold rounded-[16px] shadow-[0px_12px_24px_0px_#8463E940] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
+          Login
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="relative my-10">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-[#F3F3F6]"></div>
+        </div>
+        <div class="relative flex justify-center">
+          <span class="bg-[#F9F9FB] px-4 text-[12px] font-medium text-[#595973] tracking-widest uppercase">Or continue with</span>
+        </div>
+      </div>
+
+      <!-- Biometric Login -->
+      <div class="flex flex-col items-center gap-3">
+        <button class="w-16 h-16 flex items-center justify-center bg-white border border-[#F3F3F6]/60 rounded-[20px] shadow-[0px_4px_8px_0px_#09090B0f] hover:shadow-md hover:border-[#8463E9]/30 transition-all group">
+          <img src="./assets/IMG_7.svg" alt="Biometric" class="w-8 h-8 group-hover:scale-110 transition-transform">
+        </button>
+        <span class="text-[12px] font-medium text-[#595973]">Biometric Login</span>
+      </div>
+
+      <!-- Desktop Only Footer -->
+      <div class="hidden lg:block mt-12 text-center text-sm text-[#595973]">
+        Don't have an account? <a href="#" class="text-[#8463E9] font-semibold hover:underline">Contact Administrator</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (Mobile Only) -->
+  <footer class="p-6 text-center md:hidden">
+    <p class="text-[12px] text-[#595973]">© 2024 Education Portal. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

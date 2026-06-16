@@ -6,18 +6,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-        backgroundColor: const Color(0xFF9B8EC4),
-      ),
+      appBar: AppBar(title: const Text('Home')),
       body: const Center(
-        child: Text(
-          'Home Screen',
-          style: TextStyle(
-            fontSize: 24,
-            color: Color(0xFF2D2D2D),
-          ),
-        ),
+        child: Text('Welcome to Smart School Management!'),
       ),
     );
   }

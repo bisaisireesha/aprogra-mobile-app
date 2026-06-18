@@ -22,7 +22,7 @@ class MockData {
       'subtitle': '5 classes below 80%',
       'action': 'Review →',
       'colorType': 'red',
-      'icon': Icons.person_off_outlined,
+      'icon': Icons.cancel_outlined,
     },
     {
       'type': 'ATTENTION',
@@ -67,7 +67,7 @@ class MockData {
     ],
     // Dummy values for 5 days: Tue, Wed, Thu, Fri, Sat
     // We will normalize these to draw the curve: 0.0 to 1.0
-    'chartPoints': [0.7, 0.4, 0.9, 0.8, 0.2], 
+    'chartPoints': [0.55, 0.35, 0.85, 0.65, 0.15], 
   };
 
   static const financialInsights = {
@@ -105,7 +105,7 @@ class MockData {
   static const aiInsights = [
     {
       'type': 'FORECAST',
-      'icon': Icons.info_outline,
+      'icon': Icons.error_outline_rounded,
       'description': 'Fee collection may miss this month\'s target by ₹45,000 at current recovery rate.',
       'action': 'Plan recovery →',
     },
@@ -187,7 +187,7 @@ class MockData {
     {
       'title': 'Academics',
       'value': '100% Attendance',
-      'icon': Icons.check_circle_outline,
+      'icon': Icons.check_circle_outline_rounded,
       'iconColor': Colors.green,
       'iconBg': Colors.green.withValues(alpha: 0.1),
       'cardBg': Color(0xFFF0FAF4),
@@ -298,7 +298,7 @@ class MockData {
       'value': '7',
       'subtitle': '+2 since morning',
       'subtitleColor': Colors.redAccent,
-      'icon': Icons.error_outline,
+      'icon': Icons.error_outline_rounded,
       'iconBg': const Color(0xFFFFF1F1),
       'iconColor': Colors.redAccent,
     },
@@ -307,7 +307,7 @@ class MockData {
       'value': '23',
       'subtitle': '8 due today',
       'subtitleColor': const Color(0xFF595973),
-      'icon': Icons.access_time,
+      'icon': Icons.access_time_rounded,
       'iconBg': const Color(0xFFF9F9FB),
       'iconColor': const Color(0xFF595973),
     },
@@ -316,7 +316,7 @@ class MockData {
       'value': '14',
       'subtitle': '3 escalated',
       'subtitleColor': const Color(0xFF595973),
-      'icon': Icons.highlight_off,
+      'icon': Icons.cancel_outlined,
       'iconBg': const Color(0xFFF9F9FB),
       'iconColor': const Color(0xFF595973),
     },
@@ -325,7 +325,7 @@ class MockData {
       'value': '41',
       'subtitle': '+12 vs yesterday',
       'subtitleColor': Colors.green,
-      'icon': Icons.check_circle_outline,
+      'icon': Icons.check_circle_outline_rounded,
       'iconBg': const Color(0xFFF9F9FB),
       'iconColor': const Color(0xFF595973),
     },
@@ -335,7 +335,7 @@ class MockData {
     {
       'sectionTitle': 'Critical Alerts',
       'sectionBadge': '2',
-      'sectionIcon': Icons.shield_outlined,
+      'sectionIcon': Icons.gpp_maybe_outlined,
       'sectionIconColor': Colors.redAccent,
       'sectionIconBg': const Color(0xFFFFF1F1),
       'items': [
@@ -356,9 +356,9 @@ class MockData {
     {
       'sectionTitle': 'Attendance Actions',
       'sectionBadge': '4',
-      'sectionIcon': Icons.person_off_outlined,
+      'sectionIcon': Icons.person_search_outlined,
       'sectionIconColor': const Color(0xFF595973),
-      'sectionIconBg': const Color(0xFFF9F9FB),
+      'sectionIconBg': Colors.white,
       'items': [
         {
           'isCritical': false,
@@ -377,9 +377,9 @@ class MockData {
     {
       'sectionTitle': 'Financial Actions',
       'sectionBadge': '4',
-      'sectionIcon': Icons.currency_rupee,
+      'sectionIcon': Icons.currency_rupee_rounded,
       'sectionIconColor': const Color(0xFF595973),
-      'sectionIconBg': const Color(0xFFF9F9FB),
+      'sectionIconBg': Colors.white,
       'items': [
         {
           'isCritical': false,
@@ -400,7 +400,7 @@ class MockData {
       'sectionBadge': '4',
       'sectionIcon': Icons.school_outlined,
       'sectionIconColor': const Color(0xFF595973),
-      'sectionIconBg': const Color(0xFFF9F9FB),
+      'sectionIconBg': Colors.white,
       'items': [
         {
           'isCritical': false,

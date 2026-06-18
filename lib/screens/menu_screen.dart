@@ -40,6 +40,7 @@ class MenuScreen extends StatelessWidget {
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSideRail(context),
             Expanded(child: _buildRightPane(context)),
@@ -52,7 +53,7 @@ class MenuScreen extends StatelessWidget {
   Widget _buildSideRail(BuildContext context) {
     return Container(
       width: 56.w,
-      margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 12.h, bottom: 12.h),
+      margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 8.h, bottom: 8.h), // Reduced margin
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(40.r),
@@ -66,7 +67,7 @@ class MenuScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h), // Reduced top padding
           // Top logo
           Container(
             width: 36.w,
@@ -86,7 +87,7 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 24.h), // Reduced gap to align graduationCap with "Main Dashboard" list
+          SizedBox(height: 12.h), // Reduced gap between logo and icons
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -104,13 +105,13 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           _buildRailIcon(context, LucideIcons.bell, activeScreen == 'Notifications', const ComingSoonScreen(title: 'Notifications')),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h), // Reduced down padding
           CircleAvatar(
             radius: 16.r, 
             backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
             backgroundColor: _newAccent.withOpacity(0.08),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 8.h), // Reduced down padding
         ],
       ),
     );
@@ -169,7 +170,7 @@ class MenuScreen extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: EdgeInsets.only(
-          top: 12.h, // Reduced top padding so Dashboard starts from the top
+          top: 0, // Dashboard title starts perfectly from the top
           bottom: 16.h, 
           left: 0, 
           right: 16.w,
@@ -179,12 +180,12 @@ class MenuScreen extends StatelessWidget {
           children: [
             // Header
             Padding(
-              padding: EdgeInsets.only(left: 8.w, bottom: 2.h),
+              padding: EdgeInsets.only(left: 12.w, bottom: 4.h),
               child: Text(
                 'Dashboard',
                 style: GoogleFonts.inter(
-                  fontSize: 24.sp, 
-                  fontWeight: FontWeight.w600, 
+                  fontSize: 26.sp, 
+                  fontWeight: FontWeight.w700, 
                   color: _textDark,
                   letterSpacing: -1.0,
                   height: 1.0,
@@ -192,13 +193,13 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 8.w, bottom: 12.h), // Reduced bottom margin
+              padding: EdgeInsets.only(left: 12.w, bottom: 12.h), 
               child: Text(
                 'Platform overview & analytics',
                 style: GoogleFonts.inter(
                   fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: _textVeryMuted,
+                  fontWeight: FontWeight.w500,
+                  color: _textLightGray,
                   letterSpacing: -0.14,
                 ),
               ),
@@ -223,14 +224,14 @@ class MenuScreen extends StatelessWidget {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: EdgeInsets.only(left: 8.w, bottom: 4.h, top: 12.h), // Reduced top and bottom padding
+      padding: EdgeInsets.only(left: 12.w, bottom: 8.h, top: 20.h), 
       child: Text(
         title,
         style: GoogleFonts.inter(
           fontSize: 11.sp, 
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
           color: _textLightGray, 
-          letterSpacing: 0.88, 
+          letterSpacing: 1.2, 
         ),
       ),
     );
@@ -242,37 +243,37 @@ class MenuScreen extends StatelessWidget {
       onTap: () => _navigateTo(context, screen),
       behavior: HitTestBehavior.opaque,
       child: Container(
-        margin: EdgeInsets.only(bottom: 0), 
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h), // Reduced vertical padding
+        margin: EdgeInsets.only(bottom: 4.h), 
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h), // Increased padding to match image
         decoration: isActive
             ? BoxDecoration(
-                color: _newAccent.withOpacity(0.08), 
-                borderRadius: BorderRadius.circular(20.r), // Match pill shape in reference image
+                color: _newAccent.withOpacity(0.06), 
+                borderRadius: BorderRadius.circular(12.r), 
               )
             : null,
         child: Row(
           children: [
             if (isActive)
               Container(
-                width: 28.w,
-                height: 28.w,
+                width: 32.w,
+                height: 32.w,
                 decoration: BoxDecoration(
-                  color: Colors.transparent, 
-                  borderRadius: BorderRadius.circular(10.r),
+                  color: _newAccent.withOpacity(0.15), 
+                  borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: Icon(
                   icon,
-                  size: 18.w, // Size: 18px
+                  size: 18.w, 
                   color: _newAccent, 
                 ),
               )
             else
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 6.w),
                 child: Icon(
                   icon,
-                  size: 18.w, // Size: 18px
-                  color: _textLightGray, // Color: #9CA3AF
+                  size: 20.w, 
+                  color: _textLightGray, 
                 ),
               ),
             SizedBox(width: 14.w),
@@ -281,16 +282,16 @@ class MenuScreen extends StatelessWidget {
                 title,
                 style: GoogleFonts.inter(
                   fontSize: 14.sp, 
-                  fontWeight: isActive ? FontWeight.w500 : FontWeight.w400, // Active: w500, Inactive: w400
-                  color: isActive ? _newAccent : _textLightGray, // Inactive color: #9CA3AF
-                  letterSpacing: -0.14, 
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500, 
+                  color: isActive ? _newAccent : _textMuted, 
+                  letterSpacing: -0.2, 
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             if (isActive)
-              Icon(LucideIcons.chevronRight, color: _newAccent, size: 18.w),
+              Icon(LucideIcons.chevronRight, color: _newAccent.withOpacity(0.5), size: 18.w),
           ],
         ),
       ),

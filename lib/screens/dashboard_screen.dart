@@ -178,10 +178,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required Color progressColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -192,7 +192,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,14 +211,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(trendUp ? Icons.trending_up : Icons.trending_down, size: 14, color: _textDark),
+                  Icon(trendUp ? Icons.call_made : Icons.call_received, size: 14, color: _textDark),
                   const SizedBox(width: 2),
                   Text(trend, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
                 ],
               ),
             ],
           ),
-          Text(value, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
+          const SizedBox(height: 16),
+          Text(value, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          const SizedBox(height: 16),
           Container(
             height: 6,
             width: double.infinity,
@@ -244,10 +246,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildAttendanceKPICard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -258,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,17 +279,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.trending_up, size: 14, color: _textDark),
+                  const Icon(Icons.call_made, size: 14, color: _textDark),
                   const SizedBox(width: 2),
                   Text(MockData.kpiData['attendanceTrend'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
                 ],
               ),
             ],
           ),
+          const SizedBox(height: 16),
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
               const SizedBox(width: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,10 +309,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildFeesKPICard() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -320,7 +323,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,7 +349,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.trending_down, size: 10, color: Colors.red),
+                      const Icon(Icons.call_received, size: 10, color: Colors.red),
                       const SizedBox(width: 2),
                       Flexible(child: Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red), overflow: TextOverflow.ellipsis)),
                     ],
@@ -355,7 +358,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
+          const SizedBox(height: 16),
+          Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          const SizedBox(height: 16),
           Container(
             height: 6,
             width: double.infinity,
@@ -410,7 +415,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               badgeBgColor = Colors.redAccent.withValues(alpha: 0.15);
               badgeTextColor = Colors.redAccent;
             } else if (colorType == 'blue') {
-              bgColor = const Color(0xFFF3F7FF);
               badgeBgColor = Colors.blueAccent.withValues(alpha: 0.15);
               badgeTextColor = Colors.blueAccent;
             } else if (colorType == 'purple') {
@@ -1078,8 +1082,8 @@ class _LineChartPainter extends CustomPainter {
     }
 
     final paintLine = Paint()
-      ..color = Colors.blueAccent
-      ..strokeWidth = 3
+      ..color = const Color(0xFF5C88FF)
+      ..strokeWidth = 2.5
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
@@ -1093,22 +1097,26 @@ class _LineChartPainter extends CustomPainter {
         Offset(0, 0),
         Offset(0, height),
         [
-          Colors.blueAccent.withValues(alpha: 0.2),
-          Colors.blueAccent.withValues(alpha: 0.0),
+          const Color(0xFF5C88FF).withValues(alpha: 0.25),
+          const Color(0xFF5C88FF).withValues(alpha: 0.0),
         ],
       )
       ..style = PaintingStyle.fill;
 
     // Draw grid lines
     final gridPaint = Paint()
-      ..color = const Color(0xFFF3F3F6)
+      ..color = const Color(0xFFF0F0F5)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
       
-    // Draw 3 horizontal dashed/dotted lines
+    // Draw 3 horizontal dashed lines
     for (int i = 0; i < 3; i++) {
       final y = height * (i / 2);
-      canvas.drawLine(Offset(0, y), Offset(width, y), gridPaint);
+      double startX = 0;
+      while (startX < width) {
+        canvas.drawLine(Offset(startX, y), Offset(startX + 4, y), gridPaint);
+        startX += 8;
+      }
     }
 
     canvas.drawPath(fillPath, paintFill);

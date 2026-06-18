@@ -58,20 +58,13 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                     _buildFeedList(),
                     const SizedBox(height: 24),
                     _buildLoadEarlierBtn(),
-                    const SizedBox(height: 80), // Space for FAB
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: _accent,
-        shape: const CircleBorder(),
-        elevation: 4,
-        child: const Icon(Icons.auto_awesome, color: Colors.white),
       ),
       drawer: const MenuScreen(activeScreen: 'Activity Feed'),
       bottomNavigationBar: _buildBottomNav(),
@@ -340,7 +333,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                     ),
                     child: Icon(item['icon'] as IconData, size: 20, color: item['iconColor'] as Color),
                   ),
-                  const SizedBox(width: 8), // slightly reduced spacing
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       item['title'] as String,
@@ -524,6 +517,17 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     );
   }
 
+  /// Returns a badge icon for each badge type, matching the reference image.
+  IconData _badgeIcon(String badge) {
+    final b = badge.toUpperCase();
+    if (b.contains('SECURITY')) return Icons.security;
+    if (b.contains('FINANCE')) return Icons.account_balance_wallet_outlined;
+    if (b.contains('TRANSPORT')) return Icons.directions_bus_outlined;
+    if (b.contains('LIBRARY')) return Icons.menu_book_outlined;
+    if (b.contains('ACADEMIC')) return Icons.school_outlined;
+    return Icons.circle;
+  }
+
   Widget _buildFeedList() {
     return Column(
       children: MockData.activityEvents.map((group) {
@@ -544,21 +548,18 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ── Group header: plain style matching the reference image ──
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.only(top: 8, bottom: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFEBEBEB)),
-                    ),
-                    child: Text(
-                      group['groupTime'] as String,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark),
+                  Text(
+                    group['groupTime'] as String,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
                     ),
                   ),
                   Text(
@@ -569,30 +570,50 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               ),
             ),
             ...filteredEvents.map((event) {
+              final initColor = event['initColor'] as Color;
+              final badgeColor = event['badgeColor'] as Color;
+              final badge = event['badge'] as String;
+              final action = event['action'] as String;
+
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // ── Profile avatar: light pastel bg + dark text + white border ring ──
                     Container(
-                      width: 40,
-                      height: 40,
+                      width: 46,
+                      height: 46,
                       decoration: BoxDecoration(
-                        color: (event['initColor'] as Color).withValues(alpha: 0.1),
+                        color: Colors.white,       // white outer ring
                         shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: initColor.withValues(alpha: 0.15),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-                      child: Center(
-                        child: Text(
-                          event['init'] as String,
-                          style: TextStyle(
-                            color: event['initColor'] as Color,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: initColor.withValues(alpha: 0.12), // light pastel fill
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            event['init'] as String,
+                            style: TextStyle(
+                              color: initColor,            // dark colored text
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Container(
                         padding: const EdgeInsets.all(16),
@@ -611,6 +632,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // ── Header row: title • subtitle   time ──
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -621,78 +643,115 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                                     text: TextSpan(
                                       style: const TextStyle(fontSize: 13, color: _textDark),
                                       children: [
-                                        TextSpan(text: event['title'] as String, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                        const TextSpan(text: ' • ', style: TextStyle(color: _textMuted)),
-                                        TextSpan(text: event['subtitle'] as String, style: const TextStyle(color: _textMuted)),
+                                        TextSpan(
+                                          text: event['title'] as String,
+                                          style: const TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                        const TextSpan(
+                                          text: ' • ',
+                                          style: TextStyle(color: _textMuted),
+                                        ),
+                                        TextSpan(
+                                          text: event['subtitle'] as String,
+                                          style: const TextStyle(color: _textMuted),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
+                                const SizedBox(width: 8),
                                 Text(
                                   event['time'] as String,
                                   style: const TextStyle(fontSize: 11, color: _textMuted),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 10),
+                            // ── Badge with icon, matching reference ──
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: (event['badgeColor'] as Color).withValues(alpha: 0.1),
+                                color: badgeColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: Text(
-                                event['badge'] as String,
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.bold,
-                                  color: event['badgeColor'] as Color,
-                                  letterSpacing: 0.5,
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    _badgeIcon(badge),
+                                    size: 10,
+                                    color: badgeColor,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    badge,
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold,
+                                      color: badgeColor,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             const SizedBox(height: 8),
+                            // ── Main event title ──
                             Text(
                               event['main'] as String,
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                              ),
                             ),
                             const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: const TextStyle(fontSize: 12, color: _textMuted),
-                                      children: [
-                                        TextSpan(text: event['detail1Label'] as String),
-                                        const TextSpan(text: ' '),
-                                        TextSpan(text: event['detail1Value'] as String, style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600)),
-                                      ],
-                                    ),
+                            // ── Detail rows stacked vertically (matches reference image) ──
+                            RichText(
+                              text: TextSpan(
+                                style: const TextStyle(fontSize: 12, color: _textMuted),
+                                children: [
+                                  TextSpan(text: event['detail1Label'] as String),
+                                  const TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: event['detail1Value'] as String,
+                                    style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600),
                                   ),
-                                ),
-                                Expanded(
-                                  child: RichText(
-                                    text: TextSpan(
-                                      style: const TextStyle(fontSize: 12, color: _textMuted),
-                                      children: [
-                                        TextSpan(text: event['detail2Label'] as String),
-                                        const TextSpan(text: ' '),
-                                        TextSpan(text: event['detail2Value'] as String, style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            if ((event['action'] as String).isNotEmpty) ...[
+                            const SizedBox(height: 4),
+                            RichText(
+                              text: TextSpan(
+                                style: const TextStyle(fontSize: 12, color: _textMuted),
+                                children: [
+                                  TextSpan(text: event['detail2Label'] as String),
+                                  const TextSpan(text: ' '),
+                                  TextSpan(
+                                    text: event['detail2Value'] as String,
+                                    style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // ── Action link (e.g. "View pass ˅") ──
+                            if (action.isNotEmpty) ...[
                               const SizedBox(height: 16),
+                              const Divider(height: 1, color: Color(0xFFF3F3F6)),
+                              const SizedBox(height: 12),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    (event['action'] as String).replaceAll(' v', ''),
-                                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _accent),
+                                    // Remove trailing " v" suffix used in mock data as chevron placeholder
+                                    action.endsWith(' v')
+                                        ? action.substring(0, action.length - 2)
+                                        : action,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: _accent,
+                                    ),
                                   ),
                                   const SizedBox(width: 4),
                                   const Icon(Icons.keyboard_arrow_down, size: 16, color: _accent),
@@ -749,21 +808,12 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         unselectedItemColor: _textMuted,
         selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
         unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
-        items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(
-            icon: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.show_chart),
-              ],
-            ),
-            activeIcon: const Icon(Icons.show_chart),
-            label: 'Activity',
-          ),
-          const BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          BottomNavigationBarItem(icon: Icon(Icons.show_chart), activeIcon: Icon(Icons.show_chart), label: 'Activity'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
         ],
       ),
     );

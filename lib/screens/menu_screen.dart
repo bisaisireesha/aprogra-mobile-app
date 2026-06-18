@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../theme/app_colors.dart';
 import 'dashboard_screen.dart';
 import 'action_center_screen.dart';
 import 'activity_feed_screen.dart';
 import 'coming_soon_screen.dart';
 import 'login_screen.dart';
-
-const _textDark     = Color(0xFF181821);
-const _textMuted    = Color(0xFF4A4A5A);
-const _textVeryMuted = Color(0xFFA1A1AA);
-const _textLightGray = Color(0xFF9CA3AF); // Menu item text color
-const _newAccent    = Color(0xFF6D4AFF); // Updated explicit purple
-const _accentLight  = Color(0xFFF3F0FF); // Keeping original for other elements if needed
 
 class MenuScreen extends StatelessWidget {
   final String activeScreen;
@@ -35,12 +29,11 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: const Color(0xFFF9F9FB), 
+      backgroundColor: AppColors.background, 
       width: 1.sw, 
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSideRail(context),
             Expanded(child: _buildRightPane(context)),
@@ -52,10 +45,10 @@ class MenuScreen extends StatelessWidget {
 
   Widget _buildSideRail(BuildContext context) {
     return Container(
-      width: 56.w,
-      margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 8.h, bottom: 8.h), // Reduced margin
+      width: 72.w,
+      margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 4.h, bottom: 4.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.sidebarBg,
         borderRadius: BorderRadius.circular(40.r),
         boxShadow: [
           BoxShadow(
@@ -67,13 +60,13 @@ class MenuScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: 8.h), // Reduced top padding
+          SizedBox(height: 16.h),
           // Top logo
           Container(
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: _newAccent.withOpacity(0.08),
+              color: AppColors.purpleLight,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Center(
@@ -81,13 +74,13 @@ class MenuScreen extends StatelessWidget {
                 width: 14.w, 
                 height: 14.w,
                 decoration: const BoxDecoration(
-                  color: _newAccent,
+                  color: AppColors.purple,
                   shape: BoxShape.circle,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 12.h), // Reduced gap between logo and icons
+          SizedBox(height: 24.h), // Reduced gap to align graduationCap with "Main Dashboard" list
           Expanded(
             child: SingleChildScrollView(
               child: Column(
@@ -105,13 +98,13 @@ class MenuScreen extends StatelessWidget {
             ),
           ),
           _buildRailIcon(context, LucideIcons.bell, activeScreen == 'Notifications', const ComingSoonScreen(title: 'Notifications')),
-          SizedBox(height: 8.h), // Reduced down padding
+          SizedBox(height: 16.h),
           CircleAvatar(
-            radius: 16.r, 
+            radius: 24.r, 
             backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
-            backgroundColor: _newAccent.withOpacity(0.08),
+            backgroundColor: AppColors.purpleLight,
           ),
-          SizedBox(height: 8.h), // Reduced down padding
+          SizedBox(height: 12.h),
         ],
       ),
     );
@@ -126,12 +119,12 @@ class MenuScreen extends StatelessWidget {
       },
       behavior: HitTestBehavior.opaque,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 2.h), // gap: 2px between items to reduce up/down space
+        margin: EdgeInsets.symmetric(vertical: 8.h),
         width: 36.w,
         height: 36.w,
         decoration: isActive
             ? BoxDecoration(
-                color: _newAccent.withOpacity(0.08), // subtle purple
+                color: const Color(0xFF7F61EA), // solid purple active bg
                 borderRadius: BorderRadius.circular(12.r),
               )
             : null,
@@ -140,8 +133,8 @@ class MenuScreen extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: isActive ? _newAccent : _textLightGray, // Color: #9CA3AF
-              size: 18.w, // Size: 18px
+              color: isActive ? Colors.white : AppColors.iconDefault,
+              size: 20.w,
             ),
             if (hasBadge)
               Positioned(
@@ -151,7 +144,7 @@ class MenuScreen extends StatelessWidget {
                   width: 8.w,
                   height: 8.w,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFE8505B),
+                    color: const Color(0xFFE8505B), // notification badge red
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 1.5.w),
                   ),
@@ -168,70 +161,73 @@ class MenuScreen extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Colors.transparent, 
       ),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: 0, // Dashboard title starts perfectly from the top
-          bottom: 16.h, 
-          left: 0, 
-          right: 16.w,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Padding(
-              padding: EdgeInsets.only(left: 12.w, bottom: 4.h),
-              child: Text(
-                'Dashboard',
-                style: GoogleFonts.inter(
-                  fontSize: 26.sp, 
-                  fontWeight: FontWeight.w700, 
-                  color: _textDark,
-                  letterSpacing: -1.0,
-                  height: 1.0,
-                ),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Fixed Header - stays at top, does not scroll
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Dashboard',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2, // 36px line-height / 30px = 1.2
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 12.w, bottom: 12.h), 
-              child: Text(
-                'Platform overview & analytics',
-                style: GoogleFonts.inter(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
-                  color: _textLightGray,
-                  letterSpacing: -0.14,
-                ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Platform overview & analytics',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.textSecondary,
               ),
             ),
-            // Menu List
-            _buildSectionTitle('OVERVIEW'),
-            _buildMenuItem(context, 'Main Dashboard', LucideIcons.layoutDashboard, const DashboardScreen()),
-            _buildMenuItem(context, 'Action Center', LucideIcons.activity, const ActionCenterScreen()),
-            _buildMenuItem(context, 'Activity Feed', LucideIcons.fileText, const ActivityFeedScreen()),
-            _buildSectionTitle('ACADEMICS'),
-            _buildMenuItem(context, 'Student Insights', LucideIcons.pieChart, const ComingSoonScreen(title: 'Student Insights')),
-            _buildSectionTitle('BUSINESS'),
-            _buildMenuItem(context, 'Admissions Insights', LucideIcons.trendingUp, const ComingSoonScreen(title: 'Admissions Insights')),
-            _buildMenuItem(context, 'Financial Summary', LucideIcons.creditCard, const ComingSoonScreen(title: 'Financial Summary')),
-            _buildSectionTitle('OPERATIONS'),
-            _buildMenuItem(context, 'Teacher Insights', LucideIcons.briefcase, const ComingSoonScreen(title: 'Teacher Insights')),
-          ],
-        ),
+          ),
+          // Scrollable Menu List
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('OVERVIEW', topPadding: 20.h),
+                  _buildMenuItem(context, 'Main Dashboard', LucideIcons.layoutDashboard, const DashboardScreen()),
+                  _buildMenuItem(context, 'Action Center', LucideIcons.activity, const ActionCenterScreen()),
+                  _buildMenuItem(context, 'Activity Feed', LucideIcons.fileText, const ActivityFeedScreen()),
+                  _buildSectionTitle('ACADEMICS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Student Insights', LucideIcons.pieChart, const ComingSoonScreen(title: 'Student Insights')),
+                  _buildSectionTitle('BUSINESS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Admissions Insights', LucideIcons.trendingUp, const ComingSoonScreen(title: 'Admissions Insights')),
+                  _buildMenuItem(context, 'Financial Summary', LucideIcons.creditCard, const ComingSoonScreen(title: 'Financial Summary')),
+                  _buildSectionTitle('OPERATIONS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Teacher Insights', LucideIcons.briefcase, const ComingSoonScreen(title: 'Teacher Insights')),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(String title, {double? topPadding}) {
     return Padding(
-      padding: EdgeInsets.only(left: 12.w, bottom: 8.h, top: 20.h), 
+      padding: EdgeInsets.only(left: 8.w, bottom: 10.h, top: topPadding ?? 16.h),
       child: Text(
         title,
         style: GoogleFonts.inter(
-          fontSize: 11.sp, 
-          fontWeight: FontWeight.w700,
-          color: _textLightGray, 
-          letterSpacing: 1.2, 
+          fontSize: 12.sp,
+          fontWeight: FontWeight.w600,
+          color: const Color(0xFFA5ADBA),
+          letterSpacing: 0.88,
         ),
       ),
     );
@@ -244,54 +240,55 @@ class MenuScreen extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       child: Container(
         margin: EdgeInsets.only(bottom: 4.h), 
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h), // Increased padding to match image
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 18.h), // Taller active card: 60-64px height
         decoration: isActive
             ? BoxDecoration(
-                color: _newAccent.withOpacity(0.06), 
-                borderRadius: BorderRadius.circular(12.r), 
+                color: const Color(0xFFF4F1FD), // #F4F1FD lighter active bg
+                borderRadius: BorderRadius.circular(20.r), // Match pill shape in reference image
               )
             : null,
         child: Row(
           children: [
             if (isActive)
               Container(
-                width: 32.w,
-                height: 32.w,
+                width: 28.w,
+                height: 28.w,
                 decoration: BoxDecoration(
-                  color: _newAccent.withOpacity(0.15), 
-                  borderRadius: BorderRadius.circular(8.r),
+                  color: Colors.transparent, 
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Icon(
                   icon,
-                  size: 18.w, 
-                  color: _newAccent, 
+                  size: 18.w,
+                  color: const Color(0xFF7F61EA), // #7F61EA — active icon
                 ),
               )
             else
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 6.w),
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
                 child: Icon(
                   icon,
-                  size: 20.w, 
-                  color: _textLightGray, 
+                  size: 18.w, // Size: 18px
+                  color: AppColors.iconDefault,
                 ),
               ),
             SizedBox(width: 14.w),
             Expanded(
               child: Text(
                 title,
-                style: GoogleFonts.inter(
-                  fontSize: 14.sp, 
-                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500, 
-                  color: isActive ? _newAccent : _textMuted, 
-                  letterSpacing: -0.2, 
+                style: GoogleFonts.figtree(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w700, // bold for all menu items
+                  color: isActive
+                      ? const Color(0xFF7F61EA) // #7F61EA — active/selected purple
+                      : AppColors.textSecondary,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             if (isActive)
-              Icon(LucideIcons.chevronRight, color: _newAccent.withOpacity(0.5), size: 18.w),
+              Icon(LucideIcons.chevronRight, color: const Color(0xFF7F61EA), size: 18.w),
           ],
         ),
       ),

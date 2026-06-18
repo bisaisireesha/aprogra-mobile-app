@@ -127,4 +127,307 @@ class MockData {
     {'icon': Icons.groups_outlined, 'label': 'Staff'},
     {'icon': Icons.add, 'label': 'More'},
   ];
+
+  static const activityFeedKpi = [
+    {
+      'title': 'Activities Today',
+      'value': '1,284',
+      'subtitle': '',
+      'trend': '+18%',
+      'icon': Icons.show_chart, // Using a similar looking icon since exact wave is custom
+      'iconBg': Color(0xFFF3F0FF),
+      'iconColor': Color(0xFF8463E9),
+    },
+    {
+      'title': 'Active Users',
+      'value': '142',
+      'subtitle': 'Staff & admin online',
+      'trend': '',
+      'icon': Icons.people_outline,
+      'iconBg': Color(0xFFF9F9FB),
+      'iconColor': Color(0xFF595973),
+    },
+    {
+      'title': 'New Admissions',
+      'value': '9',
+      'subtitle': '3 awaiting confirmation',
+      'trend': '',
+      'icon': Icons.person_add_outlined,
+      'iconBg': Color(0xFFF9F9FB),
+      'iconColor': Color(0xFF595973),
+    },
+    {
+      'title': 'Transactions Processed',
+      'value': '₹6.4L',
+      'subtitle': '127 receipts generated',
+      'trend': '',
+      'icon': Icons.credit_card,
+      'iconBg': Color(0xFFF9F9FB),
+      'iconColor': Color(0xFF595973),
+    },
+  ];
+
+  static final activityHighlights = [
+    {
+      'title': 'Admissions',
+      'value': '112 events today',
+      'icon': Icons.trending_up,
+      'iconColor': Color(0xFF8463E9),
+      'iconBg': Color(0xFFF3F0FF),
+      'cardBg': Color(0xFFF9F6FF),
+    },
+    {
+      'title': 'Finance',
+      'value': '₹1.8L collected',
+      'icon': Icons.account_balance_wallet_outlined,
+      'iconColor': Color(0xFF595973),
+      'iconBg': Color(0xFFF4F4F6),
+      'cardBg': Color(0xFFF9F9FB),
+    },
+    {
+      'title': 'Academics',
+      'value': '100% Attendance',
+      'icon': Icons.check_circle_outline,
+      'iconColor': Colors.green,
+      'iconBg': Colors.green.withValues(alpha: 0.1),
+      'cardBg': Color(0xFFF0FAF4),
+    },
+    {
+      'title': 'Transport',
+      'value': 'All routes active',
+      'icon': Icons.directions_bus_outlined,
+      'iconColor': Colors.redAccent,
+      'iconBg': Colors.redAccent.withValues(alpha: 0.1),
+      'cardBg': Color(0xFFFFF1F1),
+    },
+  ];
+
+  static final activityEvents = [
+    {
+      'groupTime': '11:00 AM',
+      'groupCount': '3 events',
+      'events': [
+        {
+          'init': 'FO',
+          'initColor': Colors.redAccent,
+          'title': 'Front Office',
+          'subtitle': 'Reception',
+          'time': '11:42 AM',
+          'badge': 'SECURITY',
+          'badgeColor': Colors.redAccent,
+          'main': 'Visitor checked in at Main Gate',
+          'detail1Label': 'Visitor:',
+          'detail1Value': 'R. Mehra',
+          'detail2Label': 'Purpose:',
+          'detail2Value': 'Parent meeting — 7B',
+          'action': 'View pass v',
+        },
+        {
+          'init': 'AI',
+          'initColor': Colors.redAccent,
+          'title': 'AI Camera 02',
+          'subtitle': 'Face Recognition',
+          'time': '11:38 AM',
+          'badge': 'SECURITY',
+          'badgeColor': Colors.redAccent,
+          'main': 'Face recognition alert triggered',
+          'detail1Label': 'Location:',
+          'detail1Value': 'Block C corridor',
+          'detail2Label': 'Match:',
+          'detail2Value': 'Unknown — flagged',
+          'action': 'Review footage v',
+        },
+        {
+          'init': 'AD',
+          'initColor': Color(0xFF8463E9),
+          'title': 'Accounts Desk',
+          'subtitle': 'Finance',
+          'time': '11:30 AM',
+          'badge': 'FINANCE',
+          'badgeColor': Color(0xFF8463E9),
+          'main': 'Highest fee collection of the day recorded',
+          'detail1Label': 'Amount:',
+          'detail1Value': '₹1.8L',
+          'detail2Label': 'Receipts:',
+          'detail2Value': '42',
+          'action': 'Open ledger v',
+        },
+      ]
+    },
+    {
+      'groupTime': '10:00 AM',
+      'groupCount': '2 events',
+      'events': [
+        {
+          'init': 'TC',
+          'initColor': Color(0xFF595973),
+          'title': 'Transport Cell',
+          'subtitle': 'Operations',
+          'time': '10:54 AM',
+          'badge': 'TRANSPORT',
+          'badgeColor': Color(0xFF595973),
+          'main': 'Vehicle maintenance logged',
+          'detail1Label': 'Bus:',
+          'detail1Value': 'DL-8472',
+          'detail2Label': 'Type:',
+          'detail2Value': 'Brake servicing',
+          'action': 'Service log v',
+        },
+        {
+          'init': 'LB',
+          'initColor': Color(0xFF595973),
+          'title': 'Library Desk',
+          'subtitle': 'Library',
+          'time': '10:41 AM',
+          'badge': 'LIBRARY',
+          'badgeColor': Color(0xFF595973),
+          'main': 'Book issued',
+          'detail1Label': 'Title:',
+          'detail1Value': 'Wings of Fire',
+          'detail2Label': 'To:',
+          'detail2Value': 'Ananya S. — 9A',
+          'action': '',
+        },
+      ]
+    }
+  ];
+
+  static final actionCenterKpi = [
+    {
+      'title': 'Critical\nIssues',
+      'value': '7',
+      'subtitle': '+2 since morning',
+      'subtitleColor': Colors.redAccent,
+      'icon': Icons.error_outline,
+      'iconBg': const Color(0xFFFFF1F1),
+      'iconColor': Colors.redAccent,
+    },
+    {
+      'title': 'Pending\nApprovals',
+      'value': '23',
+      'subtitle': '8 due today',
+      'subtitleColor': const Color(0xFF595973),
+      'icon': Icons.access_time,
+      'iconBg': const Color(0xFFF9F9FB),
+      'iconColor': const Color(0xFF595973),
+    },
+    {
+      'title': 'Overdue\nTasks',
+      'value': '14',
+      'subtitle': '3 escalated',
+      'subtitleColor': const Color(0xFF595973),
+      'icon': Icons.highlight_off,
+      'iconBg': const Color(0xFFF9F9FB),
+      'iconColor': const Color(0xFF595973),
+    },
+    {
+      'title': 'Resolved\nToday',
+      'value': '41',
+      'subtitle': '+12 vs yesterday',
+      'subtitleColor': Colors.green,
+      'icon': Icons.check_circle_outline,
+      'iconBg': const Color(0xFFF9F9FB),
+      'iconColor': const Color(0xFF595973),
+    },
+  ];
+
+  static final actionCenterAlerts = [
+    {
+      'sectionTitle': 'Critical Alerts',
+      'sectionBadge': '2',
+      'sectionIcon': Icons.shield_outlined,
+      'sectionIconColor': Colors.redAccent,
+      'sectionIconBg': const Color(0xFFFFF1F1),
+      'items': [
+        {
+          'isCritical': true,
+          'badge': 'CRITICAL',
+          'badgeColor': Colors.redAccent,
+          'category': 'SAFETY',
+          'time': 'Just now',
+          'title': 'Unauthorized pickup attempt — Aarav (Class 5B)',
+          'subtitle': 'Reported 4 min ago • Gate 2',
+          'btn1': 'View Details',
+          'btn2': 'Escalate',
+          'btn2Color': Colors.redAccent,
+        }
+      ]
+    },
+    {
+      'sectionTitle': 'Attendance Actions',
+      'sectionBadge': '4',
+      'sectionIcon': Icons.person_off_outlined,
+      'sectionIconColor': const Color(0xFF595973),
+      'sectionIconBg': const Color(0xFFF9F9FB),
+      'items': [
+        {
+          'isCritical': false,
+          'badge': 'HIGH',
+          'badgeColor': Colors.redAccent,
+          'category': 'ATTENDANCE',
+          'time': '1h ago',
+          'title': 'Severe attendance drop in Grade 8 — 32% absent',
+          'subtitle': 'Detected 1 hr ago. Class 8B, 8A most affected.',
+          'btn1': 'Notify',
+          'btn2': 'Resolve',
+          'btn2Color': Colors.redAccent,
+        }
+      ]
+    },
+    {
+      'sectionTitle': 'Financial Actions',
+      'sectionBadge': '4',
+      'sectionIcon': Icons.currency_rupee,
+      'sectionIconColor': const Color(0xFF595973),
+      'sectionIconBg': const Color(0xFFF9F9FB),
+      'items': [
+        {
+          'isCritical': false,
+          'badge': 'HIGH',
+          'badgeColor': Colors.redAccent,
+          'category': 'FINANCE',
+          'time': '1d ago',
+          'title': 'Fee defaulters — Term 2',
+          'subtitle': '₹4.8L outstanding • 38 students. Due Nov 30.',
+          'btn1': 'Review',
+          'btn2': 'Remind All',
+          'btn2Color': Colors.redAccent,
+        }
+      ]
+    },
+    {
+      'sectionTitle': 'Academic Actions',
+      'sectionBadge': '4',
+      'sectionIcon': Icons.school_outlined,
+      'sectionIconColor': const Color(0xFF595973),
+      'sectionIconBg': const Color(0xFFF9F9FB),
+      'items': [
+        {
+          'isCritical': false,
+          'badge': 'MEDIUM',
+          'badgeColor': const Color(0xFF595973),
+          'category': 'ACADEMICS',
+          'time': '3h ago',
+          'title': 'Marks not submitted — Mid Term',
+          'subtitle': '5 subjects pending • Grades 6-10 • Math, Science, Hindi',
+          'btn1': 'View',
+          'btn2': 'Remind Teacher',
+          'btn2Color': const Color(0xFF8463E9),
+        }
+      ]
+    }
+  ];
+
+  static final actionCenterRecommendations = [
+    {
+      'title': 'Attendance in Grade 8 has declined for 5 consecutive days',
+      'subtitle': 'Recommend scheduling a class review with grade coordinator.',
+      'btn': 'Apply Suggestion',
+    },
+    {
+      'title': 'Fee collection may miss monthly target by ₹50,000',
+      'subtitle': 'Recommend contacting top 20 defaulters this week.',
+      'btn': 'Apply Suggestion',
+    }
+  ];
 }

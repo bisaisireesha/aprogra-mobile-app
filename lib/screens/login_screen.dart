@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 // ─── Design Tokens (from HTML mobile rendering) ─────────────────────────────
 // Colors
 const _bgColor       = Color(0xFFFAF9FF); // mesh-gradient base
@@ -125,10 +125,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTogglePassword:    ()  => setState(() => _obscurePassword = !_obscurePassword),
                     onEmailFocusChange:    (f) => setState(() => _emailFocused = f),
                     onPasswordFocusChange: (f) => setState(() => _passwordFocused = f),
-                    onLogin: () {
+                    onLogin: () async {
                       if (_emailController.text.trim() == 'principal@gmail.com' &&
                           _passwordController.text == 'Principal@123') {
-                        Navigator.pushReplacementNamed(context, '/home');
+                        
+                        // Save login state so the user doesn't have to login again
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isLoggedIn', true);
+                        
+                        if (context.mounted) {
+                          Navigator.pushReplacementNamed(context, '/home');
+                        }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

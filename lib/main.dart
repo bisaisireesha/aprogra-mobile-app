@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'screens/splash_screen.dart';
 import 'screens/dashboard_screen.dart';
 
@@ -11,16 +12,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Smart School Management',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4)),
-        useMaterial3: true,
-      ),
-      home: const SplashScreen(),
-      routes: {
-        '/home': (context) => const DashboardScreen(),
+    return ScreenUtilInit(
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'Smart School Management',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4)),
+            useMaterial3: true,
+          ),
+          builder: (context, widget) {
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+              child: widget!,
+            );
+          },
+          home: const SplashScreen(),
+          routes: {
+            '/home': (context) => const DashboardScreen(),
+          },
+        );
       },
     );
   }

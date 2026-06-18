@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
+import 'menu_screen.dart';
 import 'dart:ui' as ui;
 
 const _bgPrimary = Color(0xFFF9F9FB);
@@ -49,6 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ),
       ),
+      drawer: const MenuScreen(activeScreen: 'Main Dashboard'),
       bottomNavigationBar: _buildBottomNav(),
     );
   }
@@ -56,7 +58,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildAppBar() {
     return Row(
       children: [
-        const Icon(Icons.menu, color: _textDark, size: 28),
+        Builder(
+          builder: (context) => GestureDetector(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: const Icon(Icons.menu, color: _textDark, size: 28),
+          ),
+        ),
         const SizedBox(width: 16),
         Expanded(
           child: Container(
@@ -71,7 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: const [
                 Icon(Icons.search, color: _textMuted, size: 20),
                 SizedBox(width: 8),
-                Text('Search anything...', style: TextStyle(color: _textMuted, fontSize: 14)),
+                Expanded(child: Text('Search anything...', style: TextStyle(color: _textMuted, fontSize: 14), overflow: TextOverflow.ellipsis)),
               ],
             ),
           ),
@@ -120,7 +129,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         SizedBox(height: 6),
         Text(
           'Here\'s how your school is doing today.',
-          style: TextStyle(color: _textMuted, fontSize: 16),
+          style: TextStyle(color: _textMuted, fontSize: 14),
         ),
       ],
     );
@@ -133,7 +142,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
-      childAspectRatio: 1.4,
+      childAspectRatio: 1.15,
       children: [
         _buildKPICard(
           title: 'STUDENTS',
@@ -188,14 +197,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  Icon(icon, size: 16, color: _textMuted),
-                  const SizedBox(width: 6),
-                  Text(title, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted)),
-                ],
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, size: 16, color: _textMuted),
+                    const SizedBox(width: 4),
+                    Flexible(child: Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
               ),
+              const SizedBox(width: 4),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(trendUp ? Icons.trending_up : Icons.trending_down, size: 14, color: _textDark),
                   const SizedBox(width: 2),
@@ -204,7 +218,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(value, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
           Container(
             height: 6,
             width: double.infinity,
@@ -249,14 +263,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.access_time, size: 16, color: _textMuted),
-                  const SizedBox(width: 6),
-                  const Text('ATTENDANCE', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted)),
-                ],
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.access_time, size: 16, color: _textMuted),
+                    const SizedBox(width: 4),
+                    const Flexible(child: Text('ATTENDANCE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
+                  ],
+                ),
               ),
+              const SizedBox(width: 4),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.trending_up, size: 14, color: _textDark),
                   const SizedBox(width: 2),
@@ -268,7 +287,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
               const SizedBox(width: 6),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,30 +325,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const Icon(Icons.credit_card, size: 16, color: _textMuted),
-                  const SizedBox(width: 6),
-                  const Text('FEES', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted)),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
+              Flexible(
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.trending_down, size: 12, color: Colors.red),
-                    const SizedBox(width: 2),
-                    Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red)),
+                    const Icon(Icons.credit_card, size: 16, color: _textMuted),
+                    const SizedBox(width: 4),
+                    const Flexible(child: Text('FEES', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
                   ],
+                ),
+              ),
+              const SizedBox(width: 4),
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.red.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.trending_down, size: 10, color: Colors.red),
+                      const SizedBox(width: 2),
+                      Flexible(child: Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red), overflow: TextOverflow.ellipsis)),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
           Container(
             height: 6,
             width: double.infinity,
@@ -479,34 +505,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
           itemCount: MockData.quickActions.length,
           itemBuilder: (context, index) {
             final action = MockData.quickActions[index];
-            final isFirst = index == 0;
-            return Column(
-              children: [
-                Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    color: isFirst ? const Color(0xFFF0EDFA) : Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: isFirst ? null : [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.03),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      )
-                    ],
+            return InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(16),
+              child: Column(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF0EDFA),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      action['icon'] as IconData,
+                      color: _accent,
+                    ),
                   ),
-                  child: Icon(
-                    action['icon'] as IconData,
-                    color: isFirst ? _accent : _textDark,
+                  const SizedBox(height: 8),
+                  Text(
+                    action['label'] as String,
+                    style: const TextStyle(fontSize: 12, color: _textDark, fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  action['label'] as String,
-                  style: const TextStyle(fontSize: 12, color: _textDark, fontWeight: FontWeight.w500),
-                ),
-              ],
+                ],
+              ),
             );
           },
         ),
@@ -601,9 +625,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               'Upcoming Events',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
             ),
-            Text(
-              'Calendar',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: _accent.withValues(alpha: 0.8)),
+            GestureDetector(
+              onTap: () {
+                showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime(2030),
+                );
+              },
+              child: Text(
+                'Calendar',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: _accent.withValues(alpha: 0.8)),
+              ),
             ),
           ],
         ),
@@ -664,16 +698,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   decoration: const BoxDecoration(color: _accent, shape: BoxShape.circle),
                                 ),
                                 const SizedBox(width: 6),
-                                Text(
-                                  event['location'] as String,
-                                  style: const TextStyle(fontSize: 14, color: _textMuted),
+                                Expanded(
+                                  child: Text(
+                                    event['location'] as String,
+                                    style: const TextStyle(fontSize: 14, color: _textMuted),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      const Icon(Icons.more_horiz, color: _textMuted),
+                      IconButton(
+                        icon: const Icon(Icons.more_horiz, color: _textMuted),
+                        onPressed: () {
+                          showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2030),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 );
@@ -713,13 +761,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Attendance Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 4),
-                  Text(MockData.attendanceInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Attendance Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                    const SizedBox(height: 4),
+                    Text(MockData.attendanceInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
+                  ],
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -780,9 +830,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     const Text('BELOW THRESHOLD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
                     const SizedBox(height: 12),
-                    _buildStatRow('Class 5', '79%', false),
+                    _buildStatRow('Class 5', '75%', false),
                     const SizedBox(height: 12),
-                    _buildStatRow('Class 4', '76%', false),
+                    _buildStatRow('Class 4', '78%', false),
                   ],
                 ),
               ),
@@ -826,7 +876,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9F8FD),
+        color: const Color(0xFFF9F6FF),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -835,13 +885,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Financial Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 4),
-                  Text(MockData.financialInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Financial Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                    const SizedBox(height: 4),
+                    Text(MockData.financialInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
+                  ],
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -870,12 +922,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
+              Text('       ', style: TextStyle(fontSize: 12, color: Colors.transparent)), // Empty space for first bar
               Text('Dec', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Jan', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Feb', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Mar', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Apr', style: TextStyle(fontSize: 12, color: _textMuted)),
-              Text('May', style: TextStyle(fontSize: 12, color: _textMuted)),
             ],
           ),
           const SizedBox(height: 24),
@@ -899,7 +951,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Column(
           children: [
@@ -1096,8 +1148,8 @@ class _BarChartPainter extends CustomPainter {
         Rect.fromLTWH(x, y, barWidth, barHeight),
         topLeft: const Radius.circular(6),
         topRight: const Radius.circular(6),
-        bottomLeft: const Radius.circular(2),
-        bottomRight: const Radius.circular(2),
+        bottomLeft: const Radius.circular(6),
+        bottomRight: const Radius.circular(6),
       );
       
       canvas.drawRRect(rect, paint);

@@ -3,7 +3,7 @@ import '../data/mock_data.dart';
 import 'dashboard_screen.dart';
 import 'menu_screen.dart';
 import 'action_center_screen.dart';
-
+import 'class_details_bottom_sheet.dart';
 // --- Design Tokens ---
 const _bgColor = Color(0xFFFAF9FF);
 const _cardBg = Colors.white;
@@ -79,11 +79,6 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.menu_outlined), activeIcon: Icon(Icons.menu), label: 'More'),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: _accent,
-        child: const Icon(Icons.show_chart_rounded, color: Colors.white),
-      ),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -125,12 +120,8 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         const SizedBox(height: 16),
                         _buildClassCapacityMonitor(),
                         const SizedBox(height: 32),
-                        _buildSectionTitle('Health & Safety Alerts', ''),
-                        const SizedBox(height: 16),
                         _buildHealthSafety(),
                         const SizedBox(height: 32),
-                        _buildSectionTitle('Today\'s Highlights', ''),
-                        const SizedBox(height: 16),
                         _buildTodayHighlights(),
                         const SizedBox(height: 40), // Bottom padding
                       ],
@@ -184,7 +175,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           const SizedBox(width: 16),
           const CircleAvatar(
             radius: 16,
-            backgroundImage: AssetImage('assets/images/user1.jpg'), // Generic fallback
+            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=user'), // Generic fallback
             backgroundColor: Color(0xFFE6E6EB),
           ),
         ],
@@ -238,11 +229,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
-                child: Icon(kpi['icon'] as IconData, size: 20, color: iconColor),
-              ),
+              Icon(kpi['icon'] as IconData, size: 24, color: iconColor),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -265,49 +252,14 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Tabs
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _buildTabPill('Pre-Primary'),
-              const SizedBox(width: 8),
-              _buildTabPill('Primary'),
-              const SizedBox(width: 8),
-              _buildTabPill('Secondary'),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        // Filters
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _borderColor)),
-                child: const Row(
-                  children: [
-                    Icon(Icons.filter_list, size: 16, color: _textMuted),
-                    SizedBox(width: 6),
-                    Text('Filters', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _textDark)),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(20), border: Border.all(color: _accent.withValues(alpha: 0.3))),
-                child: const Text('All Classes', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
-              ),
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _borderColor)),
-                child: const Text('Attention Required', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _textMuted)),
-              ),
-            ],
-          ),
+        Row(
+          children: [
+            Expanded(child: _buildTabPill('Pre-Primary')),
+            const SizedBox(width: 8),
+            Expanded(child: _buildTabPill('Primary')),
+            const SizedBox(width: 8),
+            Expanded(child: _buildTabPill('Secondary')),
+          ],
         ),
       ],
     );
@@ -322,7 +274,8 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -342,7 +295,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
   }
 
   Widget _buildClassSectionsGrid(bool isTablet) {
-    List<Map<String, Object>> classesData;
+    List<Map<String, dynamic>> classesData;
     if (_selectedTab == 'Primary') {
       classesData = MockData.studentInsightsClassesPrimary;
     } else if (_selectedTab == 'Secondary') {
@@ -363,76 +316,86 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       itemCount: classesData.length,
       itemBuilder: (context, index) {
         final cls = classesData[index];
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))],
-            border: Border.all(color: _borderColor, width: 0.5),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
-                        child: const Icon(Icons.home_outlined, size: 20, color: _accent),
-                      ),
-                      const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(cls['name'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
-                          const SizedBox(height: 2),
-                          Text(cls['sections'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const Icon(Icons.more_vert, size: 18, color: _textMuted),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Class Teacher', style: TextStyle(fontSize: 11, color: _textMuted)),
-                  Text(cls['teacher'] as String, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Students', style: TextStyle(fontSize: 11, color: _textMuted)),
-                  Text(cls['students'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
-                ],
-              ),
-              const SizedBox(height: 6),
-              LinearProgressIndicator(
-                value: cls['progress'] as double,
-                backgroundColor: const Color(0xFFEBEBEB),
-                color: _accent,
-                minHeight: 6,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('View Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
-                  const Icon(Icons.arrow_forward, size: 14, color: _accent),
-                ],
-              ),
-            ],
+        return GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (context) => ClassDetailsBottomSheet(className: cls['name'] as String),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))],
+              border: Border.all(color: _borderColor, width: 0.5),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
+                          child: const Icon(Icons.home_outlined, size: 20, color: _accent),
+                        ),
+                        const SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(cls['name'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                            const SizedBox(height: 2),
+                            Text(cls['sections'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Icon(Icons.more_vert, size: 18, color: _textMuted),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Class Teacher', style: TextStyle(fontSize: 11, color: _textMuted)),
+                    Text(cls['teacher'] as String, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Students', style: TextStyle(fontSize: 11, color: _textMuted)),
+                    Text(cls['students'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                LinearProgressIndicator(
+                  value: cls['progress'] as double,
+                  backgroundColor: const Color(0xFFEBEBEB),
+                  color: _accent,
+                  minHeight: 6,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('View Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    const Icon(Icons.arrow_forward, size: 14, color: _accent),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -601,57 +564,77 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
   }
 
   Widget _buildEnrollmentDistribution(bool isTablet) {
-    return Row(
-      children: MockData.studentInsightsEnrollment.map((dist) {
-        return Expanded(
-          child: Container(
-            margin: EdgeInsets.only(right: dist == MockData.studentInsightsEnrollment.first ? 12 : 0),
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: _borderColor),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(Icons.loop_outlined, size: 14, color: dist['color'] as Color),
-                    const SizedBox(width: 6),
-                    Text(dist['level'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Text(dist['total'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
-                const Text('total students', style: TextStyle(fontSize: 10, color: _textMuted)),
-                const SizedBox(height: 16),
-                const Divider(height: 1, color: _borderColor),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(dist['classes'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-                        const Text('CLASSES', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(dist['staff'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-                        const Text('STAFF AVAIL.', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
+    final items = MockData.studentInsightsEnrollment;
+    
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(child: _buildEnrollmentCard(items[0])),
+            const SizedBox(width: 12),
+            Expanded(child: _buildEnrollmentCard(items[1])),
+          ],
+        ),
+        if (items.length > 2) ...[
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(child: _buildEnrollmentCard(items[2])),
+              const SizedBox(width: 12),
+              const Expanded(child: SizedBox()), // Empty space for alignment
+            ],
           ),
-        );
-      }).toList(),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildEnrollmentCard(Map<String, dynamic> dist) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _borderColor),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.school, size: 14, color: dist['color'] as Color),
+              const SizedBox(width: 6),
+              Text(dist['level'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(dist['total'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+          const Text('total students', style: TextStyle(fontSize: 10, color: _textMuted)),
+          const SizedBox(height: 16),
+          const Divider(height: 1, color: _borderColor),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(dist['classes'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                  const Text('CLASSES', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(dist['staff'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                  const Text('STAFF AVAIL.', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -673,7 +656,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 16,
-                      backgroundImage: AssetImage(adm['avatar'] as String),
+                      backgroundImage: NetworkImage(adm['avatar'] as String),
                       backgroundColor: const Color(0xFFE6E6EB),
                     ),
                     const SizedBox(width: 12),
@@ -758,78 +741,97 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
   }
 
   Widget _buildHealthSafety() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Column(
-        children: MockData.studentInsightsHealth.map((alert) {
-          final isLast = alert == MockData.studentInsightsHealth.last;
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Icon(alert['icon'] as IconData, size: 20, color: alert['iconColor'] as Color),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(alert['title'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                          const SizedBox(height: 2),
-                          Text(alert['desc'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
-                        ],
-                      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Icon(Icons.medical_services_outlined, color: Colors.redAccent, size: 22),
+            SizedBox(width: 8),
+            Text('Health & Safety Alerts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+            border: Border.all(color: _borderColor, width: 0.5),
+          ),
+          child: Column(
+            children: MockData.studentInsightsHealth.map((alert) {
+              final isLast = alert == MockData.studentInsightsHealth.last;
+              final isFirst = alert == MockData.studentInsightsHealth.first;
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: isFirst ? Colors.redAccent.withValues(alpha: 0.05) : Colors.transparent,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(alert['icon'] as IconData, size: 20, color: alert['iconColor'] as Color),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(alert['title'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                              const SizedBox(height: 2),
+                              Text(alert['desc'] as String, style: const TextStyle(fontSize: 12, color: _textMuted)),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.chevron_right, size: 18, color: _textMuted),
+                      ],
                     ),
-                    const Icon(Icons.chevron_right, size: 18, color: _textMuted),
-                  ],
-                ),
-              ),
-              if (!isLast) const Divider(height: 1, color: _borderColor, indent: 52, endIndent: 16),
-            ],
-          );
-        }).toList(),
-      ),
+                  ),
+                  if (!isLast) const Divider(height: 1, color: _borderColor, indent: 64, endIndent: 16),
+                ],
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildTodayHighlights() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(Icons.wb_sunny_outlined, size: 18, color: _textMuted),
-              const SizedBox(width: 8),
-              const Text('Today\'s Highlights', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          ...MockData.studentInsightsHighlights.map((hl) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Row(
-                children: [
-                  Icon(hl['icon'] as IconData, size: 16, color: _textMuted),
-                  const SizedBox(width: 12),
-                  Text(hl['text'] as String, style: const TextStyle(fontSize: 13, color: _textDark)),
-                ],
-              ),
-            );
-          }),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Row(
+          children: [
+            Text('Today\'s Highlights', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        ...MockData.studentInsightsHighlights.map((hl) {
+          return Container(
+            margin: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: _borderColor),
+              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 4, offset: const Offset(0, 2))],
+            ),
+            child: Row(
+              children: [
+                Icon(hl['icon'] as IconData, size: 20, color: hl['iconColor'] as Color),
+                const SizedBox(width: 12),
+                Text(hl['text'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+              ],
+            ),
+          );
+        }),
+      ],
     );
   }
 }

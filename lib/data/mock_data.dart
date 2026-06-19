@@ -438,7 +438,7 @@ class MockData {
       'title': 'Total Students',
       'value': '770',
       'subtitle': 'Active in 60 classes',
-      'icon': Icons.school_outlined,
+      'icon': Icons.people_outline,
       'colorType': 'purple',
     },
     {
@@ -459,7 +459,7 @@ class MockData {
       'title': 'Secondary',
       'value': '338',
       'subtitle': '25 classes',
-      'icon': Icons.school_outlined,
+      'icon': Icons.arrow_outward_rounded,
       'colorType': 'grey',
     },
   ];
@@ -647,6 +647,13 @@ class MockData {
       'staff': '55',
       'color': Color(0xFF8463E9),
     },
+    {
+      'level': 'SECONDARY',
+      'total': '350',
+      'classes': '10',
+      'staff': '42',
+      'color': Color(0xFF8463E9),
+    },
   ];
 
   static const studentInsightsAdmissions = [
@@ -656,7 +663,7 @@ class MockData {
       'status': 'Complete',
       'statusColor': Color(0xFF8463E9),
       'statusBg': Colors.white,
-      'avatar': 'assets/images/user1.jpg',
+      'avatar': 'https://i.pravatar.cc/150?u=riya',
     },
     {
       'name': 'Kabir Nair',
@@ -664,7 +671,7 @@ class MockData {
       'status': 'On-hold',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'assets/images/user2.jpg',
+      'avatar': 'https://i.pravatar.cc/150?u=kabir',
     },
     {
       'name': 'Sara Ali',
@@ -672,7 +679,7 @@ class MockData {
       'status': 'Pending Docs',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'assets/images/user3.jpg',
+      'avatar': 'https://i.pravatar.cc/150?u=sara',
     },
   ];
 
@@ -689,21 +696,21 @@ class MockData {
   static const studentInsightsHealth = [
     {
       'title': 'Emergency Contact Missing',
-      'desc': 'Aarav Patel • Class 1A',
+      'desc': 'Ayaan Patel • Class 1A',
       'icon': Icons.error_outline_rounded,
       'iconColor': Colors.redAccent,
     },
     {
       'title': 'Medical Alert',
-      'desc': 'Tiara Roy • Class 3B • Asthma',
+      'desc': 'Tanya Roy • Class 4B • Asthma',
       'icon': Icons.medical_services_outlined,
-      'iconColor': Color(0xFF595973),
+      'iconColor': Color(0xFF181821),
     },
     {
       'title': 'Pickup Authorization',
-      'desc': 'Aisha Khan • Class LKG • Unverified',
-      'icon': Icons.directions_walk_outlined,
-      'iconColor': Color(0xFF595973),
+      'desc': 'Zoya Khan • Class 2A • Unverified',
+      'icon': Icons.person_outline,
+      'iconColor': Color(0xFF181821),
     },
   ];
 
@@ -711,14 +718,78 @@ class MockData {
     {
       'text': '8 new admissions this week',
       'icon': Icons.people_outline,
+      'iconColor': Color(0xFF181821),
     },
     {
-      'text': 'Class 1A reached full capacity',
-      'icon': Icons.check_circle_outline,
+      'text': 'Class 4A reached full capacity',
+      'icon': Icons.error_outline_rounded,
+      'iconColor': Color(0xFF181821),
     },
     {
-      'text': '94% student attendance today',
+      'text': '95% student attendance today',
       'icon': Icons.calendar_today_outlined,
+      'iconColor': Color(0xFF6C5CE7),
     },
+  ];
+  static const classDetailsOverview = {
+    'present': 43,
+    'absent': 6,
+    'capacity': 60,
+    'capacityUsed': 49,
+    'teachers': [
+      {
+        'name': 'Meera Joshi',
+        'students': 25,
+        'section': 'NURSERY A',
+        'avatar': 'https://i.pravatar.cc/150?u=meera',
+      },
+      {
+        'name': 'Riya Kapoor',
+        'students': 24,
+        'section': 'NURSERY B',
+        'avatar': 'https://i.pravatar.cc/150?u=riya2',
+      },
+    ]
+  };
+
+  static const classTimetable = [
+    {
+      'period': 'P1',
+      'subject': 'Music & Rhymes',
+      'time': '08:00 - 08:45',
+    },
+    {
+      'period': 'P2',
+      'subject': 'Interactive Play',
+      'time': '08:45 - 09:30',
+    },
+    {
+      'period': 'P3',
+      'subject': 'Story Time',
+      'time': '09:30 - 10:15',
+    },
+    {
+      'period': 'P4',
+      'subject': 'Snack Break',
+      'time': '10:15 - 11:00',
+    },
+    {
+      'period': 'P5',
+      'subject': 'Art & Craft',
+      'time': '11:00 - 11:45',
+    },
+  ];
+
+  static const classStudentsList = [
+    {'name': 'Aarav Sharma', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://i.pravatar.cc/150?u=aarav'},
+    {'name': 'Ayaan Nair', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=ayaan'},
+    {'name': 'Pari Joshi', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=pari'},
+    {'name': 'Vivaan Gupta', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://i.pravatar.cc/150?u=vivaan'},
+    {'name': 'Krishna Iyer', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=krishna'},
+    {'name': 'Anika Kapoor', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=anika'},
+    {'name': 'Aditya Menon', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=aditya'},
+    {'name': 'Ishaan Verma', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=ishaan'},
+    {'name': 'Navya Reddy', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=navya'},
+    {'name': 'Vihaan Bhat', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=vihaan'},
   ];
 }

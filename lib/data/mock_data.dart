@@ -430,4 +430,295 @@ class MockData {
       'btn': 'Apply Suggestion',
     }
   ];
+
+  // ─── Student Insights Data ──────────────────────────────────────────────────
+
+  static const studentInsightsKpi = [
+    {
+      'title': 'Total Students',
+      'value': '770',
+      'subtitle': 'Active in 60 classes',
+      'icon': Icons.school_outlined,
+      'colorType': 'purple',
+    },
+    {
+      'title': 'Pre-Primary',
+      'value': '167',
+      'subtitle': '10 classes',
+      'icon': Icons.school_outlined,
+      'colorType': 'yellow',
+    },
+    {
+      'title': 'Primary',
+      'value': '265',
+      'subtitle': '15 classes',
+      'icon': Icons.school_outlined,
+      'colorType': 'blue',
+    },
+    {
+      'title': 'Secondary',
+      'value': '338',
+      'subtitle': '25 classes',
+      'icon': Icons.school_outlined,
+      'colorType': 'grey',
+    },
+  ];
+
+  static const studentInsightsClasses = [
+    {
+      'name': 'Nursery',
+      'sections': '2 Sections',
+      'teacher': 'Meera Joshi',
+      'students': '49 / 60',
+      'progress': 49 / 60,
+    },
+    {
+      'name': 'LKG',
+      'sections': '2 Sections',
+      'teacher': 'Pooja Rao',
+      'students': '50 / 60',
+      'progress': 50 / 60,
+    },
+    {
+      'name': 'UKG',
+      'sections': '3 Sections',
+      'teacher': 'Anita Sharma',
+      'students': '68 / 90',
+      'progress': 68 / 90,
+    },
+  ];
+
+  static const studentInsightsClassesPrimary = [
+    {
+      'name': 'Class 1',
+      'sections': '3 Sections',
+      'teacher': 'Sneha Patil',
+      'students': '85 / 90',
+      'progress': 85 / 90,
+    },
+    {
+      'name': 'Class 2',
+      'sections': '3 Sections',
+      'teacher': 'Ravi Kumar',
+      'students': '70 / 90',
+      'progress': 70 / 90,
+    },
+    {
+      'name': 'Class 3',
+      'sections': '4 Sections',
+      'teacher': 'Kavya Singh',
+      'students': '110 / 120',
+      'progress': 110 / 120,
+    },
+    {
+      'name': 'Class 4',
+      'sections': '2 Sections',
+      'teacher': 'Manoj Das',
+      'students': '55 / 60',
+      'progress': 55 / 60,
+    },
+    {
+      'name': 'Class 5',
+      'sections': '3 Sections',
+      'teacher': 'Sunita Verma',
+      'students': '80 / 90',
+      'progress': 80 / 90,
+    },
+  ];
+
+  static const studentInsightsClassesSecondary = [
+    {
+      'name': 'Class 6',
+      'sections': '4 Sections',
+      'teacher': 'Arjun Nair',
+      'students': '115 / 120',
+      'progress': 115 / 120,
+    },
+    {
+      'name': 'Class 7',
+      'sections': '3 Sections',
+      'teacher': 'Vikram Sethi',
+      'students': '88 / 90',
+      'progress': 88 / 90,
+    },
+    {
+      'name': 'Class 8',
+      'sections': '4 Sections',
+      'teacher': 'Priya Das',
+      'students': '112 / 120',
+      'progress': 112 / 120,
+    },
+    {
+      'name': 'Class 9',
+      'sections': '5 Sections',
+      'teacher': 'Rahul Khanna',
+      'students': '140 / 150',
+      'progress': 140 / 150,
+    },
+    {
+      'name': 'Class 10',
+      'sections': '5 Sections',
+      'teacher': 'Sonia Desai',
+      'students': '145 / 150',
+      'progress': 145 / 150,
+    },
+    {
+      'name': 'Class 11',
+      'sections': '3 Sections',
+      'teacher': 'Gaurav Sen',
+      'students': '80 / 90',
+      'progress': 80 / 90,
+    },
+    {
+      'name': 'Class 12',
+      'sections': '3 Sections',
+      'teacher': 'Anil Kapoor',
+      'students': '85 / 90',
+      'progress': 85 / 90,
+    },
+  ];
+
+  static const studentInsightsActivity = [
+    {
+      'type': 'Admission',
+      'desc': 'Riya Sharma',
+      'subDesc': 'Class 1A',
+      'time': 'Today, 10:41 AM',
+      'icon': Icons.person_add_outlined,
+      'color': Color(0xFF8463E9),
+    },
+    {
+      'type': 'Transferred',
+      'desc': 'Rahul Verma',
+      'subDesc': 'Class 7A → 7B',
+      'time': 'Yesterday',
+      'icon': Icons.swap_horiz_outlined,
+      'color': Color(0xFF595973),
+    },
+    {
+      'type': 'Fee waived',
+      'desc': 'Aisha Khan',
+      'subDesc': 'Class 10 — 10',
+      'time': '2 days ago',
+      'icon': Icons.money_off_csred_outlined,
+      'color': Color(0xFF595973),
+    },
+  ];
+
+  static const studentInsightsAttention = [
+    {
+      'badge': 'Attendance',
+      'badgeBg': Color(0xFFE8E0FF),
+      'badgeColor': Color(0xFF8463E9),
+      'cardBg': Color(0xFFF9F6FF),
+      'name': 'Rahul Sharma',
+      'desc': 'Class 5A — 70% Attendance',
+    },
+    {
+      'badge': 'Academics',
+      'badgeBg': Color(0xFFFFF7E6),
+      'badgeColor': Color(0xFFD97706),
+      'cardBg': Color(0xFFFFFCF5),
+      'name': 'Aarav Singh',
+      'desc': 'Class 6B — Failed Mid-Term Exams',
+    },
+    {
+      'badge': 'Discipline',
+      'badgeBg': Color(0xFFFFF1F1),
+      'badgeColor': Colors.redAccent,
+      'cardBg': Color(0xFFFFF6F6),
+      'name': 'Ishan Roy',
+      'desc': 'Class 9A — 3 incidents this week',
+    },
+  ];
+
+  static const studentInsightsEnrollment = [
+    {
+      'level': 'PRE-PRIMARY',
+      'total': '150',
+      'classes': '12',
+      'staff': '28',
+      'color': Color(0xFF8463E9),
+    },
+    {
+      'level': 'PRIMARY',
+      'total': '540',
+      'classes': '15',
+      'staff': '55',
+      'color': Color(0xFF8463E9),
+    },
+  ];
+
+  static const studentInsightsAdmissions = [
+    {
+      'name': 'Riya Sharma',
+      'desc': 'Class 1A • Aditi Sharma',
+      'status': 'Complete',
+      'statusColor': Color(0xFF8463E9),
+      'statusBg': Colors.white,
+      'avatar': 'assets/images/user1.jpg',
+    },
+    {
+      'name': 'Kabir Nair',
+      'desc': 'Class PreK • Ananya Nair',
+      'status': 'On-hold',
+      'statusColor': Color(0xFF595973),
+      'statusBg': Colors.white,
+      'avatar': 'assets/images/user2.jpg',
+    },
+    {
+      'name': 'Sara Ali',
+      'desc': 'Class 2A • Imran Ali',
+      'status': 'Pending Docs',
+      'statusColor': Color(0xFF595973),
+      'statusBg': Colors.white,
+      'avatar': 'assets/images/user3.jpg',
+    },
+  ];
+
+  static const studentInsightsCapacityHighest = [
+    {'class': 'Class 10A', 'ratio': '55/50', 'isOver': true},
+    {'class': 'Class 6B', 'ratio': '48/50', 'isOver': true},
+  ];
+
+  static const studentInsightsCapacityUnder = [
+    {'class': 'LKG C', 'desc': '15 seats open'},
+    {'class': 'LKG A', 'desc': '7 seats open'},
+  ];
+
+  static const studentInsightsHealth = [
+    {
+      'title': 'Emergency Contact Missing',
+      'desc': 'Aarav Patel • Class 1A',
+      'icon': Icons.error_outline_rounded,
+      'iconColor': Colors.redAccent,
+    },
+    {
+      'title': 'Medical Alert',
+      'desc': 'Tiara Roy • Class 3B • Asthma',
+      'icon': Icons.medical_services_outlined,
+      'iconColor': Color(0xFF595973),
+    },
+    {
+      'title': 'Pickup Authorization',
+      'desc': 'Aisha Khan • Class LKG • Unverified',
+      'icon': Icons.directions_walk_outlined,
+      'iconColor': Color(0xFF595973),
+    },
+  ];
+
+  static const studentInsightsHighlights = [
+    {
+      'text': '8 new admissions this week',
+      'icon': Icons.people_outline,
+    },
+    {
+      'text': 'Class 1A reached full capacity',
+      'icon': Icons.check_circle_outline,
+    },
+    {
+      'text': '94% student attendance today',
+      'icon': Icons.calendar_today_outlined,
+    },
+  ];
 }

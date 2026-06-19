@@ -24,6 +24,7 @@ class ComingSoonScreen extends StatelessWidget {
       ),
       drawer: MenuScreen(activeScreen: title),
       body: SafeArea(
+        bottom: false,
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import 'menu_screen.dart';
+import 'student_insights_screen.dart';
 
 const _bgPrimary = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -36,6 +37,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
+        bottom: false,
         // [Responsive Fix]: Constrain width to prevent infinite stretching on ultra-wides
         child: Center(
           child: ConstrainedBox(
@@ -689,9 +691,22 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
         onTap: (index) {
-          setState(() {
-            _bottomNavIndex = index;
-          });
+          if (index == 1) {
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                transitionDuration: Duration.zero,
+              ),
+            );
+          } else {
+            setState(() {
+              _bottomNavIndex = index;
+            });
+          }
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,

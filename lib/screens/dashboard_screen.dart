@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import 'menu_screen.dart';
+import 'student_insights_screen.dart';
 import 'dart:ui' as ui;
 
 const _bgPrimary = Color(0xFFF9F9FB);
@@ -26,6 +27,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
+        bottom: false,
         // [Responsive Fix]: Constrain width on ultra-wides to prevent infinite stretching
         child: Center(
           child: ConstrainedBox(
@@ -490,9 +492,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        (action['action'] as String).replaceAll(' →', ''),
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _accent),
+                      Flexible(
+                        child: Text(
+                          (action['action'] as String).replaceAll(' →', ''),
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _accent),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       const SizedBox(width: 4),
                       const Icon(Icons.arrow_forward, size: 14, color: _accent),
@@ -1025,7 +1030,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildNavItem(int index, IconData icon, String label, {String? badge}) {
     final isSelected = _currentIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () {
+        if (index == 1) {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              transitionDuration: Duration.zero,
+            ),
+          );
+        } else {
+          setState(() => _currentIndex = index);
+        }
+      },
       behavior: HitTestBehavior.opaque,
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -7,6 +7,7 @@ import 'dashboard_screen.dart';
 import 'action_center_screen.dart';
 import 'activity_feed_screen.dart';
 import 'coming_soon_screen.dart';
+import 'student_insights_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   final String activeScreen;
@@ -98,7 +99,7 @@ class MenuScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildRailIcon(context, LucideIcons.layoutGrid, activeScreen == 'Main Dashboard' || activeScreen == 'Action Center' || activeScreen == 'Activity Feed', const DashboardScreen()),
-                  _buildRailIcon(context, LucideIcons.graduationCap, activeScreen == 'Academics' || activeScreen == 'Student Insights', const ComingSoonScreen(title: 'Academics')),
+                  _buildRailIcon(context, LucideIcons.graduationCap, activeScreen == 'Academics' || activeScreen == 'Student Insights', const StudentInsightsScreen()),
                   _buildRailIcon(context, LucideIcons.users, activeScreen == 'Staff' || activeScreen == 'Teacher Insights' || activeScreen == 'Non Teaching Staff', const ComingSoonScreen(title: 'Staff')),
                   _buildRailIcon(context, LucideIcons.creditCard, activeScreen == 'Financial Summary', const ComingSoonScreen(title: 'Financial Summary')),
                   _buildRailIcon(context, LucideIcons.calendar, activeScreen == 'Calendar', const ComingSoonScreen(title: 'Calendar')),
@@ -220,7 +221,7 @@ class MenuScreen extends StatelessWidget {
                   _buildMenuItem(context, 'Action Center', LucideIcons.activity, const ActionCenterScreen()),
                   _buildMenuItem(context, 'Activity Feed', LucideIcons.fileText, const ActivityFeedScreen()),
                   _buildSectionTitle('ACADEMICS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Student Insights', LucideIcons.pieChart, const ComingSoonScreen(title: 'Student Insights')),
+                  _buildMenuItem(context, 'Student Insights', LucideIcons.pieChart, const StudentInsightsScreen()),
                   _buildSectionTitle('BUSINESS', topPadding: 20.h),
                   _buildMenuItem(context, 'Admissions Insights', LucideIcons.trendingUp, const ComingSoonScreen(title: 'Admissions Insights')),
                   _buildMenuItem(context, 'Financial Summary', LucideIcons.creditCard, const ComingSoonScreen(title: 'Financial Summary')),

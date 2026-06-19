@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import 'menu_screen.dart';
+import 'student_insights_screen.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -34,6 +35,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
+        bottom: false,
         // [Responsive Fix]: Constrain max width for ultra-wide tablets
         child: Center(
           child: ConstrainedBox(
@@ -697,9 +699,22 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
         onTap: (index) {
-          setState(() {
-            _bottomNavIndex = index;
-          });
+          if (index == 1) {
+            Navigator.pushReplacement(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+                transitionDuration: Duration.zero,
+              ),
+            );
+          } else {
+            setState(() {
+              _bottomNavIndex = index;
+            });
+          }
         },
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,

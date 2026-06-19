@@ -162,40 +162,51 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
               // --- Main Content ---
               SafeArea(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 3), // Pushes content down slightly to center it better
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    // [Responsive Fix]: Constrain logo size so it doesn't get massive on landscape/tablets
+                    final double logoSize = constraints.maxWidth > 600 ? 250.0 : constraints.maxWidth * 0.45;
                     
-                    // The 3D Book Image in a Square
-                    Container(
-                      height: size.width * 0.45,
-                      width: size.width * 0.45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24), // Soft rounded square
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF8B63FF).withValues(alpha: 0.15),
-                            blurRadius: 30,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(24.0), // Padding so it fits beautifully inside the circle
-                          child: Image.asset(
-                            'assets/images/graduation logo.png',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
-                    ),
-                    
-                    const SizedBox(height: 32), // Perfect balanced space
+                    // [Responsive Fix]: Allow scrolling on extremely short screens to prevent RenderFlex overflow
+                    return SingleChildScrollView(
+                      physics: constraints.maxHeight < 600 ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                        child: IntrinsicHeight(
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Spacer(flex: 3), // Pushes content down slightly to center it better
+                                
+                                // The 3D Book Image in a Square
+                                Container(
+                                  height: logoSize,
+                                  width: logoSize,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24), // Soft rounded square
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF8B63FF).withValues(alpha: 0.15),
+                                        blurRadius: 30,
+                                        offset: const Offset(0, 10),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(logoSize * 0.15), // Scale padding proportionally
+                                      child: Image.asset(
+                                        'assets/images/graduation logo.png',
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                
+                                const SizedBox(height: 32), // Perfect balanced space
                     
                     // LOGO placeholder
                     Container(
@@ -292,6 +303,11 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     const SizedBox(height: 24),
                   ],
                 ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 ),
               ),
             ],

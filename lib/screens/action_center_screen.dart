@@ -6,7 +6,6 @@ const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
 const _textMuted = Color(0xFF595973);
 const _accent = Color(0xFF8463E9);
-const _accentLight = Color(0xFFF3F0FF);
 
 class ActionCenterScreen extends StatefulWidget {
   const ActionCenterScreen({super.key});
@@ -21,6 +20,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
+  // [Responsive Fix]: Central breakpoint check
+  bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -32,30 +34,39 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAppBar(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 24),
-                    _buildKpiGrid(),
-                    const SizedBox(height: 24),
-                    _buildFilters(),
-                    const SizedBox(height: 32),
-                    _buildAlertsList(),
-                    const SizedBox(height: 24),
-                    _buildRecommendedActions(),
-                    const SizedBox(height: 40),
-                  ],
+        // [Responsive Fix]: Constrain max width for ultra-wide tablets
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAppBar(),
+                // [Responsive Fix]: Scale padding based on width
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(),
+                          const SizedBox(height: 16),
+                          _buildKpiGrid(),
+                          const SizedBox(height: 16),
+                          _buildFilters(),
+                          const SizedBox(height: 20),
+                          _buildAlertsList(),
+                          const SizedBox(height: 16),
+                          _buildRecommendedActions(),
+                          const SizedBox(height: 24),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -68,10 +79,6 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFF3F4F6))),
-        boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, 1)),
-        ],
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
@@ -163,11 +170,10 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: const Color(0xFFFF5C5C).withValues(alpha: 0.1),
-            border: Border.all(color: const Color(0xFFFF5C5C).withValues(alpha: 0.2)),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -180,7 +186,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   shape: BoxShape.circle,
                 ),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               const Text(
                 'LIVE • ACTION REQUIRED',
                 style: TextStyle(
@@ -216,17 +222,18 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.1,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // [Responsive Fix]: Switch to 4 columns on tablets/landscape
+        crossAxisCount: _isTablet ? 4 : 2,
+        mainAxisExtent: 160,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: MockData.actionCenterKpi.length,
       itemBuilder: (context, index) {
         final kpi = MockData.actionCenterKpi[index];
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
@@ -268,7 +275,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -303,36 +310,65 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
 
 
   Widget _buildFilters() {
-    final filters = ['All', 'Critical', 'Attendance', 'Finance', 'Admissions', 'Academics', 'Staff'];
-    return Wrap(
-      spacing: 8,
-      runSpacing: 12,
-      children: filters.map((filter) {
-        final isSelected = filter == _activeFilter;
-        return GestureDetector(
-          onTap: () {
-            setState(() {
-              _activeFilter = filter;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFF7C5BFF) : Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: isSelected ? const Color(0xFF7C5BFF) : const Color(0xFFF3F4F6)),
-            ),
-            child: Text(
-              filter,
-              style: TextStyle(
-                color: isSelected ? Colors.white : const Color(0xFF8F96A3),
-                fontWeight: FontWeight.w600,
-                fontSize: 13,
-              ),
+    final firstLineFilters = ['All', 'Critical', 'Attendance', 'Finance'];
+    final secondLineFilters = ['Admissions', 'Academics', 'Staff'];
+
+    Widget buildFilterChip(String filter) {
+      final isSelected = filter == _activeFilter;
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            _activeFilter = filter;
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: isSelected ? const Color(0xFF7C5BFF) : Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: isSelected ? const Color(0xFF7C5BFF) : const Color(0xFFF3F4F6)),
+          ),
+          child: Text(
+            filter,
+            style: TextStyle(
+              color: isSelected ? Colors.white : const Color(0xFF8F96A3),
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
             ),
           ),
-        );
-      }).toList(),
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: firstLineFilters.map((f) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: buildFilterChip(f),
+              );
+            }).toList(),
+          ),
+        ),
+        const SizedBox(height: 8),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: secondLineFilters.map((f) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: buildFilterChip(f),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -358,36 +394,41 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: section['sectionIconBg'] as Color,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: const Color(0xFFF3F4F6)),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: section['sectionIconBg'] as Color,
+                          shape: BoxShape.circle,
+                          border: Border.all(color: const Color(0xFFF3F4F6)),
+                        ),
+                        child: Icon(section['sectionIcon'] as IconData, size: 20, color: section['sectionIconColor'] as Color),
                       ),
-                      child: Icon(section['sectionIcon'] as IconData, size: 20, color: section['sectionIconColor'] as Color),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      section['sectionTitle'] as String,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
-                    ),
-                    const SizedBox(width: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE5E7EB),
-                        borderRadius: BorderRadius.circular(12),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          section['sectionTitle'] as String,
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                      child: Text(
-                        section['sectionBadge'] as String,
-                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8F96A3)),
+                      const SizedBox(width: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE5E7EB),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          section['sectionBadge'] as String,
+                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8F96A3)),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 TextButton(
                   onPressed: () {},
@@ -401,11 +442,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 )
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             ...filteredItems.map((item) {
               final isCritical = item['isCritical'] as bool;
               return Container(
-                margin: const EdgeInsets.only(bottom: 24),
+                margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
@@ -472,12 +513,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                         ],
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.access_time_rounded, size: 12, color: Color(0xFF8D95A5)),
-                                        const SizedBox(width: 4),
-                                        Text(item['time'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF8D95A5))),
-                                      ],
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.access_time_rounded, size: 12, color: Color(0xFF8D95A5)),
+                                          const SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              item['time'] as String,
+                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF8D95A5)),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -496,7 +545,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                   children: [
                                     Expanded(
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 16),
+                                        // [Responsive Fix]: Min height constraint to prevent text clipping if scaled up
+                                        constraints: const BoxConstraints(minHeight: 48),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(16),
@@ -506,6 +557,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                           child: Text(
                                             item['btn1'] as String,
                                             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF181B20)),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),
@@ -513,7 +565,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     const SizedBox(width: 12),
                                     Expanded(
                                       child: Container(
-                                        padding: const EdgeInsets.symmetric(vertical: 16),
+                                        // [Responsive Fix]: Min height constraint
+                                        constraints: const BoxConstraints(minHeight: 48),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
                                         decoration: BoxDecoration(
                                           color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5C5C) : item['btn2Color'] as Color,
                                           borderRadius: BorderRadius.circular(16),
@@ -522,6 +576,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                           child: Text(
                                             item['btn2'] as String,
                                             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                                            textAlign: TextAlign.center,
                                           ),
                                         ),
                                       ),

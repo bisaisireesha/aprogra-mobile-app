@@ -23,14 +23,17 @@ class ComingSoonScreen extends StatelessWidget {
         ),
       ),
       drawer: MenuScreen(activeScreen: title),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.construction, size: 64, color: Color(0xFF8463E9)),
             const SizedBox(height: 24),
             Text(
-              '$title',
+              title,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -45,8 +48,10 @@ class ComingSoonScreen extends StatelessWidget {
                 color: Color(0xFF595973),
               ),
             ),
-          ],
+            ],
+          ),
         ),
+      ),
       ),
     );
   }

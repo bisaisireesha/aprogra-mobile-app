@@ -7,7 +7,6 @@ import 'dashboard_screen.dart';
 import 'action_center_screen.dart';
 import 'activity_feed_screen.dart';
 import 'coming_soon_screen.dart';
-import 'login_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   final String activeScreen;
@@ -28,9 +27,14 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // [Responsive Fix]: Calculate screen width to constrain drawer on tablets/landscape
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isTablet = screenWidth >= 600;
+
     return Drawer(
       backgroundColor: AppColors.background, 
-      width: 1.sw, 
+      // [Responsive Fix]: Don't take up 100% width on tablets/landscape to prevent stretching
+      width: isTablet ? 400 : screenWidth, 
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: SafeArea(
         child: Row(
@@ -48,7 +52,7 @@ class MenuScreen extends StatelessWidget {
       width: 72.w,
       margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 4.h, bottom: 4.h),
       decoration: BoxDecoration(
-        color: AppColors.sidebarBg,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(40.r),
         boxShadow: [
           BoxShadow(
@@ -58,16 +62,24 @@ class MenuScreen extends StatelessWidget {
           )
         ],
       ),
-      child: Column(
-        children: [
-          SizedBox(height: 16.h),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // [Responsive Fix]: Ensure rail icons don't overflow on extremely short landscape screens
+          return SingleChildScrollView(
+            physics: constraints.maxHeight < 500 ? const AlwaysScrollableScrollPhysics() : const NeverScrollableScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    SizedBox(height: 16.h),
           // Top logo
           Container(
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
               color: AppColors.purpleLight,
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(14.r),
             ),
             child: Center(
               child: Container(
@@ -97,15 +109,20 @@ class MenuScreen extends StatelessWidget {
               ),
             ),
           ),
-          _buildRailIcon(context, LucideIcons.bell, activeScreen == 'Notifications', const ComingSoonScreen(title: 'Notifications')),
-          SizedBox(height: 16.h),
-          CircleAvatar(
-            radius: 24.r, 
-            backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
-            backgroundColor: AppColors.purpleLight,
-          ),
-          SizedBox(height: 12.h),
-        ],
+                    _buildRailIcon(context, LucideIcons.bell, activeScreen == 'Notifications', const ComingSoonScreen(title: 'Notifications')),
+                    SizedBox(height: 16.h),
+                    CircleAvatar(
+                      radius: 24.r, 
+                      backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
+                      backgroundColor: AppColors.purpleLight,
+                    ),
+                    SizedBox(height: 12.h),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
       ),
     );
   }
@@ -125,7 +142,7 @@ class MenuScreen extends StatelessWidget {
         decoration: isActive
             ? BoxDecoration(
                 color: const Color(0xFF7F61EA), // solid purple active bg
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(14.r),
               )
             : null,
         child: Stack(
@@ -244,7 +261,7 @@ class MenuScreen extends StatelessWidget {
         decoration: isActive
             ? BoxDecoration(
                 color: const Color(0xFFF4F1FD), // #F4F1FD lighter active bg
-                borderRadius: BorderRadius.circular(20.r), // Match pill shape in reference image
+                borderRadius: BorderRadius.circular(100), // Perfect pill shape
               )
             : null,
         child: Row(

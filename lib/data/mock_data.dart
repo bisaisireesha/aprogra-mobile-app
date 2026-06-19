@@ -182,7 +182,7 @@ class MockData {
       'icon': Icons.account_balance_wallet_outlined,
       'iconColor': Color(0xFF595973),
       'iconBg': Color(0xFFF4F4F6),
-      'cardBg': Color(0xFFF9F9FB),
+      'cardBg': Colors.white,
     },
     {
       'title': 'Academics',

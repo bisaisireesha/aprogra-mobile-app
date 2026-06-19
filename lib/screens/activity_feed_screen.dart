@@ -22,6 +22,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
   String _timeRange = 'Today';
   final TextEditingController _searchController = TextEditingController();
 
+  // [Responsive Fix]: Central breakpoint check
+  bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -33,36 +36,43 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAppBar(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 24),
-                    _buildKpiGrid(),
-                    const SizedBox(height: 32),
-                    _buildHighlightsHeader(),
-                    const SizedBox(height: 16),
-                    _buildHighlightsGrid(),
-                    const SizedBox(height: 24),
-                    _buildFilterChips(),
-                    const SizedBox(height: 24),
-                    _buildSearchAndSort(),
-                    const SizedBox(height: 16),
-                    _buildFeedList(),
-                    const SizedBox(height: 24),
-                    _buildLoadEarlierBtn(),
-                    const SizedBox(height: 24),
-                  ],
+        // [Responsive Fix]: Constrain width to prevent infinite stretching on ultra-wides
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildAppBar(),
+                // [Responsive Fix]: Adapt side padding
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 20, 0, _isTablet ? 40 : 20, 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(),
+                          const SizedBox(height: 12),
+                          _buildKpiGrid(),
+                          const SizedBox(height: 16),
+                          _buildHighlightsHeader(),
+                          const SizedBox(height: 12),
+                          _buildHighlightsGrid(),
+                          const SizedBox(height: 16),
+                          _buildFilterChips(),
+                          const SizedBox(height: 12),
+                          _buildFeedList(),
+                          const SizedBox(height: 16),
+                          _buildLoadEarlierBtn(),
+                          const SizedBox(height: 16),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -197,17 +207,18 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.15,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // [Responsive Fix]: Switch to 4 columns on tablets
+        crossAxisCount: _isTablet ? 4 : 2,
+        mainAxisExtent: 140,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: MockData.activityFeedKpi.length,
       itemBuilder: (context, index) {
         final kpi = MockData.activityFeedKpi[index];
         return Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -274,6 +285,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
   Widget _buildHighlightsHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: const [
@@ -286,7 +298,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
           ],
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(
             color: _accentLight,
             borderRadius: BorderRadius.circular(12),
@@ -304,17 +316,18 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.7,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // [Responsive Fix]: 4 items horizontally on tablets
+        crossAxisCount: _isTablet ? 4 : 2,
+        mainAxisExtent: 110,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
       ),
       itemCount: MockData.activityHighlights.length,
       itemBuilder: (context, index) {
         final item = MockData.activityHighlights[index];
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: item['cardBg'] as Color? ?? Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -359,8 +372,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
 
   Widget _buildFilterChips() {
     final filters = ['All modules', 'Students', 'Attendance', 'Academics'];
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerLeft,
       child: Row(
         children: filters.map((filter) {
           final isSelected = filter == _activeFilter;
@@ -371,8 +385,8 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               });
             },
             child: Container(
-              margin: const EdgeInsets.only(right: 12),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              margin: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
                 color: isSelected ? _accent : Colors.white,
                 borderRadius: BorderRadius.circular(20),
@@ -393,129 +407,6 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     );
   }
 
-  Widget _buildSearchAndSort() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFEBEBEB)),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.search, color: _textMuted, size: 20),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (val) {
-                          setState(() {
-                            _searchQuery = val.toLowerCase();
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          hintText: 'Search activity...',
-                          hintStyle: TextStyle(color: _textMuted, fontSize: 14),
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        style: const TextStyle(color: _textDark, fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Container(
-              height: 48,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFEBEBEB)),
-              ),
-              child: PopupMenuButton<String>(
-                onSelected: (value) async {
-                  if (value == 'Custom Date...') {
-                    final picked = await showDateRangePicker(
-                      context: context,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime(2030),
-                    );
-                    if (picked != null) {
-                      setState(() {
-                        _timeRange = 'Custom';
-                      });
-                    }
-                  } else {
-                    setState(() {
-                      _timeRange = value;
-                    });
-                  }
-                },
-                itemBuilder: (context) => const [
-                  PopupMenuItem(value: 'Today', child: Text('Today')),
-                  PopupMenuItem(value: 'This Week', child: Text('This Week')),
-                  PopupMenuItem(value: 'This Month', child: Text('This Month')),
-                  PopupMenuItem(value: 'This Year', child: Text('This Year')),
-                  PopupMenuItem(value: 'Custom Date...', child: Text('Custom Date...')),
-                ],
-                child: Row(
-                  children: [
-                    Text(_timeRange, style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600, fontSize: 14)),
-                    const SizedBox(width: 4),
-                    const Icon(Icons.keyboard_arrow_down, color: _textMuted, size: 20),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Container(
-              height: 48,
-              width: 48,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFEBEBEB)),
-              ),
-              child: const Icon(Icons.filter_list, color: _textDark),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            RichText(
-              text: const TextSpan(
-                style: TextStyle(color: _textMuted, fontSize: 13),
-                children: [
-                  TextSpan(text: 'Showing '),
-                  TextSpan(text: '16 events', style: TextStyle(color: _textDark, fontWeight: FontWeight.bold)),
-                  TextSpan(text: ' • Today'),
-                ],
-              ),
-            ),
-            Row(
-              children: const [
-                Icon(Icons.file_download_outlined, color: _textMuted, size: 16),
-                SizedBox(width: 4),
-                Text('Export', style: TextStyle(color: _textMuted, fontSize: 13, fontWeight: FontWeight.w500)),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
 
   /// Returns a badge icon for each badge type, matching the reference image.
   IconData _badgeIcon(String badge) {

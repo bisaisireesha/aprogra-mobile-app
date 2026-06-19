@@ -18,14 +18,22 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   int _currentIndex = 0;
 
+  // [Responsive Fix]: Central breakpoint check for grids and paddings
+  bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Column(
+        // [Responsive Fix]: Constrain width on ultra-wides to prevent infinite stretching
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: SingleChildScrollView(
+              // [Responsive Fix]: Adjust side paddings based on device width
+              padding: EdgeInsets.symmetric(horizontal: _isTablet ? 40 : 20, vertical: 16),
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildAppBar(),
@@ -49,6 +57,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
         ),
+      ),
+      ),
       ),
       drawer: const MenuScreen(activeScreen: 'Main Dashboard'),
       bottomNavigationBar: _buildBottomNav(),
@@ -137,12 +147,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildKPIGrid() {
     return GridView.count(
-      crossAxisCount: 2,
+      // [Responsive Fix]: Show 4 cards on tablets/landscape, 2 on mobile
+      crossAxisCount: _isTablet ? 4 : 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 16,
+      crossAxisSpacing: 12,
       mainAxisSpacing: 16,
-      childAspectRatio: 1.15,
+      mainAxisExtent: 140,
       children: [
         _buildKPICard(
           title: 'STUDENTS',
@@ -178,7 +189,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     required Color progressColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -197,13 +208,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
+              Expanded(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(icon, size: 16, color: _textMuted),
+                    Icon(icon, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    Flexible(child: Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
+                    Expanded(child: Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
                   ],
                 ),
               ),
@@ -211,15 +221,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(trendUp ? Icons.call_made : Icons.call_received, size: 14, color: _textDark),
+                  Icon(trendUp ? Icons.call_made : Icons.call_received, size: 12, color: _textDark),
                   const SizedBox(width: 2),
-                  Text(trend, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(trend, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textDark)),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(value, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(value, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          ),
           const SizedBox(height: 16),
           Container(
             height: 6,
@@ -246,7 +260,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildAttendanceKPICard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -265,13 +279,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
+              Expanded(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.access_time, size: 16, color: _textMuted),
+                    const Icon(Icons.access_time, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    const Flexible(child: Text('ATTENDANCE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
+                    const Expanded(child: Text('ATTENDANCE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
                   ],
                 ),
               ),
@@ -279,28 +292,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.call_made, size: 14, color: _textDark),
+                  const Icon(Icons.call_made, size: 12, color: _textDark),
                   const SizedBox(width: 2),
-                  Text(MockData.kpiData['attendanceTrend'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(MockData.kpiData['attendanceTrend'] as String, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textDark)),
                 ],
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
-              const SizedBox(width: 6),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Text('vs', style: TextStyle(fontSize: 10, color: _textMuted, fontWeight: FontWeight.bold, height: 1.0)),
-                  Text('yesterday', style: TextStyle(fontSize: 10, color: _textMuted, height: 1.0)),
-                ],
-              ),
-            ],
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+                const SizedBox(width: 6),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Text('vs', style: TextStyle(fontSize: 10, color: _textMuted, fontWeight: FontWeight.bold, height: 1.0)),
+                    Text('yesterday', style: TextStyle(fontSize: 10, color: _textMuted, height: 1.0)),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -309,7 +326,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildFeesKPICard() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
@@ -328,38 +345,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Flexible(
+              Expanded(
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.credit_card, size: 16, color: _textMuted),
+                    const Icon(Icons.credit_card, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    const Flexible(child: Text('FEES', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.ellipsis)),
+                    const Expanded(child: Text('FEES', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
                   ],
                 ),
               ),
               const SizedBox(width: 4),
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Colors.red.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.call_received, size: 10, color: Colors.red),
-                      const SizedBox(width: 2),
-                      Flexible(child: Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red), overflow: TextOverflow.ellipsis)),
-                    ],
-                  ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.red.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.call_received, size: 10, color: Colors.red),
+                    const SizedBox(width: 2),
+                    Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+                  ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+          ),
           const SizedBox(height: 16),
           Container(
             height: 6,
@@ -395,9 +413,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.95,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            // [Responsive Fix]: Expand grid to 4 items per row on tablets/landscape
+            crossAxisCount: _isTablet ? 4 : 2,
+            mainAxisExtent: 220,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
@@ -423,7 +442,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             }
             
             return Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: bgColor,
                 borderRadius: BorderRadius.circular(20),
@@ -500,9 +519,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            childAspectRatio: 0.8,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            // [Responsive Fix]: 8 items on tablet row to save space, 4 on mobile
+            crossAxisCount: _isTablet ? 8 : 4,
+            mainAxisExtent: 90,
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
           ),

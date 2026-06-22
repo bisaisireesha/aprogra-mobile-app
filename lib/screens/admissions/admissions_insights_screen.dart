@@ -4,8 +4,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
-import '../widgets/common_app_bar.dart';
-import 'menu_screen.dart';
+import '../../widgets/common_app_bar.dart';
+import '../../screens/auth/menu_screen.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -53,22 +53,37 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
                         _buildKPIs(isTablet),
                         const SizedBox(height: 48),
                         
+                        // Funnel Section
+                        _buildSectionTitle('Admission Funnel', 'Where leads convert and drop off', actionText: 'Export >'),
+                        const SizedBox(height: 32),
+                        _buildFunnelList(),
+                        const SizedBox(height: 48),
+
                         // Trends Section
                         _buildSectionTitle('Enrollment Trends', 'Current vs previous academic year'),
                         const SizedBox(height: 32),
-                        _buildSegmentedControl(),
-                        const SizedBox(height: 24),
-                        _buildLegend(),
-                        const SizedBox(height: 32),
-                        SizedBox(height: 250, child: _buildChart()),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: const Color(0xFFF0F0F0)),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4)),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              _buildSegmentedControl(),
+                              const SizedBox(height: 24),
+                              _buildLegend(),
+                              const SizedBox(height: 32),
+                              SizedBox(height: 250, child: _buildChart()),
+                            ],
+                          ),
+                        ),
                         const SizedBox(height: 32),
                         _buildQuickSummary(),
-                        const SizedBox(height: 48),
-
-                        // Sources Section
-                        _buildSectionTitle('Admission Source Analysis', 'Lead origin and channel conversion'),
-                        const SizedBox(height: 32),
-                        _buildSourcesList(),
                         const SizedBox(height: 48),
 
                         // Grades Section
@@ -77,10 +92,10 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
                         _buildGradesList(),
                         const SizedBox(height: 48),
 
-                        // Funnel Section
-                        _buildSectionTitle('Admission Funnel', 'Where leads convert and drop off', actionText: 'Export >'),
+                        // Sources Section
+                        _buildSectionTitle('Admission Source Analysis', 'Lead origin and channel conversion'),
                         const SizedBox(height: 32),
-                        _buildFunnelList(),
+                        _buildSourcesList(),
                         const SizedBox(height: 60),
                       ],
                     ),
@@ -96,62 +111,24 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   // --- Header ---
   Widget _buildHeader(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: const Icon(LucideIcons.menu, size: 24, color: _textDark),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    'Admissions Insights',
-                    style: GoogleFonts.figtree(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: _textDark,
-                      letterSpacing: -0.5,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Monitor enrollment performance and conversion trends',
-                style: GoogleFonts.figtree(
-                  fontSize: 14,
-                  color: _textMuted,
-                ),
-              ),
-            ],
+        Text(
+          'Admissions Insights',
+          style: GoogleFonts.figtree(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+            letterSpacing: -0.5,
           ),
         ),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: _accent.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            children: [
-              const Icon(LucideIcons.calendarDays, size: 16, color: _accent),
-              const SizedBox(width: 8),
-              Text(
-                '2025-26',
-                style: GoogleFonts.figtree(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: _accent,
-                ),
-              ),
-            ],
+        const SizedBox(height: 8),
+        Text(
+          'Monitor enrollment performance and conversion trends',
+          style: GoogleFonts.figtree(
+            fontSize: 14,
+            color: _textMuted,
           ),
         ),
       ],
@@ -202,13 +179,15 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   // --- KPIs Section ---
   Widget _buildKPIs(bool isTablet) {
-    return GridView.count(
-      crossAxisCount: isTablet ? 4 : 2,
+    return GridView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 16,
-      mainAxisSpacing: 16,
-      childAspectRatio: 0.85,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isTablet ? 4 : 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        mainAxisExtent: 200,
+      ),
       children: [
         _buildKPICard(
           title: 'TOTAL ENQUIRIES',
@@ -220,6 +199,8 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
           icon: LucideIcons.phoneCall,
           sparklineColor: _accent,
           data: [1, 2, 2.5, 3, 3.5, 4, 4.2],
+          leftBottomText: '486 this month',
+          rightBottomText: '418 last month',
         ),
         _buildKPICard(
           title: 'ADMISSIONS CONFIRMED',
@@ -231,6 +212,8 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
           icon: LucideIcons.checkCircle2,
           sparklineColor: const Color(0xFF10B981),
           data: [1, 1.2, 1.8, 2.5, 2.8, 3.5, 4],
+          leftBottomText: '118 this month',
+          rightBottomText: '94 last month',
         ),
         _buildKPICard(
           title: 'CONVERSION RATE',
@@ -242,17 +225,21 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
           icon: LucideIcons.activity,
           sparklineColor: const Color(0xFFF59E0B),
           data: [4, 3.8, 3.5, 3.6, 3.2, 3.0, 3.1],
+          leftBottomText: 'Current 24.3%',
+          rightBottomText: 'Target 28%',
         ),
         _buildKPICard(
           title: 'PROJECTED ADMISSIONS',
           value: '521',
-          trend: '+4.2%',
+          trend: '+4.2% vs target',
           isPositive: true,
           iconBg: const Color(0xFFEFF6FF),
           iconColor: const Color(0xFF3B82F6),
           icon: LucideIcons.target,
           sparklineColor: const Color(0xFF3B82F6),
           data: [2, 2.2, 2.5, 2.4, 2.8, 3.0, 3.5],
+          leftBottomText: 'Year-end forecast',
+          rightBottomText: 'Confidence 92%',
         ),
       ],
     );
@@ -268,6 +255,8 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
     required IconData icon,
     required Color sparklineColor,
     required List<double> data,
+    required String leftBottomText,
+    required String rightBottomText,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -286,60 +275,114 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: iconBg,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, size: 18, color: iconColor),
+          // Top row: Icon, Title, ... Menu
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(icon, size: 18, color: iconColor),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                    color: _textMuted,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ),
+              Icon(Icons.more_horiz, size: 16, color: _textMuted.withValues(alpha: 0.5)),
+            ],
           ),
           const SizedBox(height: 16),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 10,
-              fontWeight: FontWeight.w600,
-              color: _textMuted,
-              letterSpacing: 0.5,
-            ),
-          ),
-          const SizedBox(height: 8),
+          // Value
           Text(
             value,
             style: GoogleFonts.figtree(
-              fontSize: 28,
+              fontSize: 32,
               fontWeight: FontWeight.bold,
               color: _textDark,
               height: 1.1,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
+          // Trend and Sparkline row
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Icon(
-                isPositive ? LucideIcons.arrowUpRight : LucideIcons.arrowDownRight,
-                size: 14,
-                color: isPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+              Row(
+                children: [
+                  Icon(
+                    isPositive ? LucideIcons.arrowUpRight : LucideIcons.arrowDownRight,
+                    size: 14,
+                    color: isPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    trend,
+                    style: GoogleFonts.figtree(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: isPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 4),
-              Text(
-                trend,
-                style: GoogleFonts.figtree(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: isPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+              const SizedBox(width: 12),
+              Expanded(
+                child: SizedBox(
+                  height: 30,
+                  child: CustomPaint(
+                    painter: _SparklinePainter(data: data, color: sparklineColor),
+                  ),
                 ),
               ),
             ],
           ),
           const Spacer(),
-          SizedBox(
-            height: 30,
-            width: double.infinity,
-            child: CustomPaint(
-              painter: _SparklinePainter(data: data, color: sparklineColor),
-            ),
+          // Divider and down data
+          const Divider(height: 1, color: Color(0xFFF3F4F6)),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    leftBottomText,
+                    style: GoogleFonts.figtree(
+                      fontSize: 11,
+                      color: _textDark,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 4),
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    rightBottomText,
+                    style: GoogleFonts.figtree(
+                      fontSize: 11,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -424,12 +467,82 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
   }
 
   Widget _buildChart() {
+    List<FlSpot> currentData;
+    List<FlSpot> previousData;
+    double maxX;
+    double maxY;
+    double intervalX;
+    Widget Function(double, TitleMeta) getBottomTitles;
+    
+    if (_selectedPeriod == 'Monthly') {
+      currentData = const [
+        FlSpot(0, 42), FlSpot(1, 55), FlSpot(2, 68), FlSpot(3, 48),
+        FlSpot(4, 40), FlSpot(5, 50), FlSpot(6, 52), FlSpot(7, 56),
+        FlSpot(8, 70), FlSpot(9, 65), FlSpot(10, 80), FlSpot(11, 85),
+      ];
+      previousData = const [
+        FlSpot(0, 35), FlSpot(1, 45), FlSpot(2, 55), FlSpot(3, 40),
+        FlSpot(4, 38), FlSpot(5, 48), FlSpot(6, 50), FlSpot(7, 52),
+        FlSpot(8, 60), FlSpot(9, 58), FlSpot(10, 75), FlSpot(11, 78),
+      ];
+      maxX = 11;
+      maxY = 100;
+      intervalX = 2;
+      getBottomTitles = (value, meta) {
+        const style = TextStyle(color: _textMuted, fontSize: 12);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        final index = value.toInt();
+        if (index >= 0 && index < months.length) {
+          return SideTitleWidget(meta: meta, child: Text(months[index], style: style));
+        }
+        return const SizedBox.shrink();
+      };
+    } else if (_selectedPeriod == 'Quarterly') {
+      currentData = const [
+        FlSpot(0, 165), FlSpot(1, 148), FlSpot(2, 178), FlSpot(3, 230),
+      ];
+      previousData = const [
+        FlSpot(0, 135), FlSpot(1, 126), FlSpot(2, 162), FlSpot(3, 213),
+      ];
+      maxX = 3;
+      maxY = 300;
+      intervalX = 1;
+      getBottomTitles = (value, meta) {
+        const style = TextStyle(color: _textMuted, fontSize: 12);
+        final index = value.toInt();
+        if (index >= 0 && index < 4) {
+          return SideTitleWidget(meta: meta, child: Text('Q${index + 1}', style: style));
+        }
+        return const SizedBox.shrink();
+      };
+    } else {
+      // Yearly
+      currentData = const [
+        FlSpot(0, 480), FlSpot(1, 520), FlSpot(2, 590), FlSpot(3, 640), FlSpot(4, 721),
+      ];
+      previousData = const [
+        FlSpot(0, 450), FlSpot(1, 500), FlSpot(2, 560), FlSpot(3, 610), FlSpot(4, 636),
+      ];
+      maxX = 4;
+      maxY = 800;
+      intervalX = 1;
+      getBottomTitles = (value, meta) {
+        const style = TextStyle(color: _textMuted, fontSize: 12);
+        final index = value.toInt();
+        final years = ['2021', '2022', '2023', '2024', '2025'];
+        if (index >= 0 && index < years.length) {
+          return SideTitleWidget(meta: meta, child: Text(years[index], style: style));
+        }
+        return const SizedBox.shrink();
+      };
+    }
+
     return LineChart(
       LineChartData(
         gridData: FlGridData(
           show: true,
           drawVerticalLine: false,
-          horizontalInterval: 20,
+          horizontalInterval: maxY / 4,
           getDrawingHorizontalLine: (value) {
             return const FlLine(
               color: Color(0xFFF3F4F6),
@@ -445,25 +558,14 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 30,
-              interval: 1,
-              getTitlesWidget: (value, meta) {
-                const style = TextStyle(color: _textMuted, fontSize: 12);
-                Widget text;
-                switch (value.toInt()) {
-                  case 0: text = const Text('Apr', style: style); break;
-                  case 2: text = const Text('Jun', style: style); break;
-                  case 4: text = const Text('Aug', style: style); break;
-                  case 6: text = const Text('Oct', style: style); break;
-                  default: text = const Text('', style: style); break;
-                }
-                return SideTitleWidget(meta: meta, child: text);
-              },
+              interval: intervalX,
+              getTitlesWidget: getBottomTitles,
             ),
           ),
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              interval: 20,
+              interval: maxY / 4,
               getTitlesWidget: (value, meta) {
                 return Text(value.toInt().toString(), style: const TextStyle(color: _textMuted, fontSize: 12));
               },
@@ -473,21 +575,31 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
         ),
         borderData: FlBorderData(show: false),
         minX: 0,
-        maxX: 7,
+        maxX: maxX,
         minY: 0,
-        maxY: 80,
+        maxY: maxY,
         lineBarsData: [
           LineChartBarData(
-            spots: const [
-              FlSpot(0, 42),
-              FlSpot(1, 55),
-              FlSpot(2, 68),
-              FlSpot(3, 48),
-              FlSpot(4, 40),
-              FlSpot(5, 50),
-              FlSpot(6, 52),
-              FlSpot(7, 56),
-            ],
+            spots: previousData,
+            isCurved: true,
+            color: const Color(0xFFD1D5DB),
+            barWidth: 3,
+            isStrokeCapRound: true,
+            dotData: const FlDotData(show: false),
+            belowBarData: BarAreaData(
+              show: true,
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFFD1D5DB).withValues(alpha: 0.2),
+                  const Color(0xFFD1D5DB).withValues(alpha: 0.0),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          LineChartBarData(
+            spots: currentData,
             isCurved: true,
             color: _trendsAccent,
             barWidth: 3,
@@ -509,15 +621,57 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
         lineTouchData: LineTouchData(
           enabled: true,
           touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (touchedSpot) => Colors.white,
             getTooltipItems: (touchedSpots) {
               return touchedSpots.map((spot) {
-                return LineTooltipItem(
-                  'Sep\ncurrent : ${spot.y.toInt()}',
-                  GoogleFonts.figtree(
-                    color: _trendsAccent,
-                    fontWeight: FontWeight.bold,
-                  ),
-                );
+                String xLabel = '';
+                if (_selectedPeriod == 'Monthly') {
+                  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                  final index = spot.x.toInt();
+                  if (index >= 0 && index < months.length) xLabel = months[index];
+                } else if (_selectedPeriod == 'Quarterly') {
+                  xLabel = 'Q${spot.x.toInt() + 1}';
+                } else {
+                  const years = ['2021', '2022', '2023', '2024', '2025'];
+                  final index = spot.x.toInt();
+                  if (index >= 0 && index < years.length) xLabel = years[index];
+                }
+
+                final isCurrent = spot.barIndex == 1;
+                final prefix = isCurrent ? 'current : ' : 'previous : ';
+                final color = isCurrent ? _trendsAccent : const Color(0xFF9CA3AF);
+
+                if (spot == touchedSpots.first) {
+                  return LineTooltipItem(
+                    '$xLabel\n',
+                    GoogleFonts.figtree(
+                      color: _textDark,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '$prefix${spot.y.toInt()}',
+                        style: GoogleFonts.figtree(
+                          color: color,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                    textAlign: TextAlign.left,
+                  );
+                } else {
+                  return LineTooltipItem(
+                    '$prefix${spot.y.toInt()}',
+                    GoogleFonts.figtree(
+                      color: color,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                    textAlign: TextAlign.left,
+                  );
+                }
               }).toList();
             },
           ),
@@ -623,24 +777,35 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   // --- Sources Section ---
   Widget _buildSourcesList() {
-    return Column(
-      children: [
-        _buildSourceItem(LucideIcons.globe, 'Website', 412, 118, 0.29, const Color(0xFF6366F1)),
-        const SizedBox(height: 24),
-        _buildSourceItem(LucideIcons.users, 'Referral', 258, 95, 0.36, const Color(0xFF10B981)),
-        const SizedBox(height: 24),
-        _buildSourceItem(Icons.camera_alt, 'Instagram', 324, 64, 0.20, const Color(0xFFEF4444)),
-        const SizedBox(height: 24),
-        _buildSourceItem(LucideIcons.search, 'Google Ads', 286, 58, 0.20, const Color(0xFF3B82F6)),
-        const SizedBox(height: 24),
-        _buildSourceItem(LucideIcons.userPlus, 'Existing Parents', 142, 72, 0.51, const Color(0xFF10B981)),
-        const SizedBox(height: 24),
-        _buildSourceItem(Icons.facebook, 'Facebook', 198, 32, 0.16, const Color(0xFF3B82F6)),
-        const SizedBox(height: 24),
-        _buildSourceItem(LucideIcons.footprints, 'Walk-In', 124, 41, 0.33, const Color(0xFF10B981)),
-        const SizedBox(height: 24),
-        _buildSourceItem(LucideIcons.megaphone, 'Offline Campaign', 86, 18, 0.21, const Color(0xFFF59E0B)),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFF0F0F0)),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildSourceItem(LucideIcons.globe, 'Website', 412, 118, 0.29, const Color(0xFF6366F1)),
+          const SizedBox(height: 24),
+          _buildSourceItem(LucideIcons.users, 'Referral', 258, 95, 0.36, const Color(0xFF10B981)),
+          const SizedBox(height: 24),
+          _buildSourceItem(Icons.camera_alt, 'Instagram', 324, 64, 0.20, const Color(0xFFEF4444)),
+          const SizedBox(height: 24),
+          _buildSourceItem(LucideIcons.search, 'Google Ads', 286, 58, 0.20, const Color(0xFF3B82F6)),
+          const SizedBox(height: 24),
+          _buildSourceItem(LucideIcons.userPlus, 'Existing Parents', 142, 72, 0.51, const Color(0xFF10B981)),
+          const SizedBox(height: 24),
+          _buildSourceItem(Icons.facebook, 'Facebook', 198, 32, 0.16, const Color(0xFF3B82F6)),
+          const SizedBox(height: 24),
+          _buildSourceItem(LucideIcons.footprints, 'Walk-In', 124, 41, 0.33, const Color(0xFF10B981)),
+          const SizedBox(height: 24),
+          _buildSourceItem(LucideIcons.megaphone, 'Offline Campaign', 86, 18, 0.21, const Color(0xFFF59E0B)),
+        ],
+      ),
     );
   }
 
@@ -684,20 +849,31 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   // --- Grades Section ---
   Widget _buildGradesList() {
-    return Column(
-      children: [
-        _buildGradeItem('Nursery', 97, 58, 60, 2),
-        const Divider(height: 32, color: Color(0xFFF3F4F6)),
-        _buildGradeItem('LKG', 95, 76, 80, 4),
-        const Divider(height: 32, color: Color(0xFFF3F4F6)),
-        _buildGradeItem('UKG', 89, 71, 80, 9),
-        const Divider(height: 32, color: Color(0xFFF3F4F6)),
-        _buildGradeItem('Grade 1', 93, 84, 90, 6),
-        const Divider(height: 32, color: Color(0xFFF3F4F6)),
-        _buildGradeItem('Grade 2', 69, 62, 90, 28),
-        const Divider(height: 32, color: Color(0xFFF3F4F6)),
-        _buildGradeItem('Grade 3', 98, 88, 90, 2),
-      ],
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color(0xFFF0F0F0)),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildGradeItem('Nursery', 97, 58, 60, 2),
+          const Divider(height: 32, color: Color(0xFFF3F4F6)),
+          _buildGradeItem('LKG', 95, 76, 80, 4),
+          const Divider(height: 32, color: Color(0xFFF3F4F6)),
+          _buildGradeItem('UKG', 89, 71, 80, 9),
+          const Divider(height: 32, color: Color(0xFFF3F4F6)),
+          _buildGradeItem('Grade 1', 93, 84, 90, 6),
+          const Divider(height: 32, color: Color(0xFFF3F4F6)),
+          _buildGradeItem('Grade 2', 69, 62, 90, 28),
+          const Divider(height: 32, color: Color(0xFFF3F4F6)),
+          _buildGradeItem('Grade 3', 98, 88, 90, 2),
+        ],
+      ),
     );
   }
 
@@ -749,81 +925,80 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
       child: Column(
         children: [
           _buildFunnelStage(
-            icon: LucideIcons.phoneCall,
-            iconBg: const Color(0xFFF4F1FD),
-            iconColor: const Color(0xFF8463E9),
+            icon: LucideIcons.search,
+            color: const Color(0xFF8463E9),
             stage: 'STAGE 1',
             title: 'Enquiries',
             value: '1,840',
             percentStr: 'Conv 100%',
             percent: 1.0,
-            barColor: const Color(0xFF8463E9),
+            dropStr: '-',
+            badgePercent: '100%',
+            isLast: false,
           ),
-          _buildFunnelConnector(),
           _buildFunnelStage(
-            icon: LucideIcons.fileText,
-            iconBg: const Color(0xFFEFF6FF),
-            iconColor: const Color(0xFF3B82F6),
+            icon: LucideIcons.phone,
+            color: const Color(0xFF3B82F6),
             stage: 'STAGE 2',
             title: 'Follow-Ups Completed',
             value: '1,412',
             percentStr: 'Conv 77%',
             percent: 0.77,
-            barColor: const Color(0xFF3B82F6),
+            dropStr: 'Drop 23%',
+            badgePercent: '77%',
+            isLast: false,
           ),
-          _buildFunnelConnector(),
           _buildFunnelStage(
-            icon: LucideIcons.fileEdit,
-            iconBg: const Color(0xFFE8FDF3),
-            iconColor: const Color(0xFF10B981),
+            icon: LucideIcons.send,
+            color: const Color(0xFF14B8A6),
             stage: 'STAGE 3',
             title: 'Applications Submitted',
             value: '968',
-            percentStr: 'Conv 52%',
-            percent: 0.52,
-            barColor: const Color(0xFF10B981),
+            percentStr: 'Conv 53%',
+            percent: 0.53,
+            dropStr: 'Drop 31%',
+            badgePercent: '53%',
+            isLast: false,
           ),
-          _buildFunnelConnector(),
           _buildFunnelStage(
-            icon: LucideIcons.zap,
-            iconBg: const Color(0xFFFFF7ED),
-            iconColor: const Color(0xFFF59E0B),
+            icon: LucideIcons.fileText,
+            color: const Color(0xFFF59E0B),
             stage: 'STAGE 4',
             title: 'Documents Verified',
             value: '658',
-            percentStr: 'Drop 32%',
-            percent: 0.32,
-            barColor: const Color(0xFFF59E0B),
-            badge: 'BOTTLENECK',
-            badgeBg: const Color(0xFFFFF7ED),
-            badgeColor: const Color(0xFFF59E0B),
+            percentStr: 'Conv 36%',
+            percent: 0.36,
+            dropStr: 'Drop 32%',
+            badgePercent: '36%',
+            isLast: false,
           ),
-          _buildFunnelConnector(),
           _buildFunnelStage(
-            icon: LucideIcons.userCheck,
-            iconBg: const Color(0xFFF0FDF4),
-            iconColor: const Color(0xFF22C55E),
+            icon: LucideIcons.check,
+            color: const Color(0xFF22C55E),
             stage: 'STAGE 5',
             title: 'Admissions Confirmed',
             value: '372',
             percentStr: 'Conv 20%',
             percent: 0.20,
-            barColor: const Color(0xFF22C55E),
+            dropStr: 'Drop 43%',
+            badgePercent: '20%',
+            isLast: true,
           ),
-          _buildFunnelConnector(),
+          const SizedBox(height: 24),
+          const Divider(height: 1, color: Color(0xFFF3F4F6)),
+          const SizedBox(height: 24),
           _buildFunnelStage(
-            icon: LucideIcons.shieldAlert,
-            iconBg: const Color(0xFFFEF2F2),
-            iconColor: const Color(0xFFEF4444),
+            icon: LucideIcons.x,
+            color: const Color(0xFFEF4444),
             stage: 'OUTCOME',
             title: 'Rejected',
             value: '286',
             percentStr: 'Share 16%',
             percent: 0.16,
-            barColor: const Color(0xFFEF4444),
-            badge: 'REJECTED',
-            badgeBg: const Color(0xFFFEF2F2),
-            badgeColor: const Color(0xFFEF4444),
+            dropStr: 'Not admitted',
+            badgePercent: '16%',
+            isLast: true,
+            isSeparateCard: false,
           ),
         ],
       ),
@@ -832,73 +1007,126 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   Widget _buildFunnelStage({
     required IconData icon,
-    required Color iconBg,
-    required Color iconColor,
+    required Color color,
     required String stage,
     required String title,
     required String value,
     required String percentStr,
     required double percent,
-    required Color barColor,
-    String? badge,
-    Color? badgeBg,
-    Color? badgeColor,
+    required String dropStr,
+    required String badgePercent,
+    required bool isLast,
+    bool isSeparateCard = false,
   }) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(12)),
-          child: Icon(icon, size: 20, color: iconColor),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(stage, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-                  if (badge != null)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(4)),
-                      child: Text(badge, style: GoogleFonts.inter(fontSize: 8, fontWeight: FontWeight.bold, color: badgeColor, letterSpacing: 0.5)),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Left Column
+          SizedBox(
+            width: 40,
+            child: Column(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, size: 20, color: Colors.white),
+                ),
+                if (!isLast && !isSeparateCard)
+                  Expanded(
+                    child: Container(
+                      width: 2,
+                      color: const Color(0xFFF3F4F6),
                     ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Text(title, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 4),
-              Text(value, style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [Text(percentStr, style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFFA5A5B4)))],
-              ),
-              const SizedBox(height: 6),
-              Stack(
+                  ),
+              ],
+            ),
+          ),
+          // Right Column
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: isLast ? 0 : 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(height: 6, decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(3))),
-                  FractionallySizedBox(
-                    widthFactor: percent,
-                    child: Container(height: 6, decoration: BoxDecoration(color: barColor, borderRadius: BorderRadius.circular(3))),
+                  // Top Row
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(stage, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: color.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(badgePercent, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: color)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(title, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                  ),
+                  const SizedBox(height: 2),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Text(value, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
+                  ),
+                  const SizedBox(height: 8),
+                  // Progress bar
+                  Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      if (!isSeparateCard)
+                        Positioned(
+                          left: -20,
+                          child: Container(
+                            width: 36,
+                            height: 2,
+                            color: const Color(0xFFF3F4F6),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Stack(
+                          children: [
+                            Container(height: 6, decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(3))),
+                            FractionallySizedBox(
+                              widthFactor: percent,
+                              child: Container(height: 6, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(3))),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(percentStr, style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFFA5A5B4))),
+                        Text(dropStr, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: dropStr == '-' ? const Color(0xFFA5A5B4) : color)),
+                      ],
+                    ),
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFunnelConnector() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 21, top: 8, bottom: 8),
-      child: Container(width: 2, height: 24, color: const Color(0xFFF3F4F6)),
+        ],
+      ),
     );
   }
 }
@@ -914,20 +1142,31 @@ class _SparklinePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (data.isEmpty) return;
     final paint = Paint()..color = color..strokeWidth = 2.0..style = PaintingStyle.stroke..strokeCap = StrokeCap.round..strokeJoin = StrokeJoin.round;
+    final fillPaint = Paint()..color = color.withValues(alpha: 0.1)..style = PaintingStyle.fill;
     final minData = data.reduce(math.min);
     final maxData = data.reduce(math.max);
     final range = maxData - minData == 0 ? 1 : maxData - minData;
     final path = Path();
+    final fillPath = Path();
     final xStep = size.width / (data.length - 1);
     for (int i = 0; i < data.length; i++) {
       final x = i * xStep;
       final y = size.height - (((data[i] - minData) / range) * size.height);
       if (i == 0) {
         path.moveTo(x, y);
+        fillPath.moveTo(x, size.height);
+        fillPath.lineTo(x, y);
       } else {
-        path.lineTo(x, y);
+        final prevX = (i - 1) * xStep;
+        final prevY = size.height - (((data[i - 1] - minData) / range) * size.height);
+        final controlX = (prevX + x) / 2;
+        path.cubicTo(controlX, prevY, controlX, y, x, y);
+        fillPath.cubicTo(controlX, prevY, controlX, y, x, y);
       }
     }
+    fillPath.lineTo(size.width, size.height);
+    fillPath.close();
+    canvas.drawPath(fillPath, fillPaint);
     canvas.drawPath(path, paint);
   }
 

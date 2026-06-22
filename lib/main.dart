@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'screens/splash_screen.dart';
-import 'screens/dashboard_screen.dart';
+import 'screens/auth/splash_screen.dart';
+import 'screens/dashboard/dashboard_screen.dart';
 
 void main() {
   runApp(const MyApp());

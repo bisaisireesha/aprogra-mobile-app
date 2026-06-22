@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data.dart';
+import '../data/mock_data/dashboard_mock.dart';
 
 const _bgColor = Color(0xFFFAF9FF);
 const _textDark = Color(0xFF181821);
@@ -19,7 +19,7 @@ class ClassDetailsBottomSheet extends StatefulWidget {
 class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   String _selectedSection = 'All';
   String _selectedTab = 'Overview';
-  Map<String, int> _selectedDayIndices = {};
+  final Map<String, int> _selectedDayIndices = {};
   int _currentStudentPage = 1;
   String _chartFilter = 'Week';
   String _selectedStudentFilter = 'All';
@@ -27,7 +27,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   static const int _studentsPerPage = 10;
   
   // Custom edited timetables: Section -> DayIndex -> List of Periods
-  Map<String, Map<int, List<Map<String, String>>>> _customTimetables = {};
+  final Map<String, Map<int, List<Map<String, String>>>> _customTimetables = {};
   
   List<Map<String, dynamic>> _teachersData = [];
   List<String> _timetableSubjects = [];
@@ -62,7 +62,6 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     final lowerClass = widget.className.toLowerCase();
     final isUKG = lowerClass.contains('ukg') || lowerClass.contains('nursery') || lowerClass.contains('lkg');
     final is1to5 = lowerClass.contains('class 1') || lowerClass.contains('class 2') || lowerClass.contains('class 3') || lowerClass.contains('class 4') || lowerClass.contains('class 5');
-    final is6to12 = lowerClass.contains('class 6') || lowerClass.contains('class 7') || lowerClass.contains('class 8') || lowerClass.contains('class 9') || lowerClass.contains('class 10') || lowerClass.contains('class 11') || lowerClass.contains('class 12');
     
     if (_timetableSubjects.isEmpty) {
       _timetableSubjects = isUKG 
@@ -128,7 +127,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     final baseList = MockData.classStudentsList;
     final students = baseList.asMap().entries.map((entry) {
       final isSectionA = entry.key % 2 == 0;
-      final section = entry.value['section'] as String? ?? '${widget.className.toUpperCase()} ${isSectionA ? 'A' : 'B'}';
+      final section = entry.value['section']  ?? '${widget.className.toUpperCase()} ${isSectionA ? 'A' : 'B'}';
       return {
         ...entry.value,
         'section': section,
@@ -342,7 +341,6 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
       total = isA ? 25 : 24;
       present = isA ? 22 : 21;
     }
-    final absent = total - present;
     final presentPercent = ((present / total) * 100).round();
     final absentPercent = 100 - presentPercent;
 
@@ -482,7 +480,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -816,7 +814,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                     const Divider(height: 1, color: _borderColor, indent: 68, endIndent: 16),
                   ],
                 );
-              }).toList(),
+              }),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Row(
@@ -836,6 +834,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
   
+// ignore: unused_element
   Widget _buildViewFullReport() {
     return Column(
       children: [
@@ -1040,6 +1039,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
 
+// ignore: unused_element
   Widget _buildStudentsFullReport() {
     return Column(
       children: [
@@ -1374,6 +1374,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
 
+// ignore: unused_element
   Widget _buildAttendanceFullReport() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1509,16 +1510,11 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             
             // Theme logic based on subject
             String subject = e['subject']!.toLowerCase();
-            Color iconColor = const Color(0xFF7B61FF);
 
             if (subject.contains('english')) {
-              iconColor = const Color(0xFFF39C12);
             } else if (subject.contains('science') || subject.contains('physics') || subject.contains('chemistry')) {
-              iconColor = const Color(0xFF2EBA7C);
             } else if (subject.contains('hindi')) {
-              iconColor = const Color(0xFFF39C12);
             } else if (subject.contains('social')) {
-              iconColor = const Color(0xFFE74C3C);
             }
             
             return Padding(
@@ -1591,7 +1587,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 ],
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -2062,7 +2058,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: DropdownButtonFormField<String>(
-                        value: selectedTeachers[i],
+                        initialValue: selectedTeachers[i],
                         decoration: InputDecoration(
                           labelText: '${_teachersData[i]['section']} Teacher',
                           border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

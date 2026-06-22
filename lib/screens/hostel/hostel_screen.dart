@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../widgets/common_app_bar.dart';
-import 'menu_screen.dart';
+import '../../widgets/common_app_bar.dart';
+import '../../screens/auth/menu_screen.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);

@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data.dart';
-import 'dashboard_screen.dart';
-import 'menu_screen.dart';
-import 'action_center_screen.dart';
-import 'class_details_bottom_sheet.dart';
+import '../../data/mock_data/dashboard_mock.dart';
+import '../dashboard/dashboard_screen.dart';
+import '../../screens/auth/menu_screen.dart';
+import '../dashboard/action_center_screen.dart';
+import '../../screens/class_details_bottom_sheet.dart';
+import '../../widgets/common_app_bar.dart';
 // --- Design Tokens ---
 const _bgColor = Color(0xFFFAF9FF);
-const _cardBg = Colors.white;
 const _textDark = Color(0xFF181821);
 const _textMuted = Color(0xFF595973);
 const _accent = Color(0xFF6C5CE7); // Primary Purple
-const _darkPurple = Color(0xFF5B4CD8); // Dark Purple
-const _lightPurple = Color(0xFF8A7AF0); // Light Purple
 const _borderColor = Color(0xFFEBEBEB);
 
 class StudentInsightsScreen extends StatefulWidget {
@@ -23,8 +21,7 @@ class StudentInsightsScreen extends StatefulWidget {
 
 class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectedIndex = 1; // Academics tab
-  String _selectedTab = 'Pre-Primary'; // Track selected tab
+  final int _selectedIndex = 0; // Academics tab
 
   void _onItemTapped(int index) {
     if (index == _selectedIndex) return;
@@ -86,7 +83,10 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             constraints: const BoxConstraints(maxWidth: 1200),
             child: Column(
               children: [
-                _buildAppBar(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
+                  child: CommonAppBar(),
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(horizontal: isTablet ? 32 : 16, vertical: 20),
@@ -96,8 +96,6 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         _buildHeader(),
                         const SizedBox(height: 24),
                         _buildTopKPIs(isTablet),
-                        const SizedBox(height: 24),
-                        _buildTabsAndFilters(),
                         const SizedBox(height: 20),
                         _buildClassSectionsGrid(isTablet),
                         const SizedBox(height: 32),
@@ -136,53 +134,6 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
-  Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () => _scaffoldKey.currentState?.openDrawer(),
-            child: const Icon(Icons.menu, color: _textDark, size: 28),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _borderColor)),
-              child: const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(fontSize: 14, color: Color(0xFFA5A5B4)),
-                  prefixIcon: Icon(Icons.search, size: 20, color: Color(0xFFA5A5B4)),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Stack(
-            children: [
-              const Icon(Icons.notifications_none_rounded, color: _textMuted, size: 28),
-              Positioned(
-                right: 2,
-                top: 2,
-                child: Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle)),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            radius: 16,
-            backgroundImage: NetworkImage('https://i.pravatar.cc/150?u=user'), // Generic fallback
-            backgroundColor: Color(0xFFE6E6EB),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildHeader() {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,17 +159,12 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       itemBuilder: (context, index) {
         final kpi = MockData.studentInsightsKpi[index];
         final colorType = kpi['colorType'] as String;
-        Color iconBg = _accent.withValues(alpha: 0.1);
         Color iconColor = _accent;
-        
         if (colorType == 'yellow') {
-          iconBg = const Color(0xFFFFF7E6);
           iconColor = const Color(0xFFD97706);
         } else if (colorType == 'blue') {
-          iconBg = const Color(0xFFE8F2FF);
           iconColor = const Color(0xFF2563EB);
         } else if (colorType == 'grey') {
-          iconBg = const Color(0xFFF4F4F6);
           iconColor = const Color(0xFF595973);
         }
 
@@ -247,62 +193,8 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
-  Widget _buildTabsAndFilters() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Tabs
-        Row(
-          children: [
-            Expanded(child: _buildTabPill('Pre-Primary')),
-            const SizedBox(width: 8),
-            Expanded(child: _buildTabPill('Primary')),
-            const SizedBox(width: 8),
-            Expanded(child: _buildTabPill('Secondary')),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTabPill(String label) {
-    final isActive = _selectedTab == label;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedTab = label;
-        });
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: isActive ? _accent : Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          border: isActive ? null : Border.all(color: _borderColor),
-          boxShadow: isActive ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : [],
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-            color: isActive ? Colors.white : _textMuted,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildClassSectionsGrid(bool isTablet) {
-    List<Map<String, dynamic>> classesData;
-    if (_selectedTab == 'Primary') {
-      classesData = MockData.studentInsightsClassesPrimary;
-    } else if (_selectedTab == 'Secondary') {
-      classesData = MockData.studentInsightsClassesSecondary;
-    } else {
-      classesData = MockData.studentInsightsClasses;
-    }
+    List<Map<String, dynamic>> classesData = MockData.studentInsightsClasses;
 
     return GridView.builder(
       shrinkWrap: true,
@@ -516,7 +408,6 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               children: MockData.studentInsightsAttention.map((alert) {
                 final isAttendance = alert['badge'] == 'Attendance';
                 final isAcademic = alert['badge'] == 'Academics';
-                
                 final cardBg = isAttendance 
                     ? const Color(0xFFF4F1FF) 
                     : isAcademic ? const Color(0xFFFFFBF0) : const Color(0xFFFFF5F5);

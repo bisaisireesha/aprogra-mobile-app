@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data.dart';
-import 'menu_screen.dart';
-import 'student_insights_screen.dart';
+import '../../data/mock_data/dashboard_mock.dart';
+import '../../screens/auth/menu_screen.dart';
+import '../students/students_list_screen.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);

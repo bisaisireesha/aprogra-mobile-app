@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import 'admissions_insights_screen.dart';
-import 'financial_summary_screen.dart';
-import 'teacher_insights_screen.dart';
-import 'hostel_insights_screen.dart';
+import '../admissions/admissions_insights_screen.dart';
+import '../accounts/accounts_screen.dart';
+import '../teachers/teachers_screen.dart';
+import '../hostel/hostel_screen.dart';
 
 class InsightsDashboardScreen extends StatefulWidget {
   final int initialIndex;
@@ -19,7 +19,7 @@ class InsightsDashboardScreen extends StatefulWidget {
 class _InsightsDashboardScreenState extends State<InsightsDashboardScreen> {
   late int _currentIndex;
 
-  final List<Widget> _screens = const [
+  final List<Widget> _screens = [
     AdmissionsInsightsScreen(),
     FinancialSummaryScreen(),
     TeacherInsightsScreen(),

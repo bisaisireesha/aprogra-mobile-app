@@ -15,8 +15,11 @@ class AppColors {
   // Purple Accents
   static const purple = Color(0xFF8B5CF6);            // Primary Purple
   static const purpleLight = Color(0xFFF1EAFE);       // Light Purple (active bg)
+  static const primary = Color(0xFF8B5CF6);
 
   // Utility
   static const divider = Color(0xFFEAEAEA);
+  static const border = Color(0xFFEAEAEA);
   static const iconDefault = Color(0xFF90909A);
+  static const textMuted = Color(0xFF9CA3AF);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data.dart';
-import '../widgets/common_app_bar.dart';
-import 'menu_screen.dart';
-import 'student_insights_screen.dart';
+import '../../data/mock_data/dashboard_mock.dart';
+import '../../widgets/common_app_bar.dart';
+import '../../screens/auth/menu_screen.dart';
+import '../students/students_list_screen.dart';
 import 'dart:ui' as ui;
 
 const _bgPrimary = Color(0xFFF9F9FB);

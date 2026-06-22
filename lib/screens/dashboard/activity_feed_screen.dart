@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../data/mock_data.dart';
-import 'menu_screen.dart';
-import 'student_insights_screen.dart';
+import '../../data/mock_data/dashboard_mock.dart';
+import '../auth/menu_screen.dart';
+import '../students/students_list_screen.dart';
 
 const _bgPrimary = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -19,8 +19,7 @@ class ActivityFeedScreen extends StatefulWidget {
 class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
   int _bottomNavIndex = 2; // Activity is index 2
   String _activeFilter = 'All modules';
-  String _searchQuery = '';
-  String _timeRange = 'Today';
+  final String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
   // [Responsive Fix]: Central breakpoint check

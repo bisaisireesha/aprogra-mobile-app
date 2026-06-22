@@ -6,19 +6,23 @@ const _accent = Color(0xFF8463E9);
 const _bgPrimary = Color(0xFFF9F9FB);
 
 class CommonAppBar extends StatelessWidget {
-  const CommonAppBar({super.key});
+  final bool showMenu;
+
+  const CommonAppBar({super.key, this.showMenu = true});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        GestureDetector(
-          onTap: () {
-            Scaffold.of(context).openDrawer();
-          },
-          child: const Icon(Icons.menu, color: _textDark, size: 28),
-        ),
-        const SizedBox(width: 16),
+        if (showMenu) ...[
+          GestureDetector(
+            onTap: () {
+              Scaffold.of(context).openDrawer();
+            },
+            child: const Icon(Icons.menu, color: _textDark, size: 28),
+          ),
+          const SizedBox(width: 16),
+        ],
         Expanded(
           child: Container(
             height: 44,

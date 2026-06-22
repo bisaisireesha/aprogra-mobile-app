@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import '../theme/app_colors.dart';
-import 'dashboard_screen.dart';
-import 'action_center_screen.dart';
-import 'activity_feed_screen.dart';
-import 'coming_soon_screen.dart';
-import 'student_insights_screen.dart';
-import 'insights_dashboard_screen.dart';
+import '../../core/constants/app_colors.dart';
+import '../dashboard/dashboard_screen.dart';
+import '../transport/transport_screen.dart';
+import '../settings/settings_screen.dart';
+import '../dashboard/action_center_screen.dart';
+import '../dashboard/activity_feed_screen.dart';
+import '../coming_soon_screen.dart';
+import '../students/students_list_screen.dart';
+import '../dashboard/insights_dashboard_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   final String activeScreen;
@@ -229,13 +231,15 @@ class MenuScreen extends StatelessWidget {
                   _buildSectionTitle('OPERATIONS', topPadding: 20.h),
                   _buildMenuItem(context, 'Teacher Insights', LucideIcons.monitor, const InsightsDashboardScreen(initialIndex: 2)),
                   _buildMenuItem(context, 'Non Teaching Staff', LucideIcons.briefcase, const ComingSoonScreen(title: 'Non Teaching Staff')),
-                  _buildMenuItem(context, 'Transport Insights', LucideIcons.bus, const ComingSoonScreen(title: 'Transport Insights')),
+                  _buildMenuItem(context, 'Transport Insights', LucideIcons.bus, const TransportInsightsScreen()),
                   _buildMenuItem(context, 'Hostel Insights', LucideIcons.bedDouble, const InsightsDashboardScreen(initialIndex: 3)),
                   _buildMenuItem(context, 'Daycare Insights', LucideIcons.baby, const ComingSoonScreen(title: 'Daycare Insights')),
                   _buildMenuItem(context, 'CCTV Cameras', LucideIcons.video, const ComingSoonScreen(title: 'CCTV Cameras')),
                   _buildSectionTitle('SERVICES', topPadding: 20.h),
                   _buildMenuItem(context, 'Library Insights', LucideIcons.bookOpen, const ComingSoonScreen(title: 'Library Insights')),
                   _buildMenuItem(context, 'Inventory Insights', LucideIcons.package, const ComingSoonScreen(title: 'Inventory Insights')),
+                  _buildSectionTitle('SYSTEM', topPadding: 20.h),
+                  _buildMenuItem(context, 'Settings', LucideIcons.settings, const SettingsScreen()),
                 ],
               ),
             ),

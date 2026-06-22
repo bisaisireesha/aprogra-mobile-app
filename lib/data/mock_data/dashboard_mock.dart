@@ -795,3 +795,10 @@ class MockData {
     {'name': 'Thungunta Ram Rathan Reddy', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Thungunta+Ram+Rathan+Reddy&background=F3F0FF&color=6C5CE7', 'section': 'NURSERY A'},
   ];
 }
+
+final Map<String, dynamic> mockDashboardData = {
+  'totalStudents': 1250,
+  'totalTeachers': 45,
+  'revenue': 850000,
+  'attendancePercentage': 92.5,
+};

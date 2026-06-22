@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
+import '../widgets/common_app_bar.dart';
 import 'menu_screen.dart';
 import 'student_insights_screen.dart';
 import 'dart:ui' as ui;
@@ -38,7 +39,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildAppBar(),
+              const CommonAppBar(),
               const SizedBox(height: 24),
               _buildGreeting(),
               const SizedBox(height: 24),
@@ -67,64 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildAppBar() {
-    return Row(
-      children: [
-        Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.menu, color: _textDark, size: 28),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Container(
-            height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFFF0F0F0)),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.search, color: _textMuted, size: 20),
-                SizedBox(width: 8),
-                Expanded(child: Text('Search anything...', style: TextStyle(color: _textMuted, fontSize: 14), overflow: TextOverflow.ellipsis)),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Stack(
-          children: [
-            const Icon(Icons.notifications_none, color: _textDark, size: 28),
-            Positioned(
-              right: 2,
-              top: 2,
-              child: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: Colors.redAccent,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: _bgPrimary, width: 2),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        const CircleAvatar(
-          radius: 18,
-          backgroundColor: Color(0xFFE5DCF3),
-          child: Icon(Icons.person, color: _accent, size: 20),
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildGreeting() {
     return Column(

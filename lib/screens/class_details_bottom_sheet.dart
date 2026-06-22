@@ -19,15 +19,22 @@ class ClassDetailsBottomSheet extends StatefulWidget {
 class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   String _selectedSection = 'All';
   String _selectedTab = 'Overview';
-  int _selectedDayIndex = 0;
+  Map<String, int> _selectedDayIndices = {};
   int _currentStudentPage = 1;
   String _chartFilter = 'Week';
+  String _selectedStudentFilter = 'All';
+  String _selectedAttendanceFilter = 'Today';
   static const int _studentsPerPage = 10;
+  
+  // Custom edited timetables: Section -> DayIndex -> List of Periods
+  Map<String, Map<int, List<Map<String, String>>>> _customTimetables = {};
   
   List<Map<String, dynamic>> _teachersData = [];
   List<String> _timetableSubjects = [];
   List<Map<String, dynamic>> _syllabusData = [];
-  
+  List<Map<String, String>> _upcomingExamsData = [];
+  List<Map<String, String>> _completedExamsData = [];
+
   @override
   void initState() {
     super.initState();
@@ -52,18 +59,20 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
       ];
     }
     
-    final isNursery = widget.className.toLowerCase().contains('nursery');
-    final isPrimary = widget.className.toLowerCase().contains('class 1') || widget.className.toLowerCase().contains('class 2');
+    final lowerClass = widget.className.toLowerCase();
+    final isUKG = lowerClass.contains('ukg') || lowerClass.contains('nursery') || lowerClass.contains('lkg');
+    final is1to5 = lowerClass.contains('class 1') || lowerClass.contains('class 2') || lowerClass.contains('class 3') || lowerClass.contains('class 4') || lowerClass.contains('class 5');
+    final is6to12 = lowerClass.contains('class 6') || lowerClass.contains('class 7') || lowerClass.contains('class 8') || lowerClass.contains('class 9') || lowerClass.contains('class 10') || lowerClass.contains('class 11') || lowerClass.contains('class 12');
     
     if (_timetableSubjects.isEmpty) {
-      _timetableSubjects = isNursery 
+      _timetableSubjects = isUKG 
           ? ['Music & Rhymes', 'Interactive Play', 'Story Time', 'Art & Craft']
-          : (isPrimary ? ['English Grammar', 'Basic Math', 'Environmental Science', 'Physical Education'] 
+          : (is1to5 ? ['English Grammar', 'Basic Math', 'Environmental Science', 'Physical Education'] 
                        : ['Advanced Mathematics', 'Physics', 'Chemistry', 'Computer Science']);
     }
                      
     if (_syllabusData.isEmpty) {
-      _syllabusData = isNursery 
+      _syllabusData = isUKG 
           ? [
               {'name': 'Play', 'teacher': 'Meera Joshi', 'progress': 0.60, 'icon': Icons.toys_outlined, 'color': const Color(0xFF7B61FF)},
               {'name': 'Rhymes', 'teacher': 'Riya Kapoor', 'progress': 0.57, 'icon': Icons.menu_book_outlined, 'color': const Color(0xFF3498DB)},
@@ -71,7 +80,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               {'name': 'Art & Craft', 'teacher': 'Riya Kapoor', 'progress': 0.68, 'icon': Icons.palette_outlined, 'color': const Color(0xFFF39C12)},
               {'name': 'Music', 'teacher': 'Meera Joshi', 'progress': 0.49, 'icon': Icons.music_note_outlined, 'color': const Color(0xFF3498DB)},
             ]
-          : (isPrimary 
+          : (is1to5 
               ? [
                   {'name': 'English Grammar', 'teacher': 'Meera Joshi', 'progress': 0.70, 'icon': Icons.menu_book_outlined, 'color': const Color(0xFF7B61FF)},
                   {'name': 'Basic Math', 'teacher': 'Riya Kapoor', 'progress': 0.85, 'icon': Icons.calculate_outlined, 'color': const Color(0xFF3498DB)},
@@ -82,6 +91,31 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                   {'name': 'Physics', 'teacher': 'Riya Kapoor', 'progress': 0.75, 'icon': Icons.science_outlined, 'color': const Color(0xFF3498DB)},
                   {'name': 'Chemistry', 'teacher': 'Meera Joshi', 'progress': 0.60, 'icon': Icons.biotech_outlined, 'color': const Color(0xFF2EBA7C)},
                 ]);
+    }
+    
+    if (_upcomingExamsData.isEmpty) {
+      final subjects = isUKG 
+          ? ['Play', 'Rhymes', 'Story Time']
+          : (is1to5 ? ['English', 'Math', 'EVS', 'Drawing'] : ['Physics', 'Chemistry', 'Math', 'Biology']);
+          
+      final secAStr = '${widget.className.toUpperCase()} A';
+      final secBStr = '${widget.className.toUpperCase()} B';
+      
+      _upcomingExamsData = [
+        {'subject': subjects[0], 'type': 'Unit Test', 'section': secAStr, 'date': '08 Jun', 'time': '9:00'},
+        {'subject': subjects[1], 'type': 'Mid Term', 'section': secAStr, 'date': '12 Jun', 'time': '10:00'},
+        {'subject': subjects[2], 'type': 'Unit Test', 'section': secAStr, 'date': '15 Jun', 'time': '11:00'},
+        {'subject': subjects[0], 'type': 'Mid Term', 'section': secBStr, 'date': '09 Jun', 'time': '9:00'},
+        {'subject': subjects[1], 'type': 'Unit Test', 'section': secBStr, 'date': '13 Jun', 'time': '10:00'},
+        {'subject': subjects[2], 'type': 'Unit Test', 'section': secBStr, 'date': '16 Jun', 'time': '11:00'},
+      ];
+      
+      _completedExamsData = [
+        {'subject': subjects[0], 'type': 'Quiz', 'section': secAStr, 'date': '16 May', 'time': '11:00'},
+        {'subject': subjects[1], 'type': 'Final', 'section': secAStr, 'date': '20 May', 'time': '12:00'},
+        {'subject': subjects[0], 'type': 'Quiz', 'section': secBStr, 'date': '17 May', 'time': '11:00'},
+        {'subject': subjects[1], 'type': 'Final', 'section': secBStr, 'date': '21 May', 'time': '12:00'},
+      ];
     }
   }
 
@@ -94,7 +128,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     final baseList = MockData.classStudentsList;
     final students = baseList.asMap().entries.map((entry) {
       final isSectionA = entry.key % 2 == 0;
-      final section = '${widget.className.toUpperCase()} ${isSectionA ? 'A' : 'B'}';
+      final section = entry.value['section'] as String? ?? '${widget.className.toUpperCase()} ${isSectionA ? 'A' : 'B'}';
       return {
         ...entry.value,
         'section': section,
@@ -291,8 +325,8 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
         ),
         child: Row(
           children: [
-            if (!isActive && label != 'Overview') Icon(icon, size: 14, color: _textMuted),
-            if (!isActive && label != 'Overview') const SizedBox(width: 4),
+            Icon(icon, size: 14, color: isActive ? _accent : _textMuted),
+            const SizedBox(width: 4),
             Text(label, style: TextStyle(fontSize: 13, fontWeight: isActive ? FontWeight.bold : FontWeight.w500, color: isActive ? _accent : _textMuted)),
           ],
         ),
@@ -454,6 +488,159 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
   
+  void _showEditTimetableBottomSheet(String initialSection, int initialDayIndex) {
+    String editSection = initialSection;
+    int editDayIndex = initialDayIndex;
+    
+    // We need to keep a copy of the current periods being edited
+    List<Map<String, String>> currentPeriods = [];
+    
+    // Function to load periods for the selected section/day
+    void loadPeriods() {
+      final base = _getTimetableFor(editSection, editDayIndex);
+      currentPeriods = base.map((p) => Map<String, String>.from(p)).toList();
+    }
+    
+    loadPeriods();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+                left: 16,
+                right: 16,
+                top: 24,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Edit Timetable', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
+                  const SizedBox(height: 16),
+                  
+                  // Section Dropdown
+                  Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          initialValue: editSection,
+                          decoration: const InputDecoration(labelText: 'Section', border: OutlineInputBorder()),
+                          items: _currentTeachers.map((t) {
+                            final sec = t['section'] as String;
+                            return DropdownMenuItem(value: sec, child: Text(sec));
+                          }).toList(),
+                          onChanged: (val) {
+                            if (val != null) {
+                              setModalState(() {
+                                editSection = val;
+                                loadPeriods();
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: DropdownButtonFormField<int>(
+                          initialValue: editDayIndex,
+                          decoration: const InputDecoration(labelText: 'Day', border: OutlineInputBorder()),
+                          items: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].asMap().entries.map((e) {
+                            return DropdownMenuItem(value: e.key, child: Text(e.value));
+                          }).toList(),
+                          onChanged: (val) {
+                            if (val != null) {
+                              setModalState(() {
+                                editDayIndex = val;
+                                loadPeriods();
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // List of periods
+                  SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: currentPeriods.length,
+                      itemBuilder: (context, i) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 60,
+                                child: TextFormField(
+                                  initialValue: currentPeriods[i]['period'],
+                                  style: const TextStyle(fontSize: 12),
+                                  decoration: const InputDecoration(labelText: 'Period', border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8)),
+                                  onChanged: (val) => currentPeriods[i]['period'] = val,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: TextFormField(
+                                  initialValue: currentPeriods[i]['subject'],
+                                  style: const TextStyle(fontSize: 12),
+                                  decoration: const InputDecoration(labelText: 'Subject', border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8)),
+                                  onChanged: (val) => currentPeriods[i]['subject'] = val,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              SizedBox(
+                                width: 100,
+                                child: TextFormField(
+                                  initialValue: currentPeriods[i]['time'],
+                                  style: const TextStyle(fontSize: 12),
+                                  decoration: const InputDecoration(labelText: 'Time', border: OutlineInputBorder(), contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8)),
+                                  onChanged: (val) => currentPeriods[i]['time'] = val,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  // Save Button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: _accent, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                      onPressed: () {
+                        setState(() {
+                          if (_customTimetables[editSection] == null) {
+                            _customTimetables[editSection] = {};
+                          }
+                          _customTimetables[editSection]![editDayIndex] = List.from(currentPeriods);
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Save Changes', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildTimetableHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -468,17 +655,6 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
         Row(
           children: [
             const Text('MON - SAT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-            const SizedBox(width: 16),
-            GestureDetector(
-              onTap: _showEditTimetableBottomSheet,
-              child: Row(
-                children: const [
-                  Icon(Icons.edit_outlined, size: 12, color: _accent),
-                  SizedBox(width: 4),
-                  Text('Edit', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _accent)),
-                ],
-              ),
-            ),
           ],
         ),
       ],
@@ -486,6 +662,10 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   }
   
   List<Map<String, String>> _getTimetableFor(String section, int dayIndex) {
+    if (_customTimetables[section] != null && _customTimetables[section]![dayIndex] != null) {
+      return _customTimetables[section]![dayIndex]!;
+    }
+    
     final isA = section.endsWith('A');
     
     // Rotate subjects based on the day of the week and section
@@ -526,6 +706,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   }
 
   Widget _buildTimetableBlock(String section, String teacher, String students) {
+    final currentDayIndex = _selectedDayIndices[section] ?? 0;
     return Column(
       children: [
         Row(
@@ -546,6 +727,21 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               ),
             ),
             const Spacer(),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => _showEditTimetableBottomSheet(section, currentDayIndex),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                child: Row(
+                  children: const [
+                    Icon(Icons.edit_outlined, size: 14, color: _accent),
+                    SizedBox(width: 4),
+                    Text('Edit', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
             Text(students, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _accent)),
           ],
         ),
@@ -555,9 +751,9 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
           children: ['M', 'T', 'W', 'T', 'F', 'S'].asMap().entries.map((entry) {
             final index = entry.key;
             final day = entry.value;
-            final isActive = _selectedDayIndex == index; 
+            final isActive = currentDayIndex == index; 
             return GestureDetector(
-              onTap: () => setState(() => _selectedDayIndex = index),
+              onTap: () => setState(() => _selectedDayIndices[section] = index),
               child: Container(
                 width: 32,
                 height: 32,
@@ -575,11 +771,14 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
           }).toList(),
         ),
         const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _borderColor)),
-          child: Column(
-            children: [
-              ..._getTimetableFor(section, _selectedDayIndex).map((period) {
+        GestureDetector(
+          onTap: () => _showEditTimetableBottomSheet(section, currentDayIndex),
+          behavior: HitTestBehavior.opaque,
+          child: Container(
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _borderColor)),
+            child: Column(
+              children: [
+                ..._getTimetableFor(section, currentDayIndex).map((period) {
                 return Column(
                   children: [
                     Padding(
@@ -632,6 +831,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             ],
           ),
         ),
+        ), // Closes GestureDetector
       ],
     );
   }
@@ -667,9 +867,28 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   }
 
   Widget _buildStudentsTab() {
-    final sectionLabel = _selectedSection == 'All' ? widget.className.toUpperCase() : _selectedSection.toUpperCase();
-    final teacherLabel = _selectedSection == 'All' ? 'Multiple Teachers' : _currentTeachers.first['name'] as String;
+    if (_selectedSection == 'All') {
+      return Column(
+        children: [
+          ..._currentTeachers.map((teacher) {
+            final section = teacher['section'] as String;
+            final teacherName = teacher['name'] as String;
+            final sectionStudents = _currentStudents.where((s) => s['section'] == section).toList();
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: _buildStudentSectionList(section, teacherName, sectionStudents),
+            );
+          }),
+        ],
+      );
+    } else {
+      final sectionLabel = _selectedSection.toUpperCase();
+      final teacherLabel = _currentTeachers.first['name'] as String;
+      return _buildStudentSectionList(sectionLabel, teacherLabel, _currentStudents);
+    }
+  }
 
+  Widget _buildStudentSectionList(String sectionLabel, String teacherLabel, List<Map<String, dynamic>> students) {
     return Column(
       children: [
         Container(
@@ -693,7 +912,22 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 ),
               ),
               const Spacer(),
-              const Icon(Icons.filter_alt_outlined, color: _accent, size: 20),
+              GestureDetector(
+                onTap: _showStudentFilterBottomSheet,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _borderColor)),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.filter_alt_outlined, color: _accent, size: 16),
+                      if (_selectedStudentFilter != 'All') ...[
+                        const SizedBox(width: 4),
+                        Text(_selectedStudentFilter == 'ACTIVE' ? 'Active' : 'Low Attd.', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _accent)),
+                      ]
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -701,19 +935,24 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
         Row(
           children: const [
             SizedBox(width: 24, child: Text('#', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
-            Expanded(flex: 2, child: Text('NAME/GENDER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
-            Expanded(flex: 1, child: Text('STATUS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
-            Text('FEES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted)),
+            SizedBox(width: 48, child: Text('PROFILE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
+            Expanded(child: Text('NAME/GENDER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
+            Expanded(child: Text('STATUS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted))),
+            SizedBox(width: 64, child: Text('FEES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted), textAlign: TextAlign.right)),
           ],
         ),
         const SizedBox(height: 8),
         const Divider(color: _borderColor),
         ...() {
-          final students = _currentStudents;
-          final totalPages = (students.isEmpty ? 1 : (students.length / _studentsPerPage).ceil());
-          final startIndex = (_currentStudentPage - 1) * _studentsPerPage;
-          final endIndex = (startIndex + _studentsPerPage) > students.length ? students.length : (startIndex + _studentsPerPage);
-          final paginatedStudents = students.isEmpty ? <Map<String, dynamic>>[] : students.sublist(startIndex, endIndex);
+          final filteredStudents = students.where((s) {
+            if (_selectedStudentFilter == 'All') return true;
+            return s['status'] == _selectedStudentFilter;
+          }).toList();
+
+          final totalPages = (filteredStudents.isEmpty ? 1 : (filteredStudents.length / _studentsPerPage).ceil());
+          final startIndex = _selectedSection == 'All' ? 0 : (_currentStudentPage - 1) * _studentsPerPage;
+          final endIndex = (startIndex + _studentsPerPage) > filteredStudents.length ? filteredStudents.length : (startIndex + _studentsPerPage);
+          final paginatedStudents = filteredStudents.isEmpty ? <Map<String, dynamic>>[] : filteredStudents.sublist(startIndex, endIndex);
 
           return [
             ...paginatedStudents.asMap().entries.map((entry) {
@@ -731,7 +970,6 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                         CircleAvatar(radius: 18, backgroundImage: NetworkImage(student['avatar'] as String), backgroundColor: const Color(0xFFE6E6EB)),
                         const SizedBox(width: 12),
                         Expanded(
-                          flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -742,7 +980,6 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                           ),
                         ),
                         Expanded(
-                          flex: 1,
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: isLowAttd
@@ -751,12 +988,19 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                                     decoration: BoxDecoration(color: Colors.redAccent.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
                                     child: Text(student['status'] as String, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.redAccent)),
                                   )
-                                : Text(student['status'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textDark)),
+                                : Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                    decoration: BoxDecoration(color: Colors.green.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(12)),
+                                    child: Text(student['status'] as String, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.green)),
+                                  ),
                           ),
                         ),
                         GestureDetector(
                           onTap: () => _showFeeDetailsBottomSheet(context, student, index),
-                          child: const Text('View Fees', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _accent)),
+                          child: const SizedBox(
+                            width: 64,
+                            child: Text('View Fees', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _accent), textAlign: TextAlign.right),
+                          ),
                         ),
                       ],
                     ),
@@ -765,7 +1009,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 ],
               );
             }),
-            if (totalPages > 1)
+            if (totalPages > 1 && _selectedSection != 'All')
               Padding(
                 padding: const EdgeInsets.only(top: 16),
                 child: Row(
@@ -869,7 +1113,20 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 ),
               ),
               const Spacer(),
-              const Icon(Icons.filter_alt_outlined, color: _accent, size: 20),
+              GestureDetector(
+                onTap: _showAttendanceFilterBottomSheet,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _borderColor)),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.filter_alt_outlined, color: _accent, size: 16),
+                      const SizedBox(width: 4),
+                      Text(_selectedAttendanceFilter, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _accent)),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -1142,40 +1399,13 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   }
 
   Widget _buildExamsTab() {
-    final isNursery = widget.className.toLowerCase().contains('nursery');
-    final isPrimary = widget.className.toLowerCase().contains('class 1') || widget.className.toLowerCase().contains('class 2');
-    
-    // Base subjects based on class level
-    final subjects = isNursery 
-        ? ['Play', 'Rhymes', 'Story Time']
-        : (isPrimary ? ['English', 'Math', 'EVS'] : ['Physics', 'Chemistry', 'Math']);
-        
-    final secAStr = '${widget.className.toUpperCase()} A';
-    final secBStr = '${widget.className.toUpperCase()} B';
-    
-    final allUpcoming = [
-      {'subject': subjects[0], 'type': 'Unit Test', 'section': secAStr, 'date': '08 Jun', 'time': '9:00'},
-      {'subject': subjects[1], 'type': 'Mid Term', 'section': secAStr, 'date': '12 Jun', 'time': '10:00'},
-      {'subject': subjects[2], 'type': 'Unit Test', 'section': secAStr, 'date': '15 Jun', 'time': '11:00'},
-      {'subject': subjects[0], 'type': 'Mid Term', 'section': secBStr, 'date': '09 Jun', 'time': '9:00'},
-      {'subject': subjects[1], 'type': 'Unit Test', 'section': secBStr, 'date': '13 Jun', 'time': '10:00'},
-      {'subject': subjects[2], 'type': 'Unit Test', 'section': secBStr, 'date': '16 Jun', 'time': '11:00'},
-    ];
-    
-    final allCompleted = [
-      {'subject': subjects[0], 'type': 'Quiz', 'section': secAStr, 'date': '16 May', 'time': '11:00'},
-      {'subject': subjects[1], 'type': 'Final', 'section': secAStr, 'date': '20 May', 'time': '12:00'},
-      {'subject': subjects[0], 'type': 'Quiz', 'section': secBStr, 'date': '17 May', 'time': '11:00'},
-      {'subject': subjects[1], 'type': 'Final', 'section': secBStr, 'date': '21 May', 'time': '12:00'},
-    ];
-
     final upcomingExams = _selectedSection == 'All' 
-        ? allUpcoming 
-        : allUpcoming.where((e) => e['section'] == _selectedSection.toUpperCase()).toList();
+        ? _upcomingExamsData 
+        : _upcomingExamsData.where((e) => e['section'] == _selectedSection.toUpperCase()).toList();
         
     final completedExams = _selectedSection == 'All' 
-        ? allCompleted 
-        : allCompleted.where((e) => e['section'] == _selectedSection.toUpperCase()).toList();
+        ? _completedExamsData 
+        : _completedExamsData.where((e) => e['section'] == _selectedSection.toUpperCase()).toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1184,28 +1414,36 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('Exam Timetable', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-            Row(
-              children: const [
-                Icon(Icons.edit_outlined, size: 14, color: _accent),
-                SizedBox(width: 4),
-                Text('Edit Exams', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
-              ],
+            GestureDetector(
+              onTap: _showEditExamsBottomSheet,
+              child: Row(
+                children: const [
+                  Icon(Icons.edit_outlined, size: 14, color: _accent),
+                  SizedBox(width: 4),
+                  Text('Edit Exams', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
+                ],
+              ),
             ),
           ],
         ),
         const SizedBox(height: 24),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          childAspectRatio: 2.2,
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
+        Column(
           children: [
-            _buildExamKPI('UPCOMING', '${upcomingExams.length}', const Color(0xFF7B61FF)),
-            _buildExamKPI('COMPLETED', '${completedExams.length}', const Color(0xFF2EBA7C)),
-            _buildExamKPI('TOTAL PAPERS', '${upcomingExams.length + completedExams.length}', const Color(0xFFF39C12)),
-            _buildExamKPI('NEXT EXAM', upcomingExams.isNotEmpty ? upcomingExams[0]['date']! : '--', const Color(0xFFE74C3C)),
+            Row(
+              children: [
+                Expanded(child: _buildExamKPI('UPCOMING', '${upcomingExams.length}', const Color(0xFF7B61FF))),
+                const SizedBox(width: 12),
+                Expanded(child: _buildExamKPI('COMPLETED', '${completedExams.length}', const Color(0xFF2EBA7C))),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(child: _buildExamKPI('TOTAL PAPERS', '${upcomingExams.length + completedExams.length}', const Color(0xFFF39C12))),
+                const SizedBox(width: 12),
+                Expanded(child: _buildExamKPI('NEXT EXAM', upcomingExams.isNotEmpty ? upcomingExams[0]['date']! : '--', const Color(0xFFE74C3C))),
+              ],
+            ),
           ],
         ),
         const SizedBox(height: 32),
@@ -1218,10 +1456,10 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
 
   Widget _buildExamKPI(String title, String value, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: _borderColor),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
       ),
@@ -1229,9 +1467,9 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-          const SizedBox(height: 4),
-          Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
+          Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+          const SizedBox(height: 8),
+          Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
         ],
       ),
     );
@@ -1240,142 +1478,122 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   Widget _buildExamListSection(String title, int count, Color dotColor, List<Map<String, String>> exams) {
     if (exams.isEmpty) return const SizedBox.shrink();
     
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(width: 8, height: 8, decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle)),
-                const SizedBox(width: 8),
-                Text(title.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: 0.5)),
-              ],
-            ),
-            Text('$count ${title.contains('Upcoming') ? 'scheduled' : 'done'}', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: dotColor)),
-          ],
-        ),
-        const SizedBox(height: 20),
-        ...exams.asMap().entries.map((entry) {
-          final index = entry.key;
-          final isLast = index == exams.length - 1;
-          final e = entry.value;
-          
-          final dateParts = e['date']!.split(' ');
-          final dayStr = dateParts[0];
-          final monthStr = dateParts.length > 1 ? dateParts[1] : '';
-          
-          Color badgeColor = const Color(0xFFF0F2F5);
-          Color badgeTextColor = _textMuted;
-          if (e['type'] == 'Unit Test') {
-            badgeColor = const Color(0xFF7B61FF).withValues(alpha: 0.1);
-            badgeTextColor = const Color(0xFF7B61FF);
-          } else if (e['type'] == 'Mid Term') {
-            badgeColor = const Color(0xFF2EBA7C).withValues(alpha: 0.1);
-            badgeTextColor = const Color(0xFF2EBA7C);
-          } else if (e['type'] == 'Final' || e['type'] == 'Quiz') {
-            badgeColor = const Color(0xFFF39C12).withValues(alpha: 0.1);
-            badgeTextColor = const Color(0xFFF39C12);
-          }
-          
-          return IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Date pill
-                Container(
-                  width: 48,
-                  alignment: Alignment.topCenter,
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Container(
-                    width: 48,
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF9F6FF),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(dayStr, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C5CE7), height: 1.1)),
-                        const SizedBox(height: 2),
-                        Text(monthStr, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF6C5CE7), height: 1.1)),
-                      ],
-                    ),
-                  ),
-                ),
-                // Timeline line
-                Container(
-                  width: 32,
-                  alignment: Alignment.topCenter,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      if (!isLast)
-                        Positioned(
-                          top: 24,
-                          bottom: -20,
-                          child: Container(width: 1.5, color: const Color(0xFFF0F0F0)),
-                        ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 18),
-                        width: 8,
-                        height: 8,
-                        decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle),
-                      ),
-                    ],
-                  ),
-                ),
-                // Exam Card
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: _borderColor),
-                    ),
+    final isUpcoming = title.contains('Upcoming');
+    
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _borderColor),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(width: 6, height: 6, decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle)),
+                  const SizedBox(width: 8),
+                  Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                ],
+              ),
+              Text('$count ${isUpcoming ? 'scheduled' : 'done'}', style: const TextStyle(fontSize: 12, color: _textMuted)),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ...exams.asMap().entries.map((entry) {
+            final e = entry.value;
+            
+            // Theme logic based on subject
+            String subject = e['subject']!.toLowerCase();
+            Color iconColor = const Color(0xFF7B61FF);
+
+            if (subject.contains('english')) {
+              iconColor = const Color(0xFFF39C12);
+            } else if (subject.contains('science') || subject.contains('physics') || subject.contains('chemistry')) {
+              iconColor = const Color(0xFF2EBA7C);
+            } else if (subject.contains('hindi')) {
+              iconColor = const Color(0xFFF39C12);
+            } else if (subject.contains('social')) {
+              iconColor = const Color(0xFFE74C3C);
+            }
+            
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                children: [
+                  Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(e['subject']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(color: badgeColor, borderRadius: BorderRadius.circular(4)),
-                                  child: Text(e['type']!, style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: badgeTextColor)),
-                                ),
-                                const SizedBox(width: 6),
-                                const Text('•', style: TextStyle(color: _textMuted, fontSize: 10)),
-                                const SizedBox(width: 6),
-                                Text(e['section']!, style: const TextStyle(fontSize: 10, color: _textMuted)),
-                              ],
-                            ),
-                          ],
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(e['subject']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark), maxLines: 1, overflow: TextOverflow.ellipsis),
+                              const SizedBox(height: 4),
+                              Text(e['type']!, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                            ],
+                          ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(color: badgeColor, borderRadius: BorderRadius.circular(12)),
-                          child: Text('${e['time']!} AM', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: badgeTextColor)),
+                        Expanded(
+                          flex: 4,
+                          child: Center(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF7B61FF).withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(e['section']!, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF7B61FF))),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 6,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.calendar_today_outlined, size: 12, color: _textMuted),
+                              const SizedBox(width: 4),
+                              Text(e['date']!, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark)),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(e['time']!, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                                  Text((e['time']!.startsWith('12') || e['time']!.startsWith('11')) ? 'PM' : 'AM', style: const TextStyle(fontSize: 11, color: _textMuted)),
+                                ],
+                              ),
+                              if (!isUpcoming) ...[
+                                const SizedBox(width: 6),
+                                const Icon(Icons.check_circle, size: 16, color: Color(0xFF2EBA7C)),
+                              ]
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
+                ],
+              ),
+            );
+          }).toList(),
+        ],
+      ),
     );
   }
 
@@ -1802,62 +2020,146 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
   }
 
   void _showEditTeachersBottomSheet() {
-    // Local state for the text controllers
-    final controllers = _teachersData.map((t) => TextEditingController(text: t['name'] as String)).toList();
+    // Local state for selected teachers
+    final List<String> selectedTeachers = _teachersData.map((t) => t['name'] as String).toList();
     
+    // A mock list of available teachers to pick from
+    final List<String> availableTeachers = [
+      'Meera Joshi', 'Riya Kapoor', 'Pooja Rao', 'Anita Sharma', 
+      'Sneha Patil', 'Ravi Kumar', 'Kavya Singh', 'Sunita Verma'
+    ];
+    
+    // Ensure current teachers are in the available list
+    for (var t in selectedTeachers) {
+      if (!availableTeachers.contains(t)) {
+        availableTeachers.add(t);
+      }
+    }
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 24, right: 24, top: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('Assign Class Teachers', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                      IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  ...List.generate(_teachersData.length, (i) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedTeachers[i],
+                        decoration: InputDecoration(
+                          labelText: '${_teachersData[i]['section']} Teacher',
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        items: availableTeachers.map((t) {
+                          return DropdownMenuItem(value: t, child: Text(t));
+                        }).toList(),
+                        onChanged: (val) {
+                          if (val != null) {
+                            setModalState(() {
+                              selectedTeachers[i] = val;
+                            });
+                          }
+                        },
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _accent,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          for (int i = 0; i < _teachersData.length; i++) {
+                            _teachersData[i]['name'] = selectedTeachers[i];
+                            final nameQuery = selectedTeachers[i].replaceAll(' ', '+');
+                            _teachersData[i]['avatar'] = 'https://ui-avatars.com/api/?name=$nameQuery&background=EBE6FF&color=6C5CE7';
+                          }
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Save Assignments', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
+            );
+          }
+        );
+      },
+    );
+  }
+
+  void _showStudentFilterBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFFF4F6F9),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 24, right: 24, top: 24),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header matching View Fees style
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Edit Teachers', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-                  IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              ...List.generate(_teachersData.length, (i) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: TextField(
-                    controller: controllers[i],
-                    decoration: InputDecoration(
-                      labelText: '${_teachersData[i]['section']} Teacher',
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(color: const Color(0xFFEFEAFB), borderRadius: BorderRadius.circular(12)),
+                    child: const Icon(Icons.filter_alt_outlined, color: _accent, size: 24),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Filter Students', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                        const SizedBox(height: 4),
+                        const Text('Choose status to filter list', style: TextStyle(fontSize: 12, color: _textMuted)),
+                      ],
                     ),
                   ),
-                );
-              }),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _accent,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  IconButton(
+                    icon: const Icon(Icons.close, color: _textMuted),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      for (int i = 0; i < _teachersData.length; i++) {
-                        _teachersData[i]['name'] = controllers[i].text;
-                      }
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Save Changes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                ),
+                ],
               ),
               const SizedBox(height: 24),
+              _buildFilterOption('All', 'All Students', Icons.group_outlined),
+              const SizedBox(height: 12),
+              _buildFilterOption('ACTIVE', 'Active Only', Icons.check_circle_outline),
+              const SizedBox(height: 12),
+              _buildFilterOption('LOW ATTD.', 'Low Attendance', Icons.warning_amber_outlined),
+              const SizedBox(height: 16),
             ],
           ),
         );
@@ -1865,68 +2167,137 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
 
-  void _showEditTimetableBottomSheet() {
-    final controllers = _timetableSubjects.map((s) => TextEditingController(text: s)).toList();
-    
+  Widget _buildFilterOption(String value, String label, IconData icon) {
+    final isSelected = _selectedStudentFilter == value;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedStudentFilter = value;
+          _currentStudentPage = 1;
+        });
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: isSelected ? _accent : _borderColor, width: isSelected ? 1.5 : 1.0),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 8, offset: const Offset(0, 2))
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: isSelected ? const Color(0xFFF3F0FF) : Colors.grey.shade50, shape: BoxShape.circle),
+              child: Icon(icon, color: isSelected ? _accent : _textMuted, size: 20),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(label, style: TextStyle(fontSize: 14, fontWeight: isSelected ? FontWeight.bold : FontWeight.w500, color: isSelected ? _accent : _textDark)),
+            ),
+            if (isSelected) const Icon(Icons.check_circle, color: _accent),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showAttendanceFilterBottomSheet() {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF4F6F9),
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 24, right: 24, top: 24),
+          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Edit Timetable Subjects', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-                  IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              ...List.generate(_timetableSubjects.length, (i) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: TextField(
-                    controller: controllers[i],
-                    decoration: InputDecoration(
-                      labelText: 'Subject ${i + 1}',
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(color: const Color(0xFFEFEAFB), borderRadius: BorderRadius.circular(12)),
+                    child: const Icon(Icons.calendar_today_outlined, color: _accent, size: 24),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Filter Attendance', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                        const SizedBox(height: 4),
+                        const Text('Select timeframe to view', style: TextStyle(fontSize: 12, color: _textMuted)),
+                      ],
                     ),
                   ),
-                );
-              }),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _accent,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  IconButton(
+                    icon: const Icon(Icons.close, color: _textMuted),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => Navigator.pop(context),
                   ),
-                  onPressed: () {
-                    setState(() {
-                      for (int i = 0; i < _timetableSubjects.length; i++) {
-                        _timetableSubjects[i] = controllers[i].text;
-                      }
-                    });
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Save Changes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                ),
+                ],
               ),
               const SizedBox(height: 24),
+              _buildAttendanceFilterOption('Today', 'Today', Icons.today),
+              const SizedBox(height: 12),
+              _buildAttendanceFilterOption('This Week', 'This Week', Icons.view_week_outlined),
+              const SizedBox(height: 12),
+              _buildAttendanceFilterOption('This Month', 'This Month', Icons.calendar_month_outlined),
+              const SizedBox(height: 12),
+              _buildAttendanceFilterOption('Overall', 'Overall', Icons.history),
+              const SizedBox(height: 16),
             ],
           ),
         );
       },
     );
   }
+
+  Widget _buildAttendanceFilterOption(String value, String label, IconData icon) {
+    final isSelected = _selectedAttendanceFilter == value;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedAttendanceFilter = value;
+        });
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: isSelected ? _accent : _borderColor, width: isSelected ? 1.5 : 1.0),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 8, offset: const Offset(0, 2))
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: isSelected ? const Color(0xFFF3F0FF) : Colors.grey.shade50, shape: BoxShape.circle),
+              child: Icon(icon, color: isSelected ? _accent : _textMuted, size: 20),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(label, style: TextStyle(fontSize: 14, fontWeight: isSelected ? FontWeight.bold : FontWeight.w500, color: isSelected ? _accent : _textDark)),
+            ),
+            if (isSelected) const Icon(Icons.check_circle, color: _accent),
+          ],
+        ),
+      ),
+    );
+  }
+
 
   void _showEditSyllabusBottomSheet(int index) {
     final subject = _syllabusData[index];
@@ -1994,6 +2365,131 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               ),
               const SizedBox(height: 24),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showEditExamsBottomSheet() {
+    // Only edit the exams for the selected section, or all if 'All' is selected.
+    final examsToEdit = _selectedSection == 'All' 
+        ? _upcomingExamsData 
+        : _upcomingExamsData.where((e) => e['section'] == _selectedSection.toUpperCase()).toList();
+
+    // Local state for the controllers
+    final subjectControllers = examsToEdit.map((e) => TextEditingController(text: e['subject'])).toList();
+    final typeControllers = examsToEdit.map((e) => TextEditingController(text: e['type'])).toList();
+    final dateControllers = examsToEdit.map((e) => TextEditingController(text: e['date'])).toList();
+    final timeControllers = examsToEdit.map((e) => TextEditingController(text: e['time'])).toList();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 24, right: 24, top: 24),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Edit Upcoming Exams', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                    IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: examsToEdit.length,
+                    itemBuilder: (context, i) {
+                      final exam = examsToEdit[i];
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F7FF),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: _borderColor),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(exam['section']!, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: subjectControllers[i],
+                                    decoration: const InputDecoration(labelText: 'Subject', isDense: true),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: TextField(
+                                    controller: typeControllers[i],
+                                    decoration: const InputDecoration(labelText: 'Type (e.g. Unit Test)', isDense: true),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextField(
+                                    controller: dateControllers[i],
+                                    decoration: const InputDecoration(labelText: 'Date (e.g. 08 Jun)', isDense: true),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: TextField(
+                                    controller: timeControllers[i],
+                                    decoration: const InputDecoration(labelText: 'Time (e.g. 9:00)', isDense: true),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _accent,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          for (int i = 0; i < examsToEdit.length; i++) {
+                            examsToEdit[i]['subject'] = subjectControllers[i].text;
+                            examsToEdit[i]['type'] = typeControllers[i].text;
+                            examsToEdit[i]['date'] = dateControllers[i].text;
+                            examsToEdit[i]['time'] = timeControllers[i].text;
+                          }
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Save Changes', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

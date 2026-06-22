@@ -663,7 +663,7 @@ class MockData {
       'status': 'Complete',
       'statusColor': Color(0xFF8463E9),
       'statusBg': Colors.white,
-      'avatar': 'https://i.pravatar.cc/150?u=riya',
+      'avatar': 'https://ui-avatars.com/api/?name=Riya+Sharma&background=EBE6FF&color=6C5CE7',
     },
     {
       'name': 'Kabir Nair',
@@ -671,7 +671,7 @@ class MockData {
       'status': 'On-hold',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'https://i.pravatar.cc/150?u=kabir',
+      'avatar': 'https://ui-avatars.com/api/?name=Kabir+Nair&background=F3F0FF&color=6C5CE7',
     },
     {
       'name': 'Sara Ali',
@@ -679,7 +679,7 @@ class MockData {
       'status': 'Pending Docs',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'https://i.pravatar.cc/150?u=sara',
+      'avatar': 'https://ui-avatars.com/api/?name=Sara+Ali&background=EBE6FF&color=6C5CE7',
     },
   ];
 
@@ -741,13 +741,13 @@ class MockData {
         'name': 'Meera Joshi',
         'students': 25,
         'section': 'NURSERY A',
-        'avatar': 'https://i.pravatar.cc/150?u=meera',
+        'avatar': 'https://ui-avatars.com/api/?name=Meera+Joshi&background=EBE6FF&color=6C5CE7',
       },
       {
         'name': 'Riya Kapoor',
         'students': 24,
         'section': 'NURSERY B',
-        'avatar': 'https://i.pravatar.cc/150?u=riya2',
+        'avatar': 'https://ui-avatars.com/api/?name=Riya+Kapoor&background=F3F0FF&color=6C5CE7',
       },
     ]
   };
@@ -781,15 +781,17 @@ class MockData {
   ];
 
   static const classStudentsList = [
-    {'name': 'Aarav Sharma', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://i.pravatar.cc/150?u=aarav'},
-    {'name': 'Ayaan Nair', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=ayaan'},
-    {'name': 'Pari Joshi', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=pari'},
-    {'name': 'Vivaan Gupta', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://i.pravatar.cc/150?u=vivaan'},
-    {'name': 'Krishna Iyer', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=krishna'},
-    {'name': 'Anika Kapoor', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=anika'},
-    {'name': 'Aditya Menon', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=aditya'},
-    {'name': 'Ishaan Verma', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=ishaan'},
-    {'name': 'Navya Reddy', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=navya'},
-    {'name': 'Vihaan Bhat', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://i.pravatar.cc/150?u=vihaan'},
+    {'name': 'Aarav Sharma', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://ui-avatars.com/api/?name=Aarav+Sharma&background=EBE6FF&color=6C5CE7'},
+    {'name': 'Ayaan Nair', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Ayaan+Nair&background=F3F0FF&color=6C5CE7'},
+    {'name': 'Pari Joshi', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Pari+Joshi&background=EBE6FF&color=6C5CE7'},
+    {'name': 'Vivaan Gupta', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://ui-avatars.com/api/?name=Vivaan+Gupta&background=F3F0FF&color=6C5CE7'},
+    {'name': 'Krishna Iyer', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Krishna+Iyer&background=EBE6FF&color=6C5CE7'},
+    {'name': 'Anika Kapoor', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Anika+Kapoor&background=F3F0FF&color=6C5CE7'},
+    {'name': 'Aditya Menon', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Aditya+Menon&background=EBE6FF&color=6C5CE7'},
+    {'name': 'Ishaan Verma', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Ishaan+Verma&background=F3F0FF&color=6C5CE7'},
+    {'name': 'Navya Reddy', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Navya+Reddy&background=EBE6FF&color=6C5CE7'},
+    {'name': 'Vihaan Bhat', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Vihaan+Bhat&background=F3F0FF&color=6C5CE7'},
+    {'name': 'Buddala Harsha Kumar', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Buddala+Harsha+Kumar&background=EBE6FF&color=6C5CE7', 'section': 'NURSERY A'},
+    {'name': 'Thungunta Ram Rathan Reddy', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Thungunta+Ram+Rathan+Reddy&background=F3F0FF&color=6C5CE7', 'section': 'NURSERY A'},
   ];
 }

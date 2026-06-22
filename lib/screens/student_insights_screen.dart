@@ -340,24 +340,28 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
-                          child: const Icon(Icons.home_outlined, size: 20, color: _accent),
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(cls['name'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
-                            const SizedBox(height: 2),
-                            Text(cls['sections'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
-                          ],
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
+                            child: const Icon(Icons.home_outlined, size: 20, color: _accent),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(cls['name'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                const SizedBox(height: 2),
+                                Text(cls['sections'] as String, style: const TextStyle(fontSize: 11, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     const Icon(Icons.more_vert, size: 18, color: _textMuted),
                   ],
@@ -367,7 +371,16 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Class Teacher', style: TextStyle(fontSize: 11, color: _textMuted)),
-                    Text(cls['teacher'] as String, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        cls['teacher'] as String, 
+                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark),
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -808,6 +821,8 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       children: [
         const Row(
           children: [
+            Icon(Icons.auto_awesome, color: _accent, size: 22),
+            SizedBox(width: 8),
             Text('Today\'s Highlights', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           ],
         ),

@@ -25,8 +25,9 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           builder: (context, widget) {
+            final data = MediaQuery.maybeOf(context) ?? const MediaQueryData();
             return MediaQuery(
-              data: MediaQuery.of(context).copyWith(textScaler: TextScaler.noScaling),
+              data: data.copyWith(textScaler: TextScaler.noScaling),
               child: widget!,
             );
           },

@@ -11,6 +11,8 @@ import '../dashboard/activity_feed_screen.dart';
 import '../coming_soon_screen.dart';
 import '../students/students_list_screen.dart';
 import '../dashboard/insights_dashboard_screen.dart';
+import '../non_teaching/staff_insights_screen.dart';
+import '../cctv/cctv_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   final String activeScreen;
@@ -230,11 +232,11 @@ class MenuScreen extends StatelessWidget {
                   _buildMenuItem(context, 'Financial Summary', LucideIcons.creditCard, const InsightsDashboardScreen(initialIndex: 1)),
                   _buildSectionTitle('OPERATIONS', topPadding: 20.h),
                   _buildMenuItem(context, 'Teacher Insights', LucideIcons.monitor, const InsightsDashboardScreen(initialIndex: 2)),
-                  _buildMenuItem(context, 'Non Teaching Staff', LucideIcons.briefcase, const ComingSoonScreen(title: 'Non Teaching Staff')),
+                  _buildMenuItem(context, 'Non Teaching Staff', LucideIcons.briefcase, const StaffInsightsScreen()),
                   _buildMenuItem(context, 'Transport Insights', LucideIcons.bus, const TransportInsightsScreen()),
                   _buildMenuItem(context, 'Hostel Insights', LucideIcons.bedDouble, const InsightsDashboardScreen(initialIndex: 3)),
                   _buildMenuItem(context, 'Daycare Insights', LucideIcons.baby, const ComingSoonScreen(title: 'Daycare Insights')),
-                  _buildMenuItem(context, 'CCTV Cameras', LucideIcons.video, const ComingSoonScreen(title: 'CCTV Cameras')),
+                  _buildMenuItem(context, 'CCTV Cameras', LucideIcons.video, const CCTVScreen()),
                   _buildSectionTitle('SERVICES', topPadding: 20.h),
                   _buildMenuItem(context, 'Library Insights', LucideIcons.bookOpen, const ComingSoonScreen(title: 'Library Insights')),
                   _buildMenuItem(context, 'Inventory Insights', LucideIcons.package, const ComingSoonScreen(title: 'Inventory Insights')),

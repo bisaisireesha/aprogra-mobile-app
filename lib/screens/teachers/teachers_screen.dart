@@ -47,7 +47,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  child: CommonAppBar(showMenu: false),
+                  child: CommonAppBar(),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -220,7 +220,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
-      childAspectRatio: 0.82,
+      childAspectRatio: isTablet ? 1.3 : 1.2,
       children: [
         _buildKPICard('Total Teachers', '124', 'Active on roll', const Color(0xFFEEF2FF), const Color(0xFF6366F1), LucideIcons.users),
         _buildKPICard('Present Today', '110', '89% attendance', const Color(0xFFE8FDF3), const Color(0xFF10B981), LucideIcons.userCheck),
@@ -258,7 +258,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
             ),
             child: Icon(icon, size: 20, color: iconColor),
           ),
-          const Spacer(),
+          const SizedBox(height: 12),
           Text(title, style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF4B5563)), maxLines: 1, overflow: TextOverflow.ellipsis),
           const SizedBox(height: 6),
           Text(value, style: GoogleFonts.figtree(fontSize: 26, fontWeight: FontWeight.bold, color: _textDark, height: 1.1)),
@@ -482,7 +482,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
             children: [
               _buildTeacherRow(
                 t['initials'] as String, t['name'] as String, t['grades'] as String, t['subject'] as String, 
-                t['icon'] as IconData, t['status'] as String, t['color'] as Color, t['classes'] as String, t['note'] as String
+                t['status'] as String, t['color'] as Color, t['classes'] as String, t['note'] as String
               ),
               if (idx < filtered.length - 1)
                 const Divider(height: 1, color: Color(0xFFE5E7EB)),
@@ -493,7 +493,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
     );
   }
 
-  Widget _buildTeacherRow(String initials, String name, String grades, String subject, IconData subjectIcon, String status, Color avatarColor, String classes, String nextNote) {
+  Widget _buildTeacherRow(String initials, String name, String grades, String subject, String status, Color avatarColor, String classes, String nextNote) {
     Color statusBg, statusColor;
     if (status == 'Present') {
       statusBg = const Color(0xFFE8FDF3); statusColor = const Color(0xFF10B981);
@@ -550,18 +550,10 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Icon(subjectIcon, size: 14, color: _textMuted),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          subject, 
-                          style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark, letterSpacing: -0.2),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+                  Text(
+                    subject, 
+                    style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark, letterSpacing: -0.2),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Container(

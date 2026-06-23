@@ -22,6 +22,7 @@ class StudentInsightsScreen extends StatefulWidget {
 class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final int _selectedIndex = 0; // Academics tab
+  int _selectedFilterIndex = 1;
 
   void _onItemTapped(int index) {
     if (index == _selectedIndex) return;
@@ -96,7 +97,9 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         _buildHeader(),
                         const SizedBox(height: 24),
                         _buildTopKPIs(isTablet),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 24),
+                        _buildFilterButtons(),
+                        const SizedBox(height: 24),
                         _buildClassSectionsGrid(isTablet),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Recent Activity', 'View all'),
@@ -193,8 +196,58 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
+  Widget _buildFilterButtons() {
+    return Row(
+      children: [
+        Expanded(child: _buildFilterButton('Pre-Primary', 1)),
+        const SizedBox(width: 8),
+        Expanded(child: _buildFilterButton('Primary', 2)),
+        const SizedBox(width: 8),
+        Expanded(child: _buildFilterButton('Secondary', 3)),
+      ],
+    );
+  }
+
+  Widget _buildFilterButton(String label, int index) {
+    bool isSelected = _selectedFilterIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedFilterIndex = index;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? _accent : Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: isSelected ? _accent : _borderColor),
+          boxShadow: isSelected ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+            color: isSelected ? Colors.white : _textMuted,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildClassSectionsGrid(bool isTablet) {
-    List<Map<String, dynamic>> classesData = MockData.studentInsightsClasses;
+    List<Map<String, dynamic>> classesData;
+    if (_selectedFilterIndex == 1) {
+      classesData = MockData.studentInsightsClasses;
+    } else if (_selectedFilterIndex == 2) {
+      classesData = MockData.studentInsightsClassesPrimary;
+    } else if (_selectedFilterIndex == 3) {
+      classesData = MockData.studentInsightsClassesSecondary;
+    } else {
+      classesData = MockData.studentInsightsClasses;
+    }
 
     return GridView.builder(
       shrinkWrap: true,

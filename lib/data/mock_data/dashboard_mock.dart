@@ -464,7 +464,7 @@ class MockData {
     },
   ];
 
-  static const studentInsightsClasses = [
+  static List<Map<String, dynamic>> studentInsightsClasses = [
     {
       'name': 'Nursery',
       'sections': '2 Sections',
@@ -488,7 +488,7 @@ class MockData {
     },
   ];
 
-  static const studentInsightsClassesPrimary = [
+  static List<Map<String, dynamic>> studentInsightsClassesPrimary = [
     {
       'name': 'Class 1',
       'sections': '3 Sections',
@@ -526,7 +526,7 @@ class MockData {
     },
   ];
 
-  static const studentInsightsClassesSecondary = [
+  static List<Map<String, dynamic>> studentInsightsClassesSecondary = [
     {
       'name': 'Class 6',
       'sections': '4 Sections',

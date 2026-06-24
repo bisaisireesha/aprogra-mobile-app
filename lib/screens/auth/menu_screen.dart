@@ -13,11 +13,39 @@ import '../students/students_list_screen.dart';
 import '../dashboard/insights_dashboard_screen.dart';
 import '../non_teaching/staff_insights_screen.dart';
 import '../cctv/cctv_screen.dart';
+import '../library/library_insights_screen.dart';
+import '../inventory/inventory_insights_screen.dart';
+import '../classes/classes_screen.dart';
+import '../subjects/subjects_screen.dart';
 
-class MenuScreen extends StatelessWidget {
+class MenuScreen extends StatefulWidget {
   final String activeScreen;
 
   const MenuScreen({super.key, required this.activeScreen});
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  late String _activeGroup;
+
+  @override
+  void initState() {
+    super.initState();
+    _activeGroup = _isAcademicsGroup(widget.activeScreen) ? 'Academics' : 'Overview';
+  }
+
+  bool _isAcademicsGroup(String screen) {
+    const academicsScreens = [
+      'Academics', 'Student Insights', 'Classes', 'Subjects', 'Students',
+      'Timetables', 'Teachers', 'Homework', 'Assignments',
+      'Student Attendance', 'Teacher Attendance', 'Exams', 'Grade Scales',
+      'Marks Entry', 'Report Cards', 'Learning Resources', 'Transfer Certificates',
+      'Bonafide Certificates', 'Custom Certificates'
+    ];
+    return academicsScreens.contains(screen);
+  }
 
   void _navigateTo(BuildContext context, Widget screen) {
     Navigator.pop(context); // Close drawer
@@ -103,19 +131,37 @@ class MenuScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildRailIcon(context, LucideIcons.layoutGrid, activeScreen == 'Main Dashboard' || activeScreen == 'Action Center' || activeScreen == 'Activity Feed', const DashboardScreen()),
-                  _buildRailIcon(context, LucideIcons.graduationCap, activeScreen == 'Academics' || activeScreen == 'Student Insights', const StudentInsightsScreen()),
-                  _buildRailIcon(context, LucideIcons.users, activeScreen == 'Staff' || activeScreen == 'Teacher Insights' || activeScreen == 'Non Teaching Staff', const ComingSoonScreen(title: 'Staff')),
-                  _buildRailIcon(context, LucideIcons.creditCard, activeScreen == 'Financial Summary', const ComingSoonScreen(title: 'Financial Summary')),
-                  _buildRailIcon(context, LucideIcons.calendar, activeScreen == 'Calendar', const ComingSoonScreen(title: 'Calendar')),
-                  _buildRailIcon(context, LucideIcons.messageSquare, activeScreen == 'Messages', const ComingSoonScreen(title: 'Messages'), hasBadge: true),
-                  _buildRailIcon(context, LucideIcons.home, activeScreen == 'Home' || activeScreen == 'Admissions Insights', const ComingSoonScreen(title: 'Home')),
-                  _buildRailIcon(context, LucideIcons.bus, activeScreen == 'Transport', const ComingSoonScreen(title: 'Transport')),
+                  _buildRailIcon(context, LucideIcons.layoutGrid, _activeGroup == 'Overview', () {
+                    setState(() { _activeGroup = 'Overview'; });
+                  }),
+                  _buildRailIcon(context, LucideIcons.graduationCap, _activeGroup == 'Academics', () {
+                    setState(() { _activeGroup = 'Academics'; });
+                  }),
+                  _buildRailIcon(context, LucideIcons.users, widget.activeScreen == 'Staff' || widget.activeScreen == 'Teacher Insights' || widget.activeScreen == 'Non Teaching Staff', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Staff'));
+                  }),
+                  _buildRailIcon(context, LucideIcons.creditCard, widget.activeScreen == 'Financial Summary', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Financial Summary'));
+                  }),
+                  _buildRailIcon(context, LucideIcons.calendar, widget.activeScreen == 'Calendar', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Calendar'));
+                  }),
+                  _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Messages'));
+                  }, hasBadge: true),
+                  _buildRailIcon(context, LucideIcons.home, widget.activeScreen == 'Home' || widget.activeScreen == 'Admissions Insights', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Home'));
+                  }),
+                  _buildRailIcon(context, LucideIcons.bus, widget.activeScreen == 'Transport', () {
+                    _navigateTo(context, const ComingSoonScreen(title: 'Transport'));
+                  }),
                 ],
               ),
             ),
           ),
-                    _buildRailIcon(context, LucideIcons.bell, activeScreen == 'Notifications', const ComingSoonScreen(title: 'Notifications')),
+          _buildRailIcon(context, LucideIcons.bell, widget.activeScreen == 'Notifications', () {
+            _navigateTo(context, const ComingSoonScreen(title: 'Notifications'));
+          }),
                     SizedBox(height: 16.h),
                     CircleAvatar(
                       radius: 24.r, 
@@ -133,13 +179,9 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRailIcon(BuildContext context, IconData icon, bool isActive, Widget? screen, {bool hasBadge = false}) {
+  Widget _buildRailIcon(BuildContext context, IconData icon, bool isActive, VoidCallback onTap, {bool hasBadge = false}) {
     return GestureDetector(
-      onTap: () {
-        if (screen != null && !isActive) {
-          _navigateTo(context, screen);
-        }
-      },
+      onTap: isActive ? null : onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8.h),
@@ -180,6 +222,10 @@ class MenuScreen extends StatelessWidget {
   }
 
   Widget _buildRightPane(BuildContext context) {
+    if (_activeGroup == 'Academics') {
+      return _buildAcademicsRightPane(context);
+    }
+    
     return Container(
       decoration: const BoxDecoration(
         color: Colors.transparent, 
@@ -238,8 +284,8 @@ class MenuScreen extends StatelessWidget {
                   _buildMenuItem(context, 'Daycare Insights', LucideIcons.baby, const ComingSoonScreen(title: 'Daycare Insights')),
                   _buildMenuItem(context, 'CCTV Cameras', LucideIcons.video, const CCTVScreen()),
                   _buildSectionTitle('SERVICES', topPadding: 20.h),
-                  _buildMenuItem(context, 'Library Insights', LucideIcons.bookOpen, const ComingSoonScreen(title: 'Library Insights')),
-                  _buildMenuItem(context, 'Inventory Insights', LucideIcons.package, const ComingSoonScreen(title: 'Inventory Insights')),
+                  _buildMenuItem(context, 'Library Insights', LucideIcons.bookOpen, const LibraryInsightsScreen()),
+                  _buildMenuItem(context, 'Inventory Insights', LucideIcons.package, const InventoryInsightsScreen()),
                   _buildSectionTitle('SYSTEM', topPadding: 20.h),
                   _buildMenuItem(context, 'Settings', LucideIcons.settings, const SettingsScreen()),
                 ],
@@ -251,9 +297,90 @@ class MenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title, {double? topPadding}) {
+  Widget _buildAcademicsRightPane(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.transparent, 
+      ),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Fixed Header
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Academics',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Manage academic structure and learning',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+          // Scrollable Menu List
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('ACADEMIC STRUCTURE', topPadding: 20.h),
+                  _buildMenuItem(context, 'Classes', LucideIcons.graduationCap, const ClassesScreen()),
+                  _buildMenuItem(context, 'Subjects', LucideIcons.bookOpen, const SubjectsScreen()),
+                  _buildMenuItem(context, 'Students', LucideIcons.users, const ComingSoonScreen(title: 'Students')),
+                  
+                  _buildSectionTitle('TEACHING', topPadding: 20.h),
+                  _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const ComingSoonScreen(title: 'Timetables')),
+                  _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const ComingSoonScreen(title: 'Teachers')),
+                  _buildMenuItem(context, 'Homework', LucideIcons.edit3, const ComingSoonScreen(title: 'Homework')),
+                  _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Assignments')),
+                  
+                  _buildSectionTitle('ATTENDANCE', topPadding: 20.h),
+                  _buildMenuItem(context, 'Student Attendance', LucideIcons.calendarCheck, const ComingSoonScreen(title: 'Student Attendance')),
+                  _buildMenuItem(context, 'Teacher Attendance', LucideIcons.userCheck, const ComingSoonScreen(title: 'Teacher Attendance')),
+                  
+                  _buildSectionTitle('ASSESSMENTS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Exams', LucideIcons.clipboard, const ComingSoonScreen(title: 'Exams')),
+                  _buildMenuItem(context, 'Grade Scales', LucideIcons.barChart, const ComingSoonScreen(title: 'Grade Scales')),
+                  _buildMenuItem(context, 'Marks Entry', LucideIcons.edit, const ComingSoonScreen(title: 'Marks Entry')),
+                  _buildMenuItem(context, 'Report Cards', LucideIcons.fileText, const ComingSoonScreen(title: 'Report Cards')),
+                  
+                  _buildSectionTitle('LEARNING', topPadding: 20.h),
+                  _buildMenuItem(context, 'Learning Resources', LucideIcons.book, const ComingSoonScreen(title: 'Learning Resources')),
+                  
+                  _buildSectionTitle('CERTIFICATES', topPadding: 20.h),
+                  _buildMenuItem(context, 'Transfer Certificates', LucideIcons.fileMinus, const ComingSoonScreen(title: 'Transfer Certificates')),
+                  _buildMenuItem(context, 'Bonafide Certificates', LucideIcons.shieldCheck, const ComingSoonScreen(title: 'Bonafide Certificates')),
+                  _buildMenuItem(context, 'Custom Certificates', LucideIcons.award, const ComingSoonScreen(title: 'Custom Certificates')),
+                  
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title, {double topPadding = 0}) {
     return Padding(
-      padding: EdgeInsets.only(left: 8.w, bottom: 10.h, top: topPadding ?? 16.h),
+      padding: EdgeInsets.only(left: 8.w, bottom: 10.h, top: topPadding > 0 ? topPadding : 16.h),
       child: Text(
         title,
         style: GoogleFonts.inter(
@@ -267,7 +394,7 @@ class MenuScreen extends StatelessWidget {
   }
 
   Widget _buildMenuItem(BuildContext context, String title, IconData icon, Widget screen) {
-    final isActive = activeScreen == title || (activeScreen == 'Main Dashboard' && title == 'Main Dashboard');
+    final isActive = widget.activeScreen == title || (widget.activeScreen == 'Main Dashboard' && title == 'Main Dashboard');
     return GestureDetector(
       onTap: () => _navigateTo(context, screen),
       behavior: HitTestBehavior.opaque,

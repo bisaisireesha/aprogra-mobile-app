@@ -7,7 +7,14 @@ import '../data/mock_data/dashboard_mock.dart';
 class MockService {
   Future<List<StudentModel>> getStudents() async {
     await Future.delayed(const Duration(milliseconds: 500));
-    return mockStudents;
+    return StudentsMockData.studentsList.map((s) => StudentModel(
+      id: s['initials'] ?? '',
+      name: s['name'] ?? '',
+      grade: s['class'] ?? '',
+      section: 'A',
+      rollNo: s['roll'] ?? '',
+      avatarUrl: '',
+    )).toList();
   }
 
   Future<List<TeacherModel>> getTeachers() async {

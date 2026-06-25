@@ -1,9 +1,109 @@
-import '../models/student_model.dart';
-
-final List<StudentModel> mockStudents = [
-  StudentModel(id: 'S001', name: 'Aarav Mehta', grade: 'VIII', section: 'B', rollNo: '42', avatarUrl: ''),
-  StudentModel(id: 'S002', name: 'Diya Sharma', grade: 'X', section: 'A', rollNo: '12', avatarUrl: ''),
-  StudentModel(id: 'S003', name: 'Kabir Khan', grade: 'VI', section: 'C', rollNo: '08', avatarUrl: ''),
-  StudentModel(id: 'S004', name: 'Saanvi Iyer', grade: 'IX', section: 'A', rollNo: '23', avatarUrl: ''),
-  StudentModel(id: 'S005', name: 'Vivaan Gupta', grade: 'VII', section: 'B', rollNo: '34', avatarUrl: ''),
-];
+class StudentsMockData {
+  static List<Map<String, dynamic>> studentsList = [
+    {
+      'initials': 'AS',
+      'name': 'Aarav Sharma',
+      'roll': 'Roll #1',
+      'class': 'Nursery A',
+      'parent': 'Rajesh Sharma',
+    },
+    {
+      'initials': 'AN',
+      'name': 'Ayaan Nair',
+      'roll': 'Roll #2',
+      'class': 'Nursery B',
+      'parent': 'Sanjay Nair',
+    },
+    {
+      'initials': 'PJ',
+      'name': 'Pari Joshi',
+      'roll': 'Roll #3',
+      'class': 'LKG A',
+      'parent': 'Kavita Joshi',
+    },
+    {
+      'initials': 'RG',
+      'name': 'Rohan Gupta',
+      'roll': 'Roll #4',
+      'class': 'LKG B',
+      'parent': 'Amit Gupta',
+    },
+    {
+      'initials': 'VM',
+      'name': 'Vihaan Mehta',
+      'roll': 'Roll #5',
+      'class': 'UKG A',
+      'parent': 'Deepak Mehta',
+    },
+    {
+      'initials': 'AV',
+      'name': 'Aanya Verma',
+      'roll': 'Roll #6',
+      'class': 'UKG B',
+      'parent': 'Meera Verma',
+    },
+    {
+      'initials': 'MR',
+      'name': 'Myra Reddy',
+      'roll': 'Roll #7',
+      'class': 'Nursery A',
+      'parent': 'Manoj Reddy',
+    },
+    {
+      'initials': 'ZB',
+      'name': 'Zoya Bhat',
+      'roll': 'Roll #8',
+      'class': 'Nursery B',
+      'parent': 'Sunita Bhat',
+    },
+    {
+      'initials': 'RS',
+      'name': 'Reyansh Singh',
+      'roll': 'Roll #9',
+      'class': 'LKG A',
+      'parent': 'Suresh Singh',
+    },
+    {
+      'initials': 'AP',
+      'name': 'Aadhya Patel',
+      'roll': 'Roll #10',
+      'class': 'LKG B',
+      'parent': 'Anil Patel',
+    },
+    {
+      'initials': 'KI',
+      'name': 'Kabir Iyer',
+      'roll': 'Roll #11',
+      'class': 'UKG A',
+      'parent': 'Anjali Iyer',
+    },
+    {
+      'initials': 'AK',
+      'name': 'Aditya Kapoor',
+      'roll': 'Roll #12',
+      'class': 'UKG B',
+      'parent': 'Vikram Kapoor',
+    },
+    {
+      'initials': 'IM',
+      'name': 'Ishaan Menon',
+      'roll': 'Roll #13',
+      'class': 'Nursery A',
+      'parent': 'Priya Menon',
+    },
+    {
+      'initials': 'NK',
+      'name': 'Navya Khan',
+      'roll': 'Roll #14',
+      'class': 'Nursery B',
+      'parent': 'Rajesh Khan',
+    },
+    {
+      'initials': 'TS',
+      'name': 'Tara Sharma',
+      'roll': 'Roll #15',
+      'class': 'LKG A',
+      'parent': 'Sanjay Sharma',
+    },
+  ];
+}

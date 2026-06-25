@@ -10,6 +10,7 @@ import '../dashboard/action_center_screen.dart';
 import '../dashboard/activity_feed_screen.dart';
 import '../coming_soon_screen.dart';
 import '../students/students_list_screen.dart';
+import '../students/students_screen.dart';
 import '../dashboard/insights_dashboard_screen.dart';
 import '../non_teaching/staff_insights_screen.dart';
 import '../cctv/cctv_screen.dart';
@@ -17,7 +18,7 @@ import '../library/library_insights_screen.dart';
 import '../inventory/inventory_insights_screen.dart';
 import '../classes/classes_screen.dart';
 import '../subjects/subjects_screen.dart';
-
+import '../timetables/timetables_screen.dart';
 class MenuScreen extends StatefulWidget {
   final String activeScreen;
 
@@ -342,10 +343,10 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildSectionTitle('ACADEMIC STRUCTURE', topPadding: 20.h),
                   _buildMenuItem(context, 'Classes', LucideIcons.graduationCap, const ClassesScreen()),
                   _buildMenuItem(context, 'Subjects', LucideIcons.bookOpen, const SubjectsScreen()),
-                  _buildMenuItem(context, 'Students', LucideIcons.users, const ComingSoonScreen(title: 'Students')),
+                  _buildMenuItem(context, 'Students', LucideIcons.users, const StudentsScreen()),
                   
                   _buildSectionTitle('TEACHING', topPadding: 20.h),
-                  _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const ComingSoonScreen(title: 'Timetables')),
+                  _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const TimetablesScreen()),
                   _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const ComingSoonScreen(title: 'Teachers')),
                   _buildMenuItem(context, 'Homework', LucideIcons.edit3, const ComingSoonScreen(title: 'Homework')),
                   _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Assignments')),

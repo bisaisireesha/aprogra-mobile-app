@@ -24,6 +24,14 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
 
   @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -47,6 +55,80 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         }
       });
     }
+  }
+
+  Future<void> _showEditSubjectPopup(Map<String, dynamic> subject) async {
+    // Inject the subject's category if it doesn't have it so the wizard knows.
+    final subjectWithCategory = Map<String, dynamic>.from(subject);
+    if (!subjectWithCategory.containsKey('category')) {
+      if (SubjectsMockData.prePrimarySubjects.contains(subject)) subjectWithCategory['category'] = 'Pre-Primary';
+      else if (SubjectsMockData.secondarySubjects.contains(subject)) subjectWithCategory['category'] = 'Secondary';
+      else subjectWithCategory['category'] = 'Primary';
+    }
+
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.3),
+      builder: (context) => CreateSubjectWizard(initialSubject: subjectWithCategory),
+    );
+
+    if (result != null) {
+      setState(() {
+        SubjectsMockData.prePrimarySubjects.remove(subject);
+        SubjectsMockData.primarySubjects.remove(subject);
+        SubjectsMockData.secondarySubjects.remove(subject);
+
+        if (result['category'] == 'Pre-Primary') {
+          SubjectsMockData.prePrimarySubjects.add(result);
+        } else if (result['category'] == 'Primary') {
+          SubjectsMockData.primarySubjects.add(result);
+        } else if (result['category'] == 'Secondary') {
+          SubjectsMockData.secondarySubjects.add(result);
+        }
+      });
+    }
+  }
+
+  Widget _buildSubjectActionMenu(Map<String, dynamic> subject) {
+    return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert, size: 20, color: _textMuted),
+      padding: EdgeInsets.zero,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      onSelected: (value) {
+        if (value == 'edit') {
+          _showEditSubjectPopup(subject);
+        } else if (value == 'delete') {
+          setState(() {
+            SubjectsMockData.prePrimarySubjects.remove(subject);
+            SubjectsMockData.primarySubjects.remove(subject);
+            SubjectsMockData.secondarySubjects.remove(subject);
+          });
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 'edit',
+          child: Row(
+            children: [
+              const Icon(Icons.edit_outlined, size: 18, color: _textDark),
+              const SizedBox(width: 8),
+              Text('Edit', style: GoogleFonts.figtree(color: _textDark, fontSize: 14)),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          child: Row(
+            children: [
+              const Icon(Icons.delete_outline, size: 18, color: Colors.red),
+              const SizedBox(width: 8),
+              Text('Delete', style: GoogleFonts.figtree(color: Colors.red, fontSize: 14)),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -92,7 +174,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB))),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
         bottom: false,
@@ -124,7 +209,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: 'Search subjects...',
+                          hintText: 'Search subjects or teachers...',
                           hintStyle: GoogleFonts.figtree(color: const Color(0xFF8F96A3), fontSize: 14),
                           border: InputBorder.none,
                           isDense: true,
@@ -137,6 +222,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 ),
               ),
             ),
+            const SizedBox(width: 16),
             const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
             const SizedBox(width: 16),
             const CircleAvatar(
@@ -180,50 +266,22 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   Widget _buildHeader() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        bool isWide = constraints.maxWidth > 600;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (isWide)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Subjects', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark)),
-                        const SizedBox(height: 8),
-                        Text('Subjects offered across every level, with assigned teachers and syllabus.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted)),
-                      ],
-                    ),
-                  ),
-                  _buildCreateButton(),
-                ],
-              )
-            else ...[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Subjects', style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
-                        const SizedBox(height: 8),
-                        Text('Subjects offered across every level, with assigned teachers and syllabus.', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
-                      ],
-                    ),
-                  ),
-                  _buildCreateButton(),
-                ],
-              ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Subjects', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark)),
+              const SizedBox(height: 8),
+              Text('Subjects offered across every level, with assigned teachers and syllabus.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted)),
             ],
-          ],
-        );
-      },
+          ),
+        ),
+        _buildCreateButton(),
+      ],
     );
   }
 
@@ -245,9 +303,18 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
   }
 
   List<Map<String, dynamic>> get _filteredSubjects {
-    if (_selectedFilterIndex == 0) return SubjectsMockData.prePrimarySubjects;
-    if (_selectedFilterIndex == 1) return SubjectsMockData.primarySubjects;
-    return SubjectsMockData.secondarySubjects;
+    List<Map<String, dynamic>> list;
+    if (_selectedFilterIndex == 0) list = SubjectsMockData.prePrimarySubjects;
+    else if (_selectedFilterIndex == 1) list = SubjectsMockData.primarySubjects;
+    else list = SubjectsMockData.secondarySubjects;
+
+    final query = _searchController.text.trim().toLowerCase();
+    if (query.isEmpty) return list;
+
+    return list.where((subject) {
+      return subject['subject'].toString().toLowerCase().contains(query) ||
+             subject['teacher'].toString().toLowerCase().contains(query);
+    }).toList();
   }
 
   Widget _buildFilterButtons() {
@@ -261,6 +328,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       ],
     );
   }
+
+
 
   Widget _buildFilterButton(String label, int index) {
     bool isSelected = _selectedFilterIndex == index;
@@ -387,12 +456,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   ],
                 ),
               ),
-              IconButton(
-                icon: const Icon(Icons.more_vert, size: 20, color: _textMuted),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                onPressed: () {},
-              ),
+              _buildSubjectActionMenu(subject),
             ],
           ),
           const SizedBox(height: 16),
@@ -525,12 +589,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
           // ACTION BUTTON
           SizedBox(
             width: 24,
-            child: IconButton(
-              icon: const Icon(Icons.more_vert, size: 18, color: _textMuted),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              onPressed: () {},
-            ),
+            child: _buildSubjectActionMenu(subject),
           ),
         ],
       ),

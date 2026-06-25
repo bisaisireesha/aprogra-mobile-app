@@ -6,7 +6,8 @@ const _textMuted = Color(0xFF595973);
 const _accent = Color(0xFF8463E9);
 
 class CreateSubjectWizard extends StatefulWidget {
-  const CreateSubjectWizard({super.key});
+  final Map<String, dynamic>? initialSubject;
+  const CreateSubjectWizard({super.key, this.initialSubject});
 
   @override
   State<CreateSubjectWizard> createState() => _CreateSubjectWizardState();
@@ -21,6 +22,21 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
   final List<Map<String, dynamic>> _units = [];
 
   bool get _isWide => MediaQuery.sizeOf(context).width > 600;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialSubject != null) {
+      _subjectName = widget.initialSubject!['subject'] ?? '';
+      _selectedTeacher = widget.initialSubject!['teacher'];
+      if (_selectedTeacher == 'Unassigned') _selectedTeacher = null;
+      
+      // Attempt to infer category if present, otherwise default to Primary
+      if (widget.initialSubject!.containsKey('category')) {
+        _selectedCategory = widget.initialSubject!['category'];
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -47,7 +63,9 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
       insetPadding: const EdgeInsets.all(24),
       child: Container(
         width: _isWide ? 500 : double.infinity,
-        height: _isWide ? 800 : MediaQuery.sizeOf(context).height * 0.9,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.9,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -101,7 +119,7 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
               const SizedBox(width: 16),
               Expanded(
                 child: Center(
-                  child: Text('Create New Subject', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+                  child: Text(widget.initialSubject != null ? 'Edit Subject' : 'Create New Subject', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
                 ),
               ),
               const SizedBox(width: 40), // Balance the close button for centering
@@ -194,7 +212,8 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
             border: Border.all(color: const Color(0xFFEBEBEB)),
             color: Colors.white,
           ),
-          child: TextField(
+          child: TextFormField(
+            initialValue: _subjectName,
             onChanged: (val) {
               setState(() {
                 _subjectName = val;
@@ -228,6 +247,9 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
           ),
           padding: const EdgeInsets.only(right: 8),
           child: DropdownButtonFormField<String>(
+            isExpanded: true,
+            dropdownColor: Colors.white,
+            menuMaxHeight: 300,
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.person_outline, color: Color(0xFF9CA3AF), size: 20),
               border: InputBorder.none,
@@ -376,7 +398,7 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             elevation: 0,
           ),
-          child: Text('Create Subject', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+          child: Text(widget.initialSubject != null ? 'Update Subject' : 'Create Subject', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
         ),
       ),
     );

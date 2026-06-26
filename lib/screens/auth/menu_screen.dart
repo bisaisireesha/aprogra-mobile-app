@@ -19,6 +19,7 @@ import '../inventory/inventory_insights_screen.dart';
 import '../classes/classes_screen.dart';
 import '../subjects/subjects_screen.dart';
 import '../timetables/timetables_screen.dart';
+import '../teachers/teachers_list_screen.dart';
 class MenuScreen extends StatefulWidget {
   final String activeScreen;
 
@@ -347,7 +348,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   
                   _buildSectionTitle('TEACHING', topPadding: 20.h),
                   _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const TimetablesScreen()),
-                  _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const ComingSoonScreen(title: 'Teachers')),
+                  _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const TeachersListScreen()),
                   _buildMenuItem(context, 'Homework', LucideIcons.edit3, const ComingSoonScreen(title: 'Homework')),
                   _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Assignments')),
                   

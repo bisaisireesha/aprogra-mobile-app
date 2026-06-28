@@ -16,7 +16,15 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
   final Color _textDark = const Color(0xFF111827);
   final Color _textMuted = const Color(0xFF6B7280);
   
+  final TextEditingController _searchController = TextEditingController();
   String _selectedStatus = 'All';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+  
   final List<Map<String, dynamic>> _allStaff = [
     {
       'initials': 'SI', 'name': 'Suresh Iyer', 'role': 'Front Desk Executive', 'dept': 'Administration', 
@@ -142,25 +150,49 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
         bottom: false,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(LucideIcons.menu, color: Color(0xFF111827)),
-                onPressed: () {
+              builder: (context) => GestureDetector(
+                onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
+                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
               ),
             ),
-            Text('Non-Teaching Staff', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-            IconButton(
-              icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF111827)),
-              onPressed: () {},
+            const SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F8),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const SizedBox(width: 16),
+            const CircleAvatar(
+              radius: 16,
+              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
             ),
           ],
         ),
@@ -193,13 +225,15 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
   Widget _buildKpis() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return GridView.count(
-          crossAxisCount: _isTablet ? 4 : 2,
+        return GridView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: _isTablet ? 1.4 : 0.85,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: _isTablet ? 4 : 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            mainAxisExtent: 164,
+          ),
           children: [
             _buildKpiCard(
               title: 'Total Staff',

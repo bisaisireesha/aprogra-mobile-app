@@ -15,6 +15,15 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
   final Color _textDark = const Color(0xFF111827);
   final Color _textMuted = const Color(0xFF6B7280);
 
+  final TextEditingController _searchController = TextEditingController();
+  int _bottomNavIndex = 3; // Staff/Departments
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   final List<Map<String, dynamic>> _departments = [
     {
       'name': 'Mathematics',
@@ -221,7 +230,8 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
         border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
       ),
       child: BottomNavigationBar(
-        currentIndex: 1, // Staff
+        currentIndex: _bottomNavIndex,
+        onTap: (index) => setState(() => _bottomNavIndex = index),
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         selectedItemColor: const Color(0xFF4F46E5),
@@ -229,10 +239,11 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
         selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
         unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today_outlined), label: 'Attendance'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          BottomNavigationBarItem(icon: Icon(Icons.show_chart), activeIcon: Icon(Icons.show_chart), label: 'Activity'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
         ],
       ),
     );
@@ -240,73 +251,49 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: Color(0xFFF3F4F6)))),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
         bottom: false,
         child: Row(
           children: [
             Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(LucideIcons.menu, color: Color(0xFF111827)),
-                onPressed: () => Scaffold.of(context).openDrawer(),
+              builder: (context) => GestureDetector(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
               ),
             ),
-            if (!_isTablet) 
-              Text('Departments', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-            
-            if (_isTablet) ...[
-              const SizedBox(width: 16),
-              Expanded(
+            const SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F8),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
                 child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search departments...',
-                    hintStyle: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
-                    prefixIcon: const Icon(LucideIcons.search, size: 18, color: Color(0xFF9CA3AF)),
-                    filled: true,
-                    fillColor: const Color(0xFFF9FAFB),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   ),
                 ),
               ),
-            ] else ...[
-               const Spacer(),
-               IconButton(
-                 icon: const Icon(LucideIcons.search, color: Color(0xFF111827)),
-                 onPressed: () {},
-               ),
-            ],
-            
-            const SizedBox(width: 8),
-            Stack(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.notifications_none_rounded, color: Color(0xFF4B5563)),
-                  onPressed: () {},
-                ),
-                Positioned(
-                  right: 12,
-                  top: 12,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: const BoxDecoration(color: Color(0xFFEF4444), shape: BoxShape.circle),
-                  ),
-                )
-              ],
             ),
-            const SizedBox(width: 8),
-            Container(
-              width: 32,
-              height: 32,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFFE0E7FF),
-              ),
-              child: const Center(
-                child: Text('A', style: TextStyle(color: Color(0xFF4F46E5), fontWeight: FontWeight.bold)),
-              ),
+            const SizedBox(width: 16),
+            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const SizedBox(width: 16),
+            const CircleAvatar(
+              radius: 16,
+              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
             ),
           ],
         ),
@@ -315,33 +302,67 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
   }
 
   Widget _buildScreenHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+        
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Column(
+            if (!isMobile)
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Departments', style: GoogleFonts.figtree(fontSize: _isTablet ? 28 : 24, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 8),
-                  Text('Department directory with head of department, member count, vacancies, and budget utilisation.',
-                      style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Departments',
+                          style: GoogleFonts.figtree(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Department directory with head of department, member count, vacancies, and budget utilisation.',
+                          style: GoogleFonts.figtree(
+                            fontSize: 16,
+                            color: _textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildAddButton(),
                 ],
+              )
+            else ...[
+              Text(
+                'Departments',
+                style: GoogleFonts.figtree(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
               ),
-            ),
-            if (_isTablet) const SizedBox(width: 16),
-            if (_isTablet) _buildAddButton(),
+              const SizedBox(height: 8),
+              Text(
+                'Department directory with head of department, member count, vacancies, and budget utilisation.',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  color: _textMuted,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _buildAddButton(),
+            ],
           ],
-        ),
-        if (!_isTablet) ...[
-          const SizedBox(height: 16),
-          SizedBox(width: double.infinity, child: _buildAddButton()),
-        ],
-      ],
+        );
+      },
     );
   }
 
@@ -349,12 +370,21 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
     return ElevatedButton.icon(
       onPressed: () {},
       icon: const Icon(Icons.add, size: 18, color: Colors.white),
-      label: Text('Add Department', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+      label: Text(
+        'Add Department',
+        style: GoogleFonts.figtree(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
+      ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF4F46E5),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        backgroundColor: const Color(0xFF8463E9),
         elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
   }
@@ -362,13 +392,15 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
   Widget _buildKpis() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return GridView.count(
-          crossAxisCount: _isTablet ? 4 : 2,
+        return GridView(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: _isTablet ? 1.6 : 0.9,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: _isTablet ? 4 : 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            mainAxisExtent: 164,
+          ),
           children: [
             _buildKpiCard(
               title: 'Total Departments',

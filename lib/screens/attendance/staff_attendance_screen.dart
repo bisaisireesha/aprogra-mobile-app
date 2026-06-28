@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:fl_chart/fl_chart.dart';
 import '../../data/mock_data/staff_attendance_mock.dart';
 import '../auth/menu_screen.dart';
 
@@ -95,7 +96,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(child: _buildHeader()),
                               if (_isTablet) _buildTopControls(),
@@ -106,9 +107,11 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
-                          _buildSearchAndFilters(),
-                          const SizedBox(height: 24),
                           _buildStatsRow(),
+                          const SizedBox(height: 24),
+                          _buildHourlyCheckInChart(),
+                          const SizedBox(height: 24),
+                          _buildSearchAndFilters(),
                           const SizedBox(height: 24),
                           _buildRosterList(),
                         ],
@@ -135,43 +138,49 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
 
   Widget _buildAppBar() {
     return Container(
-      color: Colors.white,
+      decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          Builder(builder: (context) => GestureDetector(
-            onTap: () => Scaffold.of(context).openDrawer(),
-            child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
-          )),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F6F8),
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
+      child: SafeArea(
+        bottom: false,
+        child: Row(
+          children: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: const Icon(LucideIcons.menu, color: _textDark),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
               ),
-              child: TextField(
-                controller: _searchController,
-                decoration: const InputDecoration(
-                  hintText: 'Search...',
-                  hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                  prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            ),
+            Expanded(
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF5F6F8),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: const InputDecoration(
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            radius: 16,
-            backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
-          ),
-        ],
+            const SizedBox(width: 16),
+            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const SizedBox(width: 16),
+            const CircleAvatar(
+              radius: 16,
+              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -197,69 +206,25 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _buildActionBtn('Export', LucideIcons.download),
-          const SizedBox(width: 8),
-          _buildActionBtn(_isLocked ? 'Unlock' : 'Lock', _isLocked ? LucideIcons.unlock : LucideIcons.lock, onTap: () {
-            setState(() {
-              _isLocked = !_isLocked;
-            });
-          }),
-          const SizedBox(width: 8),
-          _buildActionBtn('Mark All Present', LucideIcons.check, onTap: () {
-            if (_isLocked) return;
-            setState(() {
-              for (var item in _filteredRoster) {
-                item['status'] = 'Present';
-              }
-            });
-          }),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Attendance saved successfully!')));
-            },
-            child: Container(
-              height: 42,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: _accent,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(LucideIcons.save, color: Colors.white, size: 20),
-                  const SizedBox(width: 8),
-                  Text('Save Attendance', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                ],
-              ),
+          _buildTabletDatePicker(),
+          const SizedBox(width: 12),
+          Container(
+            height: 44,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            decoration: BoxDecoration(
+              color: _accent,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(LucideIcons.download, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
+                Text('Export', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildActionBtn(String label, IconData icon, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 42,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: const Color(0xFFE5E7EB)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 16, color: _textDark),
-            const SizedBox(width: 8),
-            Text(label, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
-          ],
-        ),
       ),
     );
   }
@@ -276,7 +241,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
-                  hintText: 'Search name, ID, department, role',
+                  hintText: 'Search by name or department...',
                   hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
                   prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
                   border: InputBorder.none,
@@ -286,30 +251,12 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          _buildTabletDatePicker(),
-          const SizedBox(width: 12),
+          Expanded(flex: 1, child: const SizedBox()),
+          Expanded(flex: 1, child: const SizedBox()),
           _buildTabletDropdown(
             value: _selectedDepartment,
             items: const ['All Departments', 'Administration', 'Pre-Primary', 'Languages', 'Mathematics', 'Sciences', 'Social Studies', 'Computer Science', 'Arts', 'Physical Education', 'Accounts', 'Library', 'Transport', 'Security', 'Maintenance'],
             onChanged: (v) => setState(() => _selectedDepartment = v!),
-          ),
-          const SizedBox(width: 12),
-          _buildTabletDropdown(
-            value: _selectedRole,
-            items: const ['All Roles', 'Principal', 'Vice Principal', 'Senior Teacher', 'Class Teacher', 'Subject Lead', 'Head of Department', 'Coordinator', 'Accountant', 'Librarian', 'Clerk', 'Driver', 'Security Guard', 'Peon', 'Maintenance Staff'],
-            onChanged: (v) => setState(() => _selectedRole = v!),
-          ),
-          const SizedBox(width: 12),
-          _buildTabletDropdown(
-            value: _selectedShift,
-            items: const ['All Shifts', 'Morning', 'Day', 'Afternoon', 'Evening'],
-            onChanged: (v) => setState(() => _selectedShift = v!),
-          ),
-          const SizedBox(width: 12),
-          _buildTabletDropdown(
-            value: _selectedStatus,
-            items: ['All Status', 'Present', 'Absent', 'Late', 'On Leave'],
-            onChanged: (v) => setState(() => _selectedStatus = v!),
           ),
         ],
       );
@@ -323,7 +270,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
-                  hintText: 'Search...',
+                  hintText: 'Search by name or department...',
                   hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
                   prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
                   border: InputBorder.none,
@@ -523,140 +470,194 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     int late = _filteredRoster.where((r) => r['status'] == 'Late').length;
     int onLeave = _filteredRoster.where((r) => r['status'] == 'On Leave').length;
 
-    int presentPct = total > 0 ? ((present / total) * 100).round() : 0;
-    int absentPct = total > 0 ? ((absent / total) * 100).round() : 0;
+    double presentPct = total > 0 ? (present / total) * 100 : 0;
+    double absentPct = total > 0 ? (absent / total) * 100 : 0;
+    double leavePct = total > 0 ? (onLeave / total) * 100 : 0;
 
-    if (_isTablet) {
-      return SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GridView.count(
+          crossAxisCount: _isTablet ? 4 : 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: _isTablet ? 1.4 : 1.1,
           children: [
-            _buildHorizontalStatCard('Total Staff', '$total', '', LucideIcons.users, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
-            const SizedBox(width: 16),
-            _buildHorizontalStatCard('Present', '$present', '$presentPct%', LucideIcons.userCheck, const Color(0xFF22C55E), const Color(0xFFDCFCE7)),
-            const SizedBox(width: 16),
-            _buildHorizontalStatCard('Absent', '$absent', '$absentPct%', LucideIcons.userX, const Color(0xFFEF4444), const Color(0xFFFEE2E2)),
-            const SizedBox(width: 16),
-            _buildHorizontalStatCard('Late', '$late', '', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-            const SizedBox(width: 16),
-            _buildHorizontalStatCard('On Leave', '$onLeave', '', LucideIcons.fileMinus, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+            _buildKpiCard('$present', 'Present', '${presentPct.toStringAsFixed(1)}% of total', LucideIcons.userCheck, const Color(0xFF22C55E), const Color(0xFFDCFCE7)),
+            _buildKpiCard('$absent', 'Absent', '${absentPct.toStringAsFixed(1)}% of total', LucideIcons.userX, const Color(0xFFEF4444), const Color(0xFFFEE2E2)),
+            _buildKpiCard('$onLeave', 'On Leave', '${leavePct.toStringAsFixed(1)}% of total', LucideIcons.calendarOff, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
+            _buildKpiCard('$late', 'Late Arrivals', 'After 9:15 AM', LucideIcons.clock, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
           ],
-        ),
-      );
-    } else {
-      return Column(
-        children: [
-          Row(
-            children: [
-              Expanded(child: _buildVerticalStatCard('Total Staff', '$total', '', LucideIcons.users, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE))),
-              const SizedBox(width: 8),
-              Expanded(child: _buildVerticalStatCard('Present', '$present', '$presentPct%', LucideIcons.userCheck, const Color(0xFF22C55E), const Color(0xFFDCFCE7))),
-              const SizedBox(width: 8),
-              Expanded(child: _buildVerticalStatCard('Absent', '$absent', '$absentPct%', LucideIcons.userX, const Color(0xFFEF4444), const Color(0xFFFEE2E2))),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(child: _buildHorizontalStatCard('Late', '$late', '', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7))),
-              const SizedBox(width: 12),
-              Expanded(child: _buildHorizontalStatCard('On Leave', '$onLeave', '', LucideIcons.fileMinus, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE))),
-            ],
-          ),
-        ],
-      );
-    }
+        );
+      },
+    );
   }
 
-  Widget _buildVerticalStatCard(String title, String value, String subtitle, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildKpiCard(String value, String title, String subtitle, IconData icon, Color iconColor, Color bgColor) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3F4F6)),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 4, offset: const Offset(0, 2))],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: iconColor, size: 24),
           ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w600, color: const Color(0xFF595973)),
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 4),
+          const Spacer(),
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark, height: 1.0),
+            style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark, height: 1.0),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            title,
+            style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark),
           ),
           const SizedBox(height: 4),
           Text(
-            subtitle.isNotEmpty ? subtitle : ' ',
-            style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: subtitle.isNotEmpty ? iconColor : Colors.transparent),
+            subtitle,
+            style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3)),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildHorizontalStatCard(String title, String value, String subtitle, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildHourlyCheckInChart() {
     return Container(
-      width: _isTablet ? 190 : null,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFF3F4F6)),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 4, offset: const Offset(0, 2))],
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: bgColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: iconColor, size: 20),
+          Text(
+            'Hourly Check-in Pattern',
+            style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w600, color: const Color(0xFF595973)),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark, height: 1.0),
-                ),
-                if (subtitle.isNotEmpty) ...[
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: iconColor),
+          const SizedBox(height: 4),
+          Text(
+            'Number of staff checking in per hour',
+            style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3)),
+          ),
+          const SizedBox(height: 32),
+          SizedBox(
+            height: 200,
+            child: BarChart(
+              BarChartData(
+                alignment: BarChartAlignment.spaceAround,
+                maxY: 80,
+                barTouchData: BarTouchData(enabled: false),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        const style = TextStyle(color: Color(0xFF8F96A3), fontWeight: FontWeight.w500, fontSize: 12);
+                        Widget text;
+                        switch (value.toInt()) {
+                          case 0: text = const Text('7AM', style: style); break;
+                          case 1: text = const Text('8AM', style: style); break;
+                          case 2: text = const Text('8:30', style: style); break;
+                          case 3: text = const Text('9AM', style: style); break;
+                          case 4: text = const Text('9:30', style: style); break;
+                          case 5: text = const Text('10AM', style: style); break;
+                          default: text = const Text('', style: style); break;
+                        }
+                        return Padding(padding: const EdgeInsets.only(top: 8), child: text);
+                      },
+                      reservedSize: 28,
+                    ),
                   ),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        if (value % 20 != 0) return const SizedBox.shrink();
+                        return Text('${value.toInt()}', style: const TextStyle(color: Color(0xFF8F96A3), fontSize: 12));
+                      },
+                      reservedSize: 28,
+                    ),
+                  ),
+                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                ),
+                gridData: const FlGridData(show: false),
+                borderData: FlBorderData(show: false),
+                barGroups: [
+                  _buildHourlyBar(0, 18),
+                  _buildHourlyBar(1, 48),
+                  _buildHourlyBar(2, 72),
+                  _buildHourlyBar(3, 60),
+                  _buildHourlyBar(4, 25),
+                  _buildHourlyBar(5, 10),
                 ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFF3F4F6)),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF4F1FF),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(LucideIcons.barChart2, color: Color(0xFF8463E9), size: 20),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Peak Time', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                      const SizedBox(height: 2),
+                      Text('8:30 AM - 72 Check-ins', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3))),
+                    ],
+                  ),
+                ),
+                const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFF8F96A3)),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  BarChartGroupData _buildHourlyBar(int x, double y) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: y,
+          color: const Color(0xFF8463E9),
+          width: 24,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(6)),
+        ),
+      ],
     );
   }
 

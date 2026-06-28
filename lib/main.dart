@@ -24,6 +24,12 @@ class MyApp extends StatelessWidget {
             colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4)),
             useMaterial3: true,
           ),
+          darkTheme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4), brightness: Brightness.dark),
+            useMaterial3: true,
+            brightness: Brightness.dark,
+          ),
+          themeMode: ThemeMode.system,
           builder: (context, widget) {
             final data = MediaQuery.maybeOf(context) ?? const MediaQueryData();
             return MediaQuery(

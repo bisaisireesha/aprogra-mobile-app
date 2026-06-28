@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart' hide SizeExtension;
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/constants/app_colors.dart';
@@ -36,6 +37,23 @@ import '../attendance/staff_reports_screen.dart';
 import '../exams/exams_screen.dart';
 import '../learning_resources_screen.dart';
 import '../non_teaching/staff_management_screen.dart';
+import '../fees/fees_dashboard_screen.dart';
+import '../fees/collect_fee_screen.dart';
+import '../fees/invoices_screen.dart';
+import '../fees/fee_structure_screen.dart';
+import '../fees/due_payments_screen.dart';
+import '../fees/payments_receipts_screen.dart';
+import '../fees/payment_reminders_screen.dart';
+import '../fees/discounts_scholarships_screen.dart';
+import '../fees/fee_reports_screen.dart';
+import '../calendar/calendar_screen.dart';
+
+extension _MenuScreenSizeExtension on num {
+  double get w => toDouble();
+  double get h => toDouble();
+  double get r => toDouble();
+  double get sp => toDouble();
+}
 
 class MenuScreen extends StatefulWidget {
   final String activeScreen;
@@ -56,6 +74,8 @@ class _MenuScreenState extends State<MenuScreen> {
       _activeGroup = 'Academics';
     } else if (_isStaffGroup(widget.activeScreen)) {
       _activeGroup = 'StaffManagement';
+    } else if (_isFeesGroup(widget.activeScreen)) {
+      _activeGroup = 'Fees';
     } else {
       _activeGroup = 'Overview';
     }
@@ -80,6 +100,15 @@ class _MenuScreenState extends State<MenuScreen> {
     return academicsScreens.contains(screen);
   }
 
+  bool _isFeesGroup(String screen) {
+    const feesScreens = [
+      'Fees & Invoices', 'Collect Fee', 'Invoices', 'Fee Structure',
+      'Due Payments', 'Payments & Receipts', 'Payment Reminders',
+      'Discounts & Scholarships', 'Fee Reports', 'Fee Reports'
+    ];
+    return feesScreens.contains(screen);
+  }
+
   void _navigateTo(BuildContext context, Widget screen) {
     Navigator.pop(context); // Close drawer
     Navigator.pushReplacement(
@@ -94,12 +123,13 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     // [Responsive Fix]: Calculate screen width to constrain drawer on tablets/landscape
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isTablet = screenWidth >= 600;
 
     return Drawer(
-      backgroundColor: AppColors.background, 
+      backgroundColor: isDark ? const Color(0xFF0F172A) : AppColors.background, 
       // [Responsive Fix]: Don't take up 100% width on tablets/landscape to prevent stretching
       width: isTablet ? 400 : screenWidth, 
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -115,15 +145,16 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildSideRail(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       width: 72.w,
       margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 4.h, bottom: 4.h),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
         borderRadius: BorderRadius.circular(40.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
+            color: isDark ? Colors.black.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.03),
             blurRadius: 10.r,
             offset: Offset(4.w, 0),
           )
@@ -145,15 +176,15 @@ class _MenuScreenState extends State<MenuScreen> {
             width: 36.w,
             height: 36.w,
             decoration: BoxDecoration(
-              color: AppColors.purpleLight,
+              color: isDark ? const Color(0xFF312E81) : AppColors.purpleLight,
               borderRadius: BorderRadius.circular(14.r),
             ),
             child: Center(
               child: Container(
                 width: 14.w, 
                 height: 14.w,
-                decoration: const BoxDecoration(
-                  color: AppColors.purple,
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF818CF8) : AppColors.purple,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -173,11 +204,11 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildRailIcon(context, LucideIcons.briefcase, _activeGroup == 'StaffManagement', () {
                     setState(() { _activeGroup = 'StaffManagement'; });
                   }),
-                  _buildRailIcon(context, LucideIcons.creditCard, widget.activeScreen == 'Financial Summary', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Financial Summary'));
+                  _buildRailIcon(context, LucideIcons.creditCard, _activeGroup == 'Fees' || widget.activeScreen == 'Financial Summary', () {
+                    setState(() { _activeGroup = 'Fees'; });
                   }),
                   _buildRailIcon(context, LucideIcons.calendar, widget.activeScreen == 'Calendar', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Calendar'));
+                    _navigateTo(context, const SchoolCalendarScreen());
                   }),
                   _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
                     _navigateTo(context, const MessagesScreen());
@@ -213,6 +244,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildRailIcon(BuildContext context, IconData icon, bool isActive, VoidCallback onTap, {bool hasBadge = false}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GestureDetector(
       onTap: isActive ? null : onTap,
       behavior: HitTestBehavior.opaque,
@@ -231,7 +263,7 @@ class _MenuScreenState extends State<MenuScreen> {
           children: [
             Icon(
               icon,
-              color: isActive ? Colors.white : AppColors.iconDefault,
+              color: isActive ? Colors.white : (isDark ? const Color(0xFF94A3B8) : AppColors.iconDefault),
               size: 20.w,
             ),
             if (hasBadge)
@@ -244,7 +276,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   decoration: BoxDecoration(
                     color: const Color(0xFFE8505B), // notification badge red
                     shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.5.w),
+                    border: Border.all(color: isDark ? const Color(0xFF1E293B) : Colors.white, width: 1.5.w),
                   ),
                 ),
               ),
@@ -255,11 +287,15 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildRightPane(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     if (_activeGroup == 'Academics') {
       return _buildAcademicsRightPane(context);
     }
     if (_activeGroup == 'StaffManagement') {
       return _buildStaffManagementRightPane(context);
+    }
+    if (_activeGroup == 'Fees') {
+      return _buildFeesRightPane(context);
     }
     
     return Container(
@@ -279,7 +315,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 30.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF171A21),
+                color: isDark ? Colors.white : const Color(0xFF171A21),
                 letterSpacing: -0.75,
                 height: 1.2, // 36px line-height / 30px = 1.2
               ),
@@ -292,7 +328,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
-                color: AppColors.textSecondary,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
               ),
             ),
           ),
@@ -334,6 +370,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildAcademicsRightPane(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.transparent, 
@@ -351,7 +388,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 30.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF171A21),
+                color: isDark ? Colors.white : const Color(0xFF171A21),
                 letterSpacing: -0.75,
                 height: 1.2,
               ),
@@ -364,7 +401,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
-                color: AppColors.textSecondary,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
               ),
             ),
           ),
@@ -413,7 +450,54 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
+  Widget _buildFeesRightPane(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      decoration: const BoxDecoration(color: Colors.transparent),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text('Fees & Invoices', style: GoogleFonts.figtree(fontSize: 28.sp, fontWeight: FontWeight.w700, color: isDark ? Colors.white : const Color(0xFF171A21), letterSpacing: -0.75, height: 1.2)),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text('Manage fees, invoices and collections', style: GoogleFonts.figtree(fontSize: 14.sp, fontWeight: FontWeight.w400, color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary)),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('FEES & INVOICES', topPadding: 20.h),
+                  _buildMenuItem(context, 'Fees & Invoices', LucideIcons.layoutDashboard, const FeesDashboardScreen()),
+                  _buildMenuItem(context, 'Collect Fee', LucideIcons.wallet, const CollectFeeScreen()),
+                  _buildMenuItem(context, 'Invoices', LucideIcons.fileText, const InvoicesScreen()),
+                  _buildMenuItem(context, 'Fee Structure', LucideIcons.layoutGrid, const FeeStructureScreen()),
+                  _buildSectionTitle('COLLECTIONS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Due Payments', LucideIcons.clock, const DuePaymentsScreen()),
+                  _buildMenuItem(context, 'Payments & Receipts', LucideIcons.receipt, const PaymentsReceiptsScreen()),
+                  _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.gift, const DiscountsScholarshipsScreen()),
+                  _buildMenuItem(context, 'Payment Reminders', LucideIcons.bell, const PaymentRemindersScreen()),
+                  _buildSectionTitle('INSIGHTS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Fee Reports', LucideIcons.barChart, const FeeReportsScreen()),
+                  _buildMenuItem(context, 'Financial Summary', LucideIcons.pieChart, const InsightsDashboardScreen(initialIndex: 1)),
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildStaffManagementRightPane(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.transparent, 
@@ -431,7 +515,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 30.sp,
                 fontWeight: FontWeight.w700,
-                color: const Color(0xFF171A21),
+                color: isDark ? Colors.white : const Color(0xFF171A21),
                 letterSpacing: -0.75,
                 height: 1.2,
               ),
@@ -444,7 +528,7 @@ class _MenuScreenState extends State<MenuScreen> {
               style: GoogleFonts.figtree(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
-                color: AppColors.textSecondary,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
               ),
             ),
           ),
@@ -482,6 +566,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildSectionTitle(String title, {double topPadding = 0}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: EdgeInsets.only(left: 8.w, bottom: 10.h, top: topPadding > 0 ? topPadding : 16.h),
       child: Text(
@@ -489,7 +574,7 @@ class _MenuScreenState extends State<MenuScreen> {
         style: GoogleFonts.inter(
           fontSize: 12.sp,
           fontWeight: FontWeight.w600,
-          color: const Color(0xFFA5ADBA),
+          color: isDark ? const Color(0xFF64748B) : const Color(0xFFA5ADBA),
           letterSpacing: 0.88,
         ),
       ),
@@ -497,6 +582,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildMenuItem(BuildContext context, String title, IconData icon, Widget screen) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final isActive = widget.activeScreen == title || (widget.activeScreen == 'Main Dashboard' && title == 'Main Dashboard');
     return GestureDetector(
       onTap: () => _navigateTo(context, screen),
@@ -506,7 +592,7 @@ class _MenuScreenState extends State<MenuScreen> {
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 18.h), // Taller active card: 60-64px height
         decoration: isActive
             ? BoxDecoration(
-                color: const Color(0xFFF4F1FD), // #F4F1FD lighter active bg
+                color: isDark ? const Color(0xFF7F61EA).withValues(alpha: 0.15) : const Color(0xFFF4F1FD),
                 borderRadius: BorderRadius.circular(100), // Perfect pill shape
               )
             : null,
@@ -523,7 +609,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 child: Icon(
                   icon,
                   size: 18.w,
-                  color: const Color(0xFF7F61EA), // #7F61EA — active icon
+                  color: isDark ? const Color(0xFFA78BFA) : const Color(0xFF7F61EA),
                 ),
               )
             else
@@ -532,7 +618,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 child: Icon(
                   icon,
                   size: 18.w, // Size: 18px
-                  color: AppColors.iconDefault,
+                  color: isDark ? const Color(0xFF94A3B8) : AppColors.iconDefault,
                 ),
               ),
             SizedBox(width: 14.w),
@@ -543,15 +629,15 @@ class _MenuScreenState extends State<MenuScreen> {
                   fontSize: 15.sp,
                   fontWeight: FontWeight.w700, // bold for all menu items
                   color: isActive
-                      ? const Color(0xFF7F61EA) // #7F61EA — active/selected purple
-                      : AppColors.textSecondary,
+                      ? (isDark ? const Color(0xFFA78BFA) : const Color(0xFF7F61EA))
+                      : (isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             if (isActive)
-              Icon(LucideIcons.chevronRight, color: const Color(0xFF7F61EA), size: 18.w),
+              Icon(LucideIcons.chevronRight, color: isDark ? const Color(0xFFA78BFA) : const Color(0xFF7F61EA), size: 18.w),
           ],
         ),
       ),

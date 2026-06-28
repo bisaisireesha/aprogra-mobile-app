@@ -117,7 +117,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     // [Responsive Fix]: Calculate screen width to constrain drawer on tablets/landscape
     final screenWidth = MediaQuery.sizeOf(context).width;
     final isTablet = screenWidth >= 600;
@@ -139,7 +139,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildSideRail(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return Container(
       width: 72.w,
       margin: EdgeInsets.only(left: 10.w, right: 4.w, top: 4.h, bottom: 4.h),
@@ -238,7 +238,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildRailIcon(BuildContext context, IconData icon, bool isActive, VoidCallback onTap, {bool hasBadge = false}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return GestureDetector(
       onTap: isActive ? null : onTap,
       behavior: HitTestBehavior.opaque,
@@ -281,7 +281,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildRightPane(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     if (_activeGroup == 'Academics') {
       return _buildAcademicsRightPane(context);
     }
@@ -364,7 +364,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildAcademicsRightPane(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.transparent, 
@@ -446,7 +446,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildFeesRightPane(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return Container(
       decoration: const BoxDecoration(color: Colors.transparent),
       padding: EdgeInsets.only(left: 24.w),
@@ -492,7 +492,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildStaffManagementRightPane(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return Container(
       decoration: const BoxDecoration(
         color: Colors.transparent, 
@@ -560,7 +560,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildSectionTitle(String title, {double topPadding = 0}) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     return Padding(
       padding: EdgeInsets.only(left: 8.w, bottom: 10.h, top: topPadding > 0 ? topPadding : 16.h),
       child: Text(
@@ -576,7 +576,7 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget _buildMenuItem(BuildContext context, String title, IconData icon, Widget screen) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    const isDark = false;
     final isActive = widget.activeScreen == title || (widget.activeScreen == 'Main Dashboard' && title == 'Main Dashboard');
     return GestureDetector(
       onTap: () => _navigateTo(context, screen),

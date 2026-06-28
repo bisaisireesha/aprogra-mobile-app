@@ -15,7 +15,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
   bool _enableSections = false;
   
   // Section data: name, capacity
-  List<Map<String, dynamic>> _sections = [
+  final List<Map<String, dynamic>> _sections = [
     {'name': 'A', 'capacity': '40', 'teacher': null},
     {'name': 'B', 'capacity': '40', 'teacher': null},
   ];
@@ -586,7 +586,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
           hint: Text('Assign a teacher', style: GoogleFonts.figtree(fontSize: 16, color: const Color(0xFF9CA3AF)), overflow: TextOverflow.ellipsis),
           icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF9CA3AF), size: 20),
           isExpanded: true,
-          value: _sections[_selectedSectionTabIndex]['teacher'] as String?,
+          initialValue: _sections[_selectedSectionTabIndex]['teacher'] as String?,
           items: ['Sarah Jenkins', 'Michael Brown', 'Emily Davis', 'David Wilson', 'Jessica Taylor']
               .map((t) => DropdownMenuItem(value: t, child: Text(t, style: GoogleFonts.figtree(fontSize: 16, color: _textDark), overflow: TextOverflow.ellipsis)))
               .toList(),

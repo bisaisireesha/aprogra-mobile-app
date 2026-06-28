@@ -49,7 +49,7 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
   late final TextEditingController _nameController = TextEditingController(text: widget.initialData?['title'] ?? _draftName);
   final String _effectiveDate = '25-06-2026';
   String _viewMode = _draftViewMode; // 'Grid' or 'List'
-  late List<Map<String, dynamic>> _periods = widget.initialData != null && widget.initialData!['periods_data'] != null
+  late final List<Map<String, dynamic>> _periods = widget.initialData != null && widget.initialData!['periods_data'] != null
       ? List<Map<String, dynamic>>.from(widget.initialData!['periods_data'])
       : List.from(_draftPeriods);
   String _activeDay = 'Mon';

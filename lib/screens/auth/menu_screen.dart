@@ -13,6 +13,9 @@ import '../students/students_list_screen.dart';
 import '../students/students_screen.dart';
 import '../dashboard/insights_dashboard_screen.dart';
 import '../non_teaching/staff_insights_screen.dart';
+import '../non_teaching/teaching_staff_screen.dart';
+import '../non_teaching/non_teaching_staff_screen.dart';
+import '../departments/departments_screen.dart';
 import '../cctv/cctv_screen.dart';
 import '../library/library_insights_screen.dart';
 import '../inventory/inventory_insights_screen.dart';
@@ -20,6 +23,14 @@ import '../classes/classes_screen.dart';
 import '../subjects/subjects_screen.dart';
 import '../timetables/timetables_screen.dart';
 import '../teachers/teachers_list_screen.dart';
+import '../homework/homework_screen.dart';
+import '../assignments/assignments_screen.dart';
+import '../attendance/student_attendance_screen.dart';
+import '../attendance/staff_attendance_screen.dart';
+import '../exams/exams_screen.dart';
+import '../learning_resources_screen.dart';
+import '../non_teaching/staff_management_screen.dart';
+
 class MenuScreen extends StatefulWidget {
   final String activeScreen;
 
@@ -35,7 +46,21 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-    _activeGroup = _isAcademicsGroup(widget.activeScreen) ? 'Academics' : 'Overview';
+    if (_isAcademicsGroup(widget.activeScreen)) {
+      _activeGroup = 'Academics';
+    } else if (_isStaffGroup(widget.activeScreen)) {
+      _activeGroup = 'StaffManagement';
+    } else {
+      _activeGroup = 'Overview';
+    }
+  }
+
+  bool _isStaffGroup(String screen) {
+    const staffScreens = [
+      'Staff Overview', 'Teaching Staff', 'Non-Teaching Staff', 'Departments',
+      'Attendance', 'Leaves', 'Workload', 'Payroll', 'Documents', 'Staff'
+    ];
+    return staffScreens.contains(screen);
   }
 
   bool _isAcademicsGroup(String screen) {
@@ -139,8 +164,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildRailIcon(context, LucideIcons.graduationCap, _activeGroup == 'Academics', () {
                     setState(() { _activeGroup = 'Academics'; });
                   }),
-                  _buildRailIcon(context, LucideIcons.users, widget.activeScreen == 'Staff' || widget.activeScreen == 'Teacher Insights' || widget.activeScreen == 'Non Teaching Staff', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Staff'));
+                  _buildRailIcon(context, LucideIcons.briefcase, _activeGroup == 'StaffManagement', () {
+                    setState(() { _activeGroup = 'StaffManagement'; });
                   }),
                   _buildRailIcon(context, LucideIcons.creditCard, widget.activeScreen == 'Financial Summary', () {
                     _navigateTo(context, const ComingSoonScreen(title: 'Financial Summary'));
@@ -226,6 +251,9 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget _buildRightPane(BuildContext context) {
     if (_activeGroup == 'Academics') {
       return _buildAcademicsRightPane(context);
+    }
+    if (_activeGroup == 'StaffManagement') {
+      return _buildStaffManagementRightPane(context);
     }
     
     return Container(
@@ -349,26 +377,93 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildSectionTitle('TEACHING', topPadding: 20.h),
                   _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const TimetablesScreen()),
                   _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const TeachersListScreen()),
-                  _buildMenuItem(context, 'Homework', LucideIcons.edit3, const ComingSoonScreen(title: 'Homework')),
-                  _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Assignments')),
+                  _buildMenuItem(context, 'Homework', LucideIcons.notebookPen, const HomeworkScreen()),
+                  _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const AssignmentsScreen()),
                   
                   _buildSectionTitle('ATTENDANCE', topPadding: 20.h),
-                  _buildMenuItem(context, 'Student Attendance', LucideIcons.calendarCheck, const ComingSoonScreen(title: 'Student Attendance')),
-                  _buildMenuItem(context, 'Teacher Attendance', LucideIcons.userCheck, const ComingSoonScreen(title: 'Teacher Attendance')),
+                  _buildMenuItem(context, 'Student Attendance', LucideIcons.calendarCheck, const StudentAttendanceScreen()),
+                  _buildMenuItem(context, 'Teacher Attendance', LucideIcons.userCheck, const StaffAttendanceScreen()),
                   
                   _buildSectionTitle('ASSESSMENTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Exams', LucideIcons.clipboard, const ComingSoonScreen(title: 'Exams')),
+                  _buildMenuItem(context, 'Exams', LucideIcons.clipboard, const ExamsScreen()),
                   _buildMenuItem(context, 'Grade Scales', LucideIcons.barChart, const ComingSoonScreen(title: 'Grade Scales')),
                   _buildMenuItem(context, 'Marks Entry', LucideIcons.edit, const ComingSoonScreen(title: 'Marks Entry')),
                   _buildMenuItem(context, 'Report Cards', LucideIcons.fileText, const ComingSoonScreen(title: 'Report Cards')),
                   
                   _buildSectionTitle('LEARNING', topPadding: 20.h),
-                  _buildMenuItem(context, 'Learning Resources', LucideIcons.book, const ComingSoonScreen(title: 'Learning Resources')),
+                  _buildMenuItem(context, 'Learning Resources', LucideIcons.book, const LearningResourcesScreen()),
                   
                   _buildSectionTitle('CERTIFICATES', topPadding: 20.h),
                   _buildMenuItem(context, 'Transfer Certificates', LucideIcons.fileMinus, const ComingSoonScreen(title: 'Transfer Certificates')),
                   _buildMenuItem(context, 'Bonafide Certificates', LucideIcons.shieldCheck, const ComingSoonScreen(title: 'Bonafide Certificates')),
                   _buildMenuItem(context, 'Custom Certificates', LucideIcons.award, const ComingSoonScreen(title: 'Custom Certificates')),
+                  
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStaffManagementRightPane(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.transparent, 
+      ),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Fixed Header
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Staff',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Manage staff and operations',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+          // Scrollable Menu List
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('STAFF MANAGEMENT', topPadding: 20.h),
+                  _buildMenuItem(context, 'Staff Overview', LucideIcons.layoutGrid, const StaffManagementScreen()),
+                  _buildMenuItem(context, 'Teaching Staff', LucideIcons.presentation, const TeachingStaffScreen()),
+                  _buildMenuItem(context, 'Non-Teaching Staff', LucideIcons.users, const NonTeachingStaffScreen()),
+                  _buildMenuItem(context, 'Departments', LucideIcons.layoutDashboard, const DepartmentsScreen()),
+                  
+                  _buildSectionTitle('OPERATIONS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Attendance', LucideIcons.calendarCheck, const ComingSoonScreen(title: 'Attendance')),
+                  _buildMenuItem(context, 'Leaves', LucideIcons.calendarOff, const ComingSoonScreen(title: 'Leaves')),
+                  _buildMenuItem(context, 'Workload', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Workload')),
+                  _buildMenuItem(context, 'Payroll', LucideIcons.wallet, const ComingSoonScreen(title: 'Payroll')),
+                  
+                  _buildSectionTitle('RECORDS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Documents', LucideIcons.fileText, const ComingSoonScreen(title: 'Documents')),
                   
                   SizedBox(height: 24.h),
                 ],

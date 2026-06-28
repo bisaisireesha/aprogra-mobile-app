@@ -61,8 +61,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     // Inject the subject's category if it doesn't have it so the wizard knows.
     final subjectWithCategory = Map<String, dynamic>.from(subject);
     if (!subjectWithCategory.containsKey('category')) {
-      if (SubjectsMockData.prePrimarySubjects.contains(subject)) subjectWithCategory['category'] = 'Pre-Primary';
-      else if (SubjectsMockData.secondarySubjects.contains(subject)) subjectWithCategory['category'] = 'Secondary';
+      if (SubjectsMockData.prePrimarySubjects.contains(subject)) {
+        subjectWithCategory['category'] = 'Pre-Primary';
+      } else if (SubjectsMockData.secondarySubjects.contains(subject)) subjectWithCategory['category'] = 'Secondary';
       else subjectWithCategory['category'] = 'Primary';
     }
 
@@ -304,8 +305,9 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
 
   List<Map<String, dynamic>> get _filteredSubjects {
     List<Map<String, dynamic>> list;
-    if (_selectedFilterIndex == 0) list = SubjectsMockData.prePrimarySubjects;
-    else if (_selectedFilterIndex == 1) list = SubjectsMockData.primarySubjects;
+    if (_selectedFilterIndex == 0) {
+      list = SubjectsMockData.prePrimarySubjects;
+    } else if (_selectedFilterIndex == 1) list = SubjectsMockData.primarySubjects;
     else list = SubjectsMockData.secondarySubjects;
 
     final query = _searchController.text.trim().toLowerCase();

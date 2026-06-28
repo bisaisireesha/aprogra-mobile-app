@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../core/constants/app_colors.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import '../students/students_list_screen.dart';

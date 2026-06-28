@@ -5,7 +5,6 @@ import '../../data/mock_data/students_mock.dart';
 import '../auth/menu_screen.dart';
 import 'create_student_wizard.dart';
 import 'student_details_popup.dart';
-import 'create_student_wizard.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -427,7 +426,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 runSpacing: 16,
                 children: [
                   Text(
-                    'Showing ${startIndex + 1}-${endIndex} of ${allStudents.length}',
+                    'Showing ${startIndex + 1}-$endIndex of ${allStudents.length}',
                     style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
                   ),
                   Row(

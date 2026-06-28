@@ -25,7 +25,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
   String _dob = '';
   String _nationality = 'Indian';
   String _address = '';
-  String _aadhaar = '';
+  final String _aadhaar = '';
 
   // Step 2: Academic
   String _level = 'Primary';
@@ -565,7 +565,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
           _contactNumber.isEmpty ? '+91 ----------' : _contactNumber,
         ]),
         _buildReviewSection(LucideIcons.activity, 'Medical', [
-          '${_bloodGroup ?? 'O+'}',
+          (_bloodGroup ?? 'O+'),
           'Emergency: ${_emergencyName.isEmpty ? '--' : _emergencyName}',
         ], isRed: true),
         _buildReviewSection(LucideIcons.fileText, 'Admission', [
@@ -606,7 +606,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
                 ...details.map((detail) => Padding(
                   padding: const EdgeInsets.only(bottom: 4),
                   child: Text(detail, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-                )).toList(),
+                )),
               ],
             ),
           ),
@@ -690,7 +690,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
             decoration: const InputDecoration(border: InputBorder.none),
             hint: hint != null ? Text(hint, style: GoogleFonts.figtree(color: const Color(0xFF9CA3AF), fontSize: 14)) : null,
             icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF9CA3AF)),
-            value: safeValue,
+            initialValue: safeValue,
             items: items.map((String val) {
               return DropdownMenuItem<String>(
                 value: val,

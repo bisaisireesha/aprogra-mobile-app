@@ -40,8 +40,9 @@ class _TimetablesScreenState extends State<TimetablesScreen> {
 
   List<Map<String, dynamic>> get _filteredTimetables {
     List<Map<String, dynamic>> list;
-    if (_selectedFilterIndex == 0) list = TimetablesMockData.allTimetables;
-    else if (_selectedFilterIndex == 1) list = TimetablesMockData.prePrimaryTimetables;
+    if (_selectedFilterIndex == 0) {
+      list = TimetablesMockData.allTimetables;
+    } else if (_selectedFilterIndex == 1) list = TimetablesMockData.prePrimaryTimetables;
     else if (_selectedFilterIndex == 2) list = TimetablesMockData.primaryTimetables;
     else list = TimetablesMockData.secondaryTimetables;
 

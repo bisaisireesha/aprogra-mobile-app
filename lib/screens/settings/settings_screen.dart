@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../main.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
 
@@ -19,10 +20,11 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
-  bool _darkModeEnabled = false;
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = themeNotifier.value == ThemeMode.dark;
+    
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Settings'),
@@ -54,8 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               setState(() => _notificationsEnabled = val);
                             }),
                             const Divider(height: 1, color: Color(0xFFE5E7EB)),
-                            _buildToggleRow('Dark Mode', LucideIcons.moon, _darkModeEnabled, (val) {
-                              setState(() => _darkModeEnabled = val);
+                            _buildToggleRow('Dark Mode', LucideIcons.moon, isDarkMode, (val) {
+                              setState(() {
+                                themeNotifier.value = val ? ThemeMode.dark : ThemeMode.light;
+                              });
                             }),
                           ]
                         ),

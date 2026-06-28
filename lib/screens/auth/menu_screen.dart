@@ -27,6 +27,12 @@ import '../homework/homework_screen.dart';
 import '../assignments/assignments_screen.dart';
 import '../attendance/student_attendance_screen.dart';
 import '../attendance/staff_attendance_screen.dart';
+import '../attendance/staff_leaves_screen.dart';
+import '../attendance/staff_workload_screen.dart';
+import '../attendance/staff_payroll_screen.dart';
+import '../messages/messages_screen.dart';
+import '../attendance/staff_documents_screen.dart';
+import '../attendance/staff_reports_screen.dart';
 import '../exams/exams_screen.dart';
 import '../learning_resources_screen.dart';
 import '../non_teaching/staff_management_screen.dart';
@@ -174,7 +180,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     _navigateTo(context, const ComingSoonScreen(title: 'Calendar'));
                   }),
                   _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Messages'));
+                    _navigateTo(context, const MessagesScreen());
                   }, hasBadge: true),
                   _buildRailIcon(context, LucideIcons.home, widget.activeScreen == 'Home' || widget.activeScreen == 'Admissions Insights', () {
                     _navigateTo(context, const ComingSoonScreen(title: 'Home'));
@@ -381,7 +387,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const AssignmentsScreen()),                  
                   _buildSectionTitle('ATTENDANCE', topPadding: 20.h),
                   _buildMenuItem(context, 'Student Attendance', LucideIcons.calendarCheck, const StudentAttendanceScreen()),
-                  _buildMenuItem(context, 'Teacher Attendance', LucideIcons.userCheck, const StaffAttendanceScreen()),
+                  _buildMenuItem(context, 'Staff Attendance', LucideIcons.userCheck, const StaffAttendanceScreen()),
                   
                   _buildSectionTitle('ASSESSMENTS', topPadding: 20.h),
                   _buildMenuItem(context, 'Exams', LucideIcons.clipboard, const ExamsScreen()),
@@ -456,13 +462,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Departments', LucideIcons.layoutDashboard, const DepartmentsScreen()),
                   
                   _buildSectionTitle('OPERATIONS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Attendance', LucideIcons.calendarCheck, const ComingSoonScreen(title: 'Attendance')),
-                  _buildMenuItem(context, 'Leaves', LucideIcons.calendarOff, const ComingSoonScreen(title: 'Leaves')),
-                  _buildMenuItem(context, 'Workload', LucideIcons.clipboardList, const ComingSoonScreen(title: 'Workload')),
-                  _buildMenuItem(context, 'Payroll', LucideIcons.wallet, const ComingSoonScreen(title: 'Payroll')),
+                  _buildMenuItem(context, 'Attendance', LucideIcons.calendarCheck, const StaffAttendanceScreen()),
+                  _buildMenuItem(context, 'Leaves', LucideIcons.calendarOff, const StaffLeavesScreen()),
+                  _buildMenuItem(context, 'Workload', LucideIcons.clipboardList, const StaffWorkloadScreen()),
+                  _buildMenuItem(context, 'Payroll', LucideIcons.wallet, const StaffPayrollScreen()),
                   
                   _buildSectionTitle('RECORDS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Documents', LucideIcons.fileText, const ComingSoonScreen(title: 'Documents')),
+                  _buildMenuItem(context, 'Documents', LucideIcons.fileText, const StaffDocumentsScreen()),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const StaffReportsScreen()),
                   
                   SizedBox(height: 24.h),
                 ],

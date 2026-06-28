@@ -399,7 +399,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
             crossAxisCount: _isTablet ? 4 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            mainAxisExtent: 164,
+            mainAxisExtent: 184,
           ),
           children: [
             _buildKpiCard(

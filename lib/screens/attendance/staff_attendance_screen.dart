@@ -78,7 +78,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Teacher Attendance'),
+      drawer: const MenuScreen(activeScreen: 'Attendance'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -186,14 +186,23 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   }
 
   Widget _buildHeader() {
-    final dayOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][_selectedDate.weekday - 1];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text('Attendance', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+          ],
+        ),
+        const SizedBox(height: 16),
         Text('Staff Attendance', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
         const SizedBox(height: 8),
         Text(
-          'Mark and review daily attendance · $dayOfWeek, ${_selectedDate.day} ${_monthString(_selectedDate.month)} ${_selectedDate.year}',
+          "Today's check-in/out log for all staff — present, absent, on leave, and late arrivals.",
           style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
         ),
       ],
@@ -201,31 +210,44 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   }
 
   Widget _buildTopControls() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _buildTabletDatePicker(),
-          const SizedBox(width: 12),
-          Container(
-            height: 44,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color: _accent,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.download, size: 16, color: Colors.white),
-                const SizedBox(width: 8),
-                Text('Export', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-              ],
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          height: 44,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: const Color(0xFFE5E7EB)),
           ),
-        ],
-      ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(LucideIcons.download, size: 16, color: _textDark),
+              const SizedBox(width: 8),
+              Text('Export', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+            ],
+          ),
+        ),
+        const SizedBox(width: 12),
+        Container(
+          height: 44,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: _accent,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(LucideIcons.save, size: 16, color: Colors.white),
+              const SizedBox(width: 8),
+              Text('Save', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -237,7 +259,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             flex: 2,
             child: Container(
               height: 44,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22), border: Border.all(color: const Color(0xFFE5E7EB))),
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
@@ -261,68 +283,46 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         ],
       );
     } else {
-      return Row(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Container(
-              height: 44,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
-              child: TextField(
-                controller: _searchController,
-                decoration: const InputDecoration(
-                  hintText: 'Search by name or department...',
-                  hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                  prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
+          Container(
+            height: 44,
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22), border: Border.all(color: const Color(0xFFE5E7EB))),
+            child: TextField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                hintText: 'Search by name or department...',
+                hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ),
-          const SizedBox(width: 12),
-          GestureDetector(
-            onTap: _showFilterBottomSheet,
-            child: Container(
-              height: 44,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(LucideIcons.filter, color: _textDark, size: 20),
-                ],
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 36,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFE5E7EB))),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: _selectedDepartment,
+                    icon: const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
+                    items: const ['All Departments', 'Administration', 'Pre-Primary', 'Languages', 'Mathematics', 'Sciences', 'Social Studies', 'Computer Science', 'Arts', 'Physical Education', 'Accounts', 'Library', 'Transport', 'Security', 'Maintenance'].map((e) => DropdownMenuItem(value: e, child: Text(e, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w500, color: _textDark)))).toList(),
+                    onChanged: (v) => setState(() => _selectedDepartment = v!),
+                  ),
+                ),
               ),
-            ),
+              Text('${_filteredRoster.length} records', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+            ],
           ),
         ],
       );
     }
-  }
-
-  Widget _buildTabletDatePicker() {
-    return GestureDetector(
-      onTap: () async {
-        final picked = await showDatePicker(
-          context: context,
-          initialDate: _selectedDate,
-          firstDate: DateTime(2020),
-          lastDate: DateTime(2030),
-        );
-        if (picked != null) setState(() => _selectedDate = picked);
-      },
-      child: Container(
-        height: 44,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
-        child: Row(
-          children: [
-            const Icon(LucideIcons.calendarDays, size: 16, color: _textDark),
-            const SizedBox(width: 8),
-            Text('${_selectedDate.day} ${_monthString(_selectedDate.month)} ${_selectedDate.year}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w500, color: _textDark)),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _buildTabletDropdown({required String value, required List<String> items, required ValueChanged<String?> onChanged}) {
@@ -342,106 +342,6 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  void _showFilterBottomSheet() {
-    DateTime tempDate = _selectedDate;
-    String tempDept = _selectedDepartment;
-    String tempRole = _selectedRole;
-    String tempShift = _selectedShift;
-    String tempStatus = _selectedStatus;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (context, setModalState) {
-            return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Filters', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-                      const SizedBox(height: 24),
-                      GestureDetector(
-                        onTap: () async {
-                          final picked = await showDatePicker(
-                            context: context,
-                            initialDate: tempDate,
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime(2030),
-                          );
-                          if (picked != null) setModalState(() => tempDate = picked);
-                        },
-                        child: Container(
-                          height: 44,
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
-                          child: Row(
-                            children: [
-                              const Icon(LucideIcons.calendarDays, size: 16, color: _textMuted),
-                              const SizedBox(width: 8),
-                              Expanded(child: Text('${tempDate.day} ${_monthString(tempDate.month)} ${tempDate.year}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w500, color: _textDark))),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      _buildRealDropdown(
-                        value: tempDept,
-                        items: const ['All Departments', 'Administration', 'Pre-Primary', 'Languages', 'Mathematics', 'Sciences', 'Social Studies', 'Computer Science', 'Arts', 'Physical Education', 'Accounts', 'Library', 'Transport', 'Security', 'Maintenance'],
-                        onChanged: (v) => setModalState(() => tempDept = v!),
-                      ),
-                      const SizedBox(height: 16),
-                      _buildRealDropdown(
-                        value: tempRole,
-                        items: const ['All Roles', 'Principal', 'Vice Principal', 'Senior Teacher', 'Class Teacher', 'Subject Lead', 'Head of Department', 'Coordinator', 'Accountant', 'Librarian', 'Clerk', 'Driver', 'Security Guard', 'Peon', 'Maintenance Staff'],
-                        onChanged: (v) => setModalState(() => tempRole = v!),
-                      ),
-                      const SizedBox(height: 16),
-                      _buildRealDropdown(
-                        value: tempShift,
-                        items: const ['All Shifts', 'Morning', 'Day', 'Afternoon', 'Evening'],
-                        onChanged: (v) => setModalState(() => tempShift = v!),
-                      ),
-                      const SizedBox(height: 16),
-                      _buildRealDropdown(
-                        value: tempStatus,
-                        items: ['All Status', 'Present', 'Absent', 'Late', 'On Leave'],
-                        onChanged: (v) => setModalState(() => tempStatus = v!),
-                      ),
-                      const SizedBox(height: 24),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedDate = tempDate;
-                              _selectedDepartment = tempDept;
-                              _selectedRole = tempRole;
-                              _selectedShift = tempShift;
-                              _selectedStatus = tempStatus;
-                            });
-                            Navigator.pop(context);
-                          },
-                          style: ElevatedButton.styleFrom(backgroundColor: _accent, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                          child: Text('Apply Filters', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      },
     );
   }
 
@@ -482,7 +382,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          childAspectRatio: _isTablet ? 1.4 : 1.1,
+          childAspectRatio: _isTablet ? 1.4 : 0.85,
           children: [
             _buildKpiCard('$present', 'Present', '${presentPct.toStringAsFixed(1)}% of total', LucideIcons.userCheck, const Color(0xFF22C55E), const Color(0xFFDCFCE7)),
             _buildKpiCard('$absent', 'Absent', '${absentPct.toStringAsFixed(1)}% of total', LucideIcons.userX, const Color(0xFFEF4444), const Color(0xFFFEE2E2)),
@@ -496,7 +396,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
 
   Widget _buildKpiCard(String value, String title, String subtitle, IconData icon, Color iconColor, Color bgColor) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -506,17 +406,17 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: bgColor,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: iconColor, size: 24),
+            child: Icon(icon, color: iconColor, size: 20),
           ),
-          const Spacer(),
+          const SizedBox(height: 12),
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark, height: 1.0),
+            style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.w900, color: _textDark, height: 1.0),
           ),
           const SizedBox(height: 8),
           Text(
@@ -681,26 +581,77 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               ]),
             )
           else 
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Roster · ${_filteredRoster.length} of ${_filteredRoster.length}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-                  Text(_isLocked ? 'Locked' : 'Edit', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _isLocked ? const Color(0xFFEF4444) : _accent)),
-                ],
+            Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFFE5E7EB)),
               ),
+              child: Text("Today's Attendance Log (${_filteredRoster.length})", style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
             ),
           if (_filteredRoster.isEmpty)
             Padding(padding: const EdgeInsets.all(32), child: Text('No staff found.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted))),
           if (_filteredRoster.isNotEmpty && _isTablet)
             _buildTableHeader(),
-          if (_isTablet) ..._filteredRoster.map(_buildDesktopRow) else ..._filteredRoster.map(_buildMobileCard),
+          if (_isTablet) ..._filteredRoster.map(_buildDesktopRow) else ..._filteredRoster.asMap().entries.map((e) {
+            final idx = e.key;
+            final item = e.value;
+            return Column(
+              children: [
+                _buildMobileCard(item),
+                if (idx != _filteredRoster.length - 1)
+                  const Divider(height: 1, color: Color(0xFFF3F4F6)),
+              ],
+            );
+          }),
         ],
       ),
     );
   }
   
+  void _showStaffDetails(Map<String, dynamic> staff) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.7,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Staff Details', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            Text('Name: ${staff['name']}', style: GoogleFonts.figtree(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Department: ${staff['department']}', style: GoogleFonts.figtree(fontSize: 16)),
+            const SizedBox(height: 8),
+            Text('Status: ${staff['status']}', style: GoogleFonts.figtree(fontSize: 16)),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF8463E9),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                ),
+                child: Text('Close', style: GoogleFonts.figtree(fontSize: 16, color: Colors.white)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildMobileCard(Map<String, dynamic> item) {
     String initials = item['name'].toString().split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
     if (initials.length > 2 && item['name'].toString().startsWith('Dr. ')) initials = item['name'].toString().substring(4).split(' ').map((e) => e[0]).take(2).join();
@@ -708,66 +659,69 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     if (initials.length > 2 && item['name'].toString().startsWith('Ms. ')) initials = item['name'].toString().substring(4).split(' ').map((e) => e[0]).take(2).join();
     if (initials.length > 2 && item['name'].toString().startsWith('Mrs. ')) initials = item['name'].toString().substring(5).split(' ').map((e) => e[0]).take(2).join();
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-      ),
-      child: Column(
+    final colors = [
+      (const Color(0xFFEBEBFF), const Color(0xFF6366F1)), 
+      (const Color(0xFFE0F2FE), const Color(0xFF0EA5E9)), 
+      (const Color(0xFFDCFCE7), const Color(0xFF22C55E)), 
+      (const Color(0xFFFEF3C7), const Color(0xFFF59E0B)), 
+      (const Color(0xFFFEE2E2), const Color(0xFFEF4444)), 
+      (const Color(0xFFF3E8FF), const Color(0xFF9333EA)), 
+    ];
+    int hash = item['name'].toString().codeUnits.fold(0, (a, b) => a + b);
+    final avatarBg = colors[hash % colors.length].$1;
+    final avatarFg = colors[hash % colors.length].$2;
+
+    return GestureDetector(
+      onTap: () => _showStaffDetails(item),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        color: Colors.transparent,
+        child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: const Color(0xFFF4F1FF),
-                child: Text(initials, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF3B82F6))),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: avatarBg,
+            child: Text(initials, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: avatarFg)),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                      const SizedBox(height: 2),
+                      Text(item['department'], style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                      const SizedBox(height: 12),
+                      Text(item['checkIn'] ?? '—', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
+                      const SizedBox(height: 2),
+                      Text('— ${item['checkOut'] ?? '—'}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(item['empId'], style: GoogleFonts.figtree(fontSize: 12, color: _textMuted, fontWeight: FontWeight.w500)),
-                    const SizedBox(height: 2),
-                    Text(item['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-                    const SizedBox(height: 2),
-                    Text('${item['department']} • ${item['role']}', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                    _buildStatusBadge(item['status']),
+                    const SizedBox(height: 24),
+                    Text('7h 53m', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
                   ],
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(item['checkIn'] ?? '—', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark)),
-                  const SizedBox(height: 2),
-                  Text(item['checkOut'] ?? '—', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark)),
-                  const SizedBox(height: 4),
-                  _buildStatusBadge(item['status']),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: const Color(0xFFF6F6F8), borderRadius: BorderRadius.circular(8)),
-                child: Text(item['shift'], style: GoogleFonts.figtree(fontSize: 12, color: _accent, fontWeight: FontWeight.w600)),
-              ),
-              const Spacer(),
-              _buildMarkControls(item),
-            ],
-          ),
+          const SizedBox(width: 12),
+          const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFFD1D5DB)),
         ],
       ),
-    );
-  }
-
+    ),
+  );
+}
   Widget _buildDesktopRow(Map<String, dynamic> item) {
     final isLast = item == _filteredRoster.last;
     return Container(
@@ -819,20 +773,13 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     Color bgColor;
     if (status == 'Present') { color = const Color(0xFF22C55E); bgColor = const Color(0xFFDCFCE7); }
     else if (status == 'Absent') { color = const Color(0xFFEF4444); bgColor = const Color(0xFFFEE2E2); }
-    else if (status == 'Late') { color = const Color(0xFFF59E0B); bgColor = const Color(0xFFFEF3C7); }
-    else { color = const Color(0xFF3B82F6); bgColor = const Color(0xFFDBEAFE); } // On Leave
+    else if (status == 'Late') { color = const Color(0xFF0EA5E9); bgColor = const Color(0xFFE0F2FE); }
+    else { color = const Color(0xFFF59E0B); bgColor = const Color(0xFFFEF3C7); } // On Leave
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(4)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-          const SizedBox(width: 6),
-          Text(status, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
-        ],
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
+      child: Text(status, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w700, color: color)),
     );
   }
 

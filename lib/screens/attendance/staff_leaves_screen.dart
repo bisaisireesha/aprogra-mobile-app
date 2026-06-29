@@ -239,9 +239,10 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
             const SizedBox(width: 16),
             const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
             const SizedBox(width: 16),
-            const CircleAvatar(
+            CircleAvatar(
               radius: 16,
-              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
+              backgroundColor: const Color(0xFFF4F1FF),
+              child: Text('A', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
             ),
           ],
         ),
@@ -307,9 +308,9 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
           crossAxisCount: _isTablet ? 4 : 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: _isTablet ? 1.4 : 0.85,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: _isTablet ? 1.4 : 1.05,
           children: [
             _buildKpiCard('8', 'Pending Approvals', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
             _buildKpiCard('34', 'Approved This Month', LucideIcons.checkCircle, const Color(0xFF22C55E), const Color(0xFFDCFCE7)),
@@ -362,10 +363,10 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
     final allCount = _leaves.length;
 
     final tabs = [
-      {'name': 'All', 'label': 'All ($allCount)'},
-      {'name': 'Pending', 'label': 'Pending ($pendingCount)'},
-      {'name': 'Approved', 'label': 'Approved ($approvedCount)'},
-      {'name': 'Rejected', 'label': 'Rejected ($rejectedCount)'},
+      {'name': 'All', 'label': 'All'},
+      {'name': 'Pending', 'label': 'Pending'},
+      {'name': 'Approved', 'label': 'Approved'},
+      {'name': 'Rejected', 'label': 'Rejected'},
     ];
 
     return Container(
@@ -411,36 +412,64 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.80,
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Leave Request Details', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 24),
-            Text('Staff Name', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-            const SizedBox(height: 4),
-            Text(leave['name'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 16),
-            Text('Department', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-            const SizedBox(height: 4),
-            Text(leave['department'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 16),
-            Text('Leave Type', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-            const SizedBox(height: 4),
-            Text(leave['type'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 16),
-            Text('Duration', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-            const SizedBox(height: 4),
-            Text('${leave['dateRange']} (${leave['duration']})', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 16),
-            Text('Reason', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-            const SizedBox(height: 4),
-            Text(leave['reason'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600)),
+            // Handle bar
+            Center(
+              child: Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(color: const Color(0xFFE5E7EB), borderRadius: BorderRadius.circular(2)),
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Header
+            Row(
+              children: [
+                _buildAvatar(leave['name']),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(leave['name'], style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                      const SizedBox(height: 4),
+                      Text(leave['department'], style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                    ],
+                  ),
+                ),
+                _buildStatusBadge(leave['status']),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Details container
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF9FAFB),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFF3F4F6)),
+              ),
+              child: Column(
+                children: [
+                  _buildLeaveDetailRow('Leave Type', leave['type']),
+                  const Divider(height: 1, color: Color(0xFFE5E7EB)),
+                  _buildLeaveDetailRow('Date Range', leave['dateRange']),
+                  const Divider(height: 1, color: Color(0xFFE5E7EB)),
+                  _buildLeaveDetailRow('Duration', leave['duration']),
+                  const Divider(height: 1, color: Color(0xFFE5E7EB)),
+                  _buildLeaveDetailRow('Reason', leave['reason']),
+                  const Divider(height: 1, color: Color(0xFFE5E7EB)),
+                  _buildLeaveDetailRow('Status', leave['status']),
+                ],
+              ),
+            ),
             const Spacer(),
             if (leave['status'] == 'Pending')
               Row(
@@ -487,6 +516,21 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLeaveDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+          Flexible(
+            child: Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark), textAlign: TextAlign.end),
+          ),
+        ],
       ),
     );
   }

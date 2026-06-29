@@ -66,7 +66,8 @@ class PtmSlot {
 }
 
 class SchoolCalendarScreen extends StatefulWidget {
-  const SchoolCalendarScreen({super.key});
+  final int initialTab;
+  const SchoolCalendarScreen({super.key, this.initialTab = 0});
 
   @override
   State<SchoolCalendarScreen> createState() => _SchoolCalendarScreenState();
@@ -114,7 +115,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.initialTab);
     final now = DateTime.now();
     _focusedMonth = DateTime(now.year, now.month, 1);
     _selectedDate = DateTime(now.year, now.month, now.day);
@@ -299,21 +300,16 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   Widget _buildHeader(BuildContext context) {
-    final canPop = Navigator.canPop(context);
     return Row(
       children: [
         GestureDetector(
           onTap: () {
-            if (canPop) {
-              Navigator.pop(context);
-            } else {
-              _scaffoldKey.currentState?.openDrawer();
-            }
+            _scaffoldKey.currentState?.openDrawer();
           },
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-            child: Icon(canPop ? LucideIcons.arrowLeft : LucideIcons.menu, size: 18, color: _dark),
+            child: const Icon(LucideIcons.menu, size: 18, color: _dark),
           ),
         ),
         const SizedBox(width: 12),

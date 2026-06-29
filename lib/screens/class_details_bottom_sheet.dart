@@ -461,7 +461,20 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               padding: const EdgeInsets.only(bottom: 16),
               child: Row(
                 children: [
-                  CircleAvatar(radius: 20, backgroundImage: NetworkImage(teacher['avatar'] as String), backgroundColor: const Color(0xFFE6E6EB)),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: const Color(0xFFE6E6EB),
+                    child: ClipOval(
+                      child: Image.network(
+                        teacher['avatar'] as String,
+                        width: 40, height: 40, fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Text(
+                          (teacher['name'] as String).isNotEmpty ? (teacher['name'] as String)[0] : 'T',
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF6C5CE7)),
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -966,7 +979,20 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                     child: Row(
                       children: [
                         SizedBox(width: 24, child: Text('$index', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark))),
-                        CircleAvatar(radius: 18, backgroundImage: NetworkImage(student['avatar'] as String), backgroundColor: const Color(0xFFE6E6EB)),
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: const Color(0xFFE6E6EB),
+                          child: ClipOval(
+                            child: Image.network(
+                              student['avatar'] as String,
+                              width: 36, height: 36, fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Text(
+                                (student['name'] as String).isNotEmpty ? (student['name'] as String)[0] : 'S',
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C5CE7)),
+                              ),
+                            ),
+                          ),
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(

@@ -226,9 +226,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             const SizedBox(width: 16),
             const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
             const SizedBox(width: 16),
-            const CircleAvatar(
+            CircleAvatar(
               radius: 16,
-              backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=11'),
+              backgroundColor: const Color(0xFFF4F1FF),
+              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
             ),
           ],
         ),

@@ -206,9 +206,10 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
             const SizedBox(width: 16),
             const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
             const SizedBox(width: 16),
-            const CircleAvatar(
+            CircleAvatar(
               radius: 16,
-              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
+              backgroundColor: const Color(0xFFF4F1FF),
+              child: Text('A', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
             ),
           ],
         ),
@@ -287,9 +288,9 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           crossAxisCount: _isTablet ? 4 : 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: _isTablet ? 1.4 : 1.1,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: _isTablet ? 1.4 : 1.05,
           children: [
             _buildKpiCard('₹32.4L', 'Total Payroll (May)', LucideIcons.indianRupee, const Color(0xFF8463E9), const Color(0xFFF4F1FF)),
             _buildKpiCard('38', 'Paid', LucideIcons.checkCircle2, const Color(0xFF10B981), const Color(0xFFD1FAE5)),
@@ -667,9 +668,11 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
             width: 380,
+            color: Colors.white,
             padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -853,7 +856,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
     return Container(
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(color: Color(0xFFEBEBEB))),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, -4))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, -4))],
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,

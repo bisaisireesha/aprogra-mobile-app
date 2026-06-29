@@ -206,9 +206,10 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
             const SizedBox(width: 16),
             const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
             const SizedBox(width: 16),
-            const CircleAvatar(
+            CircleAvatar(
               radius: 16,
-              backgroundImage: NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
+              backgroundColor: const Color(0xFFF4F1FF),
+              child: Text('A', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
             ),
           ],
         ),
@@ -271,9 +272,9 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
           crossAxisCount: _isTablet ? 4 : 2,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: _isTablet ? 1.4 : 1.1,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: _isTablet ? 1.4 : 1.05,
           children: [
             _buildKpiCard('48', 'Total Teachers', LucideIcons.users, const Color(0xFF8463E9), const Color(0xFFF4F1FF)),
             _buildKpiCard('24', 'Avg Periods / Week', LucideIcons.bookOpen, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
@@ -559,9 +560,11 @@ void _showWorkloadDetails(
       context: context,
       builder: (context) {
         return Dialog(
+          backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           child: Container(
             width: 380,
+            color: Colors.white,
             padding: const EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,

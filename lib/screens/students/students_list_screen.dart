@@ -613,8 +613,17 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                   children: [
                     CircleAvatar(
                       radius: 16,
-                      backgroundImage: NetworkImage(adm['avatar'] as String),
                       backgroundColor: const Color(0xFFE6E6EB),
+                      child: ClipOval(
+                        child: Image.network(
+                          adm['avatar'] as String,
+                          width: 32, height: 32, fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Text(
+                            (adm['name'] as String).isNotEmpty ? (adm['name'] as String)[0] : 'S',
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C5CE7)),
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(

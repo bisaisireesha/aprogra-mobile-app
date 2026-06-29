@@ -47,6 +47,7 @@ import '../fees/payment_reminders_screen.dart';
 import '../fees/discounts_scholarships_screen.dart';
 import '../fees/fee_reports_screen.dart';
 import '../calendar/calendar_screen.dart';
+import '../calendar/ptm_slot_booking_screen.dart';
 
 extension _MenuScreenSizeExtension on num {
   double get w => toDouble();
@@ -76,9 +77,16 @@ class _MenuScreenState extends State<MenuScreen> {
       _activeGroup = 'StaffManagement';
     } else if (_isFeesGroup(widget.activeScreen)) {
       _activeGroup = 'Fees';
+    } else if (_isEventsGroup(widget.activeScreen)) {
+      _activeGroup = 'Events';
     } else {
       _activeGroup = 'Overview';
     }
+  }
+
+  bool _isEventsGroup(String screen) {
+    const eventsScreens = ['Calendar', 'Categories', 'PTM Slot Booking'];
+    return eventsScreens.contains(screen);
   }
 
   bool _isStaffGroup(String screen) {
@@ -207,8 +215,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildRailIcon(context, LucideIcons.creditCard, _activeGroup == 'Fees' || widget.activeScreen == 'Financial Summary', () {
                     setState(() { _activeGroup = 'Fees'; });
                   }),
-                  _buildRailIcon(context, LucideIcons.calendar, widget.activeScreen == 'Calendar', () {
-                    _navigateTo(context, const SchoolCalendarScreen());
+                  _buildRailIcon(context, LucideIcons.calendar, _activeGroup == 'Events' || widget.activeScreen == 'Calendar' || widget.activeScreen == 'PTM Slot Booking', () {
+                    setState(() { _activeGroup = 'Events'; });
                   }),
                   _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
                     _navigateTo(context, const MessagesScreen());
@@ -227,10 +235,20 @@ class _MenuScreenState extends State<MenuScreen> {
             _navigateTo(context, const ComingSoonScreen(title: 'Notifications'));
           }),
                     SizedBox(height: 16.h),
-                    CircleAvatar(
-                      radius: 24.r, 
-                      backgroundImage: const NetworkImage('https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150'),
-                      backgroundColor: AppColors.purpleLight,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(24.r),
+                      child: Image.network(
+                        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150',
+                        width: 48.r,
+                        height: 48.r,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: 48.r,
+                          height: 48.r,
+                          color: AppColors.purpleLight,
+                          child: Icon(LucideIcons.user, color: AppColors.purple, size: 20.r),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 12.h),
                   ],
@@ -296,6 +314,9 @@ class _MenuScreenState extends State<MenuScreen> {
     }
     if (_activeGroup == 'Fees') {
       return _buildFeesRightPane(context);
+    }
+    if (_activeGroup == 'Events') {
+      return _buildEventsRightPane(context);
     }
     
     return Container(
@@ -555,6 +576,59 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Documents', LucideIcons.fileText, const StaffDocumentsScreen()),
                   _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const StaffReportsScreen()),
                   
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEventsRightPane(BuildContext context) {
+    const isDark = false;
+    return Container(
+      decoration: const BoxDecoration(color: Colors.transparent),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Events & Calendar',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: isDark ? Colors.white : const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Manage school events and schedules',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('EVENTS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Calendar', LucideIcons.calendar, const SchoolCalendarScreen()),
+                  _buildMenuItem(context, 'Categories', LucideIcons.layoutGrid, const SchoolCalendarScreen(initialTab: 1)),
+                  _buildMenuItem(context, 'PTM Slot Booking', LucideIcons.userCheck, const PtmSlotBookingScreen()),
                   SizedBox(height: 24.h),
                 ],
               ),

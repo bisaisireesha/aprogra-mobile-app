@@ -378,8 +378,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Timetables', LucideIcons.calendar, const TimetablesScreen()),
                   _buildMenuItem(context, 'Teachers', LucideIcons.monitor, const TeachersListScreen()),
                   _buildMenuItem(context, 'Homework', LucideIcons.notebookPen, const HomeworkScreen()),
-                  _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const AssignmentsScreen()),
-                  
+                  _buildMenuItem(context, 'Assignments', LucideIcons.clipboardList, const AssignmentsScreen()),                  
                   _buildSectionTitle('ATTENDANCE', topPadding: 20.h),
                   _buildMenuItem(context, 'Student Attendance', LucideIcons.calendarCheck, const StudentAttendanceScreen()),
                   _buildMenuItem(context, 'Teacher Attendance', LucideIcons.userCheck, const StaffAttendanceScreen()),

@@ -6,6 +6,8 @@ import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
 import '../dashboard/dashboard_screen.dart';
+import 'create_teacher_wizard.dart';
+import 'teacher_details_screen.dart';
 
 class TeachersListScreen extends StatefulWidget {
   const TeachersListScreen({super.key});
@@ -16,39 +18,84 @@ class TeachersListScreen extends StatefulWidget {
 
 class _TeachersListScreenState extends State<TeachersListScreen> {
   String _selectedFilter = 'All';
+  String _searchQuery = '';
   int _currentIndex = 1; // 1 represents Academics
+  
+  int _currentPage = 1;
+  final int _itemsPerPage = 10;
+  String? _filterExperience;
+  String? _filterRole;
+  
+  final List<String> _availableRoles = ['Teacher', 'Class Teacher', 'Senior Teacher', 'Subject Lead', 'Coordinator', 'Head of Department'];
+  final List<String> _availableExperiences = ['0-5 yrs', '5-10 yrs', '10+ yrs'];
 
   final List<Map<String, dynamic>> _allTeachers = [
-    {
-      'initials': 'MJ', 'name': 'Meera Joshi', 'id': 'EMP-101', 'role': 'Senior Teacher',
-      'department': 'Pre-Primary', 'subjects': ['Rhymes'], 'experience': '3 yrs',
-      'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)
-    },
-    {
-      'initials': 'PR', 'name': 'Pooja Rao', 'id': 'EMP-102', 'role': 'Class Teacher',
-      'department': 'Pre-Primary', 'subjects': ['Story Time'], 'experience': '4 yrs',
-      'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)
-    },
-    {
-      'initials': 'AS', 'name': 'Anita Sharma', 'id': 'EMP-103', 'role': 'Subject Lead',
-      'department': 'Primary', 'subjects': ['Art & Craft'], 'experience': '5 yrs',
-      'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)
-    },
-    {
-      'initials': 'SD', 'name': 'Sneha Das', 'id': 'EMP-104', 'role': 'Coordinator',
-      'department': 'Secondary', 'subjects': ['Music'], 'experience': '6 yrs',
-      'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)
-    },
-    {
-      'initials': 'KM', 'name': 'Kavita Menon', 'id': 'EMP-105', 'role': 'Head of Department',
-      'department': 'Secondary', 'subjects': ['English'], 'experience': '7 yrs',
-      'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)
-    },
+    // 6 Pre-Primary
+    {'initials': 'MJ', 'name': 'Meera Joshi', 'id': 'EMP-101', 'role': 'Senior Teacher', 'department': 'Pre-Primary', 'subjects': ['Rhymes'], 'experience': '3 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'PR', 'name': 'Pooja Rao', 'id': 'EMP-102', 'role': 'Class Teacher', 'department': 'Pre-Primary', 'subjects': ['Story Time'], 'experience': '4 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'NK', 'name': 'Nita Kumar', 'id': 'EMP-106', 'role': 'Teacher', 'department': 'Pre-Primary', 'subjects': ['Art'], 'experience': '2 yrs', 'avatarColor': const Color(0xFFFCE7F3), 'textColor': const Color(0xFFBE185D)},
+    {'initials': 'SP', 'name': 'Sneha Patel', 'id': 'EMP-107', 'role': 'Teacher', 'department': 'Pre-Primary', 'subjects': ['Activity'], 'experience': '5 yrs', 'avatarColor': const Color(0xFFFEF3C7), 'textColor': const Color(0xFFB45309)},
+    {'initials': 'RV', 'name': 'Roshni Verma', 'id': 'EMP-108', 'role': 'Teacher', 'department': 'Pre-Primary', 'subjects': ['Numbers'], 'experience': '1 yrs', 'avatarColor': const Color(0xFFDCFCE7), 'textColor': const Color(0xFF15803D)},
+    {'initials': 'AK', 'name': 'Aditi Kapoor', 'id': 'EMP-109', 'role': 'Teacher', 'department': 'Pre-Primary', 'subjects': ['Letters'], 'experience': '6 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+
+    // 10 Primary
+    {'initials': 'AS', 'name': 'Anita Sharma', 'id': 'EMP-103', 'role': 'Subject Lead', 'department': 'Primary', 'subjects': ['Art & Craft'], 'experience': '5 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'RJ', 'name': 'Rajiv Jain', 'id': 'EMP-110', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Mathematics'], 'experience': '8 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'SM', 'name': 'Simran Kaur', 'id': 'EMP-111', 'role': 'Class Teacher', 'department': 'Primary', 'subjects': ['English'], 'experience': '4 yrs', 'avatarColor': const Color(0xFFFEF3C7), 'textColor': const Color(0xFFB45309)},
+    {'initials': 'PG', 'name': 'Priya Gupta', 'id': 'EMP-112', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Science'], 'experience': '3 yrs', 'avatarColor': const Color(0xFFDCFCE7), 'textColor': const Color(0xFF15803D)},
+    {'initials': 'VN', 'name': 'Vikram Nath', 'id': 'EMP-113', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Hindi'], 'experience': '7 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'SG', 'name': 'Suresh Garg', 'id': 'EMP-114', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Social Studies'], 'experience': '10 yrs', 'avatarColor': const Color(0xFFFCE7F3), 'textColor': const Color(0xFFBE185D)},
+    {'initials': 'MN', 'name': 'Manju Nair', 'id': 'EMP-115', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Computer Science'], 'experience': '2 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'RB', 'name': 'Rahul Bose', 'id': 'EMP-116', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Physical Education'], 'experience': '6 yrs', 'avatarColor': const Color(0xFFFEF3C7), 'textColor': const Color(0xFFB45309)},
+    {'initials': 'TP', 'name': 'Tara Prasad', 'id': 'EMP-117', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Music'], 'experience': '9 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'DK', 'name': 'Deepa Krishnan', 'id': 'EMP-118', 'role': 'Teacher', 'department': 'Primary', 'subjects': ['Art'], 'experience': '5 yrs', 'avatarColor': const Color(0xFFDCFCE7), 'textColor': const Color(0xFF15803D)},
+
+    // 9 Secondary
+    {'initials': 'SD', 'name': 'Sneha Das', 'id': 'EMP-104', 'role': 'Coordinator', 'department': 'Secondary', 'subjects': ['Music'], 'experience': '6 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'KM', 'name': 'Kavita Menon', 'id': 'EMP-105', 'role': 'Head of Department', 'department': 'Secondary', 'subjects': ['English'], 'experience': '7 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'AR', 'name': 'Amit Roy', 'id': 'EMP-119', 'role': 'Senior Teacher', 'department': 'Secondary', 'subjects': ['Physics'], 'experience': '12 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'SS', 'name': 'Sunita Sen', 'id': 'EMP-120', 'role': 'Senior Teacher', 'department': 'Secondary', 'subjects': ['Chemistry'], 'experience': '11 yrs', 'avatarColor': const Color(0xFFFCE7F3), 'textColor': const Color(0xFFBE185D)},
+    {'initials': 'VM', 'name': 'Varun Mehra', 'id': 'EMP-121', 'role': 'Teacher', 'department': 'Secondary', 'subjects': ['Mathematics'], 'experience': '8 yrs', 'avatarColor': const Color(0xFFFEF3C7), 'textColor': const Color(0xFFB45309)},
+    {'initials': 'PN', 'name': 'Poonam Nanda', 'id': 'EMP-122', 'role': 'Teacher', 'department': 'Secondary', 'subjects': ['Biology'], 'experience': '10 yrs', 'avatarColor': const Color(0xFFDCFCE7), 'textColor': const Color(0xFF15803D)},
+    {'initials': 'RM', 'name': 'Rakesh Mishra', 'id': 'EMP-123', 'role': 'Teacher', 'department': 'Secondary', 'subjects': ['History'], 'experience': '14 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
+    {'initials': 'NJ', 'name': 'Nisha Jha', 'id': 'EMP-124', 'role': 'Teacher', 'department': 'Secondary', 'subjects': ['Geography'], 'experience': '5 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
+    {'initials': 'KT', 'name': 'Karan Tiwari', 'id': 'EMP-125', 'role': 'Teacher', 'department': 'Secondary', 'subjects': ['Economics'], 'experience': '7 yrs', 'avatarColor': const Color(0xFFFCE7F3), 'textColor': const Color(0xFFBE185D)},
   ];
 
   List<Map<String, dynamic>> get _teachers {
-    if (_selectedFilter == 'All') return _allTeachers;
-    return _allTeachers.where((t) => t['department'] == _selectedFilter).toList();
+    var filtered = _allTeachers;
+    if (_selectedFilter != 'All') {
+      filtered = filtered.where((t) => t['department'] == _selectedFilter).toList();
+    }
+    if (_searchQuery.isNotEmpty) {
+      final q = _searchQuery.toLowerCase();
+      filtered = filtered.where((t) => 
+        t['name'].toString().toLowerCase().contains(q) ||
+        t['id'].toString().toLowerCase().contains(q) ||
+        (t['subjects'] as List).any((s) => s.toString().toLowerCase().contains(q))
+      ).toList();
+    }
+    if (_filterRole != null) {
+      filtered = filtered.where((t) => t['role'] == _filterRole).toList();
+    }
+    if (_filterExperience != null) {
+      filtered = filtered.where((t) {
+        int exp = int.tryParse((t['experience'] as String).replaceAll(' yrs', '')) ?? 0;
+        if (_filterExperience == '0-5 yrs') return exp <= 5;
+        if (_filterExperience == '5-10 yrs') return exp > 5 && exp <= 10;
+        if (_filterExperience == '10+ yrs') return exp > 10;
+        return true;
+      }).toList();
+    }
+    return filtered;
+  }
+
+  List<Map<String, dynamic>> get _paginatedTeachers {
+    final start = (_currentPage - 1) * _itemsPerPage;
+    final end = start + _itemsPerPage;
+    final tList = _teachers;
+    if (start >= tList.length) return [];
+    return tList.sublist(start, end > tList.length ? tList.length : end);
   }
 
   @override
@@ -118,7 +165,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
         ),
         const SizedBox(width: 16),
         ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: _showAddTeacherPopup,
           icon: const Icon(LucideIcons.plus, size: 18, color: Colors.white),
           label: Text(
             'Add Teacher',
@@ -141,13 +188,203 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     );
   }
 
+  Future<void> _showAddTeacherPopup() async {
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.3),
+      builder: (context) => const CreateTeacherWizard(),
+    );
+
+    if (result != null) {
+      setState(() {
+        // Add random avatar color
+        result['avatarColor'] = const Color(0xFFF3E8FF);
+        result['textColor'] = const Color(0xFF7E22CE);
+        
+        // Calculate initials
+        final name = result['name'] as String;
+        final parts = name.split(' ');
+        if (parts.length > 1) {
+          result['initials'] = '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+        } else if (parts.isNotEmpty) {
+          result['initials'] = name.substring(0, name.length >= 2 ? 2 : 1).toUpperCase();
+        } else {
+          result['initials'] = 'T';
+        }
+
+        _allTeachers.insert(0, result);
+      });
+    }
+  }
+
+  void _showFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withValues(alpha: 0.3),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Advanced Filters', style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18)),
+                  IconButton(
+                    icon: const Icon(Icons.close, color: Color(0xFF9CA3AF)),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              content: SizedBox(
+                width: 400,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Role', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _availableRoles.map((role) {
+                        final isSelected = _filterRole == role;
+                        return ChoiceChip(
+                          label: Text(role, style: GoogleFonts.inter(fontSize: 13)),
+                          selected: isSelected,
+                          onSelected: (selected) {
+                            setDialogState(() => _filterRole = selected ? role : null);
+                          },
+                          selectedColor: const Color(0xFFEEF2FF),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(color: isSelected ? const Color(0xFF818CF8) : const Color(0xFFE5E7EB)),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 24),
+                    Text('Experience', style: GoogleFonts.inter(fontWeight: FontWeight.w600, fontSize: 14)),
+                    const SizedBox(height: 8),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _availableExperiences.map((exp) {
+                        final isSelected = _filterExperience == exp;
+                        return ChoiceChip(
+                          label: Text(exp, style: GoogleFonts.inter(fontSize: 13)),
+                          selected: isSelected,
+                          onSelected: (selected) {
+                            setDialogState(() => _filterExperience = selected ? exp : null);
+                          },
+                          selectedColor: const Color(0xFFEEF2FF),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: BorderSide(color: isSelected ? const Color(0xFF818CF8) : const Color(0xFFE5E7EB)),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setDialogState(() {
+                      _filterRole = null;
+                      _filterExperience = null;
+                    });
+                  },
+                  child: Text('Clear All', style: GoogleFonts.inter(color: const Color(0xFF6B7280))),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      _currentPage = 1;
+                    });
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF6366F1),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  ),
+                  child: Text('Apply Filters', style: GoogleFonts.inter(color: Colors.white)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  void _handleTeacherAction(String action, Map<String, dynamic> teacher) {
+    if (action == 'view') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TeacherDetailsScreen(
+            initials: teacher['initials'],
+            name: teacher['name'],
+            grades: teacher['department'],
+            subject: (teacher['subjects'] as List).join(', '),
+            avatarColor: teacher['avatarColor'],
+            status: 'Active',
+            classesToday: '5',
+          ),
+        ),
+      );
+    } else if (action == 'edit') {
+      showDialog<Map<String, dynamic>>(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.3),
+        builder: (context) => CreateTeacherWizard(initialData: teacher),
+      ).then((result) {
+        if (result != null) {
+          setState(() {
+            final index = _allTeachers.indexWhere((t) => t['id'] == teacher['id']);
+            if (index != -1) {
+              result['avatarColor'] = teacher['avatarColor'];
+              result['textColor'] = teacher['textColor'];
+              result['initials'] = teacher['initials'];
+              _allTeachers[index] = result;
+            }
+          });
+        }
+      });
+    } else if (action == 'delete') {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('Delete Teacher', style: GoogleFonts.inter(fontWeight: FontWeight.bold)),
+          content: Text('Are you sure you want to delete ${teacher['name']}?', style: GoogleFonts.inter()),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel', style: GoogleFonts.inter(color: Colors.grey))),
+            TextButton(
+              onPressed: () {
+                setState(() => _allTeachers.removeWhere((t) => t['id'] == teacher['id']));
+                Navigator.pop(context);
+              },
+              child: Text('Delete', style: GoogleFonts.inter(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   Widget _buildStatsCards() {
     return LayoutBuilder(
       builder: (context, constraints) {
         final bool isMobile = constraints.maxWidth < 600;
         final Widget totalCard = _buildStatCard(
           title: 'Total Teachers',
-          value: '16',
+          value: '25',
           icon: LucideIcons.users,
           iconColor: const Color(0xFF6366F1),
           iconBgColor: const Color(0xFFEEF2FF),
@@ -286,55 +523,60 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: const Color(0xFFE5E7EB)),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildFilterChip('Pre-Primary', '6', 'Nursery • LKG • UKG', LucideIcons.baby, const Color(0xFF6366F1)),
-                Container(width: 1, height: 40, color: const Color(0xFFE5E7EB)),
-                _buildFilterChip('Primary', '10', 'Class 1 - 5', LucideIcons.blocks, const Color(0xFF6366F1)),
-                Container(width: 1, height: 40, color: const Color(0xFFE5E7EB)),
-                _buildFilterChip('Secondary', '9', 'Class 6 - 12', LucideIcons.graduationCap, const Color(0xFF6366F1)),
-              ],
-            ),
-          ),
-        ),
+        _buildFilterButtons(),
         const SizedBox(height: 24),
         LayoutBuilder(
           builder: (context, constraints) {
             final bool isMobile = constraints.maxWidth < 600;
-            final searchField = Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
-              ),
-              child: Row(
-                children: [
-                  const Icon(LucideIcons.search, size: 20, color: Color(0xFF9CA3AF)),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Search teachers, ID, email, or subject',
-                        hintStyle: GoogleFonts.inter(color: const Color(0xFF9CA3AF), fontSize: 14),
-                        border: InputBorder.none,
-                        isDense: true,
-                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
+            final searchField = Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0xFFE5E7EB)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(LucideIcons.search, size: 20, color: Color(0xFF9CA3AF)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: TextField(
+                            onChanged: (val) => setState(() => _searchQuery = val),
+                            decoration: InputDecoration(
+                              hintText: 'Search teachers, ID, email, or subject',
+                              hintStyle: GoogleFonts.inter(color: const Color(0xFF9CA3AF), fontSize: 14),
+                              border: InputBorder.none,
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 12),
+                InkWell(
+                  onTap: () => _showFilterDialog(context),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: (_filterExperience != null || _filterRole != null) ? const Color(0xFFEEF2FF) : Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: (_filterExperience != null || _filterRole != null) ? const Color(0xFF818CF8) : const Color(0xFFE5E7EB)),
+                    ),
+                    child: Icon(
+                      LucideIcons.slidersHorizontal,
+                      size: 20,
+                      color: (_filterExperience != null || _filterRole != null) ? const Color(0xFF6366F1) : const Color(0xFF4B5563),
+                    ),
+                  ),
+                ),
+              ],
             );
             final showingText = Text(
               'Showing ${_teachers.length} teachers',
@@ -368,69 +610,44 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     );
   }
 
-  Widget _buildFilterChip(String title, String count, String subtitle, IconData icon, Color color) {
-    bool isSelected = _selectedFilter == title;
-    return InkWell(
-      onTap: () => setState(() => _selectedFilter = title),
+  Widget _buildFilterButtons() {
+    return Row(
+      children: [
+        Expanded(child: _buildFilterButton('All')),
+        const SizedBox(width: 8),
+        Expanded(child: _buildFilterButton('Pre-Primary')),
+        const SizedBox(width: 8),
+        Expanded(child: _buildFilterButton('Primary')),
+        const SizedBox(width: 8),
+        Expanded(child: _buildFilterButton('Secondary')),
+      ],
+    );
+  }
+
+  Widget _buildFilterButton(String label) {
+    bool isSelected = _selectedFilter == label;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedFilter = label;
+        });
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFFF3E8FF) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          color: isSelected ? const Color(0xFF6366F1) : Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: isSelected ? const Color(0xFF6366F1) : const Color(0xFFEBEBEB)),
+          boxShadow: isSelected ? [BoxShadow(color: const Color(0xFF6366F1).withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
         ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: BoxDecoration(
-                color: isSelected ? Colors.white : const Color(0xFFEEF2FF),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(icon, size: 16, color: color),
-            ),
-            const SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF111827),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF3F4F6),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        count,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF4B5563),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: const Color(0xFF6B7280),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
+            color: isSelected ? Colors.white : const Color(0xFF595973),
+          ),
         ),
       ),
     );
@@ -453,9 +670,9 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
                 return ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _teachers.length,
+                  itemCount: _paginatedTeachers.length,
                   separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFE5E7EB)),
-                  itemBuilder: (context, index) => _buildMobileTeacherCard(_teachers[index]),
+                  itemBuilder: (context, index) => _buildMobileTeacherCard(_paginatedTeachers[index]),
                 );
               }
 
@@ -484,10 +701,10 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _teachers.length,
+                        itemCount: _paginatedTeachers.length,
                         separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFE5E7EB)),
                         itemBuilder: (context, index) {
-                          final t = _teachers[index];
+                          final t = _paginatedTeachers[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                             child: Row(
@@ -579,7 +796,16 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
                                     ),
                                   ),
                                 ),
-                                const Icon(Icons.more_vert, size: 20, color: Color(0xFF9CA3AF)),
+                                PopupMenuButton<String>(
+                                  color: Colors.white,
+                                  icon: const Icon(Icons.more_vert, size: 20, color: Color(0xFF9CA3AF)),
+                                  onSelected: (value) => _handleTeacherAction(value, t),
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(value: 'view', child: Text('View', style: GoogleFonts.inter())),
+                                    PopupMenuItem(value: 'edit', child: Text('Edit', style: GoogleFonts.inter())),
+                                    PopupMenuItem(value: 'delete', child: Text('Delete', style: GoogleFonts.inter(color: Colors.red))),
+                                  ],
+                                ),
                               ],
                             ),
                           );
@@ -615,31 +841,48 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(t['name'], style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: Text(t['name'], style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600, color: const Color(0xFF111827)))),
+                    PopupMenuButton<String>(
+                      color: Colors.white,
+                      icon: const Icon(Icons.more_vert, size: 20, color: Color(0xFF9CA3AF)),
+                      onSelected: (value) => _handleTeacherAction(value, t),
+                      itemBuilder: (context) => [
+                        PopupMenuItem(value: 'view', child: Text('View', style: GoogleFonts.inter())),
+                        PopupMenuItem(value: 'edit', child: Text('Edit', style: GoogleFonts.inter())),
+                        PopupMenuItem(value: 'delete', child: Text('Delete', style: GoogleFonts.inter(color: Colors.red))),
+                      ],
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 4),
                 Text('${t['id']} • ${t['role']}', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF6B7280))),
                 const SizedBox(height: 6),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('${t['department']} • ', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF6B7280))),
-                    if ((t['subjects'] as List).isNotEmpty)
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(6)),
-                        child: Text(t['subjects'][0], style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF374151))),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Flexible(child: Text('${t['department']} • ', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF6B7280)), overflow: TextOverflow.ellipsis)),
+                          if ((t['subjects'] as List).isNotEmpty)
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(6)),
+                              child: Text(t['subjects'][0], style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF374151))),
+                            ),
+                        ],
                       ),
+                    ),
+                    Text(t['experience'], style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xFF374151))),
                   ],
                 ),
               ],
             ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const Icon(Icons.more_vert, size: 20, color: Color(0xFF9CA3AF)),
-              const SizedBox(height: 16),
-              Text(t['experience'], style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xFF374151))),
-            ],
           ),
         ],
       ),
@@ -652,22 +895,33 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isSmall = constraints.maxWidth < 450;
+          final totalItems = _teachers.length;
+          final totalPages = (totalItems / _itemsPerPage).ceil().clamp(1, 9999);
+          final startItem = totalItems == 0 ? 0 : ((_currentPage - 1) * _itemsPerPage) + 1;
+          final endItem = (_currentPage * _itemsPerPage).clamp(0, totalItems);
+
           final showingText = Text(
-            'Showing 1 to ${_teachers.length} of ${_teachers.length} entries',
+            'Showing $startItem-$endItem of $totalItems',
             style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF6B7280)),
           );
+
           final pageControls = Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _buildPageButton(Icons.chevron_left),
-              const SizedBox(width: 8),
-              _buildPageNumber('1', isActive: true),
-              const SizedBox(width: 8),
-              _buildPageNumber('2'),
-              const SizedBox(width: 8),
-              _buildPageNumber('3'),
-              const SizedBox(width: 8),
-              _buildPageButton(Icons.chevron_right),
+              _buildPageButton(
+                Icons.chevron_left,
+                onTap: _currentPage > 1 ? () => setState(() => _currentPage--) : null,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Page $_currentPage / $totalPages',
+                style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500, color: const Color(0xFF374151)),
+              ),
+              const SizedBox(width: 12),
+              _buildPageButton(
+                Icons.chevron_right,
+                onTap: _currentPage < totalPages ? () => setState(() => _currentPage++) : null,
+              ),
             ],
           );
 
@@ -692,32 +946,22 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     );
   }
 
-  Widget _buildPageButton(IconData icon) {
-    return Container(
-      padding: const EdgeInsets.all(6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: const Color(0xFFE5E7EB)),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Icon(icon, size: 16, color: const Color(0xFF6B7280)),
-    );
-  }
-
-  Widget _buildPageNumber(String text, {bool isActive = false}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: isActive ? const Color(0xFFF3E8FF) : Colors.white,
-        border: Border.all(color: isActive ? const Color(0xFFD8B4FE) : const Color(0xFFE5E7EB)),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        text,
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-          color: isActive ? const Color(0xFF7E22CE) : const Color(0xFF374151),
+  Widget _buildPageButton(IconData icon, {VoidCallback? onTap}) {
+    final isDisabled = onTap == null;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(6),
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: isDisabled ? const Color(0xFFF9FAFB) : Colors.white,
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Icon(
+          icon,
+          size: 16,
+          color: isDisabled ? const Color(0xFFD1D5DB) : const Color(0xFF6B7280),
         ),
       ),
     );

@@ -1,0 +1,12 @@
+import 'package:flutter/material.dart';
+import '../auth/menu_screen.dart';
+export 'hostel_dashboard_screen.dart';
+export 'hostel_blocks_screen.dart';
+export 'room_allocations_screen.dart';
+export 'hostel_wardens_screen.dart';
+export 'hostel_attendance_screen.dart';
+export 'mess_dashboard_screen.dart';
+export 'mess_menu_screen.dart';
+export 'hostel_inventory_screen.dart';
+export 'hostel_vendors_screen.dart';
+export 'hostel_reports_screen.dart';

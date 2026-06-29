@@ -6,6 +6,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../core/constants/app_colors.dart';
 import '../dashboard/dashboard_screen.dart';
 import '../transport/transport_screen.dart';
+import '../transport/transport_dashboard_screen.dart';
+import '../transport/routes_screen.dart';
+import '../transport/vehicles_screen.dart';
+import '../transport/drivers_screen.dart';
+import '../transport/student_allocation_screen.dart';
+import '../transport/live_tracking_screen.dart';
+import '../transport/maintenance_screen.dart';
+import '../transport/transport_reports_screen.dart';
 import '../settings/settings_screen.dart';
 import '../dashboard/action_center_screen.dart';
 import '../dashboard/activity_feed_screen.dart';
@@ -48,6 +56,7 @@ import '../fees/discounts_scholarships_screen.dart';
 import '../fees/fee_reports_screen.dart';
 import '../calendar/calendar_screen.dart';
 import '../calendar/ptm_slot_booking_screen.dart';
+import '../hostel/hostel_screens.dart';
 
 extension _MenuScreenSizeExtension on num {
   double get w => toDouble();
@@ -79,14 +88,34 @@ class _MenuScreenState extends State<MenuScreen> {
       _activeGroup = 'Fees';
     } else if (_isEventsGroup(widget.activeScreen)) {
       _activeGroup = 'Events';
+    } else if (_isHostelGroup(widget.activeScreen)) {
+      _activeGroup = 'Hostel';
+    } else if (_isTransportGroup(widget.activeScreen)) {
+      _activeGroup = 'Transport';
     } else {
       _activeGroup = 'Overview';
     }
   }
 
+  bool _isTransportGroup(String screen) {
+    const transportScreens = [
+      'Transport Dashboard', 'Routes', 'Vehicles', 'Drivers',
+      'Student Allocation', 'Live Tracking', 'Maintenance', 'Reports'
+    ];
+    return transportScreens.contains(screen);
+  }
+
   bool _isEventsGroup(String screen) {
     const eventsScreens = ['Calendar', 'Categories', 'PTM Slot Booking'];
     return eventsScreens.contains(screen);
+  }
+
+  bool _isHostelGroup(String screen) {
+    const hostelScreens = [
+      'Hostel Dashboard', 'Blocks', 'Room Allocations', 'Wardens', 'Hostel Attendance',
+      'Mess Dashboard', 'Mess Menu', 'Inventory', 'Vendors', 'Reports'
+    ];
+    return hostelScreens.contains(screen);
   }
 
   bool _isStaffGroup(String screen) {
@@ -218,14 +247,15 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildRailIcon(context, LucideIcons.calendar, _activeGroup == 'Events' || widget.activeScreen == 'Calendar' || widget.activeScreen == 'PTM Slot Booking', () {
                     setState(() { _activeGroup = 'Events'; });
                   }),
+                  _buildRailIcon(context, LucideIcons.bedDouble, _activeGroup == 'Hostel', () {
+                    setState(() { _activeGroup = 'Hostel'; });
+                  }),
                   _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
                     _navigateTo(context, const MessagesScreen());
                   }, hasBadge: true),
-                  _buildRailIcon(context, LucideIcons.home, widget.activeScreen == 'Home' || widget.activeScreen == 'Admissions Insights', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Home'));
-                  }),
-                  _buildRailIcon(context, LucideIcons.bus, widget.activeScreen == 'Transport', () {
-                    _navigateTo(context, const ComingSoonScreen(title: 'Transport'));
+
+                  _buildRailIcon(context, LucideIcons.bus, _activeGroup == 'Transport', () {
+                    setState(() { _activeGroup = 'Transport'; });
                   }),
                 ],
               ),
@@ -317,6 +347,12 @@ class _MenuScreenState extends State<MenuScreen> {
     }
     if (_activeGroup == 'Events') {
       return _buildEventsRightPane(context);
+    }
+    if (_activeGroup == 'Hostel') {
+      return _buildHostelRightPane(context);
+    }
+    if (_activeGroup == 'Transport') {
+      return _buildTransportRightPane(context);
     }
     
     return Container(
@@ -628,7 +664,129 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildSectionTitle('EVENTS', topPadding: 20.h),
                   _buildMenuItem(context, 'Calendar', LucideIcons.calendar, const SchoolCalendarScreen()),
                   _buildMenuItem(context, 'Categories', LucideIcons.layoutGrid, const SchoolCalendarScreen(initialTab: 1)),
-                  _buildMenuItem(context, 'PTM Slot Booking', LucideIcons.userCheck, const PtmSlotBookingScreen()),
+                  _buildMenuItem(context, 'PTM Slot Booking', LucideIcons.userCheck, const SchoolCalendarScreen(initialTab: 2)),
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHostelRightPane(BuildContext context) {
+    const isDark = false;
+    return Container(
+      decoration: const BoxDecoration(color: Colors.transparent),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Hostel',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: isDark ? Colors.white : const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Manage hostels, rooms, and mess',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('HOSTEL', topPadding: 20.h),
+                  _buildMenuItem(context, 'Hostel Dashboard', LucideIcons.layoutGrid, const HostelDashboardScreen()),
+                  _buildMenuItem(context, 'Blocks', LucideIcons.layoutGrid, const HostelBlocksScreen()),
+                  _buildMenuItem(context, 'Room Allocations', LucideIcons.users, const RoomAllocationsScreen()),
+                  _buildMenuItem(context, 'Wardens', LucideIcons.user, const HostelWardensScreen()),
+                  _buildMenuItem(context, 'Hostel Attendance', LucideIcons.calendarCheck, const HostelAttendanceScreen()),
+                  _buildSectionTitle('MESS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Mess Dashboard', LucideIcons.layoutGrid, const MessDashboardScreen()),
+                  _buildMenuItem(context, 'Mess Menu', LucideIcons.bookOpen, const MessMenuScreen()),
+                  _buildMenuItem(context, 'Inventory', LucideIcons.package, const HostelInventoryScreen()),
+                  _buildMenuItem(context, 'Vendors', LucideIcons.briefcase, const HostelVendorsScreen()),
+                  _buildSectionTitle('INSIGHTS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const HostelReportsScreen()),
+                  SizedBox(height: 24.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTransportRightPane(BuildContext context) {
+    const isDark = false;
+    return Container(
+      decoration: const BoxDecoration(color: Colors.transparent),
+      padding: EdgeInsets.only(left: 24.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 16.h),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
+            child: Text(
+              'Transport',
+              style: GoogleFonts.figtree(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w700,
+                color: isDark ? Colors.white : const Color(0xFF171A21),
+                letterSpacing: -0.75,
+                height: 1.2,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
+            child: Text(
+              'Manage fleet, routes, and student allocation',
+              style: GoogleFonts.figtree(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: isDark ? const Color(0xFF94A3B8) : AppColors.textSecondary,
+              ),
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.only(right: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('TRANSPORT', topPadding: 20.h),
+                  _buildMenuItem(context, 'Transport Dashboard', LucideIcons.layoutDashboard, const TransportDashboardScreen()),
+                  _buildMenuItem(context, 'Routes', LucideIcons.layoutGrid, const RoutesScreen()),
+                  _buildMenuItem(context, 'Vehicles', LucideIcons.bus, const VehiclesScreen()),
+                  _buildMenuItem(context, 'Drivers', LucideIcons.user, const DriversScreen()),
+                  _buildSectionTitle('OPERATIONS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Student Allocation', LucideIcons.users, const StudentAllocationScreen()),
+                  _buildMenuItem(context, 'Live Tracking', LucideIcons.activity, const LiveTrackingScreen()),
+                  _buildMenuItem(context, 'Maintenance', LucideIcons.package, const MaintenanceScreen()),
+                  _buildSectionTitle('INSIGHTS', topPadding: 20.h),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const TransportReportsScreen()),
                   SizedBox(height: 24.h),
                 ],
               ),

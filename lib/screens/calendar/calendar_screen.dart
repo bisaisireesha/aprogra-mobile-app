@@ -4,6 +4,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
+import 'create_ptm_screen.dart';
+import 'ptm_details_screen.dart';
+import 'create_event_screen.dart';
+import 'package:intl/intl.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -49,19 +53,21 @@ class CategoryItem {
   });
 }
 
-class PtmSlot {
+class PtmMeeting {
+  final String title;
+  final String date;
   final String time;
-  final String student;
-  final String className;
-  final String parent;
-  final String status; // 'Confirmed', 'Pending', 'Available'
+  final String location;
+  final String people;
+  final bool isUpcoming;
 
-  PtmSlot({
+  PtmMeeting({
+    required this.title,
+    required this.date,
     required this.time,
-    required this.student,
-    required this.className,
-    required this.parent,
-    required this.status,
+    required this.location,
+    required this.people,
+    required this.isUpcoming,
   });
 }
 
@@ -102,15 +108,14 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     CategoryItem(name: 'Trip', description: 'Field trips and excursions', itemText: '1', actionText: '+ New', icon: LucideIcons.plane, color: const Color(0xFF06B6D4)),
   ];
 
-  // PTM Slots state
-  final List<PtmSlot> _ptmSlots = [
-    PtmSlot(time: '09:00 AM', student: 'Aarav Mehta', className: 'Class VIII-B', parent: 'Sanjay Mehta', status: 'Confirmed'),
-    PtmSlot(time: '09:15 AM', student: 'Priya Nair', className: 'Class X-A', parent: 'Ramesh Nair', status: 'Confirmed'),
-    PtmSlot(time: '09:30 AM', student: 'Rohan Gupta', className: 'Class VII-C', parent: 'Amit Gupta', status: 'Pending'),
-    PtmSlot(time: '09:45 AM', student: '', className: '', parent: '', status: 'Available'),
-    PtmSlot(time: '10:00 AM', student: 'Saanvi Iyer', className: 'Class IX-A', parent: 'Hari Iyer', status: 'Confirmed'),
-    PtmSlot(time: '10:15 AM', student: '', className: '', parent: '', status: 'Available'),
+  final List<PtmMeeting> _ptmMeetings = [
+    PtmMeeting(title: 'Term 1 Parent Teacher Meeting', date: 'Oct 24, 2023', time: '10:00 AM - 1:00 PM', location: 'Main Hall', people: 'Class 10A, 10B', isUpcoming: true),
+    PtmMeeting(title: 'Annual Performance Review', date: 'Nov 12, 2023', time: '2:00 PM - 5:00 PM', location: 'Classroom 4', people: 'Class 8C', isUpcoming: true),
+    PtmMeeting(title: 'Mid-Term Progress Discussion', date: 'Sep 10, 2023', time: '9:00 AM - 12:00 PM', location: 'Library', people: 'Class 12 Science', isUpcoming: false),
+    PtmMeeting(title: 'Pre-Primary Assessment', date: 'Dec 05, 2023', time: '09:00 AM - 12:00 PM', location: 'Kindergarten Wing', people: 'LKG A, LKG B', isUpcoming: true),
   ];
+
+
 
   @override
   void initState() {
@@ -194,7 +199,10 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   List<CalendarEvent> get _filteredEvents {
     List<CalendarEvent> list = _events;
     if (_selectedFilter != 'All') {
-      list = list.where((e) => e.type.toLowerCase() == _selectedFilter.toLowerCase().substring(0, _selectedFilter.length - 1)).toList();
+      String filter = _selectedFilter.toLowerCase();
+      // Adjust handling for 'Events' vs 'Event'
+      String typeKey = filter.endsWith('s') ? filter.substring(0, filter.length - 1) : filter;
+      list = list.where((e) => e.type.toLowerCase() == typeKey).toList();
     }
     list.sort((a, b) => a.date.compareTo(b.date));
     return list;
@@ -334,12 +342,42 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
             _buildAddEventForm(),
             const SizedBox(height: 20),
           ],
+          _buildTodaySchedule(),
           _buildEventSectionHeader(),
           const SizedBox(height: 12),
           _buildEventList(),
           const SizedBox(height: 60),
         ],
       ),
+    );
+  }
+
+  Widget _buildTodaySchedule() {
+    final list = _eventsForDate(_selectedDate);
+
+    if (list.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Events for ${_selectedDate.day}/${_selectedDate.month}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              ...list.map((e) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(children: [Icon(e.icon, size: 14, color: e.color), const SizedBox(width: 8), Text(e.title, style: GoogleFonts.figtree(fontSize: 12))]),
+              )),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -814,25 +852,52 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                                 ),
                               ),
                             ),
-                            // Action button
-                            Expanded(
-                              flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (c.actionText == '+ Manage') {
-                                    _tabController.animateTo(2); // Switch to PTM tab
-                                  } else {
-                                    setState(() {
-                                      _formType = c.name.toLowerCase().contains('holiday')
-                                          ? 'holiday'
-                                          : c.name.toLowerCase().contains('exam')
-                                              ? 'exam'
-                                              : 'event';
-                                      _showAddForm = true;
-                                      _tabController.animateTo(0); // Switch to Calendar tab
-                                    });
-                                  }
-                                },
+                              Expanded(
+                                flex: 2,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    if (c.actionText == '+ Manage') {
+                                      final result = await showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (context) => const CreatePtmScreen(),
+                                      );
+                                      if (result != null && result is Map<String, dynamic>) {
+                                        setState(() {
+                                          _ptmMeetings.insert(0, PtmMeeting(
+                                            title: result['title'],
+                                            date: DateFormat('MMM dd, yyyy').format(result['date']),
+                                            time: result['time'],
+                                            location: result['location'] ?? 'TBA',
+                                            people: (result['classes'] as List).join(', '),
+                                            isUpcoming: true,
+                                          ));
+                                        });
+                                        _tabController.animateTo(2); // Switch to PTM tab
+                                      }
+                                    } else {
+                                      final result = await showModalBottomSheet(
+                                        context: context,
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (context) => const CreateEventScreen(),
+                                      );
+                                      if (result != null && result is Map<String, dynamic>) {
+                                        setState(() {
+                                          _events.add(CalendarEvent(
+                                            title: result['title'],
+                                            type: result['type'],
+                                            date: result['date'],
+                                            time: result['time'],
+                                            location: result['location'],
+                                            color: _getCategoryColor(result['type']),
+                                            icon: _getCategoryIcon(result['type']),
+                                          ));
+                                        });
+                                      }
+                                    }
+                                  },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                                   decoration: BoxDecoration(
@@ -868,153 +933,129 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     );
   }
 
-  // ── TAB 3: PTM SLOT BOOKING (Feature 3) ────────────────────────────────
+  Color _getCategoryColor(String type) {
+    switch (type) {
+      case 'exam': return const Color(0xFFEF4444);
+      case 'holiday': return const Color(0xFF10B981);
+      case 'meeting': return const Color(0xFFF59E0B);
+      case 'trip': return const Color(0xFF06B6D4);
+      default: return const Color(0xFF6366F1);
+    }
+  }
+
+  IconData _getCategoryIcon(String type) {
+    switch (type) {
+      case 'exam': return LucideIcons.fileSpreadsheet;
+      case 'holiday': return LucideIcons.partyPopper;
+      case 'meeting': return LucideIcons.users;
+      case 'trip': return LucideIcons.plane;
+      default: return LucideIcons.calendarRange;
+    }
+  }
+
   Widget _buildPtmTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
+    return Column(
+      children: [
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.only(top: 8),
+            itemCount: _ptmMeetings.length,
+            itemBuilder: (context, index) {
+              final meeting = _ptmMeetings[index];
+              return Container(
+                margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4)),
+                  ],
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('PTM Slot Booking', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-                    Text('Manage parent-teacher meeting slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(meeting.title, style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF0F172A)))),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: meeting.isUpcoming ? const Color(0xFFEEF2FF) : const Color(0xFFDCFCE7),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            meeting.isUpcoming ? 'UPCOMING' : 'COMPLETED',
+                            style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.bold, color: meeting.isUpcoming ? const Color(0xFF4F46E5) : const Color(0xFF16A34A)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        const Icon(LucideIcons.calendarDays, size: 14, color: Color(0xFF64748B)),
+                        const SizedBox(width: 8),
+                        Text(meeting.date, style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF334155))),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        const Icon(LucideIcons.clock, size: 14, color: Color(0xFF64748B)),
+                        const SizedBox(width: 8),
+                        Text(meeting.time, style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF334155))),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              children: [
+                                const Icon(LucideIcons.users, size: 14, color: Color(0xFF64748B)),
+                                const SizedBox(width: 6),
+                                Expanded(child: Text(meeting.people, style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF334155)), overflow: TextOverflow.ellipsis)),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => PtmDetailsScreen(
+                                title: meeting.title,
+                                date: meeting.date,
+                                time: meeting.time,
+                                location: meeting.location,
+                                isUpcoming: meeting.isUpcoming,
+                              ),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            decoration: BoxDecoration(color: Colors.white, border: Border.all(color: const Color(0xFFE2E8F0)), borderRadius: BorderRadius.circular(8)),
+                            child: Text('View Details', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF0F172A))),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(color: const Color(0xFFF0FDF4), borderRadius: BorderRadius.circular(6), border: Border.all(color: const Color(0xFF22C55E).withValues(alpha: 0.2))),
-                child: Text('Active Session', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: const Color(0xFF22C55E))),
-              ),
-            ],
+              );
+            },
           ),
-          const SizedBox(height: 16),
-          // Slots list
-          Container(
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: _border)),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  child: Row(
-                    children: [
-                      Expanded(flex: 2, child: Text('TIME', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5))),
-                      Expanded(flex: 3, child: Text('STUDENT / PARENT', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5))),
-                      Expanded(flex: 2, child: Text('STATUS', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5), textAlign: TextAlign.center)),
-                      Expanded(flex: 2, child: Text('ACTION', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5), textAlign: TextAlign.center)),
-                    ],
-                  ),
-                ),
-                const Divider(height: 1, color: _border),
-                ..._ptmSlots.asMap().entries.map((entry) {
-                  final idx = entry.key;
-                  final slot = entry.value;
-
-                  Color statusColor;
-                  Color statusBg;
-                  switch (slot.status) {
-                    case 'Confirmed':
-                      statusColor = const Color(0xFF16A34A);
-                      statusBg = const Color(0xFFF0FDF4);
-                      break;
-                    case 'Pending':
-                      statusColor = const Color(0xFFD97706);
-                      statusBg = const Color(0xFFFFFBEB);
-                      break;
-                    default:
-                      statusColor = _muted;
-                      statusBg = const Color(0xFFF3F4F6);
-                  }
-
-                  return Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                        child: Row(
-                          children: [
-                            // Time
-                            Expanded(
-                              flex: 2,
-                              child: Row(
-                                children: [
-                                  const Icon(LucideIcons.clock, size: 13, color: _muted),
-                                  const SizedBox(width: 6),
-                                  Text(slot.time, style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: _dark)),
-                                ],
-                              ),
-                            ),
-                            // Student / Parent details
-                            Expanded(
-                              flex: 3,
-                              child: slot.status == 'Available'
-                                  ? Text('Unassigned Slot', style: GoogleFonts.figtree(fontSize: 12.5, color: _muted, fontStyle: FontStyle.italic))
-                                  : Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(slot.student, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _dark)),
-                                        Text('${slot.parent} · ${slot.className}', style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
-                                      ],
-                                    ),
-                            ),
-                            // Status tag
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                                  child: Text(
-                                    slot.status,
-                                    style: GoogleFonts.inter(fontSize: 9.5, fontWeight: FontWeight.bold, color: statusColor),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            // Actions
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                      content: Text(slot.status == 'Available' ? 'Assigning student to slot...' : 'Managing booking...'),
-                                      backgroundColor: _primary,
-                                    ));
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(color: _border),
-                                    ),
-                                    child: Text(
-                                      slot.status == 'Available' ? 'Assign' : 'Edit',
-                                      style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _dark),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      if (idx < _ptmSlots.length - 1) const Divider(height: 1, color: _border),
-                    ],
-                  );
-                }),
-              ],
-            ),
-          ),
-          const SizedBox(height: 60),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

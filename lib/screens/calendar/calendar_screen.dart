@@ -5,6 +5,10 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
 import 'package:intl/intl.dart';
+import 'create_event_screen.dart';
+import 'create_ptm_screen.dart';
+import 'ptm_details_screen.dart';
+
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -323,9 +327,20 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           Text(title, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
           Text('Manage school calendar, categories and PTM slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
         ])),
-        if (widget.initialTab == 0)
+        if (widget.initialTab == 0 || widget.initialTab == 2)
           GestureDetector(
-            onTap: _showCreateEventDialog,
+            onTap: () {
+              if (widget.initialTab == 0) {
+                _showCreateEventDialog();
+              } else if (widget.initialTab == 2) {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => const CreatePtmScreen(),
+                );
+              }
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
@@ -1068,10 +1083,12 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               ),
               GestureDetector(
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Create Category dialog opened!', style: GoogleFonts.figtree()),
-                    backgroundColor: _primary,
-                  ));
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => const CreateEventScreen(),
+                  );
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -1283,7 +1300,20 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (context) => PtmDetailsScreen(
+                                title: meeting.title,
+                                date: meeting.date,
+                                time: meeting.time,
+                                location: meeting.location,
+                                isUpcoming: meeting.isUpcoming,
+                              ),
+                            );
+                          },
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(color: Colors.white, border: Border.all(color: const Color(0xFFE2E8F0)), borderRadius: BorderRadius.circular(8)),

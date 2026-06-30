@@ -6,10 +6,10 @@ import 'package:fl_chart/fl_chart.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
 import 'collect_fee_screen.dart';
-import 'invoices_screen.dart';
 import 'fee_structure_screen.dart';
 import 'due_payments_screen.dart';
 import 'create_invoice_modal.dart';
+import 'fees_filter_bottom_sheet.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -28,8 +28,12 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedClass = 'All Classes';
   String _selectedFeeType = 'All Fee Types';
-  String _selectedStatus = 'Payment Status';
-  int _touchedIndex = -1;
+  String _selectedStatus = 'All Status';
+  String _searchQuery = '';
+  String _selectedDateRange = 'All Time';
+  DateTime? _customFromDate;
+  DateTime? _customToDate;
+  String _selectedAmountRange = 'All Amounts';
   int _touchedBarIndex = -1;
 
   final List<Map<String, dynamic>> _invoices = [
@@ -47,27 +51,6 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     {'id': 'INV-2025-1037', 'student': 'Kiran Nair', 'class': 'Class 9B', 'type': 'Exam Fee', 'due': '15 Apr 2025', 'amount': '₹2,000', 'status': 'Pending'},
   ];
 
-  void _showCreateInvoiceModal(BuildContext context, [Map<String, dynamic>? inv]) async {
-    final result = await showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
-        child: CreateInvoiceModal(initialData: inv),
-      ),
-    );
-    if (result != null && result is Map<String, dynamic>) {
-      setState(() {
-        if (inv != null) {
-          final index = _invoices.indexWhere((element) => element['id'] == inv['id']);
-          if (index != -1) _invoices[index] = result;
-        } else {
-          _invoices.insert(0, result);
-        }
-      });
-    }
-  }
 
   void _showInvoiceDetails(BuildContext context, Map<String, dynamic> inv) {
     showModalBottomSheet(
@@ -180,36 +163,108 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Column(
+    final isMobile = MediaQuery.of(context).size.width < 600;
+
+    final textSection = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                'Fees & Invoices',
-                style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark, letterSpacing: -0.5),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            Row(
-              children: [
-                _headerBtn('Export', LucideIcons.download, Colors.white, _dark),
-                const SizedBox(width: 8),
-                _headerBtn('Create', LucideIcons.plus, _primary, Colors.white, onTap: () {
-                  _showCreateInvoiceModal(context);
-                }),
-              ],
-            ),
-          ],
+        Text(
+          'Fees & Invoices',
+          style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _dark, letterSpacing: -0.5),
         ),
         const SizedBox(height: 6),
         Text(
-          'Manage student fee structures, generate invoices,\ntrack dues and monitor collections.',
-          style: GoogleFonts.figtree(fontSize: 13, color: _muted, height: 1.4),
+          'Manage student fee structures, generate invoices, track dues and monitor collections.',
+          style: GoogleFonts.figtree(fontSize: 14, color: _muted, height: 1.4),
         ),
+      ],
+    );
+
+    final buttonsSection = Row(
+      children: [
+        // Export Report Button
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: _border),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(LucideIcons.download, size: 14, color: _muted),
+              const SizedBox(width: 8),
+              Text('Export Report', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
+            ],
+          ),
+        ),
+        const SizedBox(width: 12),
+        // Create Invoice Button
+        GestureDetector(
+          onTap: () async {
+            final result = await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                child: const CreateInvoiceModal(),
+              ),
+            );
+            if (result != null && result is Map<String, dynamic>) {
+              setState(() {
+                _invoices.insert(0, result);
+              });
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: _primary,
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: _primary.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                )
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(LucideIcons.plus, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
+                Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+
+    if (isMobile) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          textSection,
+          const SizedBox(height: 16),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: buttonsSection,
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: textSection),
+        const SizedBox(width: 24),
+        buttonsSection,
       ],
     );
   }
@@ -219,6 +274,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       children: [
         Expanded(
           child: TextField(
+            onChanged: (v) => setState(() => _searchQuery = v),
             decoration: InputDecoration(
               hintText: 'Search invoice or student...',
               hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
@@ -233,35 +289,44 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           ),
         ),
         const SizedBox(width: 12),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(12), color: Colors.white),
-          child: const Icon(LucideIcons.filter, size: 20, color: _dark),
+        GestureDetector(
+          onTap: () async {
+            final result = await showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (context) => Padding(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                child: FeesFilterBottomSheet(
+                  selectedClass: _selectedClass,
+                  selectedFeeType: _selectedFeeType,
+                  selectedStatus: _selectedStatus,
+                  selectedDateRange: _selectedDateRange,
+                  customFromDate: _customFromDate,
+                  customToDate: _customToDate,
+                  selectedAmountRange: _selectedAmountRange,
+                ),
+              ),
+            );
+            if (result != null && result is Map<String, dynamic>) {
+              setState(() {
+                _selectedClass = result['class'];
+                _selectedFeeType = result['type'];
+                _selectedStatus = result['status'];
+                _selectedDateRange = result['dateRange'];
+                _customFromDate = result['fromDate'];
+                _customToDate = result['toDate'];
+                _selectedAmountRange = result['amountRange'];
+              });
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(12), color: Colors.white),
+            child: const Icon(LucideIcons.filter, size: 20, color: _dark),
+          ),
         ),
       ],
-    );
-  }
-
-  Widget _headerBtn(String label, IconData icon, Color bg, Color fg, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: bg,
-          borderRadius: BorderRadius.circular(8),
-          border: bg == Colors.white ? Border.all(color: _border) : null,
-          boxShadow: bg == _primary ? [BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))] : null,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 14, color: fg),
-            const SizedBox(width: 6),
-            Text(label, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: fg)),
-          ],
-        ),
-      ),
     );
   }
 
@@ -417,7 +482,6 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   Widget _buildQuickActions(bool isTablet) {
     final actions = [
       {'label': 'Collect Fee', 'desc': 'Record fee payments', 'icon': LucideIcons.wallet, 'color': const Color(0xFF22C55E), 'bg': Colors.white, 'border': const Color(0xFFE0F3E8), 'iconBg': const Color(0xFFDCFCE7)},
-      {'label': 'Create Invoice', 'desc': 'Generate new invoices', 'icon': LucideIcons.fileText, 'color': const Color(0xFF6366F1), 'bg': Colors.white, 'border': const Color(0xFFEBE5FF), 'iconBg': const Color(0xFFEEF2FF)},
       {'label': 'Send Reminder', 'desc': 'Send payment reminders', 'icon': LucideIcons.bell, 'color': const Color(0xFFF59E0B), 'bg': Colors.white, 'border': const Color(0xFFFDE8D4), 'iconBg': const Color(0xFFFFF7ED)},
       {'label': 'Fee Structure', 'desc': 'Manage fee structures', 'icon': LucideIcons.settings, 'color': const Color(0xFF3B82F6), 'bg': Colors.white, 'border': const Color(0xFFE5EDFF), 'iconBg': const Color(0xFFEFF6FF)},
       {'label': 'Bulk Invoice', 'desc': 'Create invoices in bulk', 'icon': LucideIcons.layers, 'color': const Color(0xFF8B5CF6), 'bg': Colors.white, 'border': const Color(0xFFEBE5FF), 'iconBg': const Color(0xFFF5F3FF)},
@@ -438,7 +502,6 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     return GestureDetector(
       onTap: () {
         if (a['label'] == 'Collect Fee') Navigator.push(context, MaterialPageRoute(builder: (_) => const CollectFeeScreen()));
-        if (a['label'] == 'Create Invoice') Navigator.push(context, MaterialPageRoute(builder: (_) => const InvoicesScreen(showCreate: true)));
         if (a['label'] == 'Fee Structure') Navigator.push(context, MaterialPageRoute(builder: (_) => const FeeStructureScreen()));
         if (a['label'] == 'Send Reminder') Navigator.push(context, MaterialPageRoute(builder: (_) => const DuePaymentsScreen()));
       },
@@ -486,51 +549,69 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     );
   }
 
-  Widget _filterChip(String value, List<String> items, ValueChanged<String> onChanged) {
-    return GestureDetector(
-      onTap: () => _showFilterSheet(value, items, onChanged),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(value, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w500, color: _dark)),
-            const SizedBox(width: 4),
-            const Icon(LucideIcons.chevronDown, size: 12, color: _muted),
-          ],
-        ),
-      ),
-    );
+  DateTime? _parseInvoiceDate(String dateStr) {
+    try {
+      final parts = dateStr.split(' ');
+      if (parts.length == 3) {
+        final day = int.parse(parts[0]);
+        final monthStr = parts[1];
+        final year = int.parse(parts[2]);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        final month = months.indexOf(monthStr) + 1;
+        if (month > 0) return DateTime(year, month, day);
+      }
+    } catch (e) {
+      // ignore parse error
+    }
+    return null;
   }
 
-  void _showFilterSheet(String current, List<String> items, ValueChanged<String> onChanged) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder: (_) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 8),
-          Container(width: 40, height: 4, decoration: BoxDecoration(color: _border, borderRadius: BorderRadius.circular(2))),
-          const SizedBox(height: 16),
-          ...items.map((item) => ListTile(
-            title: Text(item, style: GoogleFonts.figtree(fontSize: 14, color: item == current ? _primary : _dark, fontWeight: item == current ? FontWeight.w600 : FontWeight.normal)),
-            trailing: item == current ? Icon(LucideIcons.check, size: 16, color: _primary) : null,
-            onTap: () { onChanged(item); Navigator.pop(context); },
-          )),
-          const SizedBox(height: 16),
-        ],
-      ),
-    );
+  int _parseAmount(String amountStr) {
+    // Converts "₹24,500" to 24500
+    final clean = amountStr.replaceAll(RegExp(r'[^0-9]'), '');
+    return int.tryParse(clean) ?? 0;
   }
 
   List<Map<String, dynamic>> get _filteredInvoices {
     return _invoices.where((inv) {
+      // 1. Search Query
+      bool searchMatch = true;
+      if (_searchQuery.trim().isNotEmpty) {
+        final q = _searchQuery.toLowerCase();
+        searchMatch = inv['id'].toString().toLowerCase().contains(q) ||
+                      inv['student'].toString().toLowerCase().contains(q);
+      }
+
+      // 2. Class, Type, Status
       final classMatch = _selectedClass == 'All Classes' || inv['class'] == _selectedClass;
       final typeMatch = _selectedFeeType == 'All Fee Types' || inv['type'] == _selectedFeeType;
-      final statusMatch = _selectedStatus == 'Payment Status' || inv['status'] == _selectedStatus;
-      return classMatch && typeMatch && statusMatch;
+      final statusMatch = _selectedStatus == 'All Status' || inv['status'] == _selectedStatus;
+
+      // 3. Amount Range
+      bool amountMatch = true;
+      if (_selectedAmountRange != 'All Amounts') {
+        final amount = _parseAmount(inv['amount']);
+        if (_selectedAmountRange == 'Below ₹5,000') {
+          amountMatch = amount < 5000;
+        } else if (_selectedAmountRange == '₹5,000 - ₹20,000') {
+          amountMatch = amount >= 5000 && amount <= 20000;
+        } else if (_selectedAmountRange == 'Above ₹20,000') {
+          amountMatch = amount > 20000;
+        }
+      }
+
+      // 4. Date Range
+      bool dateMatch = true;
+      if (_selectedDateRange == 'Custom Range' && _customFromDate != null && _customToDate != null) {
+        final invDate = _parseInvoiceDate(inv['due']);
+        if (invDate != null) {
+          final from = DateTime(_customFromDate!.year, _customFromDate!.month, _customFromDate!.day);
+          final to = DateTime(_customToDate!.year, _customToDate!.month, _customToDate!.day, 23, 59, 59);
+          dateMatch = invDate.isAfter(from.subtract(const Duration(days: 1))) && invDate.isBefore(to.add(const Duration(days: 1)));
+        }
+      }
+
+      return searchMatch && classMatch && typeMatch && statusMatch && amountMatch && dateMatch;
     }).toList();
   }
 
@@ -644,6 +725,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(inv['id'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
                     const SizedBox(height: 2),
@@ -669,11 +751,27 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 padding: EdgeInsets.zero,
                 color: Colors.white,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                onSelected: (value) {
+                onSelected: (value) async {
                   if (value == 'view') {
                     _showInvoiceDetails(context, inv);
                   } else if (value == 'edit') {
-                    _showCreateInvoiceModal(context, inv);
+                    final result = await showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (context) => Padding(
+                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                        child: CreateInvoiceModal(initialData: inv),
+                      ),
+                    );
+                    if (result != null && result is Map<String, dynamic>) {
+                      setState(() {
+                        final index = _invoices.indexWhere((element) => element['id'] == inv['id']);
+                        if (index != -1) {
+                          _invoices[index] = result;
+                        }
+                      });
+                    }
                   } else if (value == 'delete') {
                     setState(() {
                       _invoices.removeWhere((element) => element['id'] == inv['id']);
@@ -697,7 +795,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       children: [
                         const Icon(LucideIcons.edit2, size: 16, color: _dark),
                         const SizedBox(width: 8),
-                        Text('Edit', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
+                        Text('Edit Invoice', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
                       ],
                     ),
                   ),

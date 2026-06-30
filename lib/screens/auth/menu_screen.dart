@@ -50,10 +50,6 @@ import '../fees/collect_fee_screen.dart';
 import '../fees/invoices_screen.dart';
 import '../fees/fee_structure_screen.dart';
 import '../fees/due_payments_screen.dart';
-import '../fees/payments_receipts_screen.dart';
-import '../fees/payment_reminders_screen.dart';
-import '../fees/discounts_scholarships_screen.dart';
-import '../fees/fee_reports_screen.dart';
 import '../calendar/calendar_screen.dart';
 import '../calendar/ptm_slot_booking_screen.dart';
 import '../hostel/hostel_screens.dart';
@@ -518,7 +514,7 @@ class _MenuScreenState extends State<MenuScreen> {
           SizedBox(height: 16.h),
           Padding(
             padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 2.h),
-            child: Text('Fees & Invoices', style: GoogleFonts.figtree(fontSize: 28.sp, fontWeight: FontWeight.w700, color: isDark ? Colors.white : const Color(0xFF171A21), letterSpacing: -0.75, height: 1.2)),
+            child: Text('Fees', style: GoogleFonts.figtree(fontSize: 28.sp, fontWeight: FontWeight.w700, color: isDark ? Colors.white : const Color(0xFF171A21), letterSpacing: -0.75, height: 1.2)),
           ),
           Padding(
             padding: EdgeInsets.only(left: 8.w, right: 16.w, bottom: 6.h),
@@ -530,19 +526,18 @@ class _MenuScreenState extends State<MenuScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle('FEES & INVOICES', topPadding: 20.h),
-                  _buildMenuItem(context, 'Fees & Invoices', LucideIcons.layoutDashboard, const FeesDashboardScreen()),
+                  SizedBox(height: 8.h),
+                  _buildMenuItem(context, 'Fee Dashboard', LucideIcons.layoutDashboard, const FeesDashboardScreen()),
                   _buildMenuItem(context, 'Collect Fee', LucideIcons.wallet, const CollectFeeScreen()),
                   _buildMenuItem(context, 'Invoices', LucideIcons.fileText, const InvoicesScreen()),
                   _buildMenuItem(context, 'Fee Structure', LucideIcons.layoutGrid, const FeeStructureScreen()),
                   _buildSectionTitle('COLLECTIONS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Due Payments', LucideIcons.clock, const DuePaymentsScreen()),
-                  _buildMenuItem(context, 'Payments & Receipts', LucideIcons.receipt, const PaymentsReceiptsScreen()),
-                  _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.gift, const DiscountsScholarshipsScreen()),
-                  _buildMenuItem(context, 'Payment Reminders', LucideIcons.bell, const PaymentRemindersScreen()),
+                  _buildMenuItem(context, 'Due Payments', LucideIcons.alertCircle, const DuePaymentsScreen()),
+                  _buildMenuItem(context, 'Payments & Receipts', LucideIcons.receiptText, const ComingSoonScreen(title: 'Payments & Receipts')),
+                  _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.award, const ComingSoonScreen(title: 'Discounts & Scholarships')),
+                  _buildMenuItem(context, 'Payment Reminders', LucideIcons.messageSquare, const ComingSoonScreen(title: 'Payment Reminders')),
                   _buildSectionTitle('INSIGHTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Fee Reports', LucideIcons.barChart, const FeeReportsScreen()),
-                  _buildMenuItem(context, 'Financial Summary', LucideIcons.pieChart, const InsightsDashboardScreen(initialIndex: 1)),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const InsightsDashboardScreen(initialIndex: 1)),
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -552,6 +547,7 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
     );
   }
+
 
   Widget _buildStaffManagementRightPane(BuildContext context) {
     const isDark = false;

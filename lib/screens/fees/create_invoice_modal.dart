@@ -22,14 +22,15 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
   DateTime _dueDate = DateTime.now().add(const Duration(days: 7));
   String? _selectedFeeType = 'Tuition Fee';
   final _remarksController = TextEditingController();
+  late TextEditingController _invoiceNoController;
   
-  List<Map<String, dynamic>> _items = [
+  final List<Map<String, dynamic>> _items = [
     {
-      'title': 'Tuition Fee - May 2025',
-      'desc': 'Monthly tuition fee',
-      'qty': 1,
-      'rate': 24500,
-      'discount': 0,
+      'titleCtrl': TextEditingController(text: 'Tuition Fee - May 2025'),
+      'descCtrl': TextEditingController(text: 'Monthly tuition fee'),
+      'qtyCtrl': TextEditingController(text: '1'),
+      'rateCtrl': TextEditingController(text: '24500'),
+      'discountCtrl': TextEditingController(text: '0'),
     }
   ];
 
@@ -59,9 +60,28 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
               _invoiceDate = _dueDate.subtract(const Duration(days: 7));
             }
           }
-        } catch (e) {}
+        } catch (e) {
+          // ignore error
+        }
       }
     }
+    _invoiceNoController = TextEditingController(
+      text: widget.initialData != null ? widget.initialData!['id'] : 'INV-2025-1049',
+    );
+  }
+
+  @override
+  void dispose() {
+    _remarksController.dispose();
+    _invoiceNoController.dispose();
+    for (var item in _items) {
+      (item['titleCtrl'] as TextEditingController).dispose();
+      (item['descCtrl'] as TextEditingController).dispose();
+      (item['qtyCtrl'] as TextEditingController).dispose();
+      (item['rateCtrl'] as TextEditingController).dispose();
+      (item['discountCtrl'] as TextEditingController).dispose();
+    }
+    super.dispose();
   }
 
   Future<void> _pickDate(BuildContext context, bool isDue) async {
@@ -99,8 +119,8 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
     return '${d.day} ${months[d.month - 1]} ${d.year}';
   }
 
-  int get _subTotal => _items.fold(0, (sum, item) => sum + ((item['qty'] as int) * (item['rate'] as int)));
-  int get _totalDiscount => _items.fold(0, (sum, item) => sum + (item['discount'] as int));
+  int get _subTotal => _items.fold(0, (sum, item) => sum + ((int.tryParse((item['qtyCtrl'] as TextEditingController).text) ?? 0) * (int.tryParse((item['rateCtrl'] as TextEditingController).text) ?? 0)));
+  int get _totalDiscount => _items.fold(0, (sum, item) => sum + (int.tryParse((item['discountCtrl'] as TextEditingController).text) ?? 0));
   int get _totalAmount => _subTotal - _totalDiscount;
 
   @override
@@ -176,7 +196,13 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
                       TextButton.icon(
                         onPressed: () {
                           setState(() {
-                            _items.add({'title': 'New Item', 'desc': 'Description', 'qty': 1, 'rate': 0, 'discount': 0});
+                            _items.add({
+                              'titleCtrl': TextEditingController(text: 'New Item'),
+                              'descCtrl': TextEditingController(text: 'Description'),
+                              'qtyCtrl': TextEditingController(text: '1'),
+                              'rateCtrl': TextEditingController(text: '0'),
+                              'discountCtrl': TextEditingController(text: '0'),
+                            });
                           });
                         },
                         icon: Icon(LucideIcons.plusCircle, size: 16, color: _primary),
@@ -224,41 +250,55 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
   }
 
   Widget _buildStudentDropdown() {
+    final students = [
+      {'name': 'Aryan Reddy', 'details': 'Class 6A • Roll No. 12', 'init': 'AR'},
+      {'name': 'Priya Sharma', 'details': 'Class 8B • Roll No. 5', 'init': 'PS'},
+      {'name': 'Rohan Mehta', 'details': 'Class 10A • Roll No. 21', 'init': 'RM'},
+    ];
+
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: _border),
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              color: Color(0xFFEEF2FF),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                'AR',
-                style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _primary),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: _selectedStudent,
+          isExpanded: true,
+          itemHeight: 56,
+          icon: const Icon(LucideIcons.chevronDown, size: 20, color: Color(0xFF6366F1)),
+          onChanged: (v) {
+            if (v != null) setState(() => _selectedStudent = v);
+          },
+          items: students.map((s) {
+            return DropdownMenuItem(
+              value: s['name'],
+              child: Row(
+                children: [
+                  Container(
+                    width: 36,
+                    height: 36,
+                    decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
+                    child: Center(child: Text(s['init']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _primary))),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(s['name']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                        Text(s['details']!, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Aryan Reddy', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-                Text('Class 6A • Roll No. 12', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-              ],
-            ),
-          ),
-          const Icon(LucideIcons.chevronDown, size: 20, color: Color(0xFF6366F1)),
-        ],
+            );
+          }).toList(),
+        ),
       ),
     );
   }
@@ -268,7 +308,23 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
       children: [
         Row(
           children: [
-            Expanded(child: _buildInputCard('Invoice No.', widget.initialData != null ? widget.initialData!['id'] : 'INV-2025-1048', null)),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Invoice No.', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
+                    TextField(
+                      controller: _invoiceNoController,
+                      style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark),
+                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.only(top: 4, bottom: 4), border: InputBorder.none),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(width: 12),
             Expanded(child: _buildInputCard('Invoice Date', _formatDate(_invoiceDate), LucideIcons.calendar, onTap: () => _pickDate(context, false))),
           ],
@@ -278,7 +334,52 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
           children: [
             Expanded(child: _buildInputCard('Due Date', _formatDate(_dueDate), LucideIcons.calendar, onTap: () => _pickDate(context, true))),
             const SizedBox(width: 12),
-            Expanded(child: _buildInputCard('Fee Type', _selectedFeeType ?? '', LucideIcons.chevronDown)),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Fee Type', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: _selectedFeeType,
+                        isExpanded: true,
+                        isDense: true,
+                        icon: const Icon(LucideIcons.chevronDown, size: 16, color: Color(0xFF64748B)),
+                        onChanged: (v) {
+                          if (v != null) {
+                            setState(() {
+                              _selectedFeeType = v;
+                              if (_items.isNotEmpty) {
+                                final item = _items.first;
+                                (item['titleCtrl'] as TextEditingController).text = '$v - May 2025';
+                                (item['descCtrl'] as TextEditingController).text = 'Monthly $v payment';
+                                
+                                if (v == 'Transport') {
+                                  (item['rateCtrl'] as TextEditingController).text = '3200';
+                                } else if (v == 'Hostel Fee') {
+                                  (item['rateCtrl'] as TextEditingController).text = '18000';
+                                } else if (v == 'Tuition Fee') {
+                                  (item['rateCtrl'] as TextEditingController).text = '24500';
+                                } else {
+                                  (item['rateCtrl'] as TextEditingController).text = '2000';
+                                }
+                              }
+                            });
+                          }
+                        },
+                        items: ['Tuition Fee', 'Transport', 'Hostel Fee', 'Exam Fee', 'Misc'].map((t) {
+                          return DropdownMenuItem(value: t, child: Text(t, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)));
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -352,13 +453,21 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item['title'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                    TextField(
+                      controller: item['titleCtrl'] as TextEditingController,
+                      style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark),
+                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.zero, border: InputBorder.none),
+                    ),
                     const SizedBox(height: 2),
-                    Text(item['desc'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                    TextField(
+                      controller: item['descCtrl'] as TextEditingController,
+                      style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.zero, border: InputBorder.none),
+                    ),
                   ],
                 ),
               ),
-              Text('₹${item['rate']}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+              Text('₹${(item['rateCtrl'] as TextEditingController).text}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
               const SizedBox(width: 12),
               GestureDetector(
                 onTap: () {
@@ -373,11 +482,11 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildItemInput('Quantity', item['qty'].toString())),
+              Expanded(child: _buildItemInput('Quantity', item['qtyCtrl'] as TextEditingController)),
               const SizedBox(width: 12),
-              Expanded(flex: 2, child: _buildItemInput('Rate (₹)', item['rate'].toString())),
+              Expanded(flex: 2, child: _buildItemInput('Rate (₹)', item['rateCtrl'] as TextEditingController)),
               const SizedBox(width: 12),
-              Expanded(flex: 2, child: _buildItemInput('Discount (₹)', item['discount'].toString())),
+              Expanded(flex: 2, child: _buildItemInput('Discount (₹)', item['discountCtrl'] as TextEditingController)),
             ],
           ),
         ],
@@ -385,16 +494,25 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
     );
   }
 
-  Widget _buildItemInput(String label, String value) {
+  Widget _buildItemInput(String label, TextEditingController ctrl) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: GoogleFonts.figtree(fontSize: 10, color: const Color(0xFF94A3B8))),
-          const SizedBox(height: 4),
-          Text(value, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
+          TextField(
+            controller: ctrl,
+            keyboardType: TextInputType.number,
+            style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark),
+            decoration: const InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.only(top: 4, bottom: 4),
+              border: InputBorder.none,
+            ),
+            onChanged: (_) => setState(() {}),
+          ),
         ],
       ),
     );

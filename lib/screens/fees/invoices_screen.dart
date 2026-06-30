@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
+import 'create_invoice_modal.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -22,9 +23,7 @@ class InvoicesScreen extends StatefulWidget {
 class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late TabController _tabController;
-  bool _showCreateForm = false;
   final _searchController = TextEditingController();
-  String _selectedStatus = 'All';
 
   final List<Map<String, dynamic>> _invoices = [
     {'id': 'INV-2025-1041', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'type': 'Tuition Fee', 'due': '10 May 2025', 'issued': '01 Apr 2025', 'amount': 24500, 'status': 'Paid', 'paidOn': '05 May 2025'},
@@ -41,7 +40,28 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    if (widget.showCreate) _showCreateForm = true;
+    if (widget.showCreate) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showCreateInvoiceModal();
+      });
+    }
+  }
+
+  void _showCreateInvoiceModal() async {
+    final result = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+        child: const CreateInvoiceModal(),
+      ),
+    );
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        _invoices.insert(0, result);
+      });
+    }
   }
 
   @override
@@ -68,6 +88,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
       key: _scaffoldKey,
       backgroundColor: _bg,
       drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
+      bottomNavigationBar: _buildBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -77,15 +98,149 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  child: CommonAppBar(showMenu: false),
+                  child: CommonAppBar(showMenu: true),
                 ),
                 Expanded(
-                  child: _showCreateForm ? _buildCreateForm() : _buildInvoiceList(),
+                  child: _buildInvoiceList(),
                 ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Invoices', style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: const Color(0xFF181821))),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(LucideIcons.download, size: 16, color: Color(0xFF64748B)),
+                      const SizedBox(width: 8),
+                      Text('Export', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF475569))),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: _showCreateInvoiceModal,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6366F1),
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [BoxShadow(color: const Color(0xFF6366F1).withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))],
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(LucideIcons.plus, size: 16, color: Colors.white),
+                        const SizedBox(width: 8),
+                        Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text('Browse, filter, and manage all student invoices across classes and terms.', style: GoogleFonts.figtree(fontSize: 15, color: const Color(0xFF64748B))),
+      ],
+    );
+  }
+
+  Widget _buildKPIs() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+        final kpis = [
+          {'label': 'Total Invoices', 'value': '18', 'icon': LucideIcons.fileText, 'color': const Color(0xFF6366F1), 'bgColor': const Color(0xFFEEEDFD)},
+          {'label': 'Paid', 'value': '7', 'icon': LucideIcons.checkCircle2, 'color': const Color(0xFF22C55E), 'bgColor': const Color(0xFFEAF8F0)},
+          {'label': 'Pending', 'value': '4', 'icon': LucideIcons.clock, 'color': const Color(0xFFF59E0B), 'bgColor': const Color(0xFFFEF3E1)},
+          {'label': 'Overdue', 'value': '4', 'icon': LucideIcons.alertCircle, 'color': const Color(0xFFEF4444), 'bgColor': const Color(0xFFFDE8E8)},
+        ];
+
+        if (isMobile) {
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(child: _buildKPICard(kpis[0])),
+                  const SizedBox(width: 12),
+                  Expanded(child: _buildKPICard(kpis[1])),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(child: _buildKPICard(kpis[2])),
+                  const SizedBox(width: 12),
+                  Expanded(child: _buildKPICard(kpis[3])),
+                ],
+              ),
+            ],
+          );
+        }
+
+        return Row(
+          children: kpis.asMap().entries.map((e) {
+            final idx = e.key;
+            final k = e.value;
+            return Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: idx < 3 ? 16.0 : 0),
+                child: _buildKPICard(k),
+              ),
+            );
+          }).toList(),
+        );
+      }
+    );
+  }
+
+  Widget _buildKPICard(Map<String, dynamic> k) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(color: k['bgColor'] as Color, borderRadius: BorderRadius.circular(12)),
+            child: Icon(k['icon'] as IconData, size: 24, color: k['color'] as Color),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF181821))),
+                const SizedBox(height: 4),
+                Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF64748B))),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -98,41 +253,10 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                GestureDetector(
-                  onTap: () {
-                    if (Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    } else {
-                      _scaffoldKey.currentState?.openDrawer();
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-                    child: Icon(Navigator.canPop(context) ? LucideIcons.arrowLeft : LucideIcons.menu, size: 18, color: _dark),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(child: Text('Invoices', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark))),
-                GestureDetector(
-                  onTap: () => setState(() => _showCreateForm = true),
-                  child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), decoration: BoxDecoration(color: _primary, borderRadius: BorderRadius.circular(8), boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))]),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(LucideIcons.plus, size: 14, color: Colors.white),
-                      const SizedBox(width: 6),
-                      Text('Create', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
-                    ])),
-                ),
-                const SizedBox(width: 8),
-                Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Icon(LucideIcons.layers, size: 14, color: _dark),
-                    const SizedBox(width: 6),
-                    Text('Bulk', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
-                  ])),
-              ]),
-              const SizedBox(height: 16),
+              _buildHeader(context),
+              const SizedBox(height: 24),
+              _buildKPIs(),
+              const SizedBox(height: 24),
               Container(
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
                 child: TextField(
@@ -175,6 +299,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
     );
   }
 
+
   Widget _buildInvoiceListView() {
     final items = _filtered;
     if (items.isEmpty) return Center(child: Text('No invoices', style: GoogleFonts.figtree(fontSize: 14, color: _muted)));
@@ -201,7 +326,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 8, offset: const Offset(0, 2))]),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
             Text(inv['id'], style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: _primary, letterSpacing: 0.3)),
             const SizedBox(height: 2),
             Text(inv['student'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
@@ -250,93 +375,35 @@ class _InvoicesScreenState extends State<InvoicesScreen> with SingleTickerProvid
       ]));
   }
 
-  Widget _buildCreateForm() {
-    final feeTypes = ['Tuition Fee', 'Transport Fee', 'Hostel Fee', 'Exam Fee', 'Library Fee', 'Misc'];
-    String selectedType = 'Tuition Fee';
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
-      child: StatefulBuilder(builder: (ctx, ss) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          GestureDetector(onTap: () => setState(() => _showCreateForm = false),
-            child: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-              child: const Icon(LucideIcons.arrowLeft, size: 18, color: _dark))),
-          const SizedBox(width: 12),
-          Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
-        ]),
-        const SizedBox(height: 24),
-        _formSection('Student Details', [
-          _formField('Student Name / ID', LucideIcons.user),
-          const SizedBox(height: 12),
-          _formField('Class', LucideIcons.graduationCap),
-        ]),
-        const SizedBox(height: 20),
-        _formSection('Fee Details', [
-          Text('Fee Type', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w500, color: _dark)),
-          const SizedBox(height: 8),
-          Wrap(spacing: 8, runSpacing: 8, children: feeTypes.map((t) => GestureDetector(
-            onTap: () => ss(() => selectedType = t),
-            child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), decoration: BoxDecoration(color: selectedType == t ? _primary.withValues(alpha: 0.1) : Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: selectedType == t ? _primary : _border, width: selectedType == t ? 1.5 : 1)),
-              child: Text(t, style: GoogleFonts.figtree(fontSize: 12, fontWeight: selectedType == t ? FontWeight.w600 : FontWeight.normal, color: selectedType == t ? _primary : _dark))),
-          )).toList()),
-          const SizedBox(height: 12),
-          _formField('Amount (₹)', LucideIcons.indianRupee, keyboard: TextInputType.number),
-          const SizedBox(height: 12),
-          _formField('Due Date', LucideIcons.calendar),
-          const SizedBox(height: 12),
-          _formField('Academic Period', LucideIcons.bookOpen),
-        ]),
-        const SizedBox(height: 20),
-        _formSection('Additional Notes', [
-          Container(
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
-            child: TextField(maxLines: 3, style: GoogleFonts.figtree(fontSize: 14, color: _dark),
-              decoration: InputDecoration(hintText: 'Optional remarks or notes...', hintStyle: GoogleFonts.figtree(fontSize: 13, color: _muted), border: InputBorder.none, contentPadding: const EdgeInsets.all(14))),
-          ),
-        ]),
-        const SizedBox(height: 24),
-        Row(children: [
-          Expanded(child: GestureDetector(
-            onTap: () => setState(() => _showCreateForm = false),
-            child: Container(padding: const EdgeInsets.symmetric(vertical: 14), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-              child: Text('Cancel', textAlign: TextAlign.center, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark))),
-          )),
-          const SizedBox(width: 12),
-          Expanded(flex: 2, child: Container(
-            decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF8B5CF6)]), borderRadius: BorderRadius.circular(12), boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.35), blurRadius: 10, offset: const Offset(0, 4))]),
-            child: Material(color: Colors.transparent, child: InkWell(onTap: () => setState(() => _showCreateForm = false), borderRadius: BorderRadius.circular(12),
-              child: Padding(padding: const EdgeInsets.symmetric(vertical: 14), child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                const Icon(LucideIcons.filePlus, size: 16, color: Colors.white),
-                const SizedBox(width: 8),
-                Text('Generate Invoice', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-              ])))),
-          )),
-        ]),
-        const SizedBox(height: 60),
-      ])),
-    );
-  }
 
-  Widget _formSection(String title, List<Widget> children) {
+  Widget _buildBottomNav() {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: _border)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-        const SizedBox(height: 14),
-        ...children,
-      ]),
-    );
-  }
-
-  Widget _formField(String label, IconData icon, {TextInputType keyboard = TextInputType.text}) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w500, color: _muted)),
-      const SizedBox(height: 6),
-      Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: _border), color: const Color(0xFFFAFAFC)),
-        child: TextField(keyboardType: keyboard, style: GoogleFonts.figtree(fontSize: 14, color: _dark),
-          decoration: InputDecoration(prefixIcon: Icon(icon, size: 16, color: _muted), border: InputBorder.none, contentPadding: const EdgeInsets.symmetric(vertical: 12))),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
       ),
-    ]);
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: _primary,
+        unselectedItemColor: _muted,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+        ],
+      ),
+    );
   }
 }

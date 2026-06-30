@@ -199,7 +199,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   List<CalendarEvent> get _filteredEvents {
-    List<CalendarEvent> list = _events;
+    List<CalendarEvent> list = _events.where((e) => e.date.year == _selectedDate.year && e.date.month == _selectedDate.month && e.date.day == _selectedDate.day).toList();
     if (_selectedFilter != 'All') {
       list = list.where((e) => e.type.toLowerCase() == _selectedFilter.toLowerCase().substring(0, _selectedFilter.length - 1)).toList();
     }
@@ -247,6 +247,42 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
     ));
   }
+
+  Future<void> _openCreateEventScreen() async {
+    final result = await showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => const CreateEventScreen());
+
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        _events.add(CalendarEvent(
+          title: result['title'],
+          type: result['type'],
+          date: result['date'],
+          time: result['time'],
+          location: result['location'],
+          color: _getCategoryColor(result['type']),
+          icon: _getCategoryIcon(result['type']),
+        ));
+      });
+    }
+  }
+
+  Future<void> _openCreatePtmScreen() async {
+    final result = await showModalBottomSheet(context: context, isScrollControlled: true, backgroundColor: Colors.transparent, builder: (context) => const CreatePtmScreen());
+
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        _ptmMeetings.insert(0, PtmMeeting(
+          title: result['title'],
+          date: result['date'],
+          time: result['time'],
+          location: result['location'],
+          people: result['people'],
+          isUpcoming: true,
+        ));
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -333,12 +369,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               if (widget.initialTab == 0) {
                 _showCreateEventDialog();
               } else if (widget.initialTab == 2) {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (context) => const CreatePtmScreen(),
-                );
+                _openCreatePtmScreen();
               }
             },
             child: Container(
@@ -1083,12 +1114,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               ),
               GestureDetector(
                 onTap: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => const CreateEventScreen(),
-                  );
+                  _openCreateEventScreen();
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),

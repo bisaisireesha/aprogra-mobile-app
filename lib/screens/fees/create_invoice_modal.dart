@@ -11,123 +11,81 @@ class CreateInvoiceModal extends StatefulWidget {
 }
 
 class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
-  final _dark = const Color(0xFF0F172A);
+  final _dark = const Color(0xFF181821);
   final _muted = const Color(0xFF64748B);
   final _border = const Color(0xFFE2E8F0);
   final _primary = const Color(0xFF6366F1);
-  final _bg = const Color(0xFFF8FAFC);
+  final _bg = const Color(0xFFF9F9FB);
 
-  String? _selectedStudent = 'Aryan Reddy';
-  DateTime _invoiceDate = DateTime.now();
-  DateTime _dueDate = DateTime.now().add(const Duration(days: 7));
-  String? _selectedFeeType = 'Tuition Fee';
-  final _remarksController = TextEditingController();
-  late TextEditingController _invoiceNoController;
+  Map<String, dynamic>? _selectedStudent;
   
-  final List<Map<String, dynamic>> _items = [
+  DateTime _invoiceDate = DateTime.now();
+  DateTime _dueDate = DateTime.now().add(const Duration(days: 30));
+  String _invoiceType = 'Tuition Fee';
+  final _referenceCtrl = TextEditingController();
+  final _notesCtrl = TextEditingController();
+
+  List<Map<String, dynamic>> _items = [
     {
-      'titleCtrl': TextEditingController(text: 'Tuition Fee - May 2025'),
-      'descCtrl': TextEditingController(text: 'Monthly tuition fee'),
-      'qtyCtrl': TextEditingController(text: '1'),
-      'rateCtrl': TextEditingController(text: '24500'),
-      'discountCtrl': TextEditingController(text: '0'),
-    }
+      'title': 'Tuition Fee - Q1',
+      'subtitle': 'Quarterly',
+      'description': 'Apr - Jun 2025',
+      'amount': 18000.0,
+      'icon': LucideIcons.bookOpen,
+      'iconColor': const Color(0xFF6366F1),
+      'iconBg': const Color(0xFFEEEDFD),
+    },
+    {
+      'title': 'Transport Fee',
+      'subtitle': 'Monthly',
+      'description': 'May 2025',
+      'amount': 2000.0,
+      'icon': LucideIcons.bus,
+      'iconColor': const Color(0xFFF59E0B),
+      'iconBg': const Color(0xFFFEF3E1),
+    },
+    {
+      'title': 'Exam Fee',
+      'subtitle': 'Term 1',
+      'description': 'Term 1',
+      'amount': 1500.0,
+      'icon': LucideIcons.clipboardList,
+      'iconColor': const Color(0xFF22C55E),
+      'iconBg': const Color(0xFFEAF8F0),
+    },
   ];
 
-  String _paymentOption = 'Cash';
-  bool _sendWhatsapp = true;
+  String _selectedTax = 'No Tax';
+  String _selectedDiscount = 'No Discount';
+
+  final List<Map<String, dynamic>> _dummyStudents = [
+    {'name': 'Aarav Sharma', 'class': 'Class 5A', 'adm': 'ADM-2025-0112', 'parent': 'Rajesh Sharma', 'phone': '+91 98210 44312', 'init': 'AS'},
+    {'name': 'Priya Nair', 'class': 'Class 8B', 'adm': 'ADM-2025-0113', 'parent': 'Suresh Nair', 'phone': '+91 98765 43210', 'init': 'PN'},
+    {'name': 'Rohan Mehta', 'class': 'Class 10A', 'adm': 'ADM-2025-0114', 'parent': 'Amit Mehta', 'phone': '+91 91234 56789', 'init': 'RM'},
+  ];
 
   @override
   void initState() {
     super.initState();
-    if (widget.initialData != null) {
-      _selectedStudent = widget.initialData!['student'];
-      _selectedFeeType = widget.initialData!['type'];
-      _paymentOption = widget.initialData!['payment'] ?? 'Cash';
-      
-      final dueStr = widget.initialData!['due'] as String?;
-      if (dueStr != null) {
-        try {
-          final parts = dueStr.split(' ');
-          if (parts.length == 3) {
-            final day = int.parse(parts[0]);
-            final monthStr = parts[1];
-            final year = int.parse(parts[2]);
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            final month = months.indexOf(monthStr) + 1;
-            if (month > 0) {
-              _dueDate = DateTime(year, month, day);
-              _invoiceDate = _dueDate.subtract(const Duration(days: 7));
-            }
-          }
-        } catch (e) {
-          // ignore error
-        }
-      }
-    }
-    _invoiceNoController = TextEditingController(
-      text: widget.initialData != null ? widget.initialData!['id'] : 'INV-2025-1049',
-    );
+    _selectedStudent = _dummyStudents[0];
   }
 
   @override
   void dispose() {
-    _remarksController.dispose();
-    _invoiceNoController.dispose();
-    for (var item in _items) {
-      (item['titleCtrl'] as TextEditingController).dispose();
-      (item['descCtrl'] as TextEditingController).dispose();
-      (item['qtyCtrl'] as TextEditingController).dispose();
-      (item['rateCtrl'] as TextEditingController).dispose();
-      (item['discountCtrl'] as TextEditingController).dispose();
-    }
+    _referenceCtrl.dispose();
+    _notesCtrl.dispose();
     super.dispose();
   }
 
-  Future<void> _pickDate(BuildContext context, bool isDue) async {
-    final initDate = isDue ? _dueDate : _invoiceDate;
-    final today = DateTime.now();
-    final firstDate = initDate.isBefore(today) ? initDate : today;
-
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initDate,
-      firstDate: firstDate,
-      lastDate: DateTime(2030),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(primary: _primary),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        if (isDue) {
-          _dueDate = picked;
-        } else {
-          _invoiceDate = picked;
-        }
-      });
-    }
-  }
-
-  String _formatDate(DateTime d) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return '${d.day} ${months[d.month - 1]} ${d.year}';
-  }
-
-  int get _subTotal => _items.fold(0, (sum, item) => sum + ((int.tryParse((item['qtyCtrl'] as TextEditingController).text) ?? 0) * (int.tryParse((item['rateCtrl'] as TextEditingController).text) ?? 0)));
-  int get _totalDiscount => _items.fold(0, (sum, item) => sum + (int.tryParse((item['discountCtrl'] as TextEditingController).text) ?? 0));
-  int get _totalAmount => _subTotal - _totalDiscount;
+  double get _subtotal => _items.fold(0.0, (sum, item) => sum + (item['amount'] as double));
+  double get _discountAmt => 0.0;
+  double get _total => _subtotal - _discountAmt;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: Color(0xFFF9F9FB),
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       child: Column(
@@ -136,40 +94,28 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
           Center(
             child: Container(
               margin: const EdgeInsets.only(top: 12),
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: const Color(0xFFCBD5E1),
-                borderRadius: BorderRadius.circular(2),
-              ),
+              width: 40, height: 4,
+              decoration: BoxDecoration(color: const Color(0xFFCBD5E1), borderRadius: BorderRadius.circular(2)),
             ),
           ),
           
           // Header
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+            padding: const EdgeInsets.fromLTRB(16, 12, 24, 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(LucideIcons.arrowLeft, size: 22),
+                  color: _dark,
+                ),
+                const SizedBox(width: 8),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      widget.initialData != null ? 'Edit Invoice' : 'Create Invoice',
-                      style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      widget.initialData != null ? 'Update existing student fee invoice.' : 'Generate a new invoice for student fee.',
-                      style: GoogleFonts.figtree(fontSize: 13, color: _muted),
-                    ),
+                    Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _dark)),
+                    Text('Add invoice details and line items', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                   ],
-                ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(LucideIcons.x, size: 24),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
                 ),
               ],
             ),
@@ -177,61 +123,67 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
           
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle('Student Details'),
-                  _buildStudentDropdown(),
-                  
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Invoice Details'),
-                  _buildInvoiceDetails(),
-                  
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildSectionTitle('Invoice Items'),
-                      TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            _items.add({
-                              'titleCtrl': TextEditingController(text: 'New Item'),
-                              'descCtrl': TextEditingController(text: 'Description'),
-                              'qtyCtrl': TextEditingController(text: '1'),
-                              'rateCtrl': TextEditingController(text: '0'),
-                              'discountCtrl': TextEditingController(text: '0'),
-                            });
-                          });
-                        },
-                        icon: Icon(LucideIcons.plusCircle, size: 16, color: _primary),
-                        label: Text('Add Item', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _primary)),
-                        style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 0)),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ..._items.asMap().entries.map((e) => _buildItemCard(e.key, e.value)),
-                  
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Amounts'),
-                  _buildAmounts(),
-                  
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Payment Options'),
-                  _buildPaymentOptions(),
-                  
-                  const SizedBox(height: 24),
-                  _buildSectionTitle('Additional Options'),
-                  _buildAdditionalOptions(),
-                  
-                  const SizedBox(height: 32),
-                  _buildActionButtons(),
-                  
-                  const SizedBox(height: 40),
+                  _buildStudentInfoCard(),
+                  const SizedBox(height: 16),
+                  _buildInvoiceDetailsCard(),
+                  const SizedBox(height: 16),
+                  _buildInvoiceItemsCard(),
+                  const SizedBox(height: 16),
+                  _buildAdditionalSettingsCard(),
+                  const SizedBox(height: 24), // padding for bottom bar
                 ],
               ),
+            ),
+          ),
+          
+          // Sticky Bottom Bar
+          Container(
+            padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.of(context).padding.bottom + 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: _border)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      side: BorderSide(color: _primary),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: Text('Save as Draft', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _primary)),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context, {
+                        'id': 'INV-2025-${DateTime.now().millisecond}',
+                        'student': _selectedStudent!['name'],
+                        'class': _selectedStudent!['class'],
+                        'type': _invoiceType,
+                        'issued': _formatDate(_invoiceDate),
+                        'due': _formatDate(_dueDate),
+                        'amount': _total.toInt(),
+                        'status': 'Pending',
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _primary,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    child: Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -239,429 +191,481 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Text(
-        title,
-        style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark),
-      ),
-    );
-  }
-
-  Widget _buildStudentDropdown() {
-    final students = [
-      {'name': 'Aryan Reddy', 'details': 'Class 6A • Roll No. 12', 'init': 'AR'},
-      {'name': 'Priya Sharma', 'details': 'Class 8B • Roll No. 5', 'init': 'PS'},
-      {'name': 'Rohan Mehta', 'details': 'Class 10A • Roll No. 21', 'init': 'RM'},
-    ];
-
+  // ── 1. Student Information
+  Widget _buildStudentInfoCard() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: _border),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: _selectedStudent,
-          isExpanded: true,
-          itemHeight: 56,
-          icon: const Icon(LucideIcons.chevronDown, size: 20, color: Color(0xFF6366F1)),
-          onChanged: (v) {
-            if (v != null) setState(() => _selectedStudent = v);
-          },
-          items: students.map((s) {
-            return DropdownMenuItem(
-              value: s['name'],
-              child: Row(
-                children: [
-                  Container(
-                    width: 36,
-                    height: 36,
-                    decoration: const BoxDecoration(color: Color(0xFFEEF2FF), shape: BoxShape.circle),
-                    child: Center(child: Text(s['init']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _primary))),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(s['name']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-                        Text(s['details']!, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInvoiceDetails() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Invoice No.', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
-                    TextField(
-                      controller: _invoiceNoController,
-                      style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark),
-                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.only(top: 4, bottom: 4), border: InputBorder.none),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(child: _buildInputCard('Invoice Date', _formatDate(_invoiceDate), LucideIcons.calendar, onTap: () => _pickDate(context, false))),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Row(
-          children: [
-            Expanded(child: _buildInputCard('Due Date', _formatDate(_dueDate), LucideIcons.calendar, onTap: () => _pickDate(context, true))),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Fee Type', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: _selectedFeeType,
-                        isExpanded: true,
-                        isDense: true,
-                        icon: const Icon(LucideIcons.chevronDown, size: 16, color: Color(0xFF64748B)),
-                        onChanged: (v) {
-                          if (v != null) {
-                            setState(() {
-                              _selectedFeeType = v;
-                              if (_items.isNotEmpty) {
-                                final item = _items.first;
-                                (item['titleCtrl'] as TextEditingController).text = '$v - May 2025';
-                                (item['descCtrl'] as TextEditingController).text = 'Monthly $v payment';
-                                
-                                if (v == 'Transport') {
-                                  (item['rateCtrl'] as TextEditingController).text = '3200';
-                                } else if (v == 'Hostel Fee') {
-                                  (item['rateCtrl'] as TextEditingController).text = '18000';
-                                } else if (v == 'Tuition Fee') {
-                                  (item['rateCtrl'] as TextEditingController).text = '24500';
-                                } else {
-                                  (item['rateCtrl'] as TextEditingController).text = '2000';
-                                }
-                              }
-                            });
-                          }
-                        },
-                        items: ['Tuition Fee', 'Transport', 'Hostel Fee', 'Exam Fee', 'Misc'].map((t) {
-                          return DropdownMenuItem(value: t, child: Text(t, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)));
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Remarks (Optional)', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
-              TextField(
-                controller: _remarksController,
-                style: GoogleFonts.figtree(fontSize: 14, color: _dark),
-                decoration: InputDecoration(
-                  hintText: 'Add a note or remark (optional)',
-                  hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
-                  border: InputBorder.none,
-                  isDense: true,
-                  contentPadding: const EdgeInsets.only(top: 8),
+              Text('Student Information', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+              GestureDetector(
+                onTap: _showSelectStudentModal,
+                child: Row(
+                  children: [
+                    Text('Select Student', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _primary)),
+                    const SizedBox(width: 4),
+                    Icon(LucideIcons.chevronRight, size: 14, color: _primary),
+                  ],
                 ),
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInputCard(String label, String value, IconData? trailingIcon, {VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(label, style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF94A3B8))),
-                  const SizedBox(height: 4),
-                  Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
-                ],
-              ),
-            ),
-            if (trailingIcon != null) Icon(trailingIcon, size: 16, color: _muted),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildItemCard(int index, Map<String, dynamic> item) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-      child: Column(
-        children: [
-          Row(
+          const SizedBox(height: 16),
+          if (_selectedStudent != null) Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(color: Color(0xFFF5F3FF), shape: BoxShape.circle),
-                child: const Icon(LucideIcons.graduationCap, size: 20, color: Color(0xFF6366F1)),
+              CircleAvatar(
+                radius: 24,
+                backgroundColor: const Color(0xFFEEEDFD),
+                child: Text(_selectedStudent!['init'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _primary)),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      controller: item['titleCtrl'] as TextEditingController,
-                      style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark),
-                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.zero, border: InputBorder.none),
-                    ),
+                    Text(_selectedStudent!['name'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
+                    const SizedBox(height: 4),
+                    Text('${_selectedStudent!['class']}  ·  ${_selectedStudent!['adm']}', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                     const SizedBox(height: 2),
-                    TextField(
-                      controller: item['descCtrl'] as TextEditingController,
-                      style: GoogleFonts.figtree(fontSize: 12, color: _muted),
-                      decoration: const InputDecoration(isDense: true, contentPadding: EdgeInsets.zero, border: InputBorder.none),
-                    ),
+                    Text('${_selectedStudent!['parent']}  ·  ${_selectedStudent!['phone']}', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                   ],
                 ),
-              ),
-              Text('₹${(item['rateCtrl'] as TextEditingController).text}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── 2. Invoice Details
+  Widget _buildInvoiceDetailsCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Invoice Details', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _buildInputLabel('Invoice Date', _buildDatePicker(_invoiceDate, (d) => setState(() => _invoiceDate = d)))),
               const SizedBox(width: 12),
-              GestureDetector(
-                onTap: () {
-                  if (_items.length > 1) {
-                    setState(() => _items.removeAt(index));
-                  }
-                },
-                child: const Icon(LucideIcons.trash2, size: 18, color: Color(0xFFEF4444)),
-              ),
+              Expanded(child: _buildInputLabel('Due Date', _buildDatePicker(_dueDate, (d) => setState(() => _dueDate = d)))),
             ],
           ),
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(child: _buildItemInput('Quantity', item['qtyCtrl'] as TextEditingController)),
+              Expanded(
+                child: _buildInputLabel('Invoice Type', _buildDropdown(
+                  _invoiceType, 
+                  ['Tuition Fee', 'Transport', 'Hostel Fee', 'Exam Fee', 'Misc'],
+                  (v) => setState(() => _invoiceType = v!)
+                )),
+              ),
               const SizedBox(width: 12),
-              Expanded(flex: 2, child: _buildItemInput('Rate (₹)', item['rateCtrl'] as TextEditingController)),
-              const SizedBox(width: 12),
-              Expanded(flex: 2, child: _buildItemInput('Discount (₹)', item['discountCtrl'] as TextEditingController)),
+              Expanded(
+                child: _buildInputLabel('Reference (Optional)', _buildTextField(_referenceCtrl, 'e.g. April 2025 Fee')),
+              ),
             ],
           ),
+          const SizedBox(height: 16),
+          _buildInputLabel('Notes (Optional)', _buildTextArea(_notesCtrl, 'Add a note for this invoice...')),
         ],
       ),
     );
   }
 
-  Widget _buildItemInput(String label, TextEditingController ctrl) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 10, color: const Color(0xFF94A3B8))),
-          TextField(
-            controller: ctrl,
-            keyboardType: TextInputType.number,
-            style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark),
-            decoration: const InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.only(top: 4, bottom: 4),
-              border: InputBorder.none,
-            ),
-            onChanged: (_) => setState(() {}),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAmounts() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: _bg, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-      child: Column(
-        children: [
-          _buildAmountRow('Sub Total', '₹$_subTotal'),
-          const SizedBox(height: 12),
-          _buildAmountRow('Discount', '- ₹$_totalDiscount', color: const Color(0xFFEF4444)),
-          const SizedBox(height: 12),
-          _buildAmountRow('Tax (0%)', '₹0'),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12),
-            child: Divider(height: 1, color: Color(0xFFE2E8F0)),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Total Amount', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-              Text('₹$_totalAmount', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _primary)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAmountRow(String label, String amount, {Color? color}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildInputLabel(String label, Widget child) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
-        Text(amount, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: color ?? _dark)),
+        Text(label, style: GoogleFonts.figtree(fontSize: 11, color: const Color(0xFF64748B))),
+        const SizedBox(height: 6),
+        child,
       ],
     );
   }
 
-  Widget _buildPaymentOptions() {
-    return Row(
-      children: [
-        Expanded(child: _buildPaymentBtn('Cash', LucideIcons.banknote)),
-        const SizedBox(width: 8),
-        Expanded(child: _buildPaymentBtn('UPI', LucideIcons.smartphone)),
-        const SizedBox(width: 8),
-        Expanded(child: _buildPaymentBtn('Bank Transfer', LucideIcons.building2)),
-      ],
-    );
-  }
-
-  Widget _buildPaymentBtn(String label, IconData icon) {
-    final isSelected = _paymentOption == label;
+  Widget _buildDatePicker(DateTime date, ValueChanged<DateTime> onPicked) {
     return GestureDetector(
-      onTap: () => setState(() => _paymentOption = label),
+      onTap: () async {
+        final d = await showDatePicker(
+          context: context, initialDate: date, firstDate: DateTime(2020), lastDate: DateTime(2030),
+          builder: (context, child) => Theme(data: ThemeData.light().copyWith(colorScheme: ColorScheme.light(primary: _primary)), child: child!),
+        );
+        if (d != null) onPicked(d);
+      },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected ? _primary : Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: isSelected ? _primary : _border),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(icon, size: 16, color: isSelected ? Colors.white : _muted),
-            const SizedBox(width: 6),
-            Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: isSelected ? Colors.white : _muted)),
+            Text('${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}', style: GoogleFonts.figtree(fontSize: 13, color: _dark)),
+            Icon(LucideIcons.calendar, size: 16, color: _dark),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAdditionalOptions() {
+  Widget _buildDropdown(String value, List<String> options, ValueChanged<String?> onChanged) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
-      child: Row(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: value,
+          isDense: true,
+          isExpanded: true,
+          icon: const Icon(LucideIcons.chevronDown, size: 16),
+          items: options.map((o) => DropdownMenuItem(value: o, child: Text(o, style: GoogleFonts.figtree(fontSize: 13, color: _dark)))).toList(),
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController ctrl, String hint) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
+      child: TextField(
+        controller: ctrl,
+        style: GoogleFonts.figtree(fontSize: 13, color: _dark),
+        decoration: InputDecoration.collapsed(hintText: hint, hintStyle: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF94A3B8))),
+      ),
+    );
+  }
+
+  Widget _buildTextArea(TextEditingController ctrl, String hint) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      height: 100,
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _border)),
+      child: Stack(
         children: [
-          GestureDetector(
-            onTap: () => setState(() => _sendWhatsapp = !_sendWhatsapp),
-            child: Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                color: _sendWhatsapp ? _primary : Colors.white,
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: _sendWhatsapp ? _primary : const Color(0xFFCBD5E1)),
-              ),
-              child: _sendWhatsapp ? const Icon(Icons.check, size: 14, color: Colors.white) : null,
-            ),
+          TextField(
+            controller: ctrl,
+            maxLines: null,
+            style: GoogleFonts.figtree(fontSize: 13, color: _dark),
+            onChanged: (_) => setState((){}),
+            decoration: InputDecoration.collapsed(hintText: hint, hintStyle: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF94A3B8))),
           ),
-          const SizedBox(width: 12),
-          Text('Send invoice to parent via WhatsApp', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
-          const Spacer(),
-          const Icon(LucideIcons.messageCircle, size: 20, color: Color(0xFF22C55E)),
+          Positioned(
+            bottom: 0, right: 0,
+            child: Text('${ctrl.text.length}/200', style: GoogleFonts.figtree(fontSize: 10, color: const Color(0xFF94A3B8))),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildActionButtons() {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () {
-              // Return mock data
-              Navigator.pop(context, {
-                'id': widget.initialData != null ? widget.initialData!['id'] : 'INV-2025-${1048 + DateTime.now().millisecond % 100}',
-                'student': _selectedStudent,
-                'class': 'Class 6A',
-                'type': _selectedFeeType,
-                'due': _formatDate(_dueDate),
-                'amount': '₹${_totalAmount.toString().replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},')}',
-                'status': 'Pending',
-                'payment': _paymentOption,
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _primary,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  // ── 3. Invoice Items
+  Widget _buildInvoiceItemsCard() {
+    final amtStr = _total.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},');
+    final subStr = _subtotal.toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},');
+    final discStr = _discountAmt.toStringAsFixed(2);
+
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Invoice Items', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                GestureDetector(
+                  onTap: _showAddItemModal,
+                  child: Row(
+                    children: [
+                      Icon(LucideIcons.plus, size: 14, color: _primary),
+                      const SizedBox(width: 4),
+                      Text('Add Item', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _primary)),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            child: Text(widget.initialData != null ? 'Update Invoice' : 'Create Invoice', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold)),
           ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton(
-            onPressed: () => Navigator.pop(context),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: _primary,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              side: const BorderSide(color: Color(0xFFE2E8F0)),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            color: const Color(0xFFF8FAFC),
+            child: Row(
+              children: [
+                Expanded(flex: 2, child: Text('ITEM', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _muted))),
+                Expanded(flex: 2, child: Text('DESCRIPTION', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _muted))),
+                Expanded(flex: 1, child: Align(alignment: Alignment.centerRight, child: Text('AMOUNT', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _muted)))),
+                const SizedBox(width: 24), // space for 3 dots
+              ],
             ),
-            child: Text('Save as Draft', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _primary)),
           ),
-        ),
-      ],
+          
+          ..._items.asMap().entries.map((e) {
+            final item = e.value;
+            final isLast = e.key == _items.length - 1;
+            final aStr = item['amount'].toStringAsFixed(2).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]},');
+            
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(color: item['iconBg'], borderRadius: BorderRadius.circular(8)),
+                              child: Icon(item['icon'], size: 16, color: item['iconColor']),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(item['title'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _dark)),
+                                  Text(item['subtitle'], style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Expanded(flex: 2, child: Text(item['description'], style: GoogleFonts.figtree(fontSize: 12, color: _dark))),
+                      Expanded(flex: 1, child: Align(alignment: Alignment.centerRight, child: Text('₹$aStr', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _dark)))),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() => _items.removeAt(e.key));
+                        },
+                        child: const Icon(LucideIcons.moreVertical, size: 16, color: Color(0xFF94A3B8)),
+                      ),
+                    ],
+                  ),
+                ),
+                if (!isLast) const Divider(height: 1, indent: 16, endIndent: 16),
+              ],
+            );
+          }),
+          
+          const Divider(height: 1),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Subtotal', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                    Text('₹$subStr', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _dark)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Discount', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                    Text(_discountAmt > 0 ? '- ₹$discStr' : '0.00', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF22C55E))),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Total Amount', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                    Text('₹$amtStr', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _primary)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  // ── 4. Additional Settings
+  Widget _buildAdditionalSettingsCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Additional Settings', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _buildInputLabel('Tax (Optional)', _buildDropdown(
+                  _selectedTax, ['No Tax', 'GST 5%', 'GST 12%', 'GST 18%'],
+                  (v) => setState(() => _selectedTax = v!)
+                )),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildInputLabel('Discount (Optional)', _buildDropdown(
+                  _selectedDiscount, ['No Discount', 'Staff Discount', 'Sibling Discount', 'Custom'],
+                  (v) => setState(() => _selectedDiscount = v!)
+                )),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Modals
+  void _showSelectStudentModal() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (_) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(margin: const EdgeInsets.only(top: 10, bottom: 10), width: 40, height: 4, decoration: BoxDecoration(color: _border, borderRadius: BorderRadius.circular(2))),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text('Select Student', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+          ),
+          ..._dummyStudents.map((s) => ListTile(
+            onTap: () {
+              setState(() => _selectedStudent = s);
+              Navigator.pop(context);
+            },
+            leading: CircleAvatar(backgroundColor: const Color(0xFFEEEDFD), child: Text(s['init'], style: TextStyle(color: _primary, fontSize: 12, fontWeight: FontWeight.bold))),
+            title: Text(s['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+            subtitle: Text('${s['class']} · ${s['adm']}', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+            trailing: _selectedStudent == s ? Icon(LucideIcons.check, color: _primary) : null,
+          )),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
+
+  void _showAddItemModal() {
+    String type = 'Tuition Fee';
+    String desc = '';
+    String amt = '';
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+        child: StatefulBuilder(
+          builder: (ctx, setModalState) {
+            return Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Add Line Item', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _dark)),
+                  const SizedBox(height: 24),
+                  
+                  Text('Item Type', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: type, isExpanded: true,
+                        items: ['Tuition Fee', 'Transport Fee', 'Exam Fee', 'Library Fee', 'Misc'].map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+                        onChanged: (v) => setModalState(() => type = v!),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  Text('Description', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  const SizedBox(height: 6),
+                  TextField(
+                    onChanged: (v) => desc = v,
+                    decoration: InputDecoration(
+                      hintText: 'e.g. Q1 2025',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      isDense: true,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  
+                  Text('Amount (₹)', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  const SizedBox(height: 6),
+                  TextField(
+                    onChanged: (v) => amt = v,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: '0.00',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
+                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: _border)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      isDense: true,
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (amt.isNotEmpty) {
+                          setState(() {
+                            IconData icon = LucideIcons.fileText;
+                            Color c = _primary;
+                            Color bg = const Color(0xFFEEEDFD);
+                            if (type == 'Transport Fee') { icon = LucideIcons.bus; c = const Color(0xFFF59E0B); bg = const Color(0xFFFEF3E1); }
+                            if (type == 'Exam Fee') { icon = LucideIcons.clipboardList; c = const Color(0xFF22C55E); bg = const Color(0xFFEAF8F0); }
+                            if (type == 'Tuition Fee') { icon = LucideIcons.bookOpen; }
+                            
+                            _items.add({
+                              'title': type,
+                              'subtitle': 'Added manually',
+                              'description': desc.isNotEmpty ? desc : type,
+                              'amount': double.tryParse(amt) ?? 0.0,
+                              'icon': icon,
+                              'iconColor': c,
+                              'iconBg': bg,
+                            });
+                          });
+                          Navigator.pop(ctx);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: _primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                      child: Text('Add Item', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                    ),
+                  )
+                ],
+              ),
+            );
+          }
+        ),
+      ),
+    );
+  }
+
+  String _formatDate(DateTime d) => '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 }

@@ -50,6 +50,10 @@ import '../fees/collect_fee_screen.dart';
 import '../fees/invoices_screen.dart';
 import '../fees/fee_structure_screen.dart';
 import '../fees/due_payments_screen.dart';
+import '../fees/payments_receipts_screen.dart';
+import '../fees/discounts_scholarships_screen.dart';
+import '../fees/payment_reminders_screen.dart';
+import '../fees/reports_screen.dart';
 import '../calendar/calendar_screen.dart';
 import '../calendar/ptm_slot_booking_screen.dart';
 import '../hostel/hostel_screens.dart';
@@ -533,11 +537,11 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Fee Structure', LucideIcons.layoutGrid, const FeeStructureScreen()),
                   _buildSectionTitle('COLLECTIONS', topPadding: 20.h),
                   _buildMenuItem(context, 'Due Payments', LucideIcons.alertCircle, const DuePaymentsScreen()),
-                  _buildMenuItem(context, 'Payments & Receipts', LucideIcons.receiptText, const ComingSoonScreen(title: 'Payments & Receipts')),
-                  _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.award, const ComingSoonScreen(title: 'Discounts & Scholarships')),
-                  _buildMenuItem(context, 'Payment Reminders', LucideIcons.messageSquare, const ComingSoonScreen(title: 'Payment Reminders')),
+                  _buildMenuItem(context, 'Payments & Receipts', LucideIcons.receiptText, const PaymentsReceiptsScreen()),
+                  _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.award, const DiscountsScholarshipsScreen()),
+                  _buildMenuItem(context, 'Payment Reminders', LucideIcons.messageSquare, const PaymentRemindersScreen()),
                   _buildSectionTitle('INSIGHTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const InsightsDashboardScreen(initialIndex: 1)),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const ReportsScreen()),
                   SizedBox(height: 24.h),
                 ],
               ),

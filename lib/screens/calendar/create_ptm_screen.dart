@@ -24,7 +24,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
   // Step 2 controllers and state
   final _notesCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
-  List<String> _selectedClasses = [];
+  final List<String> _selectedClasses = [];
   bool _sendInvites = true;
   
   final _venues = ['Primary Block', 'Main Auditorium', 'Block A - Hall', 'Block B - Seminar Hall'];

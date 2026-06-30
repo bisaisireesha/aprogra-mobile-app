@@ -181,10 +181,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   Widget _buildDatePicker() {
     return GestureDetector(
       onTap: () async {
+        final initDate = _selectedDate ?? DateTime.now();
+        final today = DateTime.now();
+        final firstDate = initDate.isBefore(today) ? initDate : today;
+
         final date = await showDatePicker(
           context: context,
-          initialDate: _selectedDate ?? DateTime.now(),
-          firstDate: DateTime(2020),
+          initialDate: initDate,
+          firstDate: firstDate,
           lastDate: DateTime(2030),
           builder: (context, child) {
             return Theme(

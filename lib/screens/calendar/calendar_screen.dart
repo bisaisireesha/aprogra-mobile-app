@@ -96,6 +96,8 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   String _formType = 'event';
 
   final List<CalendarEvent> _events = [];
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   // Categories tab state
   final List<CategoryItem> _categories = [
@@ -193,11 +195,15 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     _titleController.dispose();
     _locationController.dispose();
     _timeController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
-  List<CalendarEvent> get _filteredEvents {
+  List<CalendarEvent> _filteredEvents() {
     List<CalendarEvent> list = _events;
+    if (_searchQuery.isNotEmpty) {
+      list = list.where((e) => e.title.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+    }
     if (_selectedFilter != 'All') {
       String filter = _selectedFilter.toLowerCase();
       // Adjust handling for 'Events' vs 'Event'
@@ -209,7 +215,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   List<CalendarEvent> _eventsForDate(DateTime date) {
-    return _events.where((e) => e.date.year == date.year && e.date.month == date.month && e.date.day == date.day).toList();
+    return _filteredEvents().where((e) => e.date.year == date.year && e.date.month == date.month && e.date.day == date.day).toList();
   }
 
   void _addEvent() {
@@ -255,6 +261,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
       key: _scaffoldKey,
       backgroundColor: _bg,
       drawer: const MenuScreen(activeScreen: 'Calendar'),
+      bottomNavigationBar: _buildBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -264,7 +271,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  child: CommonAppBar(showMenu: false),
+                  child: CommonAppBar(showMenu: true),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -308,23 +315,41 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        GestureDetector(
-          onTap: () {
-            _scaffoldKey.currentState?.openDrawer();
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-            child: const Icon(LucideIcons.menu, size: 18, color: _dark),
+        Row(
+          children: [
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('School Events', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
+              Text('Manage school calendar, categories and PTM slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+            ])),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: _border),
+          ),
+          child: TextField(
+            controller: _searchController,
+            onChanged: (val) {
+              setState(() {
+                _searchQuery = val;
+              });
+            },
+            style: GoogleFonts.figtree(fontSize: 14),
+            decoration: InputDecoration(
+              hintText: 'Search calendar, events, PTMs...',
+              hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
+              prefixIcon: Icon(LucideIcons.search, size: 18, color: _muted),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            ),
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('School Events', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
-          Text('Manage school calendar, categories and PTM slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-        ])),
       ],
     );
   }
@@ -625,7 +650,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   Widget _buildEventList() {
-    final list = _filteredEvents;
+    final list = _filteredEvents();
     if (list.isEmpty) {
       return Container(
         width: double.infinity,
@@ -1056,6 +1081,37 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           ),
         ),
       ],
+    );
+  }
+  Widget _buildBottomNav() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: _primary,
+        unselectedItemColor: _muted,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
+        showUnselectedLabels: true,
+        currentIndex: 1, // Academics/Calendar
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+        ],
+      ),
     );
   }
 }

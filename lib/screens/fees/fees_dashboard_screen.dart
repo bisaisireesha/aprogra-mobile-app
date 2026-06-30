@@ -9,6 +9,7 @@ import 'collect_fee_screen.dart';
 import 'invoices_screen.dart';
 import 'fee_structure_screen.dart';
 import 'due_payments_screen.dart';
+import 'create_invoice_modal.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -29,16 +30,100 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   String _selectedFeeType = 'All Fee Types';
   String _selectedStatus = 'Payment Status';
   int _touchedIndex = -1;
+  int _touchedBarIndex = -1;
 
   final List<Map<String, dynamic>> _invoices = [
-    {'id': 'INV-2025-1041', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'type': 'Tuition Fee', 'due': '10 May 2025', 'amount': '₹24,500', 'status': 'Paid'},
+    {'id': 'INV-2025-1048', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'type': 'Tuition Fee', 'due': '27 May 2025', 'amount': '₹24,500', 'status': 'Pending'},
+    {'id': 'INV-2025-1047', 'student': 'Saanvi Patel', 'class': 'Class 4B', 'type': 'Transport', 'due': '25 May 2025', 'amount': '₹3,200', 'status': 'Paid'},
+    {'id': 'INV-2025-1046', 'student': 'Vivaan Singh', 'class': 'Class 9C', 'type': 'Tuition Fee', 'due': '24 May 2025', 'amount': '₹28,000', 'status': 'Overdue'},
+    {'id': 'INV-2025-1045', 'student': 'Aadhya Sharma', 'class': 'Class 2A', 'type': 'Hostel Fee', 'due': '22 May 2025', 'amount': '₹15,000', 'status': 'Partial'},
+    {'id': 'INV-2025-1044', 'student': 'Reyansh Gupta', 'class': 'Class 10A', 'type': 'Tuition Fee', 'due': '20 May 2025', 'amount': '₹30,000', 'status': 'Pending'},
+    {'id': 'INV-2025-1043', 'student': 'Myra Verma', 'class': 'Class 5B', 'type': 'Exam Fee', 'due': '18 May 2025', 'amount': '₹1,500', 'status': 'Paid'},
+    {'id': 'INV-2025-1042', 'student': 'Kabir Desai', 'class': 'Class 11C', 'type': 'Transport', 'due': '15 May 2025', 'amount': '₹4,500', 'status': 'Overdue'},
+    {'id': 'INV-2025-1041', 'student': 'Ananya Iyer', 'class': 'Class 7C', 'type': 'Tuition Fee', 'due': '10 May 2025', 'amount': '₹24,500', 'status': 'Paid'},
     {'id': 'INV-2025-1040', 'student': 'Priya Sharma', 'class': 'Class 8B', 'type': 'Hostel Fee', 'due': '10 May 2025', 'amount': '₹18,000', 'status': 'Pending'},
     {'id': 'INV-2025-1039', 'student': 'Rohan Mehta', 'class': 'Class 10A', 'type': 'Transport', 'due': '05 May 2025', 'amount': '₹4,500', 'status': 'Overdue'},
-    {'id': 'INV-2025-1038', 'student': 'Ananya Iyer', 'class': 'Class 7C', 'type': 'Tuition Fee', 'due': '10 May 2025', 'amount': '₹24,500', 'status': 'Paid'},
-    {'id': 'INV-2025-1037', 'student': 'Kiran Nair', 'class': 'Class 9B', 'type': 'Exam Fee', 'due': '15 May 2025', 'amount': '₹2,000', 'status': 'Pending'},
-    {'id': 'INV-2025-1036', 'student': 'Meera Gupta', 'class': 'Class 11A', 'type': 'Tuition Fee', 'due': '10 May 2025', 'amount': '₹28,000', 'status': 'Paid'},
-    {'id': 'INV-2025-1035', 'student': 'Aditya Kumar', 'class': 'Class 12B', 'type': 'Misc', 'due': '01 May 2025', 'amount': '₹1,200', 'status': 'Overdue'},
+    {'id': 'INV-2025-1038', 'student': 'Arjun Das', 'class': 'Class 1A', 'type': 'Tuition Fee', 'due': '01 May 2025', 'amount': '₹20,000', 'status': 'Paid'},
+    {'id': 'INV-2025-1037', 'student': 'Kiran Nair', 'class': 'Class 9B', 'type': 'Exam Fee', 'due': '15 Apr 2025', 'amount': '₹2,000', 'status': 'Pending'},
   ];
+
+  void _showCreateInvoiceModal(BuildContext context, [Map<String, dynamic>? inv]) async {
+    final result = await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+        child: CreateInvoiceModal(initialData: inv),
+      ),
+    );
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        if (inv != null) {
+          final index = _invoices.indexWhere((element) => element['id'] == inv['id']);
+          if (index != -1) _invoices[index] = result;
+        } else {
+          _invoices.insert(0, result);
+        }
+      });
+    }
+  }
+
+  void _showInvoiceDetails(BuildContext context, Map<String, dynamic> inv) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Invoice Details', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
+                IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(LucideIcons.x))
+              ],
+            ),
+            const SizedBox(height: 24),
+            _detailRow('Invoice No', inv['id']),
+            _detailRow('Student', inv['student']),
+            _detailRow('Class', inv['class']),
+            _detailRow('Fee Type', inv['type']),
+            _detailRow('Due Date', inv['due']),
+            _detailRow('Amount', inv['amount']),
+            _detailRow('Status', inv['status']),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(backgroundColor: _primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                child: Text('Close', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
+          Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +132,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       key: _scaffoldKey,
       backgroundColor: _bg,
       drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
+      bottomNavigationBar: _buildBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -56,7 +142,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  child: CommonAppBar(showMenu: false),
+                  child: CommonAppBar(showMenu: true),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -69,14 +155,17 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                         _buildKPIs(isTablet),
                         const SizedBox(height: 24),
                         _buildQuickActions(isTablet),
+                        const SizedBox(height: 24),
+                        _buildSearchBar(),
                         const SizedBox(height: 32),
                         _buildFiltersRow(),
                         const SizedBox(height: 16),
                         _buildInvoicesTable(),
                         const SizedBox(height: 32),
                         _buildCollectionStatus(),
-                        const SizedBox(height: 20),
                         _buildCollectionTrendChart(),
+                        const SizedBox(height: 20),
+                        _buildOverdueByClass(),
                         const SizedBox(height: 60),
                       ],
                     ),
@@ -95,32 +184,59 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: () => _scaffoldKey.currentState?.openDrawer(),
-              child: const Icon(LucideIcons.menu, size: 24, color: _dark),
-            ),
-            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 'Fees & Invoices',
                 style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark, letterSpacing: -0.5),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
-            _headerBtn('Export Report', LucideIcons.download, Colors.white, _dark),
-            const SizedBox(width: 10),
-            _headerBtn('+ Create Invoice', LucideIcons.plus, _primary, Colors.white, onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const InvoicesScreen(showCreate: true)));
-            }),
+            Row(
+              children: [
+                _headerBtn('Export', LucideIcons.download, Colors.white, _dark),
+                const SizedBox(width: 8),
+                _headerBtn('Create', LucideIcons.plus, _primary, Colors.white, onTap: () {
+                  _showCreateInvoiceModal(context);
+                }),
+              ],
+            ),
           ],
         ),
         const SizedBox(height: 6),
-        Padding(
-          padding: const EdgeInsets.only(left: 36),
-          child: Text(
-            'Manage student fee structures, generate invoices,\ntrack dues and monitor collections.',
-            style: GoogleFonts.figtree(fontSize: 13, color: _muted, height: 1.4),
+        Text(
+          'Manage student fee structures, generate invoices,\ntrack dues and monitor collections.',
+          style: GoogleFonts.figtree(fontSize: 13, color: _muted, height: 1.4),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+              hintText: 'Search invoice or student...',
+              hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
+              prefixIcon: const Icon(LucideIcons.search, size: 18, color: _muted),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
+              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _primary)),
+              contentPadding: const EdgeInsets.symmetric(vertical: 12),
+              filled: true,
+              fillColor: Colors.white,
+            ),
           ),
+        ),
+        const SizedBox(width: 12),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(12), color: Colors.white),
+          child: const Icon(LucideIcons.filter, size: 20, color: _dark),
         ),
       ],
     );
@@ -151,32 +267,87 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
   Widget _buildKPIs(bool isTablet) {
     final kpis = [
-      {'label': 'TOTAL INVOICED', 'value': '₹57.4L', 'trend': '+₹4.8L (+9.12%)', 'sub': 'vs last month', 'positive': true, 'icon': LucideIcons.fileText, 'iconBg': const Color(0xFFEEF2FF), 'iconColor': _primary, 'sparkColor': _primary, 'data': [3.0, 3.5, 4.2, 4.8, 5.1, 5.4, 5.7]},
-      {'label': 'AMOUNT COLLECTED', 'value': '₹48.6L', 'trend': '+₹3.2L (+7.04%)', 'sub': '84.7% collected', 'positive': true, 'icon': LucideIcons.checkCircle, 'iconBg': const Color(0xFFF0FDF4), 'iconColor': const Color(0xFF22C55E), 'sparkColor': const Color(0xFF22C55E), 'data': [2.5, 3.0, 3.8, 4.1, 4.5, 4.7, 4.9]},
-      {'label': 'PENDING DUES', 'value': '₹8.74L', 'trend': '-₹0.82L (+10.35%)', 'sub': 'requires follow-up', 'positive': false, 'icon': LucideIcons.clock, 'iconBg': const Color(0xFFFFF7ED), 'iconColor': const Color(0xFFF59E0B), 'sparkColor': const Color(0xFFF59E0B), 'data': [1.2, 1.0, 1.1, 0.95, 0.88, 0.91, 0.87]},
-      {'label': 'OVERDUE INVOICES', 'value': '126', 'trend': '▼ 18', 'sub': 'past due date', 'positive': false, 'icon': LucideIcons.alertCircle, 'iconBg': const Color(0xFFFEF2F2), 'iconColor': const Color(0xFFEF4444), 'sparkColor': const Color(0xFFEF4444), 'data': [180.0, 165.0, 152.0, 145.0, 138.0, 131.0, 126.0]},
+      {
+        'label': 'TOTAL INVOICED', 
+        'value': '₹57.4L', 
+        'trend': '▲ ₹4.8L (+9.12%)', 
+        'sub': 'vs last month', 
+        'positive': true, 
+        'icon': LucideIcons.fileText, 
+        'iconBg': const Color(0xFF6366F1), 
+        'cardBg': Colors.white, 
+        'cardBorder': const Color(0xFFEBE5FF), 
+        'trendColor': const Color(0xFF22C55E),
+        'sparkColor': const Color(0xFF6366F1), 
+        'data': [3.0, 3.5, 4.2, 4.8, 5.1, 5.4, 5.7]
+      },
+      {
+        'label': 'AMOUNT COLLECTED', 
+        'value': '₹48.6L', 
+        'trend': '▲ ₹3.2L (+7.04%)', 
+        'sub': '84.7% collected', 
+        'positive': true, 
+        'icon': LucideIcons.wallet, 
+        'iconBg': const Color(0xFF22C55E), 
+        'cardBg': Colors.white,
+        'cardBorder': const Color(0xFFE0F3E8), 
+        'trendColor': const Color(0xFF22C55E),
+        'sparkColor': const Color(0xFF22C55E), 
+        'data': [2.5, 3.0, 3.8, 4.1, 4.5, 4.7, 4.9]
+      },
+      {
+        'label': 'PENDING DUES', 
+        'value': '₹8.74L', 
+        'trend': '▼ ₹0.82L (+10.35%)', 
+        'sub': 'requires follow-up', 
+        'positive': false, 
+        'icon': LucideIcons.clock, 
+        'iconBg': const Color(0xFFF59E0B), 
+        'cardBg': Colors.white,
+        'cardBorder': const Color(0xFFFDE8D4), 
+        'trendColor': const Color(0xFFEF4444),
+        'sparkColor': const Color(0xFFF59E0B), 
+        'data': [0.8, 0.9, 0.9, 1.2, 1.0, 1.1, 1.3]
+      },
+      {
+        'label': 'OVERDUE INVOICES', 
+        'value': '126', 
+        'trend': '▼ 18', 
+        'sub': 'past due date', 
+        'positive': false, 
+        'icon': LucideIcons.alertCircle, 
+        'iconBg': const Color(0xFFEF4444), 
+        'cardBg': Colors.white,
+        'cardBorder': const Color(0xFFFCE1E1), 
+        'trendColor': const Color(0xFFEF4444),
+        'sparkColor': const Color(0xFFEF4444), 
+        'data': [130.0, 140.0, 125.0, 135.0, 120.0, 130.0, 126.0]
+      },
     ];
 
     return GridView.count(
       crossAxisCount: isTablet ? 4 : 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
-      childAspectRatio: isTablet ? 1.3 : 0.95,
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: isTablet ? 1.3 : 0.85,
       children: kpis.map((k) => _buildKPICard(k)).toList(),
     );
   }
 
   Widget _buildKPICard(Map<String, dynamic> k) {
-    final iconColor = k['iconColor'] as Color;
+    final iconBg = k['iconBg'] as Color;
     final sparkColor = k['sparkColor'] as Color;
+    final cardBg = k['cardBg'] as Color;
+    final cardBorder = k['cardBorder'] as Color;
+    final trendColor = k['trendColor'] as Color;
+    
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBg,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: iconColor.withValues(alpha: 0.15)),
-        boxShadow: [BoxShadow(color: iconColor.withValues(alpha: 0.06), blurRadius: 12, offset: const Offset(0, 4))],
+        border: Border.all(color: cardBorder),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -184,44 +355,58 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text(k['label'], style: GoogleFonts.inter(fontSize: 9, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.6), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(color: k['iconBg'], borderRadius: BorderRadius.circular(8)),
-                        child: Icon(k['icon'] as IconData, size: 14, color: iconColor),
-                      ),
-                    ],
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(10)),
+                    child: Icon(k['icon'] as IconData, size: 20, color: Colors.white),
                   ),
-                  const SizedBox(height: 8),
-                  Text(k['value'], style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark, height: 1.1)),
+                  const SizedBox(height: 16),
+                  Text(k['label'], style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w600, color: _muted, letterSpacing: 0.5)),
                   const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(k['positive'] ? LucideIcons.trendingUp : LucideIcons.trendingDown, size: 11, color: k['positive'] ? const Color(0xFF22C55E) : const Color(0xFFEF4444)),
-                      const SizedBox(width: 3),
-                      Expanded(
-                        child: Text(k['trend'], style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: k['positive'] ? const Color(0xFF22C55E) : const Color(0xFFEF4444)), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Text(k['sub'], style: GoogleFonts.figtree(fontSize: 10, color: _muted)),
+                  Text(k['value'], style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _dark, height: 1.1)),
+                  const SizedBox(height: 8),
+                  Text(k['trend'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: trendColor)),
+                  const SizedBox(height: 4),
+                  Text(k['sub'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                 ],
               ),
             ),
-            const Spacer(),
-            SizedBox(
-              height: 35,
-              child: CustomPaint(painter: _SparklinePainter(data: (k['data'] as List).cast<double>(), color: sparkColor)),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: LineChart(
+                  LineChartData(
+                    minX: 0, 
+                    maxX: (k['data'] as List).length.toDouble() - 1,
+                    minY: (k['data'] as List).cast<double>().reduce((a,b)=>a<b?a:b) * 0.95,
+                    maxY: (k['data'] as List).cast<double>().reduce((a,b)=>a>b?a:b) * 1.05,
+                    gridData: FlGridData(show: false),
+                    titlesData: FlTitlesData(show: false),
+                    borderData: FlBorderData(show: false),
+                    lineTouchData: LineTouchData(enabled: false),
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: (k['data'] as List).cast<double>().asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value)).toList(),
+                        isCurved: true,
+                        curveSmoothness: 0.35,
+                        color: sparkColor,
+                        barWidth: 2.5,
+                        isStrokeCapRound: true,
+                        dotData: FlDotData(show: false),
+                        belowBarData: BarAreaData(
+                          show: true,
+                          color: sparkColor.withValues(alpha: 0.1),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -231,27 +416,21 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
   Widget _buildQuickActions(bool isTablet) {
     final actions = [
-      {'label': 'Collect Fee', 'icon': LucideIcons.wallet, 'color': _primary, 'bg': const Color(0xFFEEF2FF)},
-      {'label': 'Create Invoice', 'icon': LucideIcons.filePlus, 'color': const Color(0xFF3B82F6), 'bg': const Color(0xFFEFF6FF)},
-      {'label': 'Send Reminder', 'icon': LucideIcons.bell, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFFF7ED)},
-      {'label': 'Fee Structure', 'icon': LucideIcons.layoutGrid, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFF5F3FF)},
-      {'label': 'Bulk Invoice', 'icon': LucideIcons.layers, 'color': const Color(0xFF10B981), 'bg': const Color(0xFFF0FDF4)},
-      {'label': 'Download Report', 'icon': LucideIcons.download, 'color': const Color(0xFF6B7280), 'bg': const Color(0xFFF9FAFB)},
+      {'label': 'Collect Fee', 'desc': 'Record fee payments', 'icon': LucideIcons.wallet, 'color': const Color(0xFF22C55E), 'bg': Colors.white, 'border': const Color(0xFFE0F3E8), 'iconBg': const Color(0xFFDCFCE7)},
+      {'label': 'Create Invoice', 'desc': 'Generate new invoices', 'icon': LucideIcons.fileText, 'color': const Color(0xFF6366F1), 'bg': Colors.white, 'border': const Color(0xFFEBE5FF), 'iconBg': const Color(0xFFEEF2FF)},
+      {'label': 'Send Reminder', 'desc': 'Send payment reminders', 'icon': LucideIcons.bell, 'color': const Color(0xFFF59E0B), 'bg': Colors.white, 'border': const Color(0xFFFDE8D4), 'iconBg': const Color(0xFFFFF7ED)},
+      {'label': 'Fee Structure', 'desc': 'Manage fee structures', 'icon': LucideIcons.settings, 'color': const Color(0xFF3B82F6), 'bg': Colors.white, 'border': const Color(0xFFE5EDFF), 'iconBg': const Color(0xFFEFF6FF)},
+      {'label': 'Bulk Invoice', 'desc': 'Create invoices in bulk', 'icon': LucideIcons.layers, 'color': const Color(0xFF8B5CF6), 'bg': Colors.white, 'border': const Color(0xFFEBE5FF), 'iconBg': const Color(0xFFF5F3FF)},
+      {'label': 'Download Report', 'desc': 'Download fee reports', 'icon': LucideIcons.download, 'color': const Color(0xFF0EA5E9), 'bg': Colors.white, 'border': const Color(0xFFE0F2FE), 'iconBg': const Color(0xFFE0F2FE)},
     ];
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Quick Actions', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: actions.map((a) => _buildQuickActionBtn(a, context)).toList(),
-          ),
-        ],
-      ),
+    return GridView.count(
+      crossAxisCount: isTablet ? 6 : 3,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+      childAspectRatio: 0.75,
+      children: actions.map((a) => _buildQuickActionBtn(a, context)).toList(),
     );
   }
 
@@ -263,44 +442,43 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         if (a['label'] == 'Fee Structure') Navigator.push(context, MaterialPageRoute(builder: (_) => const FeeStructureScreen()));
         if (a['label'] == 'Send Reminder') Navigator.push(context, MaterialPageRoute(builder: (_) => const DuePaymentsScreen()));
       },
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: a['bg'], borderRadius: BorderRadius.circular(12)),
-            child: Icon(a['icon'] as IconData, size: 20, color: a['color']),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: 52,
-            child: Text(a['label'], style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: _dark), textAlign: TextAlign.center, maxLines: 2),
-          ),
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: a['bg'],
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: a['border']),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(color: a['iconBg'], shape: BoxShape.circle),
+              child: Icon(a['icon'] as IconData, size: 24, color: a['color']),
+            ),
+            const SizedBox(height: 12),
+            Text(a['label'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _dark), textAlign: TextAlign.center),
+            const SizedBox(height: 4),
+            Text(a['desc'], style: GoogleFonts.figtree(fontSize: 10, color: _muted), textAlign: TextAlign.center, maxLines: 2),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFiltersRow() {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Recent Invoices', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-            Text('1,486 invoices', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-          ],
-        ),
-        const SizedBox(height: 12),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _filterChip(_selectedClass, ['All Classes', 'Class 6A', 'Class 7C', 'Class 8B', 'Class 9B', 'Class 10A', 'Class 11A', 'Class 12B'], (v) => setState(() => _selectedClass = v)),
-              const SizedBox(width: 8),
-              _filterChip(_selectedFeeType, ['All Fee Types', 'Tuition Fee', 'Transport', 'Hostel Fee', 'Exam Fee', 'Misc'], (v) => setState(() => _selectedFeeType = v)),
-              const SizedBox(width: 8),
-              _filterChip(_selectedStatus, ['Payment Status', 'Paid', 'Pending', 'Overdue'], (v) => setState(() => _selectedStatus = v)),
+              Text('Recent Invoices', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+              const SizedBox(height: 2),
+              Text('1,486 invoices', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
             ],
           ),
         ),
@@ -358,85 +536,214 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
   Widget _buildInvoicesTable() {
     final items = _filteredInvoices;
-    return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 14, 16, 10),
-            child: Row(
-              children: [
-                Expanded(flex: 3, child: _th('INVOICE / STUDENT')),
-                Expanded(flex: 2, child: _th('CLASS')),
-                Expanded(flex: 2, child: _th('FEE TYPE')),
-                Expanded(flex: 2, child: _th('DUE DATE')),
-                Expanded(flex: 2, child: _th('AMOUNT')),
-                Expanded(flex: 2, child: _th('STATUS')),
-              ],
-            ),
-          ),
-          const Divider(height: 1, color: _border),
-          if (items.isEmpty)
-            Padding(
-              padding: const EdgeInsets.all(32),
-              child: Center(child: Text('No invoices found', style: GoogleFonts.figtree(fontSize: 14, color: _muted))),
-            )
-          else
-            ...items.asMap().entries.map((e) => Column(
-              children: [
-                _buildInvoiceRow(e.value),
-                if (e.key < items.length - 1) const Divider(height: 1, color: _border),
-              ],
-            )),
-          const Divider(height: 1, color: _border),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Showing 1-7 of 1,486', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-                Row(children: [
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+              child: Row(
+                children: [
                   Text('10 per page', style: GoogleFonts.figtree(fontSize: 12, color: _dark, fontWeight: FontWeight.w500)),
+                  const SizedBox(width: 4),
                   const Icon(LucideIcons.chevronDown, size: 14, color: _muted),
-                ]),
-              ],
+                ],
+              ),
             ),
-          ),
+            Text('Showing 1-7 of 1,486', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+          ],
+        ),
+        const SizedBox(height: 16),
+        if (items.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: Center(child: Text('No invoices found', style: GoogleFonts.figtree(fontSize: 14, color: _muted))),
+          )
+        else
+          ...items.map((inv) => _buildInvoiceCard(inv)),
+        const SizedBox(height: 16),
+        _buildPagination(),
+      ],
+    );
+  }
+
+  Widget _buildPagination() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _pageBtn(LucideIcons.chevronLeft, false),
+          _pageBtn('1', true),
+          _pageBtn('2', false),
+          _pageBtn('3', false),
+          _pageBtn('...', false),
+          _pageBtn('149', false),
+          _pageBtn(LucideIcons.chevronRight, false),
         ],
       ),
     );
   }
 
-  Widget _th(String label) => Text(label, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5));
+  Widget _pageBtn(dynamic content, bool isActive) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: isActive ? const Color(0xFF6366F1) : Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: isActive ? const Color(0xFF6366F1) : _border),
+      ),
+      child: content is String
+          ? Text(content, style: GoogleFonts.figtree(fontSize: 12, fontWeight: isActive ? FontWeight.bold : FontWeight.w500, color: isActive ? Colors.white : _dark))
+          : Icon(content as IconData, size: 14, color: _dark),
+    );
+  }
 
-  Widget _buildInvoiceRow(Map<String, dynamic> inv) {
+  Widget _buildInvoiceCard(Map<String, dynamic> inv) {
     Color statusColor;
     Color statusBg;
     switch (inv['status']) {
       case 'Paid':
-        statusColor = const Color(0xFF16A34A); statusBg = const Color(0xFFF0FDF4); break;
+        statusColor = const Color(0xFF22C55E); statusBg = const Color(0xFFDCFCE7); break;
       case 'Overdue':
-        statusColor = const Color(0xFFDC2626); statusBg = const Color(0xFFFEF2F2); break;
+        statusColor = const Color(0xFFEF4444); statusBg = const Color(0xFFFEE2E2); break;
+      case 'Partial':
+        statusColor = const Color(0xFF0EA5E9); statusBg = const Color(0xFFE0F2FE); break;
       default:
-        statusColor = const Color(0xFFD97706); statusBg = const Color(0xFFFFFBEB);
+        statusColor = const Color(0xFFF59E0B); statusBg = const Color(0xFFFEF3C7);
     }
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: _border),
+      ),
+      child: Column(
         children: [
-          Expanded(flex: 3, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(inv['id'], style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, color: _primary)),
-            Text(inv['student'], style: GoogleFonts.figtree(fontSize: 12, color: _dark, fontWeight: FontWeight.w500)),
-          ])),
-          Expanded(flex: 2, child: Text(inv['class'], style: GoogleFonts.figtree(fontSize: 12, color: _muted))),
-          Expanded(flex: 2, child: Text(inv['type'], style: GoogleFonts.figtree(fontSize: 12, color: _dark))),
-          Expanded(flex: 2, child: Text(inv['due'], style: GoogleFonts.figtree(fontSize: 11, color: _muted))),
-          Expanded(flex: 2, child: Text(inv['amount'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _dark))),
-          Expanded(flex: 2, child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(20)),
-            child: Text(inv['status'], style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor), textAlign: TextAlign.center),
-          )),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 4, right: 12),
+                width: 18,
+                height: 18,
+                decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(4)),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(color: const Color(0xFFEEF2FF), borderRadius: BorderRadius.circular(8)),
+                child: const Icon(LucideIcons.fileText, size: 20, color: Color(0xFF6366F1)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(inv['id'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                    const SizedBox(height: 2),
+                    Text(inv['student'], style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(inv['amount'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
+                    child: Text(inv['status'], style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 8),
+              PopupMenuButton<String>(
+                icon: const Icon(LucideIcons.moreHorizontal, size: 20, color: _muted),
+                padding: EdgeInsets.zero,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                onSelected: (value) {
+                  if (value == 'view') {
+                    _showInvoiceDetails(context, inv);
+                  } else if (value == 'edit') {
+                    _showCreateInvoiceModal(context, inv);
+                  } else if (value == 'delete') {
+                    setState(() {
+                      _invoices.removeWhere((element) => element['id'] == inv['id']);
+                    });
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'view',
+                    child: Row(
+                      children: [
+                        const Icon(LucideIcons.eye, size: 16, color: _dark),
+                        const SizedBox(width: 8),
+                        Text('View Details', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'edit',
+                    child: Row(
+                      children: [
+                        const Icon(LucideIcons.edit2, size: 16, color: _dark),
+                        const SizedBox(width: 8),
+                        Text('Edit', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Row(
+                      children: [
+                        const Icon(LucideIcons.trash2, size: 16, color: Color(0xFFEF4444)),
+                        const SizedBox(width: 8),
+                        Text('Delete', style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFFEF4444))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              const SizedBox(width: 30),
+              Row(
+                children: [
+                  const Icon(LucideIcons.graduationCap, size: 14, color: _muted),
+                  const SizedBox(width: 6),
+                  Text(inv['class'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                ],
+              ),
+              const SizedBox(width: 20),
+              Row(
+                children: [
+                  const Icon(LucideIcons.tag, size: 14, color: _muted),
+                  const SizedBox(width: 6),
+                  Text(inv['type'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                ],
+              ),
+              const SizedBox(width: 20),
+              Row(
+                children: [
+                  const Icon(LucideIcons.calendar, size: 14, color: _muted),
+                  const SizedBox(width: 6),
+                  Text(inv['due'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -444,137 +751,222 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
   Widget _buildCollectionStatus() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Collection Status', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-            Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5), decoration: BoxDecoration(color: _bg, borderRadius: BorderRadius.circular(6), border: Border.all(color: _border)),
+            Text('Collection Status', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+            Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text('This Month', style: GoogleFonts.figtree(fontSize: 11, color: _dark, fontWeight: FontWeight.w500)),
-                const SizedBox(width: 4), const Icon(LucideIcons.chevronDown, size: 12, color: _muted),
+                Text('This Month', style: GoogleFonts.figtree(fontSize: 12, color: _dark, fontWeight: FontWeight.w500)),
+                const SizedBox(width: 4), const Icon(LucideIcons.chevronDown, size: 14, color: _muted),
               ]),
             ),
           ]),
+          const SizedBox(height: 32),
+          Center(
+            child: SizedBox(
+              width: 200,
+              height: 200,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  PieChart(
+                    PieChartData(
+                      sectionsSpace: 4,
+                      centerSpaceRadius: 70,
+                      startDegreeOffset: -90,
+                      sections: [
+                        PieChartSectionData(value: 68, title: '', color: const Color(0xFF8B5CF6), radius: 30),
+                        PieChartSectionData(value: 17, title: '', color: const Color(0xFF3B82F6), radius: 30),
+                        PieChartSectionData(value: 10, title: '', color: const Color(0xFFF59E0B), radius: 30),
+                        PieChartSectionData(value: 5, title: '', color: const Color(0xFFEF4444), radius: 30),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('TOTAL', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 1.0)),
+                      const SizedBox(height: 4),
+                      Text('₹57.4L', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+          _legend('Paid', '₹39.0L', '68%', const Color(0xFF8B5CF6)),
+          const SizedBox(height: 16),
+          _legend('Partial', '₹9.8L', '17%', const Color(0xFF3B82F6)),
+          const SizedBox(height: 16),
+          _legend('Pending', '₹5.7L', '10%', const Color(0xFFF59E0B)),
+          const SizedBox(height: 16),
+          _legend('Overdue', '₹2.9L', '5%', const Color(0xFFEF4444)),
           const SizedBox(height: 24),
-          Row(
-            children: [
-              SizedBox(
-                width: 150,
-                height: 150,
-                child: PieChart(
-                  PieChartData(
-                    sectionsSpace: 3,
-                    centerSpaceRadius: 45,
-                    pieTouchData: PieTouchData(touchCallback: (event, response) {
-                      setState(() { _touchedIndex = response?.touchedSection?.touchedSectionIndex ?? -1; });
-                    }),
-                    sections: [
-                      PieChartSectionData(value: 84.7, title: '84.7%', color: const Color(0xFF6366F1), radius: _touchedIndex == 0 ? 30 : 25, titleStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
-                      PieChartSectionData(value: 10.6, title: '10.6%', color: const Color(0xFFF59E0B), radius: _touchedIndex == 1 ? 30 : 25, titleStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
-                      PieChartSectionData(value: 4.7, title: '4.7%', color: const Color(0xFFEF4444), radius: _touchedIndex == 2 ? 30 : 25, titleStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white)),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(color: const Color(0xFFFFF6F6), borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFFCE1E1))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(LucideIcons.alertCircle, size: 18, color: Color(0xFFEF4444)),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text('126 overdue invoices need follow-up', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFFEF4444)))),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.only(left: 26),
+                  child: Row(
+                    children: [
+                      Text('Send Reminders', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFFEF4444))),
+                      const SizedBox(width: 4),
+                      const Icon(LucideIcons.arrowUpRight, size: 14, color: Color(0xFFEF4444)),
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(width: 24),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _legend('Collected', '₹48.6L', const Color(0xFF6366F1)),
-                    const SizedBox(height: 16),
-                    _legend('Pending', '₹6.2L', const Color(0xFFF59E0B)),
-                    const SizedBox(height: 16),
-                    _legend('Overdue', '₹2.7L', const Color(0xFFEF4444)),
-                    const SizedBox(height: 16),
-                    const Divider(color: _border),
-                    const SizedBox(height: 8),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                      Text('TOTAL', style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 0.5)),
-                      Text('₹57.4L', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-                    ]),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _legend(String label, String value, Color color) {
+  Widget _legend(String label, String value, String percent, Color color) {
     return Row(children: [
       Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 8),
-      Expanded(child: Text(label, style: GoogleFonts.figtree(fontSize: 13, color: _muted))),
-      Text(value, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
+      const SizedBox(width: 12),
+      Expanded(child: Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _dark))),
+      Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+      const SizedBox(width: 6),
+      Text('·', style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
+      const SizedBox(width: 6),
+      Text(percent, style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
     ]);
   }
 
   Widget _buildCollectionTrendChart() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Fee Collection Trend', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                    const SizedBox(height: 4),
+                    Text('Invoiced vs Collected · last 6 months', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Row(
                 children: [
-                  Text('Fee Collection Trend', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-                  Text('Invoiced vs Collected · last 6 months', style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                  Container(width: 12, height: 12, decoration: BoxDecoration(color: const Color(0xFF8B5CF6), borderRadius: BorderRadius.circular(3))),
+                  const SizedBox(width: 6),
+                  Text('Invoiced', style: GoogleFonts.inter(fontSize: 12, color: _muted, fontWeight: FontWeight.w500)),
+                  const SizedBox(width: 16),
+                  Container(width: 12, height: 12, decoration: BoxDecoration(color: const Color(0xFF22C55E), borderRadius: BorderRadius.circular(3))),
+                  const SizedBox(width: 6),
+                  Text('Collected', style: GoogleFonts.inter(fontSize: 12, color: _muted, fontWeight: FontWeight.w500)),
                 ],
               ),
-              const Icon(LucideIcons.trendingUp, size: 16, color: _primary),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(width: 10, height: 10, decoration: BoxDecoration(color: _primary, borderRadius: BorderRadius.circular(2))),
-              const SizedBox(width: 4),
-              Text('Invoiced', style: GoogleFonts.inter(fontSize: 9, color: _muted)),
-              const SizedBox(width: 12),
-              Container(width: 10, height: 10, decoration: BoxDecoration(color: const Color(0xFF10B981), borderRadius: BorderRadius.circular(2))),
-              const SizedBox(width: 4),
-              Text('Collected', style: GoogleFonts.inter(fontSize: 9, color: _muted)),
-            ],
-          ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 32),
           SizedBox(
-            height: 160,
+            height: 220,
             child: BarChart(
               BarChartData(
                 alignment: BarChartAlignment.spaceAround,
-                maxY: 7,
-                barTouchData: BarTouchData(enabled: true),
+                maxY: 120,
+                barTouchData: BarTouchData(
+                  enabled: true,
+                  touchTooltipData: BarTouchTooltipData(
+                    getTooltipColor: (_) => Colors.white,
+                    tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    tooltipMargin: 8,
+                    tooltipBorder: const BorderSide(color: Color(0xFFE5E7EB)),
+                    getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                      final months = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'];
+                      final month = months[group.x.toInt()];
+                      final invoiced = group.barRods[0].toY.toInt();
+                      final collected = group.barRods[1].toY.toInt();
+                      return BarTooltipItem(
+                        '$month\n',
+                        GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark),
+                        children: [
+                          TextSpan(text: '\nInvoiced : $invoiced\n', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8B5CF6))),
+                          TextSpan(text: '\nCollected : $collected', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF22C55E))),
+                        ],
+                      );
+                    },
+                  ),
+                  touchCallback: (FlTouchEvent event, barTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
+                        _touchedBarIndex = -1;
+                        return;
+                      }
+                      _touchedBarIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                    });
+                  },
+                ),
                 titlesData: FlTitlesData(
-                  leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, reservedSize: 28, getTitlesWidget: (v, _) => Text('₹${v.toInt()}L', style: GoogleFonts.inter(fontSize: 9, color: _muted)))),
-                  bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true, getTitlesWidget: (v, _) {
-                    final months = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'];
-                    final idx = v.toInt();
-                    return idx >= 0 && idx < months.length ? Text(months[idx], style: GoogleFonts.inter(fontSize: 9, color: _muted)) : const SizedBox();
-                  })),
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true, 
+                      reservedSize: 40,
+                      interval: 30,
+                      getTitlesWidget: (v, _) => Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Text('₹${v.toInt()}L', style: GoogleFonts.inter(fontSize: 11, color: _muted), textAlign: TextAlign.right),
+                      ),
+                    ),
+                  ),
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true, 
+                      getTitlesWidget: (v, _) {
+                        final months = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'];
+                        final idx = v.toInt();
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: idx >= 0 && idx < months.length ? Text(months[idx], style: GoogleFonts.inter(fontSize: 12, color: _muted)) : const SizedBox(),
+                        );
+                      }
+                    ),
+                  ),
                   topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
-                gridData: FlGridData(drawVerticalLine: false, getDrawingHorizontalLine: (_) => FlLine(color: _border.withValues(alpha: 0.5), strokeWidth: 1)),
+                gridData: FlGridData(
+                  drawVerticalLine: false, 
+                  horizontalInterval: 30,
+                  getDrawingHorizontalLine: (_) => FlLine(color: _border.withValues(alpha: 0.3), strokeWidth: 1)
+                ),
                 borderData: FlBorderData(show: false),
                 barGroups: [
-                  _doubleBarGroup(0, 4.2, 3.6),
-                  _doubleBarGroup(1, 4.5, 4.0),
-                  _doubleBarGroup(2, 5.1, 4.5),
-                  _doubleBarGroup(3, 4.8, 4.1),
-                  _doubleBarGroup(4, 5.4, 4.8),
-                  _doubleBarGroup(5, 5.7, 5.2),
+                  _doubleBarGroup(0, 78, 65, _touchedBarIndex == 0),
+                  _doubleBarGroup(1, 88, 74, _touchedBarIndex == 1),
+                  _doubleBarGroup(2, 54, 54, _touchedBarIndex == 2),
+                  _doubleBarGroup(3, 96, 82, _touchedBarIndex == 3),
+                  _doubleBarGroup(4, 102, 88, _touchedBarIndex == 4),
+                  _doubleBarGroup(5, 110, 94, _touchedBarIndex == 5),
                 ],
               ),
             ),
@@ -584,47 +976,134 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     );
   }
 
-  BarChartGroupData _doubleBarGroup(int x, double y1, double y2) {
+  BarChartGroupData _doubleBarGroup(int x, double y1, double y2, bool isTouched) {
     return BarChartGroupData(
       x: x,
+      barsSpace: 4,
       barRods: [
-        BarChartRodData(toY: y1, color: _primary, width: 8, borderRadius: const BorderRadius.vertical(top: Radius.circular(3))),
-        BarChartRodData(toY: y2, color: const Color(0xFF10B981), width: 8, borderRadius: const BorderRadius.vertical(top: Radius.circular(3))),
+        BarChartRodData(
+          toY: y1, 
+          color: const Color(0xFF8B5CF6), 
+          width: 14, 
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+        ),
+        BarChartRodData(
+          toY: y2, 
+          color: const Color(0xFF22C55E), 
+          width: 14, 
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+        ),
       ],
+      showingTooltipIndicators: isTouched ? [0] : [],
+    );
+  }
+
+  Widget _buildOverdueByClass() {
+    final overdueData = [
+      {'class': 'Class 10', 'count': 42, 'percent': 0.84},
+      {'class': 'Class 9', 'count': 31, 'percent': 0.62},
+      {'class': 'Class 8', 'count': 24, 'percent': 0.48},
+      {'class': 'Class 7', 'count': 18, 'percent': 0.36},
+      {'class': 'Class 6', 'count': 11, 'percent': 0.22},
+    ];
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Overdue by Class', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                    const SizedBox(height: 4),
+                    Text('Distribution of overdue invoices', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(color: const Color(0xFFFFF1F2), borderRadius: BorderRadius.circular(20)),
+                child: Row(
+                  children: [
+                    const Icon(LucideIcons.trendingUp, size: 14, color: Color(0xFFF43F5E)),
+                    const SizedBox(width: 4),
+                    Text('126 total', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFFF43F5E))),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          ...overdueData.map((data) => Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(data['class'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
+                        Row(
+                          children: [
+                            Text('${data['count']}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                            Text(' overdue', style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    LinearProgressIndicator(
+                      value: data['percent'] as double,
+                      backgroundColor: const Color(0xFFF3F4F6),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF43F5E)),
+                      minHeight: 6,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ],
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomNav() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
+      ),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: _primary,
+        unselectedItemColor: _muted,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
+        showUnselectedLabels: true,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
+          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+        ],
+      ),
     );
   }
 }
 
-class _SparklinePainter extends CustomPainter {
-  final List<double> data;
-  final Color color;
-  _SparklinePainter({required this.data, required this.color});
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (data.length < 2) return;
-    final min = data.reduce((a, b) => a < b ? a : b);
-    final max = data.reduce((a, b) => a > b ? a : b);
-    final range = (max - min).abs() < 0.001 ? 1.0 : max - min;
-
-    final paint = Paint()..color = color..strokeWidth = 1.8..style = PaintingStyle.stroke..strokeCap = StrokeCap.round..strokeJoin = StrokeJoin.round;
-    final fillPaint = Paint()..shader = LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [color.withValues(alpha: 0.15), color.withValues(alpha: 0.0)]).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    final path = Path();
-    final fillPath = Path();
-    for (int i = 0; i < data.length; i++) {
-      final x = i / (data.length - 1) * size.width;
-      final y = size.height - ((data[i] - min) / range) * (size.height * 0.8) - size.height * 0.1;
-      i == 0 ? path.moveTo(x, y) : path.lineTo(x, y);
-      i == 0 ? fillPath.moveTo(x, y) : fillPath.lineTo(x, y);
-    }
-    fillPath.lineTo(size.width, size.height);
-    fillPath.lineTo(0, size.height);
-    fillPath.close();
-    canvas.drawPath(fillPath, fillPaint);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-}

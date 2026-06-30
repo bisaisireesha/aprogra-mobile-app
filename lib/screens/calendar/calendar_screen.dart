@@ -4,9 +4,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
-import 'create_ptm_screen.dart';
-import 'ptm_details_screen.dart';
-import 'create_event_screen.dart';
 import 'package:intl/intl.dart';
 
 const _bg = Color(0xFFF9F9FB);
@@ -96,8 +93,6 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   String _formType = 'event';
 
   final List<CalendarEvent> _events = [];
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
 
   // Categories tab state
   final List<CategoryItem> _categories = [
@@ -110,14 +105,15 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     CategoryItem(name: 'Trip', description: 'Field trips and excursions', itemText: '1', actionText: '+ New', icon: LucideIcons.plane, color: const Color(0xFF06B6D4)),
   ];
 
+  // PTM Slots state
   final List<PtmMeeting> _ptmMeetings = [
-    PtmMeeting(title: 'Term 1 Parent Teacher Meeting', date: 'Oct 24, 2023', time: '10:00 AM - 1:00 PM', location: 'Main Hall', people: 'Class 10A, 10B', isUpcoming: true),
-    PtmMeeting(title: 'Annual Performance Review', date: 'Nov 12, 2023', time: '2:00 PM - 5:00 PM', location: 'Classroom 4', people: 'Class 8C', isUpcoming: true),
-    PtmMeeting(title: 'Mid-Term Progress Discussion', date: 'Sep 10, 2023', time: '9:00 AM - 12:00 PM', location: 'Library', people: 'Class 12 Science', isUpcoming: false),
-    PtmMeeting(title: 'Pre-Primary Assessment', date: 'Dec 05, 2023', time: '09:00 AM - 12:00 PM', location: 'Kindergarten Wing', people: 'LKG A, LKG B', isUpcoming: true),
+    PtmMeeting(title: 'Primary Wing PTM', date: 'Sun, 09 Aug, 2026', time: '10:00 AM - 12:30 PM', location: 'Primary Block', people: '80 invited', isUpcoming: true),
+    PtmMeeting(title: 'Senior Section PTM', date: 'Sun, 26 Jul, 2026', time: '9:00 AM - 12:00 PM', location: 'Block B - Seminar Hall', people: '95 invited', isUpcoming: true),
+    PtmMeeting(title: 'Term 1 Parent-Teacher Meeting', date: 'Sun, 12 Jul, 2026', time: '10:00 AM - 1:00 PM', location: 'Main Auditorium', people: '120 invited', isUpcoming: true),
+    PtmMeeting(title: 'Pre-Annual Review PTM', date: 'Sun, 17 May, 2026', time: '10:00 AM - 1:00 PM', location: 'Main Auditorium', people: '142/160 attended', isUpcoming: false),
+    PtmMeeting(title: 'Mid-Term Progress PTM', date: 'Sun, 22 Mar, 2026', time: '9:30 AM - 12:30 PM', location: 'Block A - Hall', people: '98/110 attended', isUpcoming: false),
+    PtmMeeting(title: 'Foundation Year PTM', date: 'Sun, 08 Feb, 2026', time: '10:00 AM - 12:00 PM', location: 'Primary Block', people: '65/75 attended', isUpcoming: false),
   ];
-
-
 
   @override
   void initState() {
@@ -195,27 +191,20 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     _titleController.dispose();
     _locationController.dispose();
     _timeController.dispose();
-    _searchController.dispose();
     super.dispose();
   }
 
-  List<CalendarEvent> _filteredEvents() {
+  List<CalendarEvent> get _filteredEvents {
     List<CalendarEvent> list = _events;
-    if (_searchQuery.isNotEmpty) {
-      list = list.where((e) => e.title.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
-    }
     if (_selectedFilter != 'All') {
-      String filter = _selectedFilter.toLowerCase();
-      // Adjust handling for 'Events' vs 'Event'
-      String typeKey = filter.endsWith('s') ? filter.substring(0, filter.length - 1) : filter;
-      list = list.where((e) => e.type.toLowerCase() == typeKey).toList();
+      list = list.where((e) => e.type.toLowerCase() == _selectedFilter.toLowerCase().substring(0, _selectedFilter.length - 1)).toList();
     }
     list.sort((a, b) => a.date.compareTo(b.date));
     return list;
   }
 
   List<CalendarEvent> _eventsForDate(DateTime date) {
-    return _filteredEvents().where((e) => e.date.year == date.year && e.date.month == date.month && e.date.day == date.day).toList();
+    return _events.where((e) => e.date.year == date.year && e.date.month == date.month && e.date.day == date.day).toList();
   }
 
   void _addEvent() {
@@ -261,7 +250,6 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
       key: _scaffoldKey,
       backgroundColor: _bg,
       drawer: const MenuScreen(activeScreen: 'Calendar'),
-      bottomNavigationBar: _buildBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -271,7 +259,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               children: [
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 16, 20, 0),
-                  child: CommonAppBar(showMenu: true),
+                  child: CommonAppBar(),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -280,81 +268,84 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                     children: [
                       _buildHeader(context),
                       const SizedBox(height: 16),
-                      TabBar(
-                        controller: _tabController,
-                        indicatorColor: _primary,
-                        labelColor: _primary,
-                        unselectedLabelColor: _muted,
-                        labelStyle: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600),
-                        unselectedLabelStyle: GoogleFonts.figtree(fontSize: 13),
-                        tabs: const [
-                          Tab(text: 'Calendar'),
-                          Tab(text: 'Categories'),
-                          Tab(text: 'PTM Booking'),
-                        ],
-                      ),
                     ],
                   ),
                 ),
                 Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _buildCalendarTab(),
-                      _buildCategoriesTab(),
-                      _buildPtmTab(),
-                    ],
-                  ),
+                  child: widget.initialTab == 0
+                      ? _buildCalendarTab()
+                      : widget.initialTab == 1
+                          ? _buildCategoriesTab()
+                          : _buildPtmTab(),
                 ),
               ],
             ),
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.calendar),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.user),
+            label: 'Profile',
+          ),
+        ],
+        currentIndex: 1,
+        selectedItemColor: const Color(0xFF6366F1),
+        unselectedItemColor: const Color(0xFF94A3B8),
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MenuScreen(activeScreen: 'Home')));
+          }
+        },
+      ),
     );
   }
 
   Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    String title = 'School Events';
+    if (widget.initialTab == 1) title = 'Categories';
+    if (widget.initialTab == 2) title = 'PTM Booking';
+
+    return Row(
       children: [
-        Row(
-          children: [
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('School Events', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
-              Text('Manage school calendar, categories and PTM slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-            ])),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: _border),
-          ),
-          child: TextField(
-            controller: _searchController,
-            onChanged: (val) {
-              setState(() {
-                _searchQuery = val;
-              });
-            },
-            style: GoogleFonts.figtree(fontSize: 14),
-            decoration: InputDecoration(
-              hintText: 'Search calendar, events, PTMs...',
-              hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
-              prefixIcon: Icon(LucideIcons.search, size: 18, color: _muted),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(title, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
+          Text('Manage school calendar, categories and PTM slots', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+        ])),
+        if (widget.initialTab == 0)
+          GestureDetector(
+            onTap: _showCreateEventDialog,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: _primary,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.25), blurRadius: 6, offset: const Offset(0, 3))],
+              ),
+              child: Row(
+                children: [
+                  const Icon(LucideIcons.plus, size: 14, color: Colors.white),
+                  const SizedBox(width: 4),
+                  Text('Create', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
 
-  // ── TAB 1: CALENDAR VIEW ───────────────────────────────────────────────
   Widget _buildCalendarTab() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -363,11 +354,6 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
         children: [
           _buildCalendarGrid(),
           const SizedBox(height: 20),
-          if (_showAddForm) ...[
-            _buildAddEventForm(),
-            const SizedBox(height: 20),
-          ],
-          _buildTodaySchedule(),
           _buildEventSectionHeader(),
           const SizedBox(height: 12),
           _buildEventList(),
@@ -377,41 +363,16 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     );
   }
 
-  Widget _buildTodaySchedule() {
-    final list = _eventsForDate(_selectedDate);
-
-    if (list.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Events for ${_selectedDate.day}/${_selectedDate.month}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 10),
-              ...list.map((e) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(children: [Icon(e.icon, size: 14, color: e.color), const SizedBox(width: 8), Text(e.title, style: GoogleFonts.figtree(fontSize: 12))]),
-              )),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-      ],
-    );
-  }
-
   Widget _buildCalendarGrid() {
     final monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    final weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final weekDays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-    final firstDayOffset = DateTime(_focusedMonth.year, _focusedMonth.month, 1).weekday - 1;
+    final firstDayOfMonth = DateTime(_focusedMonth.year, _focusedMonth.month, 1);
+    final firstDayOffset = firstDayOfMonth.weekday % 7; 
     final totalDays = DateUtils.getDaysInMonth(_focusedMonth.year, _focusedMonth.month);
+    final prevMonthTotalDays = DateUtils.getDaysInMonth(_focusedMonth.year, _focusedMonth.month - 1);
+    
+    const totalCells = 42;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -451,57 +412,76 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: weekDays.map((d) => Expanded(child: Text(d, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted), textAlign: TextAlign.center))).toList(),
+            children: weekDays.asMap().entries.map((entry) {
+              final isSunday = entry.key == 0;
+              return Expanded(
+                child: Text(
+                  entry.value, 
+                  style: GoogleFonts.inter(
+                    fontSize: 10, 
+                    fontWeight: FontWeight.w700, 
+                    color: isSunday ? const Color(0xFFEF4444) : _muted,
+                  ), 
+                  textAlign: TextAlign.center
+                ),
+              );
+            }).toList(),
           ),
           const SizedBox(height: 10),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: firstDayOffset + totalDays,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 8, crossAxisSpacing: 8, childAspectRatio: 1.1),
+            itemCount: totalCells,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.0),
             itemBuilder: (ctx, index) {
-              if (index < firstDayOffset) return const SizedBox();
-              final day = index - firstDayOffset + 1;
-              final currentDate = DateTime(_focusedMonth.year, _focusedMonth.month, day);
+              final isPrevMonth = index < firstDayOffset;
+              final isNextMonth = index >= firstDayOffset + totalDays;
+              
+              int day;
+              DateTime currentDate;
+              if (isPrevMonth) {
+                day = prevMonthTotalDays - firstDayOffset + index + 1;
+                currentDate = DateTime(_focusedMonth.year, _focusedMonth.month - 1, day);
+              } else if (isNextMonth) {
+                day = index - (firstDayOffset + totalDays) + 1;
+                currentDate = DateTime(_focusedMonth.year, _focusedMonth.month + 1, day);
+              } else {
+                day = index - firstDayOffset + 1;
+                currentDate = DateTime(_focusedMonth.year, _focusedMonth.month, day);
+              }
+
               final isSelected = currentDate.year == _selectedDate.year && currentDate.month == _selectedDate.month && currentDate.day == _selectedDate.day;
               final isToday = currentDate.year == DateTime.now().year && currentDate.month == DateTime.now().month && currentDate.day == DateTime.now().day;
-              final dateEvents = _eventsForDate(currentDate);
+              final isSunday = index % 7 == 0;
+              final isCurrentMonth = !isPrevMonth && !isNextMonth;
+
+              Color getTextColor() {
+                if (isSelected) return Colors.white;
+                if (!isCurrentMonth) return const Color(0xFFCBD5E1);
+                if (isToday) return _primary;
+                if (isSunday) return const Color(0xFFEF4444);
+                return _dark;
+              }
 
               return GestureDetector(
-                onTap: () => setState(() {
-                  _selectedDate = currentDate;
-                }),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
+                onTap: () {
+                  setState(() => _selectedDate = currentDate);
+                  _showEventDetailsModal(currentDate);
+                },
+                child: Container(
                   decoration: BoxDecoration(
-                    color: isSelected ? _primary : isToday ? _primary.withValues(alpha: 0.1) : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                    border: isToday && !isSelected ? Border.all(color: _primary, width: 1.5) : null,
+                    color: isSelected ? _primary : Colors.transparent,
+                    shape: BoxShape.circle,
+                    border: isToday && !isSelected ? Border.all(color: _primary.withValues(alpha: 0.4), width: 1.5) : null,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '$day',
-                        style: GoogleFonts.figtree(
-                          fontSize: 13,
-                          fontWeight: isSelected || isToday ? FontWeight.bold : FontWeight.normal,
-                          color: isSelected ? Colors.white : isToday ? _primary : _dark,
-                        ),
-                      ),
-                      if (dateEvents.isNotEmpty) ...[
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: dateEvents.take(3).map((e) => Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 1),
-                            width: 4,
-                            height: 4,
-                            decoration: BoxDecoration(color: isSelected ? Colors.white : e.color, shape: BoxShape.circle),
-                          )).toList(),
-                        ),
-                      ],
-                    ],
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$day',
+                    style: GoogleFonts.figtree(
+                      fontSize: 15,
+                      fontWeight: isSelected || isToday ? FontWeight.bold : FontWeight.w600,
+                      color: getTextColor(),
+                    ),
                   ),
                 ),
               );
@@ -512,90 +492,409 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
     );
   }
 
-  Widget _buildAddEventForm() {
-    final types = ['event', 'exam', 'holiday'];
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Create New Calendar Entry', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 4),
-          Text('Adding to: ${_selectedDate.day}/${_selectedDate.month}/${_selectedDate.year}', style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
-          const SizedBox(height: 16),
-          Row(
-            children: types.map((t) => Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(right: t != types.last ? 8.0 : 0.0),
-                child: GestureDetector(
-                  onTap: () => setState(() => _formType = t),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                      color: _formType == t ? _primary : Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: _formType == t ? _primary : _border),
+  void _showEventDetailsModal(DateTime date) {
+    final dateEvents = _eventsForDate(date);
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 12, bottom: 12),
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.3), borderRadius: BorderRadius.circular(2)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('SELECTED DAY', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFF94A3B8), letterSpacing: 1.2)),
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Text('Show month', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF6366F1))),
                     ),
-                    child: Text(
-                      t.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _formType == t ? Colors.white : _muted),
-                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  DateFormat('EEEE, d MMMM yyyy').format(date),
+                  style: GoogleFonts.inter(fontSize: 24, fontWeight: FontWeight.w700, color: const Color(0xFF181821)),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Text(
+                  '${dateEvents.length} event${dateEvents.length == 1 ? '' : 's'}',
+                  style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF595973)),
+                ),
+              ),
+              const SizedBox(height: 16),
+              if (dateEvents.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: dateEvents.map((e) => _buildModalEventCard(e)).toList(),
+                  ),
+                )
+              else
+                Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Center(
+                    child: Text('No events scheduled for this day.', style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF94A3B8))),
                   ),
                 ),
-              ),
-            )).toList(),
-          ),
-          const SizedBox(height: 16),
-          _formField('Event Title', LucideIcons.tag, _titleController),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(child: _formField('Time (e.g. 10:00 AM)', LucideIcons.clock, _timeController)),
-              const SizedBox(width: 12),
-              Expanded(child: _formField('Location', LucideIcons.mapPin, _locationController)),
+              const SizedBox(height: 32),
             ],
           ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => setState(() => _showAddForm = false),
-                child: Text('Cancel', style: GoogleFonts.figtree(color: _muted, fontWeight: FontWeight.w600)),
-              ),
-              const SizedBox(width: 12),
-              GestureDetector(
-                onTap: _addEvent,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(color: _primary, borderRadius: BorderRadius.circular(8)),
-                  child: Text('Save Entry', style: GoogleFonts.figtree(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+        );
+      },
+    );
+  }
+
+  Widget _buildModalEventCard(CalendarEvent e) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFEF3C7),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(e.icon, color: const Color(0xFFF59E0B), size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        e.title,
+                        style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700, color: const Color(0xFF181821)),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFEF3C7),
+                        borderRadius: BorderRadius.circular(4),
+                        border: Border.all(color: const Color(0xFFFCD34D)),
+                      ),
+                      child: Text(
+                        e.type.toUpperCase(),
+                        style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: const Color(0xFFF59E0B)),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(LucideIcons.clock, size: 14, color: Color(0xFF94A3B8)),
+                    const SizedBox(width: 4),
+                    Text(e.time, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF595973))),
+                    const SizedBox(width: 12),
+                    const Icon(LucideIcons.mapPin, size: 14, color: Color(0xFF94A3B8)),
+                    const SizedBox(width: 4),
+                    Text(e.location, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF595973))),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _formField(String label, IconData icon, TextEditingController ctrl) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w500, color: _muted)),
-        const SizedBox(height: 6),
-        Container(
-          decoration: BoxDecoration(color: const Color(0xFFFAFAFC), borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-          child: TextField(
-            controller: ctrl,
-            style: GoogleFonts.figtree(fontSize: 13, color: _dark),
-            decoration: InputDecoration(prefixIcon: Icon(icon, size: 14, color: _muted), border: InputBorder.none, contentPadding: const EdgeInsets.symmetric(vertical: 10)),
-          ),
+  void _showCreateEventDialog() {
+    DateTime selectedDate = _selectedDate;
+    TimeOfDay selectedTime = TimeOfDay.now();
+    final nameCtrl = TextEditingController();
+    final venueCtrl = TextEditingController();
+    final assignedCtrl = TextEditingController();
+    String selectedCategory = 'Event';
+    final categories = ['Event', 'Exam', 'Holiday', 'Meeting', 'Trip'];
+    
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return Dialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              insetPadding: const EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(8)),
+                            child: const Icon(LucideIcons.plus, color: _primary, size: 20),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Create new event', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: _dark)),
+                                const SizedBox(height: 4),
+                                Text('Fill in the details below', style: GoogleFonts.inter(fontSize: 14, color: _muted)),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => Navigator.pop(context),
+                            child: const Icon(LucideIcons.x, color: _muted, size: 20),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      const Divider(height: 1, color: _border),
+                      const SizedBox(height: 24),
+                      
+                      _buildDialogLabel('EVENT NAME'),
+                      _buildDialogTextField(nameCtrl, 'e.g. Annual Day Rehearsal'),
+                      const SizedBox(height: 16),
+                      
+                      _buildDialogLabel('VENUE'),
+                      _buildDialogTextField(venueCtrl, 'e.g. Auditorium'),
+                      const SizedBox(height: 16),
+                      
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDialogLabel('DATE'),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final date = await showDatePicker(
+                                      context: context,
+                                      initialDate: selectedDate,
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                      builder: (context, child) {
+                                        return Theme(
+                                          data: Theme.of(context).copyWith(
+                                            colorScheme: const ColorScheme.light(primary: _primary, onPrimary: Colors.white, onSurface: _dark),
+                                          ),
+                                          child: child!,
+                                        );
+                                      },
+                                    );
+                                    if (date != null) setDialogState(() => selectedDate = date);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(DateFormat('dd/MM/yyyy').format(selectedDate), style: GoogleFonts.inter(fontSize: 14, color: _dark)),
+                                        const Icon(LucideIcons.calendar, size: 16, color: _dark),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildDialogLabel('TIME'),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: selectedTime,
+                                      builder: (context, child) {
+                                        return Theme(
+                                          data: Theme.of(context).copyWith(
+                                            colorScheme: const ColorScheme.light(primary: _primary, onPrimary: Colors.white, onSurface: _dark),
+                                          ),
+                                          child: child!,
+                                        );
+                                      },
+                                    );
+                                    if (time != null) setDialogState(() => selectedTime = time);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                    decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(selectedTime.format(context), style: GoogleFonts.inter(fontSize: 14, color: _dark)),
+                                        const Icon(LucideIcons.clock, size: 16, color: _dark),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      
+                      _buildDialogLabel('EVENT ASSIGNED TO'),
+                      _buildDialogTextField(assignedCtrl, 'e.g. Ms. Sharma / Class 10-A'),
+                      const SizedBox(height: 16),
+                      
+                      _buildDialogLabel('CATEGORY'),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: selectedCategory,
+                            isExpanded: true,
+                            icon: const Icon(LucideIcons.chevronDown, size: 16, color: _dark),
+                            items: categories.map((c) => DropdownMenuItem(value: c, child: Text(c, style: GoogleFonts.inter(fontSize: 14, color: _dark)))).toList(),
+                            onChanged: (val) {
+                              if (val != null) setDialogState(() => selectedCategory = val);
+                            },
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 24),
+                      const Divider(height: 1, color: _border),
+                      const SizedBox(height: 24),
+                      
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: const BorderSide(color: _border)),
+                            ),
+                            child: Text('Cancel', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                          ),
+                          const SizedBox(width: 12),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (nameCtrl.text.isEmpty) return;
+                              setState(() {
+                                _events.add(CalendarEvent(
+                                  title: nameCtrl.text,
+                                  type: selectedCategory.toLowerCase(),
+                                  date: selectedDate,
+                                  time: selectedTime.format(context),
+                                  location: venueCtrl.text.isEmpty ? 'TBA' : venueCtrl.text,
+                                  color: _getCategoryColor(selectedCategory.toLowerCase()),
+                                  icon: _getCategoryIcon(selectedCategory.toLowerCase()),
+                                ));
+                              });
+                              Navigator.pop(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: _primary,
+                              elevation: 0,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: Text('Save event', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Color _getCategoryColor(String type) {
+    switch (type) {
+      case 'exam': return const Color(0xFFEF4444);
+      case 'holiday': return const Color(0xFF10B981);
+      case 'meeting': return const Color(0xFFF59E0B);
+      case 'trip': return const Color(0xFF06B6D4);
+      default: return const Color(0xFF6366F1);
+    }
+  }
+
+  IconData _getCategoryIcon(String type) {
+    switch (type) {
+      case 'exam': return LucideIcons.fileSpreadsheet;
+      case 'holiday': return LucideIcons.partyPopper;
+      case 'meeting': return LucideIcons.users;
+      case 'trip': return LucideIcons.plane;
+      default: return LucideIcons.calendarRange;
+    }
+  }
+
+  Widget _buildDialogLabel(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Text(text, style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w700, color: const Color(0xFF64748B), letterSpacing: 0.5)),
+    );
+  }
+
+  Widget _buildDialogTextField(TextEditingController controller, String hint) {
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+      child: TextField(
+        controller: controller,
+        style: GoogleFonts.inter(fontSize: 14, color: _dark),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF94A3B8)),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          border: InputBorder.none,
         ),
-      ],
+      ),
     );
   }
 
@@ -630,28 +929,12 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
             ),
           ),
         ),
-        const SizedBox(width: 10),
-        GestureDetector(
-          onTap: () => setState(() => _showAddForm = !_showAddForm),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), border: Border.all(color: _border)),
-            child: Row(
-              children: [
-                const Icon(LucideIcons.plus, size: 12, color: _dark),
-                const SizedBox(width: 4),
-                Text('Add New', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _dark)),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }
 
   Widget _buildEventList() {
-    final allList = _filteredEvents();
-    final list = allList.where((e) => e.date.year == _selectedDate.year && e.date.month == _selectedDate.month && e.date.day == _selectedDate.day).toList();
+    final list = _filteredEvents;
     if (list.isEmpty) {
       return Container(
         width: double.infinity,
@@ -675,7 +958,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: list.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 10),
+      separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (ctx, i) {
         final e = list[i];
         final typeLabel = e.type[0].toUpperCase() + e.type.substring(1);
@@ -780,14 +1063,8 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Categories', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-                    Text('All event categories. Click a row to create a new entry.', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
-                  ],
-                ),
+              const Expanded(
+                child: SizedBox(), // Replaced duplicate heading with empty space to push the Create button to the right
               ),
               GestureDetector(
                 onTap: () {
@@ -878,52 +1155,25 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                                 ),
                               ),
                             ),
-                              Expanded(
-                                flex: 2,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    if (c.actionText == '+ Manage') {
-                                      final result = await showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (context) => const CreatePtmScreen(),
-                                      );
-                                      if (result != null && result is Map<String, dynamic>) {
-                                        setState(() {
-                                          _ptmMeetings.insert(0, PtmMeeting(
-                                            title: result['title'],
-                                            date: DateFormat('MMM dd, yyyy').format(result['date']),
-                                            time: result['time'],
-                                            location: result['location'] ?? 'TBA',
-                                            people: (result['classes'] as List).join(', '),
-                                            isUpcoming: true,
-                                          ));
-                                        });
-                                        _tabController.animateTo(2); // Switch to PTM tab
-                                      }
-                                    } else {
-                                      final result = await showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (context) => const CreateEventScreen(),
-                                      );
-                                      if (result != null && result is Map<String, dynamic>) {
-                                        setState(() {
-                                          _events.add(CalendarEvent(
-                                            title: result['title'],
-                                            type: result['type'],
-                                            date: result['date'],
-                                            time: result['time'],
-                                            location: result['location'],
-                                            color: _getCategoryColor(result['type']),
-                                            icon: _getCategoryIcon(result['type']),
-                                          ));
-                                        });
-                                      }
-                                    }
-                                  },
+                            // Action button
+                            Expanded(
+                              flex: 2,
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (c.actionText == '+ Manage') {
+                                    _tabController.animateTo(2); // Switch to PTM tab
+                                  } else {
+                                    setState(() {
+                                      _formType = c.name.toLowerCase().contains('holiday')
+                                          ? 'holiday'
+                                          : c.name.toLowerCase().contains('exam')
+                                              ? 'exam'
+                                              : 'event';
+                                      _showAddForm = true;
+                                      _tabController.animateTo(0); // Switch to Calendar tab
+                                    });
+                                  }
+                                },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                                   decoration: BoxDecoration(
@@ -957,26 +1207,6 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
         ],
       ),
     );
-  }
-
-  Color _getCategoryColor(String type) {
-    switch (type) {
-      case 'exam': return const Color(0xFFEF4444);
-      case 'holiday': return const Color(0xFF10B981);
-      case 'meeting': return const Color(0xFFF59E0B);
-      case 'trip': return const Color(0xFF06B6D4);
-      default: return const Color(0xFF6366F1);
-    }
-  }
-
-  IconData _getCategoryIcon(String type) {
-    switch (type) {
-      case 'exam': return LucideIcons.fileSpreadsheet;
-      case 'holiday': return LucideIcons.partyPopper;
-      case 'meeting': return LucideIcons.users;
-      case 'trip': return LucideIcons.plane;
-      default: return LucideIcons.calendarRange;
-    }
   }
 
   Widget _buildPtmTab() {
@@ -1053,20 +1283,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                         ),
                         const SizedBox(width: 12),
                         GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
-                              builder: (context) => PtmDetailsScreen(
-                                title: meeting.title,
-                                date: meeting.date,
-                                time: meeting.time,
-                                location: meeting.location,
-                                isUpcoming: meeting.isUpcoming,
-                              ),
-                            );
-                          },
+                          onTap: () {},
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(color: Colors.white, border: Border.all(color: const Color(0xFFE2E8F0)), borderRadius: BorderRadius.circular(8)),
@@ -1082,37 +1299,6 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           ),
         ),
       ],
-    );
-  }
-  Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-            offset: const Offset(0, -5),
-          ),
-        ],
-      ),
-      child: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: _primary,
-        unselectedItemColor: _muted,
-        selectedFontSize: 10,
-        unselectedFontSize: 10,
-        showUnselectedLabels: true,
-        currentIndex: 1, // Academics/Calendar
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
-        ],
-      ),
     );
   }
 }

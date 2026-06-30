@@ -650,7 +650,8 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
   }
 
   Widget _buildEventList() {
-    final list = _filteredEvents();
+    final allList = _filteredEvents();
+    final list = allList.where((e) => e.date.year == _selectedDate.year && e.date.month == _selectedDate.month && e.date.day == _selectedDate.day).toList();
     if (list.isEmpty) {
       return Container(
         width: double.infinity,
@@ -674,7 +675,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: list.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 10),
+      separatorBuilder: (_, _) => const SizedBox(height: 10),
       itemBuilder: (ctx, i) {
         final e = list[i];
         final typeLabel = e.type[0].toUpperCase() + e.type.substring(1);

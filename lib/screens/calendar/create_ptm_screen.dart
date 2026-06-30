@@ -490,7 +490,8 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
                 Switch(
                   value: _sendInvites,
                   onChanged: (val) => setState(() => _sendInvites = val),
-                  activeColor: const Color(0xFF6366F1),
+                  activeThumbColor: Colors.white,
+                  activeTrackColor: const Color(0xFF6366F1),
                 ),
               ],
             ),

@@ -17,6 +17,13 @@ const _cardBorder = Color(0xFFF0F0F0);
 class StaffInsightsScreen extends StatefulWidget {
   const StaffInsightsScreen({super.key});
 
+  @override
+  State<StaffInsightsScreen> createState() => _StaffInsightsScreenState();
+}
+
+class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
+
+
   
   @override
   void initState() {
@@ -24,11 +31,6 @@ class StaffInsightsScreen extends StatefulWidget {
     _loadStaffdirectory();
   }
 
-  @override
-  State<StaffInsightsScreen> createState() => _StaffInsightsScreenState();
-}
-
-class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
   String _activeTab2 = 'All';
   String _searchQuery = '';
   List<String> _selectedDepartments = [];

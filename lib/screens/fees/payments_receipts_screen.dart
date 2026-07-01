@@ -17,6 +17,13 @@ const _border = Color(0xFFE5E7EB);
 class PaymentsReceiptsScreen extends StatefulWidget {
   const PaymentsReceiptsScreen({super.key});
 
+  @override
+  State<PaymentsReceiptsScreen> createState() => _PaymentsReceiptsScreenState();
+}
+
+class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
+
+
   
   @override
   void initState() {
@@ -24,11 +31,6 @@ class PaymentsReceiptsScreen extends StatefulWidget {
     _loadPaymentmodes();
   }
 
-  @override
-  State<PaymentsReceiptsScreen> createState() => _PaymentsReceiptsScreenState();
-}
-
-class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Map<String, dynamic>> _paymentModes = [

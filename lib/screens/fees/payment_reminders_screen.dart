@@ -17,6 +17,13 @@ const _border = Color(0xFFE5E7EB);
 class PaymentRemindersScreen extends StatefulWidget {
   const PaymentRemindersScreen({super.key});
 
+  @override
+  State<PaymentRemindersScreen> createState() => _PaymentRemindersScreenState();
+}
+
+class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
+
+
   
   @override
   void initState() {
@@ -24,11 +31,6 @@ class PaymentRemindersScreen extends StatefulWidget {
     _loadTemplates();
   }
 
-  @override
-  State<PaymentRemindersScreen> createState() => _PaymentRemindersScreenState();
-}
-
-class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _activeTemplateTab = 'Email';

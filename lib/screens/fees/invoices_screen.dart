@@ -79,7 +79,10 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
       ),
     );
     if (result != null && result is Map<String, dynamic>) {
-      setState(() => _invoices.insert(0, result));
+      setState(() {
+        _invoices.insert(0, result);
+        _saveInvoices();
+      });
     }
   }
 
@@ -207,7 +210,14 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Invoices', style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Invoices', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _dark)),
+                const SizedBox(height: 4),
+                Text('Manage and track fee invoices for all students', style: GoogleFonts.figtree(fontSize: 16, color: _muted)),
+              ],
+            ),
             Row(
               children: [
                 // Export

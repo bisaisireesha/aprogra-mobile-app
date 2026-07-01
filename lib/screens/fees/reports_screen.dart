@@ -18,6 +18,13 @@ const _border = Color(0xFFE5E7EB);
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
 
+  @override
+  State<ReportsScreen> createState() => _ReportsScreenState();
+}
+
+class _ReportsScreenState extends State<ReportsScreen> {
+
+
   
   @override
   void initState() {
@@ -25,11 +32,6 @@ class ReportsScreen extends StatefulWidget {
     _loadReporttypes();
   }
 
-  @override
-  State<ReportsScreen> createState() => _ReportsScreenState();
-}
-
-class _ReportsScreenState extends State<ReportsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Map<String, dynamic>> _reportTypes = [

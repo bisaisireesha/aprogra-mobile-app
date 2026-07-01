@@ -23,6 +23,13 @@ const _border = Color(0xFFE5E7EB);
 class FeesDashboardScreen extends StatefulWidget {
   const FeesDashboardScreen({super.key});
 
+  @override
+  State<FeesDashboardScreen> createState() => _FeesDashboardScreenState();
+}
+
+class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
+
+
   
   @override
   void initState() {
@@ -30,11 +37,6 @@ class FeesDashboardScreen extends StatefulWidget {
     _loadInvoices();
   }
 
-  @override
-  State<FeesDashboardScreen> createState() => _FeesDashboardScreenState();
-}
-
-class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedClass = 'All Classes';
   String _selectedFeeType = 'All Fee Types';
@@ -259,6 +261,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
             if (result != null && result is Map<String, dynamic>) {
               setState(() {
                 _invoices.insert(0, result);
+                _saveInvoices();
               });
             }
           },

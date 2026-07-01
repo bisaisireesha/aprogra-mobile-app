@@ -7,6 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 class CreateClassWizard extends StatefulWidget {
   const CreateClassWizard({super.key});
 
+  @override
+  State<CreateClassWizard> createState() => _CreateClassWizardState();
+}
+
+class _CreateClassWizardState extends State<CreateClassWizard> {
+
+
   
   @override
   void initState() {
@@ -14,11 +21,6 @@ class CreateClassWizard extends StatefulWidget {
     _loadSections();
   }
 
-  @override
-  State<CreateClassWizard> createState() => _CreateClassWizardState();
-}
-
-class _CreateClassWizardState extends State<CreateClassWizard> {
   int _currentStep = 0; // 0 for Class Basics, 1 for Section Details
   String _selectedCategory = 'Pre-Primary'; // Pre-Primary, Primary, Secondary
   String _className = '';

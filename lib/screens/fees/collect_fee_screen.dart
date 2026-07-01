@@ -22,6 +22,15 @@ class CollectFeeScreen extends StatefulWidget {
 }
 
 class _CollectFeeScreenState extends State<CollectFeeScreen> {
+
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadStudents();
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _searchController = TextEditingController();
   String _selectedPaymentMode = 'UPI';
@@ -68,13 +77,6 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
       final matchStatus = _selectedStatus == 'All Status' || s['status'] == _selectedStatus;
       return matchSearch && matchClass && matchStatus;
     }).toList();
-  }
-
-  
-  @override
-  void initState() {
-    super.initState();
-    _loadStudents();
   }
 
   @override

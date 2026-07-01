@@ -102,6 +102,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
           onSave: (newItem) {
             setState(() {
               _items.insert(0, newItem); // Add to top
+              _saveItems();
             });
           },
         ),

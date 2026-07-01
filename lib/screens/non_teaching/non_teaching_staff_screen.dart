@@ -15,12 +15,7 @@ class NonTeachingStaffScreen extends StatefulWidget {
 }
 
 class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
-  final Color _bgPrimary = const Color(0xFFFAFAFA);
-  final Color _textDark = const Color(0xFF111827);
-  final Color _textMuted = const Color(0xFF6B7280);
-  
-  final TextEditingController _searchController = TextEditingController();
-  String _selectedStatus = 'All';
+
 
   
   @override
@@ -28,6 +23,13 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
     super.initState();
     _loadAllstaff();
   }
+
+  final Color _bgPrimary = const Color(0xFFFAFAFA);
+  final Color _textDark = const Color(0xFF111827);
+  final Color _textMuted = const Color(0xFF6B7280);
+  
+  final TextEditingController _searchController = TextEditingController();
+  String _selectedStatus = 'All';
 
   @override
   void dispose() {

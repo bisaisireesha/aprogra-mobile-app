@@ -106,6 +106,7 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
     if (result != null) {
       setState(() {
         _resources.insert(0, result);
+        _saveResources();
         if (widget.folder['resourcesCount'] != null) {
           widget.folder['resourcesCount'] = (widget.folder['resourcesCount'] as int) + 1;
         }

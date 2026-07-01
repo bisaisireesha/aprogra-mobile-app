@@ -14,6 +14,13 @@ const _border = Color(0xFFE5E7EB);
 class DefaultersListScreen extends StatefulWidget {
   const DefaultersListScreen({super.key});
 
+  @override
+  State<DefaultersListScreen> createState() => _DefaultersListScreenState();
+}
+
+class _DefaultersListScreenState extends State<DefaultersListScreen> {
+
+
   
   @override
   void initState() {
@@ -21,11 +28,6 @@ class DefaultersListScreen extends StatefulWidget {
     _loadDefaulters();
   }
 
-  @override
-  State<DefaultersListScreen> createState() => _DefaultersListScreenState();
-}
-
-class _DefaultersListScreenState extends State<DefaultersListScreen> {
   List<Map<String, dynamic>> _defaulters = [
     {
       'name': 'Rohan Mehta', 'initials': 'RM', 'class': 'Class 10A', 'parent': 'Mr. Mehta', 'phone': '+91 98765 43210',

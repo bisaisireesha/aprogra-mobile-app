@@ -19,6 +19,15 @@ class StaffDocumentsScreen extends StatefulWidget {
 }
 
 class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
+
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadDocuments();
+  }
+
   int _bottomNavIndex = 3; // 'Staff' is index 3
   final TextEditingController _searchController = TextEditingController();
 
@@ -74,13 +83,6 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
   ];
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
-
-  
-  @override
-  void initState() {
-    super.initState();
-    _loadDocuments();
-  }
 
   @override
   void dispose() {

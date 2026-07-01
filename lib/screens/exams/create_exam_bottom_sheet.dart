@@ -8,6 +8,13 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 class CreateExamBottomSheet extends StatefulWidget {
   const CreateExamBottomSheet({super.key});
 
+  @override
+  State<CreateExamBottomSheet> createState() => _CreateExamBottomSheetState();
+}
+
+class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
+
+
   
   @override
   void initState() {
@@ -15,11 +22,6 @@ class CreateExamBottomSheet extends StatefulWidget {
     _loadPapers();
   }
 
-  @override
-  State<CreateExamBottomSheet> createState() => _CreateExamBottomSheetState();
-}
-
-class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
   final _nameController = TextEditingController();
   final _generalInstructionsController = TextEditingController();
 

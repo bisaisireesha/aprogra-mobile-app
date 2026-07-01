@@ -1045,6 +1045,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               'duration': '${totalDays > 0 ? totalDays : 0} Days',
                               'reason': reasonController.text.isNotEmpty ? reasonController.text : 'No reason provided',
                             });
+                            _saveLeaves();
                           });
                           Navigator.pop(context);
                         }

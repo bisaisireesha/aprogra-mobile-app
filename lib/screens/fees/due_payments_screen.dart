@@ -18,6 +18,13 @@ const _border = Color(0xFFE5E7EB);
 class DuePaymentsScreen extends StatefulWidget {
   const DuePaymentsScreen({super.key});
 
+  @override
+  State<DuePaymentsScreen> createState() => _DuePaymentsScreenState();
+}
+
+class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
+
+
   
   @override
   void initState() {
@@ -25,11 +32,6 @@ class DuePaymentsScreen extends StatefulWidget {
     _loadBuckets();
   }
 
-  @override
-  State<DuePaymentsScreen> createState() => _DuePaymentsScreenState();
-}
-
-class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Map<String, dynamic>> _buckets = [

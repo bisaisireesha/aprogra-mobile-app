@@ -95,7 +95,10 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
       builder: (context) => Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
         child: CreateAssignmentBottomSheet(
-          onSave: (newItem) => setState(() => _items.insert(0, newItem)),
+          onSave: (newItem) => setState(() {
+            _items.insert(0, newItem);
+            _saveItems();
+          }),
         ),
       ),
     );

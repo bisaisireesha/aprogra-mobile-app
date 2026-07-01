@@ -19,6 +19,13 @@ const _border = Color(0xFFE5E7EB);
 class DiscountsScholarshipsScreen extends StatefulWidget {
   const DiscountsScholarshipsScreen({super.key});
 
+  @override
+  State<DiscountsScholarshipsScreen> createState() => _DiscountsScholarshipsScreenState();
+}
+
+class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScreen> {
+
+
   
   @override
   void initState() {
@@ -26,11 +33,6 @@ class DiscountsScholarshipsScreen extends StatefulWidget {
     _loadSchemes();
   }
 
-  @override
-  State<DiscountsScholarshipsScreen> createState() => _DiscountsScholarshipsScreenState();
-}
-
-class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   String _activeTab = 'All';

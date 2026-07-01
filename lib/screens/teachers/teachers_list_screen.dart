@@ -15,6 +15,13 @@ import 'teacher_details_screen.dart';
 class TeachersListScreen extends StatefulWidget {
   const TeachersListScreen({super.key});
 
+  @override
+  State<TeachersListScreen> createState() => _TeachersListScreenState();
+}
+
+class _TeachersListScreenState extends State<TeachersListScreen> {
+
+
   
   @override
   void initState() {
@@ -22,11 +29,6 @@ class TeachersListScreen extends StatefulWidget {
     _loadAllteachers();
   }
 
-  @override
-  State<TeachersListScreen> createState() => _TeachersListScreenState();
-}
-
-class _TeachersListScreenState extends State<TeachersListScreen> {
   String _selectedFilter = 'All';
   String _searchQuery = '';
   int _currentIndex = 1; // 1 represents Academics
@@ -257,6 +259,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
         }
 
         _allTeachers.insert(0, result);
+        _saveAllteachers();
       });
     }
   }

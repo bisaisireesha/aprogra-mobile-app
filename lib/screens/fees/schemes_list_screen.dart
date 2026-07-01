@@ -14,6 +14,13 @@ const _border = Color(0xFFE5E7EB);
 class SchemesListScreen extends StatefulWidget {
   const SchemesListScreen({super.key});
 
+  @override
+  State<SchemesListScreen> createState() => _SchemesListScreenState();
+}
+
+class _SchemesListScreenState extends State<SchemesListScreen> {
+
+
   
   @override
   void initState() {
@@ -21,11 +28,6 @@ class SchemesListScreen extends StatefulWidget {
     _loadSchemes();
   }
 
-  @override
-  State<SchemesListScreen> createState() => _SchemesListScreenState();
-}
-
-class _SchemesListScreenState extends State<SchemesListScreen> {
   String _activeTab = 'All';
 
   List<Map<String, dynamic>> _schemes = [

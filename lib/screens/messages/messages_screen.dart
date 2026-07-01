@@ -15,6 +15,13 @@ const _accent = Color(0xFF6366F1); // Indigo color for messages based on image
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
 
+  @override
+  State<MessagesScreen> createState() => _MessagesScreenState();
+}
+
+class _MessagesScreenState extends State<MessagesScreen> {
+
+
   
   @override
   void initState() {
@@ -22,11 +29,6 @@ class MessagesScreen extends StatefulWidget {
     _loadMessages();
   }
 
-  @override
-  State<MessagesScreen> createState() => _MessagesScreenState();
-}
-
-class _MessagesScreenState extends State<MessagesScreen> {
   int _bottomNavIndex = 4; // 'Messages' is index 4 in app nav
   String _filter = 'All'; // 'All' or 'Unread'
   String _searchQuery = '';

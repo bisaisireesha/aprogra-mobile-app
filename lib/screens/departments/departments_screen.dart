@@ -14,12 +14,7 @@ class DepartmentsScreen extends StatefulWidget {
 }
 
 class _DepartmentsScreenState extends State<DepartmentsScreen> {
-  final Color _bgPrimary = const Color(0xFFFAFAFA);
-  final Color _textDark = const Color(0xFF111827);
-  final Color _textMuted = const Color(0xFF6B7280);
 
-  final TextEditingController _searchController = TextEditingController();
-  int _bottomNavIndex = 3; // Staff/Departments
 
   
   @override
@@ -27,6 +22,13 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
     super.initState();
     _loadDepartments();
   }
+
+  final Color _bgPrimary = const Color(0xFFFAFAFA);
+  final Color _textDark = const Color(0xFF111827);
+  final Color _textMuted = const Color(0xFF6B7280);
+
+  final TextEditingController _searchController = TextEditingController();
+  int _bottomNavIndex = 3; // Staff/Departments
 
   @override
   void dispose() {

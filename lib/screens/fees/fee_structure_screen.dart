@@ -19,6 +19,13 @@ const _border = Color(0xFFE5E7EB);
 class FeeStructureScreen extends StatefulWidget {
   const FeeStructureScreen({super.key});
 
+  @override
+  State<FeeStructureScreen> createState() => _FeeStructureScreenState();
+}
+
+class _FeeStructureScreenState extends State<FeeStructureScreen> {
+
+
   
   @override
   void initState() {
@@ -26,11 +33,6 @@ class FeeStructureScreen extends StatefulWidget {
     _loadClassdatalist();
   }
 
-  @override
-  State<FeeStructureScreen> createState() => _FeeStructureScreenState();
-}
-
-class _FeeStructureScreenState extends State<FeeStructureScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedTab = 'Classes';
 

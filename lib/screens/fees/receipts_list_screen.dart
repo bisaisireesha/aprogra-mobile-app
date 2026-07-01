@@ -14,6 +14,13 @@ const _border = Color(0xFFE5E7EB);
 class ReceiptsListScreen extends StatefulWidget {
   const ReceiptsListScreen({super.key});
 
+  @override
+  State<ReceiptsListScreen> createState() => _ReceiptsListScreenState();
+}
+
+class _ReceiptsListScreenState extends State<ReceiptsListScreen> {
+
+
   
   @override
   void initState() {
@@ -21,11 +28,6 @@ class ReceiptsListScreen extends StatefulWidget {
     _loadReceipts();
   }
 
-  @override
-  State<ReceiptsListScreen> createState() => _ReceiptsListScreenState();
-}
-
-class _ReceiptsListScreenState extends State<ReceiptsListScreen> {
   List<Map<String, dynamic>> _receipts = [
     {
       'id': 'RCT-2025-3401', 'date': '15 May 2025', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'invoice': 'INV-2025-0841',

@@ -9,6 +9,13 @@ import '../auth/menu_screen.dart';
 class TeachingStaffScreen extends StatefulWidget {
   const TeachingStaffScreen({super.key});
 
+  @override
+  State<TeachingStaffScreen> createState() => _TeachingStaffScreenState();
+}
+
+class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
+
+
   
   @override
   void initState() {
@@ -16,11 +23,6 @@ class TeachingStaffScreen extends StatefulWidget {
     _loadAllteachers();
   }
 
-  @override
-  State<TeachingStaffScreen> createState() => _TeachingStaffScreenState();
-}
-
-class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
   int _bottomNavIndex = 3; // Staff
   final Color _bgPrimary = const Color(0xFFFAFAFA);
   final Color _textDark = const Color(0xFF111827);
@@ -330,6 +332,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                       'bgColor': const Color(0xFFE0F2FE),
                       'textColor': const Color(0xFF0EA5E9)
                     });
+                    _saveAllteachers();
                   });
                   Navigator.pop(context);
                 }

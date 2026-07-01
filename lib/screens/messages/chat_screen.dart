@@ -15,6 +15,13 @@ class ChatScreen extends StatefulWidget {
 
   const ChatScreen({super.key, required this.chatData});
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+
+
   
   @override
   void initState() {
@@ -22,11 +29,6 @@ class ChatScreen extends StatefulWidget {
     _loadMessages();
   }
 
-  @override
-  State<ChatScreen> createState() => _ChatScreenState();
-}
-
-class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _msgController = TextEditingController();
   List<Map<String, dynamic>> _messages = [
     {

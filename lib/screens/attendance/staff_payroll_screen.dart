@@ -19,6 +19,15 @@ class StaffPayrollScreen extends StatefulWidget {
 }
 
 class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
+
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadPayrollrecords();
+  }
+
   int _bottomNavIndex = 3; // 'Staff' is index 3
   final TextEditingController _searchController = TextEditingController();
 
@@ -114,13 +123,6 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
   ];
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
-
-  
-  @override
-  void initState() {
-    super.initState();
-    _loadPayrollrecords();
-  }
 
   @override
   void dispose() {

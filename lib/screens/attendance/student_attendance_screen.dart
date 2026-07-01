@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../data/mock_data/student_attendance_mock.dart';
@@ -34,6 +37,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
   @override
   void initState() {
     super.initState();
+    _loadRoster();
     // Create a copy of mock data so we can modify statuses/remarks locally
     _roster = StudentAttendanceMockData.attendanceRoster.map((e) => Map<String, dynamic>.from(e)).toList();
     _searchController.addListener(() => setState(() {}));
@@ -75,6 +79,40 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
         item['status'] = 'Late';
       }
     });
+  }
+
+  
+  Future<void> _loadRoster() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__roster_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _roster = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveRoster() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _roster.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__roster_data', jsonEncode(serialized));
   }
 
   @override

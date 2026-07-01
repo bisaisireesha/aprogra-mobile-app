@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -18,7 +20,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _vehicles = [
+  List<Map<String, dynamic>> _vehicles = [
     {
       'registration': 'DL-1A-2204',
       'model': 'Tata Starbus',
@@ -76,6 +78,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   @override
   void initState() {
     super.initState();
+    _loadVehicles();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -87,6 +90,35 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadVehicles() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_vehicles_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _vehicles = decoded.map((vehicle) {
+          final map = Map<String, dynamic>.from(vehicle);
+          if (map['statusColor'] is int) {
+            map['statusColor'] = Color(map['statusColor'] as int);
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveVehicles() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _vehicles.map((vehicle) {
+      final copy = Map<String, dynamic>.from(vehicle);
+      if (copy['statusColor'] is Color) {
+        copy['statusColor'] = (copy['statusColor'] as Color).value;
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('transport_vehicles_data', jsonEncode(serialized));
   }
 
   void _showFilterModal(BuildContext context) {
@@ -212,6 +244,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
           setState(() {
             _vehicles.insert(0, newVehicle);
           });
+          _saveVehicles();
         },
       ),
     );
@@ -229,11 +262,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
         saveText: 'Save Changes',
         onSave: (updatedVehicle) {
           setState(() {
-            final index = _vehicles.indexOf(vehicle);
+            final index = _vehicles.indexWhere((v) => v['registration'] == vehicle['registration']);
             if (index != -1) {
               _vehicles[index] = updatedVehicle;
             }
           });
+          _saveVehicles();
         },
       ),
     );
@@ -283,58 +317,55 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Vehicles',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Fleet inventory, registrations, capacity and service status.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Vehicles',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
           ),
         ),
-        const SizedBox(width: 16),
-        GestureDetector(
-          onTap: () => _showAddVehicleModal(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFF6366F1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                const SizedBox(width: 6),
-                Text(
-                  'Add Vehicle',
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+        const SizedBox(height: 4),
+        Text(
+          'Fleet inventory, registrations, capacity and service status.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
           ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => _showAddVehicleModal(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6366F1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.plus, size: 16, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Add Vehicle',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -353,7 +384,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
                 LucideIcons.bus,
                 const Color(0xFF8B5CF6),
                 const Color(0xFFEDE9FE),
-                isPrimary: true,
+                isPrimary: _filterStatus == 'All',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'All';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -365,6 +401,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
                 LucideIcons.checkCircle2,
                 const Color(0xFF10B981),
                 const Color(0xFFD1FAE5),
+                isPrimary: _filterStatus == 'Active',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Active';
+                  });
+                },
               ),
             ),
           ],
@@ -380,6 +422,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
                 LucideIcons.shieldCheck,
                 const Color(0xFF0EA5E9),
                 const Color(0xFFE0F2FE),
+                isPrimary: _filterStatus == 'Idle',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Idle';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -391,6 +439,12 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
                 LucideIcons.wrench,
                 const Color(0xFFF59E0B),
                 const Color(0xFFFEF3C7),
+                isPrimary: _filterStatus == 'Maintenance',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Maintenance';
+                  });
+                },
               ),
             ),
           ],
@@ -407,23 +461,26 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
     Color iconColor,
     Color iconBgColor, {
     bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
           ),
-        ],
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -475,6 +532,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
           ],
         ],
       ),
+    ),
     );
   }
 

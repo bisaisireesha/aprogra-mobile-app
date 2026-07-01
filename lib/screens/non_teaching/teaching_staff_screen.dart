@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
 
 class TeachingStaffScreen extends StatefulWidget {
   const TeachingStaffScreen({super.key});
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadAllteachers();
+  }
 
   @override
   State<TeachingStaffScreen> createState() => _TeachingStaffScreenState();
@@ -22,7 +32,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
   String _selectedDesignation = 'All Designations';
   String _selectedSubject = 'All Subjects';
 
-  final List<Map<String, dynamic>> _allTeachers = [
+  List<Map<String, dynamic>> _allTeachers = [
     {
       'initials': 'AS', 'name': 'Anjali Sharma', 'role': 'Senior Teacher', 'dept': 'Mathematics', 
       'subjects': ['Algebra', 'Calculus'], 'classes': '10A 10B 11A', 'exp': '14', 'status': 'Active', 
@@ -66,6 +76,40 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
   ];
 
   bool get _isTablet => MediaQuery.of(context).size.width > 768;
+
+  
+  Future<void> _loadAllteachers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__allTeachers_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _allTeachers = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveAllteachers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _allTeachers.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__allTeachers_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

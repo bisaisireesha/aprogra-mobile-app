@@ -4,8 +4,17 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class AddRouteModal extends StatefulWidget {
   final Function(Map<String, dynamic>) onSave;
+  final Map<String, dynamic>? initialRoute;
+  final String title;
+  final String saveText;
 
-  const AddRouteModal({super.key, required this.onSave});
+  const AddRouteModal({
+    super.key,
+    required this.onSave,
+    this.initialRoute,
+    this.title = 'Add New Route',
+    this.saveText = 'Save Route',
+  });
 
   @override
   State<AddRouteModal> createState() => _AddRouteModalState();
@@ -28,6 +37,44 @@ class _AddRouteModalState extends State<AddRouteModal> {
   String _status = 'Active';
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.initialRoute != null) {
+      _codeController.text = widget.initialRoute!['code'] ?? '';
+      _nameController.text = widget.initialRoute!['name'] ?? '';
+      
+      final validLocations = ['Select from location', 'Campus', 'Vasant Kunj', 'Saket', 'Mehrauli'];
+      if (validLocations.contains(widget.initialRoute!['from'])) {
+        _fromLocation = widget.initialRoute!['from'];
+      }
+      
+      final validToLocations = ['Select to location', 'Campus', 'Vasant Kunj', 'Saket', 'Mehrauli'];
+      if (validToLocations.contains(widget.initialRoute!['to'])) {
+        _toLocation = widget.initialRoute!['to'];
+      }
+
+      final validBuses = ['Select bus', 'BUS-551', 'BUS-118', 'BUS-405', 'BUS-204', 'BUS-392'];
+      if (validBuses.contains(widget.initialRoute!['bus'])) {
+        _assignedBus = widget.initialRoute!['bus'];
+      } else if (widget.initialRoute!['bus'] != '—') {
+        _assignedBus = widget.initialRoute!['bus'];
+      }
+      
+      final validDrivers = ['Select driver', 'Alexi Park', 'Hannah Cruz', 'Marcus Lee', 'R. Sharma', 'David Kim'];
+      if (validDrivers.contains(widget.initialRoute!['driver'])) {
+        _assignedDriver = widget.initialRoute!['driver'];
+      } else if (widget.initialRoute!['driver'] != 'Unassigned') {
+        _assignedDriver = widget.initialRoute!['driver'];
+      }
+
+      final validStatuses = ['Active', 'Paused', 'Draft'];
+      if (validStatuses.contains(widget.initialRoute!['status'])) {
+        _status = widget.initialRoute!['status'];
+      }
+    }
+  }
+
+  @override
   void dispose() {
     _codeController.dispose();
     _nameController.dispose();
@@ -43,7 +90,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
     final newRoute = {
       'code': _codeController.text.isNotEmpty ? _codeController.text : 'R-NEW',
       'name': _nameController.text.isNotEmpty ? _nameController.text : 'New Route',
-      'students': 0, // Default 0 for new route
+      'students': widget.initialRoute?['students'] ?? 0,
       'duration': _calculateDuration(_startTimeController.text, _endTimeController.text),
       'from': _fromLocation != 'Select from location' ? _fromLocation : 'Campus',
       'to': _toLocation != 'Select to location' ? _toLocation : 'Unknown',
@@ -175,7 +222,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
                             child: _buildDropdown(
                               'Assign Bus',
                               _assignedBus,
-                              ['Select bus', 'BUS-551', 'BUS-118', 'BUS-405'],
+                              ['Select bus', 'BUS-551', 'BUS-118', 'BUS-405', 'BUS-204', 'BUS-392'],
                               (val) => setState(() => _assignedBus = val!),
                             ),
                           ),
@@ -184,7 +231,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
                             child: _buildDropdown(
                               'Assign Driver',
                               _assignedDriver,
-                              ['Select driver', 'Alexi Park', 'Hannah Cruz', 'Marcus Lee'],
+                              ['Select driver', 'Alexi Park', 'Hannah Cruz', 'Marcus Lee', 'R. Sharma', 'David Kim'],
                               (val) => setState(() => _assignedDriver = val!),
                             ),
                           ),
@@ -263,7 +310,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
                 child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF181821)),
               ),
               Text(
-                'Add New Route',
+                widget.title,
                 style: GoogleFonts.inter(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -273,7 +320,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
               GestureDetector(
                 onTap: _saveRoute,
                 child: Text(
-                  'Save',
+                  widget.title == 'Add New Route' ? 'Save' : 'Update',
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -544,7 +591,7 @@ class _AddRouteModalState extends State<AddRouteModal> {
                   ),
                   child: Center(
                     child: Text(
-                      'Save Route',
+                      widget.saveText,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

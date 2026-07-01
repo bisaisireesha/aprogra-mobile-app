@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
@@ -19,7 +22,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
   int _bottomNavIndex = 3; // 'Staff' is index 3
   final TextEditingController _searchController = TextEditingController();
 
-  final List<Map<String, dynamic>> _workloads = [
+  List<Map<String, dynamic>> _workloads = [
     {
       'name': 'Priya Sharma',
       'initials': 'PS',
@@ -74,10 +77,51 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadWorkloads();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  
+  Future<void> _loadWorkloads() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__workloads_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _workloads = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveWorkloads() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _workloads.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__workloads_data', jsonEncode(serialized));
   }
 
   @override

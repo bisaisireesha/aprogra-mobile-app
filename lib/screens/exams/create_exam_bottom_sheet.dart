@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class CreateExamBottomSheet extends StatefulWidget {
   const CreateExamBottomSheet({super.key});
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadPapers();
+  }
 
   @override
   State<CreateExamBottomSheet> createState() => _CreateExamBottomSheetState();
@@ -17,7 +27,7 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
   String _selectedClass = 'Select a class';
   String _selectedStatus = 'Scheduled';
 
-  final List<Map<String, dynamic>> _papers = [
+  List<Map<String, dynamic>> _papers = [
     {
       'subject': 'Pick a subject',
       'date': null,
@@ -83,6 +93,40 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
         _papers[index]['date'] = "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
       });
     }
+  }
+
+  
+  Future<void> _loadPapers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__papers_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _papers = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _savePapers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _papers.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__papers_data', jsonEncode(serialized));
   }
 
   @override

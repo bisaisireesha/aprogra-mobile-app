@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 const _textDark = Color(0xFF181B20);
@@ -19,13 +22,14 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
   String? _selectedTeacher;
   final TextEditingController _unitController = TextEditingController();
   
-  final List<Map<String, dynamic>> _units = [];
+  List<Map<String, dynamic>> _units = [];
 
   bool get _isWide => MediaQuery.sizeOf(context).width > 600;
 
   @override
   void initState() {
     super.initState();
+    _loadUnits();
     if (widget.initialSubject != null) {
       _subjectName = widget.initialSubject!['subject'] ?? '';
       _selectedTeacher = widget.initialSubject!['teacher'];
@@ -54,6 +58,40 @@ class _CreateSubjectWizardState extends State<CreateSubjectWizard> {
       'category': _selectedCategory,
     };
     Navigator.pop(context, newSubject);
+  }
+
+  
+  Future<void> _loadUnits() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__units_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _units = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveUnits() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _units.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__units_data', jsonEncode(serialized));
   }
 
   @override

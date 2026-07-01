@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -14,6 +17,13 @@ const _border = Color(0xFFE5E7EB);
 class PaymentsReceiptsScreen extends StatefulWidget {
   const PaymentsReceiptsScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadPaymentmodes();
+  }
+
   @override
   State<PaymentsReceiptsScreen> createState() => _PaymentsReceiptsScreenState();
 }
@@ -21,7 +31,7 @@ class PaymentsReceiptsScreen extends StatefulWidget {
 class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<Map<String, dynamic>> _paymentModes = [
+  List<Map<String, dynamic>> _paymentModes = [
     {'mode': 'UPI', 'amount': '₹22.4L', 'percent': 46, 'icon': LucideIcons.smartphone, 'color': const Color(0xFF22C55E), 'bg': const Color(0xFFF0FDF4)},
     {'mode': 'Card', 'amount': '₹14.1L', 'percent': 29, 'icon': LucideIcons.creditCard, 'color': const Color(0xFF0EA5E9), 'bg': const Color(0xFFF0F9FF)},
     {'mode': 'Cash', 'amount': '₹8.2L', 'percent': 17, 'icon': LucideIcons.banknote, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFFFBEB)},
@@ -60,6 +70,40 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
       'modeColor': const Color(0xFF22C55E), 'modeBg': const Color(0xFFF0FDF4),
     },
   ];
+
+  
+  Future<void> _loadPaymentmodes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__paymentModes_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _paymentModes = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _savePaymentmodes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _paymentModes.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__paymentModes_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

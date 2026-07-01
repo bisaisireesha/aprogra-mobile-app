@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../widgets/common_app_bar.dart';
@@ -13,6 +16,13 @@ const _cardBorder = Color(0xFFF0F0F0);
 
 class StaffInsightsScreen extends StatefulWidget {
   const StaffInsightsScreen({super.key});
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadStaffdirectory();
+  }
 
   @override
   State<StaffInsightsScreen> createState() => _StaffInsightsScreenState();
@@ -39,7 +49,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
     }).toList();
   }
 
-  final List<Map<String, dynamic>> _staffDirectory = [
+  List<Map<String, dynamic>> _staffDirectory = [
     {
       'initials': 'SI',
       'initialsColor': const Color(0xFFEF4444),
@@ -118,6 +128,40 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
       'status': 'Present',
     },
   ];
+
+  
+  Future<void> _loadStaffdirectory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__staffDirectory_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _staffDirectory = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveStaffdirectory() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _staffDirectory.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__staffDirectory_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

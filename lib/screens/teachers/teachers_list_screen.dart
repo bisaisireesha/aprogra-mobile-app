@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,6 +14,13 @@ import 'teacher_details_screen.dart';
 
 class TeachersListScreen extends StatefulWidget {
   const TeachersListScreen({super.key});
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadAllteachers();
+  }
 
   @override
   State<TeachersListScreen> createState() => _TeachersListScreenState();
@@ -29,7 +39,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
   final List<String> _availableRoles = ['Teacher', 'Class Teacher', 'Senior Teacher', 'Subject Lead', 'Coordinator', 'Head of Department'];
   final List<String> _availableExperiences = ['0-5 yrs', '5-10 yrs', '10+ yrs'];
 
-  final List<Map<String, dynamic>> _allTeachers = [
+  List<Map<String, dynamic>> _allTeachers = [
     // 6 Pre-Primary
     {'initials': 'MJ', 'name': 'Meera Joshi', 'id': 'EMP-101', 'role': 'Senior Teacher', 'department': 'Pre-Primary', 'subjects': ['Rhymes'], 'experience': '3 yrs', 'avatarColor': const Color(0xFFF3E8FF), 'textColor': const Color(0xFF7E22CE)},
     {'initials': 'PR', 'name': 'Pooja Rao', 'id': 'EMP-102', 'role': 'Class Teacher', 'department': 'Pre-Primary', 'subjects': ['Story Time'], 'experience': '4 yrs', 'avatarColor': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4338CA)},
@@ -96,6 +106,40 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     final tList = _teachers;
     if (start >= tList.length) return [];
     return tList.sublist(start, end > tList.length ? tList.length : end);
+  }
+
+  
+  Future<void> _loadAllteachers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__allTeachers_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _allTeachers = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveAllteachers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _allTeachers.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__allTeachers_data', jsonEncode(serialized));
   }
 
   @override

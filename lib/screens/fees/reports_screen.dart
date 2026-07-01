@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -15,6 +18,13 @@ const _border = Color(0xFFE5E7EB);
 class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadReporttypes();
+  }
+
   @override
   State<ReportsScreen> createState() => _ReportsScreenState();
 }
@@ -22,7 +32,7 @@ class ReportsScreen extends StatefulWidget {
 class _ReportsScreenState extends State<ReportsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<Map<String, dynamic>> _reportTypes = [
+  List<Map<String, dynamic>> _reportTypes = [
     {
       'title': 'Daily Collection Report',
       'desc': 'Day-wise collection summary by mode and class.',
@@ -72,6 +82,40 @@ class _ReportsScreenState extends State<ReportsScreen> {
       'bg': const Color(0xFFEEF2FF),
     },
   ];
+
+  
+  Future<void> _loadReporttypes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__reportTypes_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _reportTypes = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveReporttypes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _reportTypes.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__reportTypes_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

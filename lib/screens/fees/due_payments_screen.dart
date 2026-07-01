@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -15,6 +18,13 @@ const _border = Color(0xFFE5E7EB);
 class DuePaymentsScreen extends StatefulWidget {
   const DuePaymentsScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadBuckets();
+  }
+
   @override
   State<DuePaymentsScreen> createState() => _DuePaymentsScreenState();
 }
@@ -22,7 +32,7 @@ class DuePaymentsScreen extends StatefulWidget {
 class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<Map<String, dynamic>> _buckets = [
+  List<Map<String, dynamic>> _buckets = [
     {
       'label': '0 – 7 Days',
       'sub': 'Newly overdue',
@@ -103,6 +113,40 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
       'avatarColor': const Color(0xFFF59E0B), 'avatarBg': const Color(0xFFFFFBEB), 'tagColor': const Color(0xFFEF4444), 'tagBg': const Color(0xFFFEF2F2)
     },
   ];
+
+  
+  Future<void> _loadBuckets() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__buckets_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _buckets = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveBuckets() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _buckets.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__buckets_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

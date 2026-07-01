@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -16,6 +19,13 @@ const _border = Color(0xFFE5E7EB);
 class FeeStructureScreen extends StatefulWidget {
   const FeeStructureScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadClassdatalist();
+  }
+
   @override
   State<FeeStructureScreen> createState() => _FeeStructureScreenState();
 }
@@ -24,7 +34,7 @@ class _FeeStructureScreenState extends State<FeeStructureScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String _selectedTab = 'Classes';
 
-  final List<Map<String, dynamic>> _classDataList = [
+  List<Map<String, dynamic>> _classDataList = [
     {
       'name': 'Class 5', 'subtitle': 'Section A-C · 96 students', 't1': '₹11,700', 't2': '₹11,700', 't3': '₹12,000', 'annual': '₹35,400',
       'breakdown': [
@@ -58,6 +68,40 @@ class _FeeStructureScreenState extends State<FeeStructureScreen> {
       ]
     },
   ];
+
+  
+  Future<void> _loadClassdatalist() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__classDataList_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _classDataList = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveClassdatalist() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _classDataList.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__classDataList_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1255,7 +1255,19 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             Expanded(
               flex: 2,
               child: ElevatedButton(
-                onPressed: _currentStep == 3 ? () => Navigator.pop(context) : _nextStep,
+                onPressed: _currentStep == 3 ? () {
+                  final newJob = {
+                    'id': 'M-24${(DateTime.now().millisecondsSinceEpoch % 100).toString().padLeft(2, '0')}',
+                    'bus': _selectedVehicle ?? 'BUS-000',
+                    'type': _selectedJobType,
+                    'title': 'New Logged Job',
+                    'date': _selectedDate != null ? DateFormat('dd MMM yyyy').format(_selectedDate!) : DateFormat('dd MMM yyyy').format(DateTime.now()),
+                    'mechanic': _selectedMechanic ?? 'In-house',
+                    'cost': '0',
+                    'status': _selectedStatus,
+                  };
+                  Navigator.pop(context, newJob);
+                } : _nextStep,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6366F1),
                   padding: const EdgeInsets.symmetric(vertical: 16),

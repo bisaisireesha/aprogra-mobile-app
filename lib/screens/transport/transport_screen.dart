@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -26,6 +29,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
   @override
   void initState() {
     super.initState();
+    _loadVehicles();
     _vehicles = [
       {
         'status': 'Ready',
@@ -122,6 +126,40 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  
+  Future<void> _loadVehicles() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__vehicles_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _vehicles = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveVehicles() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _vehicles.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__vehicles_data', jsonEncode(serialized));
   }
 
   @override

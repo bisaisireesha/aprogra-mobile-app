@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -58,7 +61,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
   String _selectedTax = 'No Tax';
   String _selectedDiscount = 'No Discount';
 
-  final List<Map<String, dynamic>> _dummyStudents = [
+  List<Map<String, dynamic>> _dummyStudents = [
     {'name': 'Aarav Sharma', 'class': 'Class 5A', 'adm': 'ADM-2025-0112', 'parent': 'Rajesh Sharma', 'phone': '+91 98210 44312', 'init': 'AS'},
     {'name': 'Priya Nair', 'class': 'Class 8B', 'adm': 'ADM-2025-0113', 'parent': 'Suresh Nair', 'phone': '+91 98765 43210', 'init': 'PN'},
     {'name': 'Rohan Mehta', 'class': 'Class 10A', 'adm': 'ADM-2025-0114', 'parent': 'Amit Mehta', 'phone': '+91 91234 56789', 'init': 'RM'},
@@ -67,6 +70,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
   @override
   void initState() {
     super.initState();
+    _loadDummystudents();
     _selectedStudent = _dummyStudents[0];
   }
 
@@ -80,6 +84,40 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
   double get _subtotal => _items.fold(0.0, (sum, item) => sum + (item['amount'] as double));
   double get _discountAmt => 0.0;
   double get _total => _subtotal - _discountAmt;
+
+  
+  Future<void> _loadDummystudents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__dummyStudents_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _dummyStudents = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveDummystudents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _dummyStudents.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__dummyStudents_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

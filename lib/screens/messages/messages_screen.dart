@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
@@ -12,6 +15,13 @@ const _accent = Color(0xFF6366F1); // Indigo color for messages based on image
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadMessages();
+  }
+
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
@@ -22,7 +32,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
   String _searchQuery = '';
   String _selectedRole = 'All Roles';
 
-  final List<Map<String, dynamic>> _messages = [
+  List<Map<String, dynamic>> _messages = [
     {
       'name': 'Priya Sharma',
       'initials': 'PS',
@@ -94,6 +104,40 @@ class _MessagesScreenState extends State<MessagesScreen> {
       'isStarred': false,
     },
   ];
+
+  
+  Future<void> _loadMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__messages_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _messages = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _messages.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__messages_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

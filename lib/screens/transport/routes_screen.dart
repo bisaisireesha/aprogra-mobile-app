@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -19,7 +21,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _routes = [
+  List<Map<String, dynamic>> _routes = [
     {
       'code': 'R-03',
       'name': 'Vasant Kunj Loop',
@@ -97,6 +99,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
   @override
   void initState() {
     super.initState();
+    _loadRoutes();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -110,6 +113,35 @@ class _RoutesScreenState extends State<RoutesScreen> {
     super.dispose();
   }
 
+  Future<void> _loadRoutes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_routes_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _routes = decoded.map((route) {
+          final map = Map<String, dynamic>.from(route);
+          if (map['color'] is int) {
+            map['color'] = Color(map['color'] as int);
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveRoutes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _routes.map((route) {
+      final copy = Map<String, dynamic>.from(route);
+      if (copy['color'] is Color) {
+        copy['color'] = (copy['color'] as Color).value;
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('transport_routes_data', jsonEncode(serialized));
+  }
+
   void _showAddRouteModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -121,6 +153,30 @@ class _RoutesScreenState extends State<RoutesScreen> {
           setState(() {
             _routes.insert(0, newRoute);
           });
+          _saveRoutes();
+        },
+      ),
+    );
+  }
+
+  void _showEditRouteModal(BuildContext context, Map<String, dynamic> route) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      useSafeArea: true,
+      builder: (context) => AddRouteModal(
+        initialRoute: route,
+        title: 'Edit Route',
+        saveText: 'Save Changes',
+        onSave: (updatedRoute) {
+          setState(() {
+            final index = _routes.indexWhere((r) => r['code'] == route['code']);
+            if (index != -1) {
+              _routes[index] = updatedRoute;
+            }
+          });
+          _saveRoutes();
         },
       ),
     );
@@ -281,37 +337,34 @@ class _RoutesScreenState extends State<RoutesScreen> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Routes',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Define and manage bus routes, stops and assigned vehicles.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Routes',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
           ),
         ),
-        const SizedBox(width: 16),
-        _buildPrimaryButton('New Route', LucideIcons.plus, () {
-          _showAddRouteModal(context);
-        }),
+        const SizedBox(height: 4),
+        Text(
+          'Define and manage bus routes, stops and assigned vehicles.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            _buildPrimaryButton('New Route', LucideIcons.plus, () {
+              _showAddRouteModal(context);
+            }),
+          ],
+        ),
       ],
     );
   }
@@ -357,7 +410,12 @@ class _RoutesScreenState extends State<RoutesScreen> {
                 LucideIcons.gitMerge,
                 const Color(0xFF8B5CF6),
                 const Color(0xFFEDE9FE),
-                isPrimary: true,
+                isPrimary: _filterStatus == 'All',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'All';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -369,6 +427,12 @@ class _RoutesScreenState extends State<RoutesScreen> {
                 LucideIcons.navigation,
                 const Color(0xFF10B981),
                 const Color(0xFFD1FAE5),
+                isPrimary: _filterStatus == 'Active',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Active';
+                  });
+                },
               ),
             ),
           ],
@@ -384,6 +448,12 @@ class _RoutesScreenState extends State<RoutesScreen> {
                 LucideIcons.clock,
                 const Color(0xFFF59E0B),
                 const Color(0xFFFEF3C7),
+                isPrimary: _filterStatus == 'Paused',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Paused';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -395,6 +465,12 @@ class _RoutesScreenState extends State<RoutesScreen> {
                 LucideIcons.mapPin,
                 const Color(0xFF0EA5E9),
                 const Color(0xFFE0F2FE),
+                isPrimary: _filterStatus == 'Draft',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Draft';
+                  });
+                },
               ),
             ),
           ],
@@ -411,23 +487,26 @@ class _RoutesScreenState extends State<RoutesScreen> {
     Color iconColor,
     Color iconBgColor, {
     bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
           ),
-        ],
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -482,6 +561,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
           ]
         ],
       ),
+    ),
     );
   }
 
@@ -492,8 +572,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9), // Light grayish-blue for search background
+              color: Colors.white,
               borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
@@ -652,6 +733,8 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                     onSelected: (value) {
                                       if (value == 'view') {
                                         _showViewDetailsModal(context, route);
+                                      } else if (value == 'edit') {
+                                        _showEditRouteModal(context, route);
                                       } else if (value == 'delete') {
                                         setState(() {
                                           _routes.remove(route);

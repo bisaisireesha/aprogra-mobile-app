@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -32,7 +35,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
   int    _currentPage    = 1;
   static const _pageSize = 10;
 
-  final List<Map<String, dynamic>> _invoices = [
+  List<Map<String, dynamic>> _invoices = [
     {'id':'INV-2025-1041','student':'Aryan Reddy',   'class':'Class 6A', 'type':'Tuition Fee', 'issued':'01 Apr 2025','due':'10 May 2025','amount':24500,'status':'Paid'},
     {'id':'INV-2025-1042','student':'Saanvi Iyer',   'class':'Class 9B', 'type':'Hostel Fee',  'issued':'02 Apr 2025','due':'12 May 2025','amount':6800, 'status':'Pending'},
     {'id':'INV-2025-1043','student':'Rohan Mehta',   'class':'Class 10A','type':'Transport',   'issued':'28 Mar 2025','due':'28 Apr 2025','amount':3200, 'status':'Overdue'},
@@ -59,6 +62,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
   @override
   void initState() {
     super.initState();
+    _loadInvoices();
     if (widget.showCreate) {
       WidgetsBinding.instance.addPostFrameCallback((_) => _showCreateModal());
     }
@@ -105,6 +109,40 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
   }
 
   int get _totalPages => ((_filtered.length) / _pageSize).ceil().clamp(1, 99);
+
+  
+  Future<void> _loadInvoices() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__invoices_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _invoices = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveInvoices() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _invoices.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__invoices_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

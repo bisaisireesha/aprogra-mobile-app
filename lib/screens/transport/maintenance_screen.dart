@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -17,8 +19,9 @@ class MaintenanceScreen extends StatefulWidget {
 class _MaintenanceScreenState extends State<MaintenanceScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+  String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _jobs = [
+  List<Map<String, dynamic>> _jobs = [
     {
       'id': 'M-2401',
       'bus': 'BUS-622',
@@ -84,6 +87,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   @override
   void initState() {
     super.initState();
+    _loadJobs();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -95,6 +99,24 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadJobs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_jobs_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _jobs = decoded.map((job) {
+          return Map<String, dynamic>.from(job);
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveJobs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('transport_jobs_data', jsonEncode(_jobs));
   }
 
   @override
@@ -141,39 +163,29 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Transport Maintenance',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Scheduled service, repair jobs and workshop expenses.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Maintenance',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
           ),
         ),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+        const SizedBox(height: 4),
+        Text(
+          'Scheduled service, repair jobs and workshop expenses.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Row(
-              children: [
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   decoration: BoxDecoration(
@@ -207,11 +219,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.push(
+                  onTap: () async {
+                    final newJob = await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => const AddLogJobScreen()),
                     );
+                    if (newJob != null) {
+                      setState(() {
+                        _jobs.insert(0, newJob);
+                      });
+                      _saveJobs();
+                    }
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -236,8 +254,6 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
           ],
         ),
       ],
@@ -257,6 +273,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 const Color(0xFF6366F1),
                 const Color(0xFFF8F5FF),
                 borderColor: const Color(0xFF6366F1).withValues(alpha: 0.3),
+                isPrimary: _filterStatus == 'All',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'All';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -267,6 +289,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 LucideIcons.calendar,
                 const Color(0xFF0EA5E9),
                 const Color(0xFFE0F2FE),
+                isPrimary: _filterStatus == 'Scheduled',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Scheduled';
+                  });
+                },
               ),
             ),
           ],
@@ -281,6 +309,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 LucideIcons.clock,
                 const Color(0xFFF59E0B),
                 const Color(0xFFFEF3C7),
+                isPrimary: _filterStatus == 'In Service',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'In Service';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -291,6 +325,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                 LucideIcons.checkCircle2,
                 const Color(0xFF10B981),
                 const Color(0xFFD1FAE5),
+                isPrimary: _filterStatus == 'Completed',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Completed';
+                  });
+                },
               ),
             ),
           ],
@@ -306,21 +346,27 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     Color iconColor,
     Color iconBgColor, {
     Color? borderColor,
+    bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: borderColor ?? Colors.grey.withValues(alpha: 0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : (borderColor ?? Colors.grey.withValues(alpha: 0.1)),
           ),
-        ],
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -359,6 +405,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           ),
         ],
       ),
+    ),
     );
   }
 
@@ -401,25 +448,65 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           ),
         ),
         const SizedBox(width: 12),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+        GestureDetector(
+          onTap: () => _showFilterModal(context),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+            ),
+            child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
           ),
-          child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
         ),
       ],
+    );
+  }
+
+  void _showFilterModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 16),
+            ...['All', 'Scheduled', 'In Service', 'Completed'].map((status) => RadioListTile(
+              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+              activeColor: const Color(0xFF6366F1),
+              value: status,
+              groupValue: _filterStatus,
+              onChanged: (val) {
+                setState(() {
+                  _filterStatus = val.toString();
+                });
+                Navigator.pop(context);
+              },
+            )),
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildJobsList() {
     final filteredJobs = _jobs.where((job) {
       final searchLower = _searchQuery.toLowerCase();
-      return job['id'].toString().toLowerCase().contains(searchLower) ||
+      final matchesSearch = job['id'].toString().toLowerCase().contains(searchLower) ||
              job['bus'].toString().toLowerCase().contains(searchLower) ||
              job['mechanic'].toString().toLowerCase().contains(searchLower);
+             
+      final matchesFilter = _filterStatus == 'All' || job['status'] == _filterStatus;
+      
+      return matchesSearch && matchesFilter;
     }).toList();
 
     if (filteredJobs.isEmpty) {

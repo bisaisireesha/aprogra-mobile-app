@@ -92,6 +92,10 @@ class _MenuScreenState extends State<MenuScreen> {
       _activeGroup = 'Hostel';
     } else if (_isTransportGroup(widget.activeScreen)) {
       _activeGroup = 'Transport';
+    } else if (widget.activeScreen == 'Messages') {
+      _activeGroup = 'Messages';
+    } else if (widget.activeScreen == 'Notifications') {
+      _activeGroup = 'Notifications';
     } else {
       _activeGroup = 'Overview';
     }
@@ -99,8 +103,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
   bool _isTransportGroup(String screen) {
     const transportScreens = [
-      'Transport Dashboard', 'Routes', 'Vehicles', 'Drivers',
-      'Student Allocation', 'Live Tracking', 'Maintenance', 'Reports'
+      'Transport Insights', 'Transport Dashboard', 'Routes', 'Vehicles', 'Drivers',
+      'Student Allocation', 'Live Tracking', 'Maintenance', 'Transport Reports'
     ];
     return transportScreens.contains(screen);
   }
@@ -250,7 +254,8 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildRailIcon(context, LucideIcons.bedDouble, _activeGroup == 'Hostel', () {
                     setState(() { _activeGroup = 'Hostel'; });
                   }),
-                  _buildRailIcon(context, LucideIcons.messageSquare, widget.activeScreen == 'Messages', () {
+                  _buildRailIcon(context, LucideIcons.messageSquare, _activeGroup == 'Messages', () {
+                    setState(() { _activeGroup = 'Messages'; });
                     _navigateTo(context, const MessagesScreen());
                   }, hasBadge: true),
 
@@ -261,7 +266,8 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
-          _buildRailIcon(context, LucideIcons.bell, widget.activeScreen == 'Notifications', () {
+          _buildRailIcon(context, LucideIcons.bell, _activeGroup == 'Notifications', () {
+            setState(() { _activeGroup = 'Notifications'; });
             _navigateTo(context, const ComingSoonScreen(title: 'Notifications'));
           }),
                     SizedBox(height: 16.h),

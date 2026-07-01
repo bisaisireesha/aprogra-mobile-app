@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +20,7 @@ class CCTVScreen extends StatefulWidget {
 class _CCTVScreenState extends State<CCTVScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   
-  final List<Map<String, dynamic>> _cameras = [
+  List<Map<String, dynamic>> _cameras = [
     {'id': '1', 'name': 'Main Gate', 'location': 'Entrance · Block A'},
     {'id': '2', 'name': 'Playground', 'location': 'Outdoor · North'},
     {'id': '3', 'name': 'Library', 'location': 'Block B · First Floor'},
@@ -30,6 +33,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
   @override
   void initState() {
     super.initState();
+    _loadCameras();
     _updateTime();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _updateTime();
@@ -172,6 +176,40 @@ class _CCTVScreenState extends State<CCTVScreen> {
         ),
       ],
     );
+  }
+
+  
+  Future<void> _loadCameras() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__cameras_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _cameras = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveCameras() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _cameras.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__cameras_data', jsonEncode(serialized));
   }
 
   @override

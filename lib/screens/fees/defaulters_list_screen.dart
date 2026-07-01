@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,12 +14,19 @@ const _border = Color(0xFFE5E7EB);
 class DefaultersListScreen extends StatefulWidget {
   const DefaultersListScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadDefaulters();
+  }
+
   @override
   State<DefaultersListScreen> createState() => _DefaultersListScreenState();
 }
 
 class _DefaultersListScreenState extends State<DefaultersListScreen> {
-  final List<Map<String, dynamic>> _defaulters = [
+  List<Map<String, dynamic>> _defaulters = [
     {
       'name': 'Rohan Mehta', 'initials': 'RM', 'class': 'Class 10A', 'parent': 'Mr. Mehta', 'phone': '+91 98765 43210',
       'amount': '₹32,400', 'days': '38 days', 'date': '12 Apr 2025',
@@ -58,6 +68,40 @@ class _DefaultersListScreenState extends State<DefaultersListScreen> {
       'avatarColor': const Color(0xFFF59E0B), 'avatarBg': const Color(0xFFFFFBEB), 'tagColor': const Color(0xFFEF4444), 'tagBg': const Color(0xFFFEF2F2)
     },
   ];
+
+  
+  Future<void> _loadDefaulters() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__defaulters_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _defaulters = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveDefaulters() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _defaulters.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__defaulters_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

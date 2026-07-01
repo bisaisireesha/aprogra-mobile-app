@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class CreateClassWizard extends StatefulWidget {
   const CreateClassWizard({super.key});
+
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadSections();
+  }
 
   @override
   State<CreateClassWizard> createState() => _CreateClassWizardState();
@@ -15,7 +25,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
   bool _enableSections = false;
   
   // Section data: name, capacity
-  final List<Map<String, dynamic>> _sections = [
+  List<Map<String, dynamic>> _sections = [
     {'name': 'A', 'capacity': '40', 'teacher': null},
     {'name': 'B', 'capacity': '40', 'teacher': null},
   ];
@@ -27,6 +37,40 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
   final Color _textMuted = const Color(0xFF595973);
 
   bool get _isWide => MediaQuery.sizeOf(context).width >= 900;
+
+  
+  Future<void> _loadSections() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__sections_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _sections = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveSections() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _sections.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__sections_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

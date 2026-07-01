@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -20,6 +23,13 @@ const _border = Color(0xFFE5E7EB);
 class FeesDashboardScreen extends StatefulWidget {
   const FeesDashboardScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadInvoices();
+  }
+
   @override
   State<FeesDashboardScreen> createState() => _FeesDashboardScreenState();
 }
@@ -36,7 +46,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   String _selectedAmountRange = 'All Amounts';
   int _touchedBarIndex = -1;
 
-  final List<Map<String, dynamic>> _invoices = [
+  List<Map<String, dynamic>> _invoices = [
     {'id': 'INV-2025-1048', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'type': 'Tuition Fee', 'due': '27 May 2025', 'amount': '₹24,500', 'status': 'Pending'},
     {'id': 'INV-2025-1047', 'student': 'Saanvi Patel', 'class': 'Class 4B', 'type': 'Transport', 'due': '25 May 2025', 'amount': '₹3,200', 'status': 'Paid'},
     {'id': 'INV-2025-1046', 'student': 'Vivaan Singh', 'class': 'Class 9C', 'type': 'Tuition Fee', 'due': '24 May 2025', 'amount': '₹28,000', 'status': 'Overdue'},
@@ -106,6 +116,40 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         ],
       ),
     );
+  }
+
+  
+  Future<void> _loadInvoices() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__invoices_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _invoices = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveInvoices() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _invoices.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__invoices_data', jsonEncode(serialized));
   }
 
   @override

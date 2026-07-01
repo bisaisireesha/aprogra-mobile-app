@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,6 +14,13 @@ const _border = Color(0xFFE5E7EB);
 class SchemesListScreen extends StatefulWidget {
   const SchemesListScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadSchemes();
+  }
+
   @override
   State<SchemesListScreen> createState() => _SchemesListScreenState();
 }
@@ -18,7 +28,7 @@ class SchemesListScreen extends StatefulWidget {
 class _SchemesListScreenState extends State<SchemesListScreen> {
   String _activeTab = 'All';
 
-  final List<Map<String, dynamic>> _schemes = [
+  List<Map<String, dynamic>> _schemes = [
     {
       'name': 'Merit Scholarship',
       'type': 'Scholarship',
@@ -74,6 +84,40 @@ class _SchemesListScreenState extends State<SchemesListScreen> {
       'icon': LucideIcons.clock,
     },
   ];
+
+  
+  Future<void> _loadSchemes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__schemes_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _schemes = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveSchemes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _schemes.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__schemes_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

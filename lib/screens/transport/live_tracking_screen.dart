@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -16,7 +19,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
-  final List<Map<String, dynamic>> _buses = [
+  List<Map<String, dynamic>> _buses = [
     {
       'bus': 'BUS-204',
       'route': 'R-12',
@@ -70,6 +73,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   @override
   void initState() {
     super.initState();
+    _loadBuses();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -81,6 +85,40 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  
+  Future<void> _loadBuses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__buses_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _buses = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveBuses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _buses.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__buses_data', jsonEncode(serialized));
   }
 
   @override

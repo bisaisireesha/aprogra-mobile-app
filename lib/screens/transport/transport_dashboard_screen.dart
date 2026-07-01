@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -19,7 +21,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _allBuses = [
+  List<Map<String, dynamic>> _allBuses = [
     {
       'status': 'On Route',
       'statusColor': const Color(0xFF10B981),
@@ -135,9 +137,55 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _loadBuses();
+    _searchController.addListener(() {
+      setState(() {
+        _searchQuery = _searchController.text.toLowerCase();
+      });
+    });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadBuses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_buses_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _allBuses = decoded.map((bus) {
+          final map = Map<String, dynamic>.from(bus);
+          if (map['statusColor'] is int) {
+            map['statusColor'] = Color(map['statusColor'] as int);
+          }
+          if (map['progressColor'] is int) {
+            map['progressColor'] = Color(map['progressColor'] as int);
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveBuses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _allBuses.map((bus) {
+      final copy = Map<String, dynamic>.from(bus);
+      if (copy['statusColor'] is Color) {
+        copy['statusColor'] = (copy['statusColor'] as Color).value;
+      }
+      if (copy['progressColor'] is Color) {
+        copy['progressColor'] = (copy['progressColor'] as Color).value;
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('transport_buses_data', jsonEncode(serialized));
   }
 
   @override
@@ -188,52 +236,29 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Transport Dashboard',
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF181821),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Live overview of school buses, routes and on-road status.',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF595973),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        Text(
+          'Transport Dashboard',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          'Live overview of school buses, routes and on-road status.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
+          ),
         ),
         const SizedBox(height: 16),
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(
-              child: _buildSecondaryButton('Refresh', LucideIcons.refreshCw, () {}),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: _buildSecondaryButton('Filter', LucideIcons.filter, () {}),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              flex: 2,
-              child: _buildPrimaryButton('Add Bus', LucideIcons.plus, () {
-                _showAddBusModal(context);
-              }),
-            ),
+            _buildPrimaryButton('Add Bus', LucideIcons.plus, () {
+              _showAddBusModal(context);
+            }),
           ],
         ),
       ],
@@ -276,12 +301,13 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         decoration: BoxDecoration(
           color: const Color(0xFF6366F1),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon, size: 16, color: Colors.white),
@@ -311,6 +337,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           setState(() {
             _allBuses.insert(0, newBus);
           });
+          _saveBuses();
         },
       ),
     );
@@ -328,11 +355,12 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
         saveText: 'Save Changes',
         onSave: (updatedBus) {
           setState(() {
-            final index = _allBuses.indexOf(bus);
+            final index = _allBuses.indexWhere((b) => b['busId'] == bus['busId']);
             if (index != -1) {
               _allBuses[index] = updatedBus;
             }
           });
+          _saveBuses();
         },
       ),
     );

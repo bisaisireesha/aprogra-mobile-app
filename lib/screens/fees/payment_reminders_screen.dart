@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -14,6 +17,13 @@ const _border = Color(0xFFE5E7EB);
 class PaymentRemindersScreen extends StatefulWidget {
   const PaymentRemindersScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadTemplates();
+  }
+
   @override
   State<PaymentRemindersScreen> createState() => _PaymentRemindersScreenState();
 }
@@ -23,7 +33,7 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   String _activeTemplateTab = 'Email';
 
-  final List<Map<String, dynamic>> _templates = [
+  List<Map<String, dynamic>> _templates = [
     {'name': 'Friendly Reminder', 'status': 'Active', 'preview': 'Dear {parent_name}, your fee of ₹{amount} is due on {due_date}. Kindly...'},
     {'name': '2nd Notice', 'status': 'Active', 'preview': 'This is a gentle follow-up regarding an outstanding fee of ₹{amount}...'},
     {'name': 'Final Notice', 'status': 'Active', 'preview': 'URGENT: Fee dues of ₹{amount} for {student_name} are significantly...'},
@@ -100,6 +110,40 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
       'bg': const Color(0xFFF3E8FF),
     },
   ];
+
+  
+  Future<void> _loadTemplates() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__templates_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _templates = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveTemplates() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _templates.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__templates_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

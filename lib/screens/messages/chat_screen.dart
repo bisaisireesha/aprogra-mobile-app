@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -12,13 +15,20 @@ class ChatScreen extends StatefulWidget {
 
   const ChatScreen({super.key, required this.chatData});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadMessages();
+  }
+
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _msgController = TextEditingController();
-  final List<Map<String, dynamic>> _messages = [
+  List<Map<String, dynamic>> _messages = [
     {
       'isSentByMe': false,
       'text': 'Hello Admin, I would like to confirm whether the annual examination timetable has been finalized for Grade 10 students.',
@@ -45,6 +55,40 @@ class _ChatScreenState extends State<ChatScreen> {
       });
       _msgController.clear();
     });
+  }
+
+  
+  Future<void> _loadMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__messages_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _messages = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveMessages() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _messages.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__messages_data', jsonEncode(serialized));
   }
 
   @override

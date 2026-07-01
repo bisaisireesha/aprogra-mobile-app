@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -16,6 +19,13 @@ const _border = Color(0xFFE5E7EB);
 class DiscountsScholarshipsScreen extends StatefulWidget {
   const DiscountsScholarshipsScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadSchemes();
+  }
+
   @override
   State<DiscountsScholarshipsScreen> createState() => _DiscountsScholarshipsScreenState();
 }
@@ -25,7 +35,7 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
 
   String _activeTab = 'All';
 
-  final List<Map<String, dynamic>> _schemes = [
+  List<Map<String, dynamic>> _schemes = [
     {'name': 'Sibling Discount', 'count': 132, 'max': 150, 'color': const Color(0xFF0EA5E9)},
     {'name': 'Need-based Aid', 'count': 64, 'max': 150, 'color': const Color(0xFFA855F7)},
     {'name': 'Merit Scholarship', 'count': 48, 'max': 150, 'color': const Color(0xFF7C3AED)},
@@ -90,6 +100,40 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
       'icon': LucideIcons.clock,
     },
   ];
+
+  
+  Future<void> _loadSchemes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__schemes_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _schemes = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveSchemes() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _schemes.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__schemes_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

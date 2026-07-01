@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
@@ -22,7 +25,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
 
-  final List<Map<String, dynamic>> _leaves = [
+  List<Map<String, dynamic>> _leaves = [
     {
       'name': 'Priya Sharma',
       'department': 'Mathematics',
@@ -100,6 +103,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
   @override
   void initState() {
     super.initState();
+    _loadLeaves();
     _searchController.addListener(() => setState(() {}));
   }
 
@@ -107,6 +111,40 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  
+  Future<void> _loadLeaves() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__leaves_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _leaves = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveLeaves() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _leaves.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__leaves_data', jsonEncode(serialized));
   }
 
   @override

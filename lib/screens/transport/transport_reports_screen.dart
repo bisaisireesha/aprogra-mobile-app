@@ -201,21 +201,22 @@ class _TransportReportsScreenState extends State<TransportReportsScreen> {
 
   Widget _buildSummaryCard(String title, String subtitle, IconData icon, Color color, bool isWide) {
     return Container(
-      width: isWide ? null : double.infinity,
+      width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
+            color: color.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
       ),
-      child: isWide ? Row(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             padding: const EdgeInsets.all(12),
@@ -229,6 +230,7 @@ class _TransportReportsScreenState extends State<TransportReportsScreen> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   title,
@@ -249,35 +251,8 @@ class _TransportReportsScreenState extends State<TransportReportsScreen> {
               ],
             ),
           ),
-        ],
-      ) : Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 24),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            subtitle,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              color: const Color(0xFF595973),
-            ),
-            textAlign: TextAlign.center,
-          ),
+          const SizedBox(width: 8),
+          const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFF181821)),
         ],
       ),
     );

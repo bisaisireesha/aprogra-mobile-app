@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -30,7 +33,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
   Map<String, dynamic>? _selectedStudent;
   final Set<String> _collectedStudentIds = {};
 
-  final List<Map<String, dynamic>> _students = [
+  List<Map<String, dynamic>> _students = [
     {'name': 'Aarav Sharma', 'class': 'Class 5A', 'id': 'ADM-2025-0112', 'roll': '01', 'totalDue': 18500, 'status': 'Overdue', 'due': '30 Apr 2025', 'overdueDays': '12d overdue', 'dueItems': [
       {'type': 'Tuition Fee', 'amount': 18000, 'period': 'Q3 2025-26', 'status': 'Overdue', 'id': 'INV-2025-0881', 'due': '30 Apr 2025'},
       {'type': 'Library Fee', 'amount': 500, 'period': 'Annual', 'status': 'Overdue', 'id': 'INV-2025-0882', 'due': '30 Apr 2025'},
@@ -67,10 +70,51 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
     }).toList();
   }
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadStudents();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  
+  Future<void> _loadStudents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__students_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _students = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveStudents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _students.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__students_data', jsonEncode(serialized));
   }
 
   @override

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,12 +14,19 @@ const _border = Color(0xFFE5E7EB);
 class ReceiptsListScreen extends StatefulWidget {
   const ReceiptsListScreen({super.key});
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadReceipts();
+  }
+
   @override
   State<ReceiptsListScreen> createState() => _ReceiptsListScreenState();
 }
 
 class _ReceiptsListScreenState extends State<ReceiptsListScreen> {
-  final List<Map<String, dynamic>> _receipts = [
+  List<Map<String, dynamic>> _receipts = [
     {
       'id': 'RCT-2025-3401', 'date': '15 May 2025', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'invoice': 'INV-2025-0841',
       'mode': 'UPI', 'amount': '₹24,500', 'status': 'Paid',
@@ -48,6 +58,40 @@ class _ReceiptsListScreenState extends State<ReceiptsListScreen> {
       'modeColor': const Color(0xFF22C55E), 'modeBg': const Color(0xFFF0FDF4),
     },
   ];
+
+  
+  Future<void> _loadReceipts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__receipts_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _receipts = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveReceipts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _receipts.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__receipts_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

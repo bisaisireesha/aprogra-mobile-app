@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../data/mock_data/subjects_mock.dart';
@@ -73,6 +76,7 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
   @override
   void initState() {
     super.initState();
+    _loadDraftperiods();
     _nameController.addListener(() {
       setState(() {});
     });
@@ -183,6 +187,40 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
     super.reassemble();
     // Wipe stale state on hot reload to prevent type inference crashes
     _periods.clear();
+  }
+
+  
+  Future<void> _loadDraftperiods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__draftPeriods_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _draftPeriods = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveDraftperiods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _draftPeriods.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__draftPeriods_data', jsonEncode(serialized));
   }
 
   @override

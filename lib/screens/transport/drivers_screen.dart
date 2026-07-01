@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -18,7 +20,7 @@ class _DriversScreenState extends State<DriversScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _drivers = [
+  List<Map<String, dynamic>> _drivers = [
     {
       'name': 'R. Sharma',
       'id': '0001',
@@ -79,6 +81,7 @@ class _DriversScreenState extends State<DriversScreen> {
   @override
   void initState() {
     super.initState();
+    _loadDrivers();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -92,6 +95,35 @@ class _DriversScreenState extends State<DriversScreen> {
     super.dispose();
   }
 
+  Future<void> _loadDrivers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_drivers_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _drivers = decoded.map((driver) {
+          final map = Map<String, dynamic>.from(driver);
+          if (map['statusColor'] is int) {
+            map['statusColor'] = Color(map['statusColor'] as int);
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveDrivers() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _drivers.map((driver) {
+      final copy = Map<String, dynamic>.from(driver);
+      if (copy['statusColor'] is Color) {
+        copy['statusColor'] = (copy['statusColor'] as Color).value;
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('transport_drivers_data', jsonEncode(serialized));
+  }
+
   void _showAddDriverModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -103,6 +135,7 @@ class _DriversScreenState extends State<DriversScreen> {
           setState(() {
             _drivers.insert(0, newDriver);
           });
+          _saveDrivers();
         },
       ),
     );
@@ -454,11 +487,12 @@ class _DriversScreenState extends State<DriversScreen> {
         saveText: 'Save Changes',
         onSave: (updatedDriver) {
           setState(() {
-            final index = _drivers.indexOf(driver);
+            final index = _drivers.indexWhere((d) => d['id'] == driver['id']);
             if (index != -1) {
               _drivers[index] = updatedDriver;
             }
           });
+          _saveDrivers();
         },
       ),
     );
@@ -508,58 +542,55 @@ class _DriversScreenState extends State<DriversScreen> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Drivers',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Licensed drivers, their assigned vehicles and duty status.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Drivers',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
           ),
         ),
-        const SizedBox(width: 16),
-        GestureDetector(
-          onTap: () => _showAddDriverModal(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFF6366F1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                const SizedBox(width: 6),
-                Text(
-                  'Add Driver',
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+        const SizedBox(height: 4),
+        Text(
+          'Licensed drivers, their assigned vehicles and duty status.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
           ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => _showAddDriverModal(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6366F1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.plus, size: 16, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Add Driver',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -578,7 +609,12 @@ class _DriversScreenState extends State<DriversScreen> {
                 LucideIcons.users,
                 const Color(0xFF8B5CF6),
                 const Color(0xFFEDE9FE),
-                isPrimary: true,
+                isPrimary: _filterStatus == 'All',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'All';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -590,6 +626,12 @@ class _DriversScreenState extends State<DriversScreen> {
                 LucideIcons.userCheck,
                 const Color(0xFF10B981),
                 const Color(0xFFD1FAE5),
+                isPrimary: _filterStatus == 'On Duty',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'On Duty';
+                  });
+                },
               ),
             ),
           ],
@@ -605,6 +647,12 @@ class _DriversScreenState extends State<DriversScreen> {
                 LucideIcons.badge,
                 const Color(0xFF0EA5E9),
                 const Color(0xFFE0F2FE),
+                isPrimary: _filterStatus == 'Available',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Available';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -616,6 +664,12 @@ class _DriversScreenState extends State<DriversScreen> {
                 LucideIcons.shieldAlert,
                 const Color(0xFFF59E0B),
                 const Color(0xFFFEF3C7),
+                isPrimary: _filterStatus == 'On Leave',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'On Leave';
+                  });
+                },
               ),
             ),
           ],
@@ -632,23 +686,26 @@ class _DriversScreenState extends State<DriversScreen> {
     Color iconColor,
     Color iconBgColor, {
     bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
           ),
-        ],
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -700,6 +757,7 @@ class _DriversScreenState extends State<DriversScreen> {
           ],
         ],
       ),
+    ),
     );
   }
 

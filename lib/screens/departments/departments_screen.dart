@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
@@ -18,13 +21,20 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _bottomNavIndex = 3; // Staff/Departments
 
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadDepartments();
+  }
+
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _departments = [
+  List<Map<String, dynamic>> _departments = [
     {
       'name': 'Mathematics',
       'initials': 'VS',
@@ -181,6 +191,40 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
   ];
 
   bool get _isTablet => MediaQuery.of(context).size.width > 768;
+
+  
+  Future<void> _loadDepartments() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__departments_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _departments = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveDepartments() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _departments.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__departments_data', jsonEncode(serialized));
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../data/mock_data/homework_mock.dart';
@@ -50,6 +53,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   @override
   void initState() {
     super.initState();
+    _loadItems();
     _items = List<Map<String, dynamic>>.from(HomeworkMockData.homeworkItems);
     _searchController.addListener(() {
       setState(() {});
@@ -138,6 +142,40 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     setState(() {
       _items.remove(item);
     });
+  }
+
+  
+  Future<void> _loadItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__items_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _items = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveItems() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _items.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__items_data', jsonEncode(serialized));
   }
 
   @override

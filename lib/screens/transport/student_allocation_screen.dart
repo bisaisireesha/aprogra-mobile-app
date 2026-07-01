@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
@@ -18,7 +20,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
   String _searchQuery = '';
   String _filterStatus = 'All';
 
-  final List<Map<String, dynamic>> _students = [
+  List<Map<String, dynamic>> _students = [
     {
       'name': 'Aarav Mehta',
       'id': 'S-1042',
@@ -107,6 +109,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
   @override
   void initState() {
     super.initState();
+    _loadAllocations();
     _searchController.addListener(() {
       setState(() {
         _searchQuery = _searchController.text.toLowerCase();
@@ -120,6 +123,24 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     super.dispose();
   }
 
+  Future<void> _loadAllocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('transport_allocations_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _students = decoded.map((student) {
+          return Map<String, dynamic>.from(student);
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveAllocations() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('transport_allocations_data', jsonEncode(_students));
+  }
+
   void _showAllocateStudentModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -131,6 +152,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           setState(() {
             _students.insert(0, newStudent);
           });
+          _saveAllocations();
         },
       ),
     );
@@ -148,11 +170,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
         initialData: student,
         onSave: (updatedStudent) {
           setState(() {
-            final index = _students.indexOf(student);
+            final index = _students.indexWhere((s) => s['id'] == student['id']);
             if (index != -1) {
               _students[index] = updatedStudent;
             }
           });
+          _saveAllocations();
         },
       ),
     );
@@ -623,58 +646,55 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
   }
 
   Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Student Allocation',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Map students to bus routes, stops and pickup timings.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Student Allocation',
+          style: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF181821),
           ),
         ),
-        const SizedBox(width: 16),
-        GestureDetector(
-          onTap: () => _showAllocateStudentModal(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFF6366F1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.userPlus, size: 16, color: Colors.white),
-                const SizedBox(width: 6),
-                Text(
-                  'Allocate Student',
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+        const SizedBox(height: 4),
+        Text(
+          'Map students to bus routes, stops and pickup timings.',
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            color: const Color(0xFF595973),
           ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            GestureDetector(
+              onTap: () => _showAllocateStudentModal(context),
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6366F1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.userPlus, size: 16, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Allocate Student',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -693,7 +713,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 LucideIcons.users,
                 const Color(0xFF8B5CF6),
                 const Color(0xFFEDE9FE),
-                isPrimary: true,
+                isPrimary: _filterStatus == 'All',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'All';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -705,6 +730,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 LucideIcons.checkCircle2,
                 const Color(0xFF10B981),
                 const Color(0xFFD1FAE5),
+                isPrimary: _filterStatus == 'Allocated',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Allocated';
+                  });
+                },
               ),
             ),
           ],
@@ -720,6 +751,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 LucideIcons.alertCircle,
                 const Color(0xFFF59E0B),
                 const Color(0xFFFEF3C7),
+                isPrimary: _filterStatus == 'Pending',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Pending';
+                  });
+                },
               ),
             ),
             const SizedBox(width: 16),
@@ -731,6 +768,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 LucideIcons.userMinus,
                 const Color(0xFF0EA5E9),
                 const Color(0xFFE0F2FE),
+                isPrimary: _filterStatus == 'Opted Out',
+                onTap: () {
+                  setState(() {
+                    _filterStatus = 'Opted Out';
+                  });
+                },
               ),
             ),
           ],
@@ -747,23 +790,26 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     Color iconColor,
     Color iconBgColor, {
     bool isPrimary = false,
+    VoidCallback? onTap,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
           ),
-        ],
-      ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -815,6 +861,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           ],
         ],
       ),
+    ),
     );
   }
 

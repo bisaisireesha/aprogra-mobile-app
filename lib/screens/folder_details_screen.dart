@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'upload_resource_dialog.dart';
@@ -19,6 +22,7 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    _loadResources();
     _searchController.addListener(() {
       setState(() {});
     });
@@ -30,7 +34,7 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
     super.dispose();
   }
 
-  final List<Map<String, dynamic>> _resources = [
+  List<Map<String, dynamic>> _resources = [
     {
       'title': 'Notes 01',
       'type': 'Notes',
@@ -165,6 +169,40 @@ class _FolderDetailsScreenState extends State<FolderDetailsScreen> {
         widget.folder['resourcesCount'] = (widget.folder['resourcesCount'] as int) - 1;
       }
     });
+  }
+
+  
+  Future<void> _loadResources() async {
+    final prefs = await SharedPreferences.getInstance();
+    final dataString = prefs.getString('cache__resources_data');
+    if (dataString != null) {
+      final List<dynamic> decoded = jsonDecode(dataString);
+      setState(() {
+        _resources = decoded.map((item) {
+          final map = Map<String, dynamic>.from(item);
+          for (final key in map.keys.toList()) {
+            if (key.toLowerCase().contains('color') && map[key] is int) {
+              map[key] = Color(map[key] as int);
+            }
+          }
+          return map;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveResources() async {
+    final prefs = await SharedPreferences.getInstance();
+    final serialized = _resources.map((item) {
+      final copy = Map<String, dynamic>.from(item);
+      for (final key in copy.keys.toList()) {
+        if (copy[key] is Color) {
+          copy[key] = (copy[key] as Color).value;
+        }
+      }
+      return copy;
+    }).toList();
+    await prefs.setString('cache__resources_data', jsonEncode(serialized));
   }
 
   @override

@@ -320,7 +320,6 @@ class HostelWardensScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(LucideIcons.moreVertical, size: 20, color: Color(0xFF595973)),
             ],
           ),
           const SizedBox(height: 16),

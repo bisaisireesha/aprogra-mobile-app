@@ -299,7 +299,7 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
                   ),
                 ),
               ),
-              Icon(Icons.more_horiz, size: 16, color: _textMuted.withValues(alpha: 0.5)),
+
             ],
           ),
           const SizedBox(height: 16),

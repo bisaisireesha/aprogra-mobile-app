@@ -703,7 +703,6 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Icon(LucideIcons.moreVertical, size: 16, color: _muted),
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

@@ -576,7 +576,6 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                 ),
                 child: Icon(icon, color: iconColor, size: 20),
               ),
-              const Icon(LucideIcons.moreVertical, size: 16, color: Color(0xFF94A3B8)),
             ],
           ),
           const SizedBox(height: 16),

@@ -369,7 +369,6 @@ class HostelInventoryScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    const Icon(LucideIcons.moreVertical, size: 16, color: Color(0xFF94A3B8)),
                   ],
                 ),
                 const SizedBox(height: 8),

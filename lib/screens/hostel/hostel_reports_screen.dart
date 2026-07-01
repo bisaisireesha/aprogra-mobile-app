@@ -408,7 +408,6 @@ class HostelReportsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(LucideIcons.moreVertical, size: 18, color: Color(0xFF94A3B8)),
               const SizedBox(height: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

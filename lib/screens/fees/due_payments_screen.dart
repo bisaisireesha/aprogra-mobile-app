@@ -543,7 +543,6 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
                       children: [
                         Text(d['amount'] as String, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: const Color(0xFFEF4444))),
                         const SizedBox(width: 8),
-                        const Icon(LucideIcons.moreVertical, size: 18, color: _muted),
                       ],
                     ),
                     const SizedBox(height: 6),

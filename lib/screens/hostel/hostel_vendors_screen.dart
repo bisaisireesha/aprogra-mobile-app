@@ -338,7 +338,6 @@ class HostelVendorsScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Icon(LucideIcons.moreVertical, size: 16, color: Color(0xFF94A3B8)),
                     const SizedBox(height: 4),
                     if (topDate.isNotEmpty || topAmount.isNotEmpty)
                       Row(

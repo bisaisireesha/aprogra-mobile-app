@@ -359,7 +359,6 @@ class HostelBlocksScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(LucideIcons.moreVertical, size: 20, color: Color(0xFF595973)),
               ],
             ),
             const SizedBox(height: 16),

@@ -459,7 +459,6 @@ class HostelAttendanceScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Icon(LucideIcons.moreVertical, size: 18, color: Color(0xFF94A3B8)),
                       ],
                     ),
                   ),

@@ -1057,7 +1057,6 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
                                 ],
                               ),
                             ),
-                            const Icon(LucideIcons.moreVertical, color: _textMuted, size: 16),
                           ],
                         ),
                       ),

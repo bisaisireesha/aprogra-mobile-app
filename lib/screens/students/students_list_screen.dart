@@ -61,7 +61,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bgColor,
-      drawer: const MenuScreen(activeScreen: 'Academics'),
+      drawer: const MenuScreen(activeScreen: 'Student Insights'),
       
       body: SafeArea(
         bottom: false,

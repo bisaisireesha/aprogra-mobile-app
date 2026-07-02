@@ -136,7 +136,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   bool _isAcademicsGroup(String screen) {
     const academicsScreens = [
-      'Academics', 'Student Insights', 'Classes', 'Subjects', 'Students',
+      'Academics', 'Classes', 'Subjects', 'Students',
       'Timetables', 'Teachers', 'Homework', 'Assignments',
       'Student Attendance', 'Staff Attendance', 'Exams', 'Grade Scales',
       'Marks Entry', 'Report Cards', 'Learning Resources', 'Transfer Certificates',

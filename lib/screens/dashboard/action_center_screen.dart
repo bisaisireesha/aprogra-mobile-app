@@ -1,5 +1,6 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../../screens/auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
@@ -118,14 +119,14 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                             _searchQuery = val.toLowerCase();
                           });
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Search anything...',
-                          hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                          hintStyle: GoogleFonts.inter(color: Color(0xFF8F96A3), fontSize: 14),
                           border: InputBorder.none,
                           isDense: true,
                           contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(color: Color(0xFF181B20), fontSize: 14),
+                        style: GoogleFonts.inter(color: Color(0xFF181B20), fontSize: 14),
                       ),
                     ),
                   ],
@@ -191,9 +192,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 ),
               ),
               const SizedBox(width: 6),
-              const Text(
+              Text(
                 'LIVE • ACTION REQUIRED',
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFFF72222),
@@ -206,7 +207,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         const SizedBox(height: 12),
         Text(
           'Action Center',
-          style: TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 28.sp,
             fontWeight: FontWeight.bold,
             color: _textDark,
@@ -214,9 +215,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
+        Text(
           'Items requiring your attention across the school.',
-          style: TextStyle(fontSize: 15, color: _textMuted),
+          style: GoogleFonts.inter(fontSize: 15, color: _textMuted),
         ),
       ],
     );
@@ -229,30 +230,41 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // [Responsive Fix]: Switch to 4 columns on tablets/landscape
         crossAxisCount: _isTablet ? 4 : 2,
-        mainAxisExtent: 115.h,
+        mainAxisExtent: 80.h,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
       itemCount: MockData.actionCenterKpi.length,
       itemBuilder: (context, index) {
         final kpi = MockData.actionCenterKpi[index];
-        return Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFF9FAFB)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.02),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              )
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+        return GestureDetector(
+          onTap: () {
+            final title = kpi['title'] as String;
+            if (title.contains('Critical')) {
+              setState(() => _activeFilter = 'Critical');
+            } else if (title.contains('Pending')) {
+              setState(() => _activeFilter = 'Pending');
+            } else {
+              setState(() => _activeFilter = 'All');
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFFF9FAFB)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.02),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -269,7 +281,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   Expanded(
                     child: Text(
                       kpi['title'] as String,
-                      style: const TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF8F96A3),
@@ -285,7 +297,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 children: [
                   Text(
                     kpi['value'] as String,
-                    style: const TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF181B20),
@@ -295,7 +307,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   const SizedBox(height: 2),
                   Text(
                     kpi['subtitle'] as String,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                       color: kpi['subtitleColor'] as Color,
@@ -307,15 +319,15 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               ),
             ],
           ),
-        );
+        ),
+      );
       },
     );
   }
 
 
   Widget _buildFilters() {
-    final firstLineFilters = ['All', 'Critical', 'Attendance', 'Finance'];
-    final secondLineFilters = ['Admissions', 'Academics', 'Staff'];
+    final filters = ['All', 'Critical', 'Pending', 'Attendance', 'Finance', 'Admissions', 'Academics', 'Staff'];
 
     Widget buildFilterChip(String filter) {
       final isSelected = filter == _activeFilter;
@@ -326,7 +338,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           });
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF7C5BFF) : Colors.white,
             borderRadius: BorderRadius.circular(24),
@@ -334,45 +346,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           ),
           child: Text(
             filter,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               color: isSelected ? Colors.white : const Color(0xFF8F96A3),
               fontWeight: FontWeight.w600,
-              fontSize: 12,
+              fontSize: 13,
             ),
           ),
         ),
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: firstLineFilters.map((f) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: buildFilterChip(f),
-              );
-            }).toList(),
-          ),
-        ),
-        const SizedBox(height: 8),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: secondLineFilters.map((f) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: buildFilterChip(f),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: filters.map((f) => buildFilterChip(f)).toList(),
     );
   }
 
@@ -415,7 +402,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       Expanded(
                         child: Text(
                           section['sectionTitle'] as String,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+                          style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -428,17 +415,17 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                         ),
                         child: Text(
                           section['sectionBadge'] as String,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8F96A3)),
+                          style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8F96A3)),
                         ),
                       ),
                     ],
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => _handleAction('View all', {'title': section['sectionTitle']}),
                   child: Row(
-                    children: const [
-                      Text('View all', style: TextStyle(fontSize: 13, color: Color(0xFF8F96A3))),
+                    children: [
+                      Text('View all', style: GoogleFonts.inter(fontSize: 13, color: Color(0xFF8F96A3))),
                       SizedBox(width: 4),
                       Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFF8F96A3)),
                     ],
@@ -449,7 +436,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
             const SizedBox(height: 12),
             ...filteredItems.map((item) {
               final isCritical = item['isCritical'] as bool;
-              return Container(
+              return GestureDetector(
+                onTap: () => _showDetails(item),
+                child: Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -465,20 +454,13 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
-                  child: IntrinsicHeight(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (isCritical)
-                          Container(
-                            width: 4,
-                            color: const Color(0xFFFF5C5C),
-                          ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -501,7 +483,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                                 ],
                                                 Text(
                                                   item['badge'] as String,
-                                                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 0.5),
+                                                  style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 0.5),
                                                 ),
                                               ],
                                             ),
@@ -510,7 +492,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                           Expanded(
                                             child: Text(
                                               item['category'] as String,
-                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8D95A5), letterSpacing: 1.0),
+                                              style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8D95A5), letterSpacing: 1.0),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -525,7 +507,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                           Flexible(
                                             child: Text(
                                               item['time'] as String,
-                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF8D95A5)),
+                                              style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF8D95A5)),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -537,50 +519,56 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                 SizedBox(height: 12.h),
                                 Text(
                                   item['title'] as String,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF181B20), height: 1.3),
+                                  style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF181B20), height: 1.3),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   item['subtitle'] as String,
-                                  style: const TextStyle(fontSize: 14, color: Color(0xFF8F96A3)),
+                                  style: GoogleFonts.inter(fontSize: 14, color: Color(0xFF8F96A3)),
                                 ),
                                 const SizedBox(height: 24),
                                 Row(
                                   children: [
                                     Expanded(
-                                      child: Container(
-                                        // [Responsive Fix]: Min height constraint to prevent text clipping if scaled up
-                                        constraints: const BoxConstraints(minHeight: 48),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(16),
-                                          border: Border.all(color: const Color(0xFF181B20)),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            item['btn1'] as String,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF181B20)),
-                                            textAlign: TextAlign.center,
+                                      child: GestureDetector(
+                                        onTap: () => _handleAction(item['btn1'] as String, item),
+                                        child: Container(
+                                          // [Responsive Fix]: Min height constraint to prevent text clipping if scaled up
+                                          constraints: const BoxConstraints(minHeight: 48),
+                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(16),
+                                            border: Border.all(color: const Color(0xFF181B20)),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              item['btn1'] as String,
+                                              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF181B20)),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
-                                      child: Container(
-                                        // [Responsive Fix]: Min height constraint
-                                        constraints: const BoxConstraints(minHeight: 48),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                        decoration: BoxDecoration(
-                                          color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5C5C) : item['btn2Color'] as Color,
-                                          borderRadius: BorderRadius.circular(16),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            item['btn2'] as String,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-                                            textAlign: TextAlign.center,
+                                      child: GestureDetector(
+                                        onTap: () => _handleAction(item['btn2'] as String, item),
+                                        child: Container(
+                                          // [Responsive Fix]: Min height constraint
+                                          constraints: const BoxConstraints(minHeight: 48),
+                                          padding: const EdgeInsets.symmetric(vertical: 12),
+                                          decoration: BoxDecoration(
+                                            color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5C5C) : item['btn2Color'] as Color,
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              item['btn2'] as String,
+                                              style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -590,9 +578,18 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                               ],
                             ),
                           ),
+                      if (isCritical)
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            width: 4,
+                            color: const Color(0xFFFF5C5C),
+                          ),
                         ),
-                      ],
-                    ),
+                    ],
+                  ),
                   ),
                 ),
               );
@@ -632,7 +629,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Recommended Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text('Recommended Actions', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
                   const SizedBox(height: 4),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
@@ -640,7 +637,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       color: const Color(0x337C5BFF),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text('AI Suggestions', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF7C5BFF))),
+                    child: Text('AI Suggestions', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF7C5BFF))),
                   ),
                 ],
               ),
@@ -661,12 +658,12 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 children: [
                   Text(
                     rec['title'] as String,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.3),
+                    style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.3),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     rec['subtitle'] as String,
-                    style: const TextStyle(fontSize: 14, color: Color(0xFF8F96A3), height: 1.5),
+                    style: GoogleFonts.inter(fontSize: 14, color: Color(0xFF8F96A3), height: 1.5),
                   ),
                   SizedBox(height: 12.h),
                   Container(
@@ -679,7 +676,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                     child: Center(
                       child: Text(
                         rec['btn'] as String,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                     ),
                   ),
@@ -690,6 +687,109 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         ],
       ),
     );
+  }
+
+  void _showDetails(Map<String, dynamic> item) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5252) : (item['badgeColor'] ?? _accent) as Color,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    item['badge'] as String,
+                    style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              item['title'] as String,
+              style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              item['subtitle'] as String,
+              style: GoogleFonts.inter(fontSize: 16, color: _textMuted),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                const Icon(Icons.access_time, size: 16, color: _textMuted),
+                const SizedBox(width: 8),
+                Text(
+                  'Time: ${item['time'] ?? "N/A"}',
+                  style: GoogleFonts.inter(fontSize: 14, color: _textMuted),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                const Icon(Icons.category, size: 16, color: _textMuted),
+                const SizedBox(width: 8),
+                Text(
+                  'Category: ${item['category'] ?? "N/A"}',
+                  style: GoogleFonts.inter(fontSize: 14, color: _textMuted),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _accent,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text('Close Details', style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _handleAction(String actionName, Map<String, dynamic> item) {
+    if (actionName.toLowerCase().contains('view') || actionName.toLowerCase().contains('check')) {
+      _showDetails(item);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$actionName: ${item['title']}'),
+          backgroundColor: _accent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Widget _buildBottomNav() {
@@ -722,8 +822,8 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w600),
+        unselectedLabelStyle: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500),
         items: [
           const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
           const BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),

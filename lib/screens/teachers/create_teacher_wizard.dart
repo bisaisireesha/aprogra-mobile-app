@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -214,7 +215,7 @@ class _CreateTeacherWizardState extends State<CreateTeacherWizard> {
             Expanded(child: _buildTextField('Full Name', 'e.g. Mrs. Anita Rao', _fullNameController)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildDropdown('Gender', _selectedGender, ['Male', 'Female', 'Other'], (val) => setState(() => _selectedGender = val!))),
@@ -222,9 +223,9 @@ class _CreateTeacherWizardState extends State<CreateTeacherWizard> {
             Expanded(child: _buildTextField('Phone', '+91 9xxxxxxxxx', _phoneController)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildTextField('Email', 'teacher@school.edu', _emailController),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildTextField('Address', 'Street, City', _addressController),
         
         const SizedBox(height: 32),
@@ -240,7 +241,7 @@ class _CreateTeacherWizardState extends State<CreateTeacherWizard> {
             Expanded(child: _buildTextField('Designation', 'Class Teacher', _designationController)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildTextField('Qualification', 'e.g. M.Sc, B.Ed', _qualificationController)),
@@ -248,7 +249,7 @@ class _CreateTeacherWizardState extends State<CreateTeacherWizard> {
             Expanded(child: _buildTextField('Experience (years)', '0', _experienceController)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildTextField('Joining Date', 'DD/MM/YYYY', _joiningDateController)),
@@ -293,7 +294,7 @@ class _CreateTeacherWizardState extends State<CreateTeacherWizard> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Wrap(
           spacing: 12,
           runSpacing: 12,

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -147,7 +148,7 @@ class ViewHomeworkDialog extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildStudentGrid(submittedStudents, true),
                     
                     const SizedBox(height: 32),
@@ -161,7 +162,7 @@ class ViewHomeworkDialog extends StatelessWidget {
                         color: const Color(0xFF181B20),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildStudentGrid(notSubmittedStudents, false),
                   ],
                 ),

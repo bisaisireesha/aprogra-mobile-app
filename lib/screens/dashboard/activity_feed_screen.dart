@@ -1,7 +1,12 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
+import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
+import '../teachers/teachers_screen.dart';
+import '../fees/fees_dashboard_screen.dart';
+import '../transport/transport_dashboard_screen.dart';
 
 const _bgPrimary = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -44,7 +49,10 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildAppBar(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  child: CommonAppBar(),
+                ),
                 // [Responsive Fix]: Adapt side padding
                 Expanded(
                   child: SingleChildScrollView(
@@ -56,17 +64,17 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                           _buildHeader(),
                           const SizedBox(height: 12),
                           _buildKpiGrid(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildHighlightsHeader(),
                           const SizedBox(height: 12),
                           _buildHighlightsGrid(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFilterChips(),
                           const SizedBox(height: 12),
                           _buildFeedList(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildLoadEarlierBtn(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                         ],
                       ),
                     ),
@@ -78,97 +86,34 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Activity Feed'),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
-  Widget _buildAppBar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      child: Row(
-        children: [
-        Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.menu, color: _textDark, size: 28),
-          ),
-        ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Container(
-              height: 44,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: const Color(0xFFEBEBEB)),
-              ),
-              child: Row(
-                children: const [
-                Icon(Icons.search, color: _textMuted, size: 20),
-                SizedBox(width: 8),
-                Expanded(child: Text('Search posts, updates...', style: TextStyle(color: _textMuted, fontSize: 14), overflow: TextOverflow.ellipsis)),
-              ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Stack(
-            children: [
-              const Icon(Icons.notifications_none, color: _textDark, size: 28),
-              Positioned(
-                right: 2,
-                top: 2,
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: Colors.redAccent,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: _bgPrimary, width: 2),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 16),
-          const CircleAvatar(
-            radius: 18,
-            backgroundColor: Color(0xFFE5DCF3),
-            child: Icon(Icons.person, color: _accent, size: 20),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Expanded(
-              child: Text(
-                'Activity Feed',
-                style: TextStyle(
-                  color: _textDark,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: -0.5,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+            Text(
+              'Activity Feed',
+              style: TextStyle(
+                fontSize: 28.sp,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+                letterSpacing: -0.5,
               ),
             ),
             const SizedBox(width: 12),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: _accentLight,
-                borderRadius: BorderRadius.circular(12),
+                color: const Color(0xFFF3EFFF),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: const Color(0xFFE6DDF8)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -185,9 +130,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                   const Text(
                     'Live',
                     style: TextStyle(
-                      color: _accent,
                       fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
+                      color: _accent,
                     ),
                   ),
                 ],
@@ -195,10 +140,10 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
         const Text(
           'Live activity stream across all school modules.',
-          style: TextStyle(color: _textMuted, fontSize: 15),
+          style: TextStyle(fontSize: 15, color: _textMuted),
         ),
       ],
     );
@@ -211,72 +156,95 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // [Responsive Fix]: Switch to 4 columns on tablets
         crossAxisCount: _isTablet ? 4 : 2,
-        mainAxisExtent: 140,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        mainAxisExtent: 115.h,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
       itemCount: MockData.activityFeedKpi.length,
       itemBuilder: (context, index) {
         final kpi = MockData.activityFeedKpi[index];
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFF3F3F6), width: 1.5),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.015),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              )
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: kpi['iconBg'] as Color,
-                      shape: BoxShape.circle,
+        return GestureDetector(
+          onTap: () {
+            final title = kpi['title'] as String;
+            if (title == 'Active Users') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TeacherInsightsScreen()),
+              );
+            } else if (title == 'New Admissions') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const StudentInsightsScreen()),
+              );
+            } else if (title == 'Transactions Processed') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FeesDashboardScreen()),
+              );
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: const Color(0xFFF3F3F6), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.015),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                )
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        color: kpi['iconBg'] as Color,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(kpi['icon'] as IconData, size: 12, color: kpi['iconColor'] as Color),
                     ),
-                    child: Icon(kpi['icon'] as IconData, size: 16, color: kpi['iconColor'] as Color),
-                  ),
                   if ((kpi['trend'] as String).isNotEmpty)
                     Text(
                       kpi['trend'] as String,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark),
+                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textDark),
                     ),
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(kpi['value'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 2),
-                  Text(
-                    kpi['title'] as String,
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if ((kpi['subtitle'] as String).isNotEmpty) ...[
+              const SizedBox(height: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(kpi['value'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
                     const SizedBox(height: 2),
                     Text(
-                      kpi['subtitle'] as String,
-                      style: const TextStyle(fontSize: 10, color: _textMuted),
+                      kpi['title'] as String,
+                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textMuted),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    if ((kpi['subtitle'] as String).isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        kpi['subtitle'] as String,
+                        style: const TextStyle(fontSize: 10, color: _textMuted),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ],
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -320,15 +288,15 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // [Responsive Fix]: 4 items horizontally on tablets
         crossAxisCount: _isTablet ? 4 : 2,
-        mainAxisExtent: 110,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        mainAxisExtent: 85.h,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
       itemCount: MockData.activityHighlights.length,
       itemBuilder: (context, index) {
         final item = MockData.activityHighlights[index];
         return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: item['cardBg'] as Color? ?? Colors.white,
             borderRadius: BorderRadius.circular(16),
@@ -340,18 +308,19 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    width: 24,
+                    height: 24,
                     decoration: BoxDecoration(
                       color: item['iconBg'] as Color,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(item['icon'] as IconData, size: 20, color: item['iconColor'] as Color),
+                    child: Icon(item['icon'] as IconData, size: 12, color: item['iconColor'] as Color),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       item['title'] as String,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -360,7 +329,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               const SizedBox(height: 6),
               Text(
                 item['value'] as String,
-                style: const TextStyle(fontSize: 13, color: _textMuted),
+                style: const TextStyle(fontSize: 11, color: _textMuted),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
@@ -628,26 +597,38 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                             ),
                             // ── Action link (e.g. "View pass ˅") ──
                             if (action.isNotEmpty) ...[
-                              const SizedBox(height: 16),
+                              SizedBox(height: 12.h),
                               const Divider(height: 1, color: Color(0xFFF3F3F6)),
                               const SizedBox(height: 12),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    // Remove trailing " v" suffix used in mock data as chevron placeholder
-                                    action.endsWith(' v')
-                                        ? action.substring(0, action.length - 2)
-                                        : action,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: _accent,
+                              GestureDetector(
+                                onTap: () {
+                                  final badgeStr = badge.toUpperCase();
+                                  if (badgeStr.contains('FINANCE')) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const FeesDashboardScreen()));
+                                  } else if (badgeStr.contains('TRANSPORT')) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TransportDashboardScreen()));
+                                  } else if (badgeStr.contains('ACADEMIC')) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StudentInsightsScreen()));
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      // Remove trailing " v" suffix used in mock data as chevron placeholder
+                                      action.endsWith(' v')
+                                          ? action.substring(0, action.length - 2)
+                                          : action,
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: _accent,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  const Icon(Icons.keyboard_arrow_down, size: 16, color: _accent),
-                                ],
+                                    const SizedBox(width: 4),
+                                    const Icon(Icons.keyboard_arrow_down, size: 16, color: _accent),
+                                  ],
+                                ),
                               ),
                             ],
                           ],

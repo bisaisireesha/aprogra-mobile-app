@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -49,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(height: 32),
                         
                         _buildSectionTitle('Preferences'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildSettingsContainer(
                           children: [
                             _buildToggleRow('Push Notifications', LucideIcons.bell, _notificationsEnabled, (val) {
@@ -66,7 +67,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         
                         const SizedBox(height: 32),
                         _buildSectionTitle('Account'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildSettingsContainer(
                           children: [
                             _buildNavigationRow('Profile Info', LucideIcons.user),
@@ -77,7 +78,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         
                         const SizedBox(height: 32),
                         _buildSectionTitle('System'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildSettingsContainer(
                           children: [
                             _buildNavigationRow('About SmartCampusOS', LucideIcons.info),

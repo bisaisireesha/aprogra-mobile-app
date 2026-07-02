@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -185,158 +186,21 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // New Message Button
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            decoration: BoxDecoration(
-              color: _accent,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.add, color: Colors.white, size: 18),
-                const SizedBox(width: 8),
-                Text('New Message', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
-              ],
-            ),
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'New Message',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-          const SizedBox(height: 16),
-          // Search and Filter
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE5E7EB)),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      const Icon(LucideIcons.search, size: 18, color: _textMuted),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: TextField(
-                          onChanged: (val) => setState(() => _searchQuery = val),
-                          decoration: InputDecoration(
-                            hintText: 'Search messages...',
-                            hintStyle: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFF9CA3AF)),
-                            border: InputBorder.none,
-                            isDense: true,
-                            contentPadding: EdgeInsets.zero,
-                          ),
-                          style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              GestureDetector(
-                onTap: _showFilterBottomSheet,
-                child: Container(
-                  height: 44,
-                  width: 44,
-                  decoration: BoxDecoration(
-                    color: _selectedRole == 'All Roles' ? Colors.white : _accent.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: _selectedRole == 'All Roles' ? const Color(0xFFE5E7EB) : _accent),
-                  ),
-                  child: Icon(LucideIcons.filter, size: 18, color: _selectedRole == 'All Roles' ? _textMuted : _accent),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // Toggle All / Unread
-          Row(
-            children: [
-              GestureDetector(
-                onTap: () => setState(() => _filter = 'All'),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: _filter == 'All' ? _accent : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'All',
-                    style: GoogleFonts.figtree(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: _filter == 'All' ? Colors.white : _textMuted,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: () => setState(() => _filter = 'Unread'),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: _filter == 'Unread' ? _accent : Colors.transparent,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    'Unread',
-                    style: GoogleFonts.figtree(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: _filter == 'Unread' ? Colors.white : _textMuted,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          // All Messages Header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Text('All Messages', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEEF2FF),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Builder(
-                      builder: (context) {
-                        final filteredCount = _getFilteredMessages().length;
-                        return Text('$filteredCount item${filteredCount == 1 ? '' : 's'}', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _accent));
-                      }
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text('Most Recent', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-                  const SizedBox(width: 4),
-                  const Icon(LucideIcons.chevronDown, size: 14, color: _textMuted),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -367,7 +231,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Filter by Role', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Wrap(
                 spacing: 12,
                 runSpacing: 12,
@@ -415,7 +279,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(LucideIcons.searchX, size: 48, color: _textMuted.withOpacity(0.5)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Text('No messages found', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted)),
             ],
           ),

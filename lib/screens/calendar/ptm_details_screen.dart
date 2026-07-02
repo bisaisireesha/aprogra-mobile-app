@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -93,7 +94,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
             children: [
               const SizedBox(height: 12),
               Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -197,7 +198,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
             children: [
               const SizedBox(height: 12),
               Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(
@@ -231,7 +232,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
                         SizedBox(width: 30, child: Center(child: Text(d, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.bold, color: const Color(0xFF64748B)))))
                       ).toList(),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Calendar grid mock
                     ...List.generate(5, (row) => Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -272,7 +273,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
                     
                     const SizedBox(height: 24),
                     Text('Select Time', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF0F172A))),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Wrap(
                       spacing: 12,
                       runSpacing: 12,
@@ -321,7 +322,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
             children: [
               const SizedBox(height: 12),
               Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
@@ -439,7 +440,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
         children: [
           const SizedBox(height: 12),
           Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -655,7 +656,7 @@ class _PtmDetailsScreenState extends State<PtmDetailsScreen> with SingleTickerPr
           child: ListView.separated(
             padding: const EdgeInsets.all(20),
             itemCount: _bookings.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            separatorBuilder: (_, __) => SizedBox(height: 12.h),
             itemBuilder: (context, index) {
               final b = _bookings[index];
               return GestureDetector(

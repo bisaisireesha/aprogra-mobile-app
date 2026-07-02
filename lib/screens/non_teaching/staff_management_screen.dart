@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -32,7 +33,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Staff Management'),
+      drawer: const MenuScreen(activeScreen: 'Staff Overview'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -114,7 +115,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -194,75 +195,21 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final titleCol = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Staff Management', style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
-            const SizedBox(height: 8),
-            Text('Manage teaching, non-teaching, and administrative staff with attendance, workload, leaves, and performance insights.',
-                style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
-          ],
-        );
-        
-        final buttons = Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OutlinedButton.icon(
-              onPressed: () {},
-              icon: const Icon(LucideIcons.download, size: 16, color: _textDark),
-              label: Text('Export Staff Report', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                side: const BorderSide(color: Color(0xFFE5E7EB)),
-                backgroundColor: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton.icon(
-              onPressed: () {},
-              icon: const Icon(Icons.add, size: 18, color: Colors.white),
-              label: Text('Add Staff', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _accent,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                elevation: 0,
-              ),
-            ),
-          ],
-        );
-
-        if (_isTablet) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: titleCol),
-              const SizedBox(width: 24),
-              buttons,
-            ],
-          );
-        } else {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleCol,
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: buttons,
-                ),
-              ),
-            ],
-          );
-        }
-      },
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Staff Management',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -370,7 +317,6 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -551,7 +497,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               ),
             ),
           )),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text('QUICK ACTIONS', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
           const SizedBox(height: 12),
           Wrap(
@@ -845,11 +791,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Text('Teaching assignment & period load', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
           const SizedBox(height: 24),
           _buildWorkloadRow('Class Teachers', 42, 48, '42', ' / 48'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildWorkloadRow('Subject Teachers', 96, 132, '96', ' / 132'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildWorkloadRow('Periods Assigned', 1820, 2160, '1,820', ' / 2,160'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildWorkloadRow('Free Periods', 340, 2160, '340', ' / 2,160'),
         ],
       ),
@@ -918,7 +864,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               Expanded(child: _buildLeaveCard('Pending', '6', _accent)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildLeaveCard('Rejected', '3', const Color(0xFFEF4444))),
@@ -1072,7 +1018,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             ],
           ),
           if (!_isTablet) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1081,7 +1027,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               ],
             ),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...staffMembers.map((staff) => _buildStaffCard(staff)),
         ],
       ),
@@ -1223,13 +1169,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   ),
                   const SizedBox(height: 24),
                   _buildFilterSection('Staff Type', ['All Staff Type', 'Teaching', 'Non-Teaching', 'Admin']),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterSection('Department', ['All Departments', 'Sciences', 'Languages', 'Mathematics', 'Physical Education']),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterSection('Role', ['All Roles', 'Senior Teacher', 'Teacher', 'HOD', 'Assistant']),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterSection('Attendance', ['All Attendance', 'Present', 'Absent', 'On Leave']),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterSection('Employment', ['All Employment', 'Permanent', 'Contract', 'Probation']),
                   const SizedBox(height: 24),
                   Row(

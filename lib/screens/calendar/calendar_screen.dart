@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -307,7 +308,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                     ],
                   ),
                 ),
@@ -323,32 +324,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.calendar),
-            label: 'Calendar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.user),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MenuScreen(activeScreen: 'Home')));
-          }
-        },
-      ),
+      
     );
   }
 
@@ -455,7 +431,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: weekDays.asMap().entries.map((entry) {
@@ -590,7 +566,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                   style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF595973)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               if (dateEvents.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -740,11 +716,11 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                       
                       _buildDialogLabel('EVENT NAME'),
                       _buildDialogTextField(nameCtrl, 'e.g. Annual Day Rehearsal'),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       
                       _buildDialogLabel('VENUE'),
                       _buildDialogTextField(venueCtrl, 'e.g. Auditorium'),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       
                       Row(
                         children: [
@@ -825,11 +801,11 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       
                       _buildDialogLabel('EVENT ASSIGNED TO'),
                       _buildDialogTextField(assignedCtrl, 'e.g. Ms. Sharma / Class 10-A'),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       
                       _buildDialogLabel('CATEGORY'),
                       Container(
@@ -1134,7 +1110,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           // Categories List (Mocking the table design of Lovable)
           Container(
             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: _border)),
@@ -1308,7 +1284,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen> with Single
                         Text(meeting.time, style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF334155))),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       children: [
                         Expanded(

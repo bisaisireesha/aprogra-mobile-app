@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -379,9 +380,15 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Hostel Insights', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
-        const SizedBox(height: 8),
-        Text('Monitor operations, rooms, welfare\n& daily activities.', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted, height: 1.4)),
+        Text(
+          'Hostel Insights', 
+          style: TextStyle(
+            fontSize: 28.sp, 
+            fontWeight: FontWeight.bold, 
+            color: _textDark,
+          ),
+        ),
+
         const SizedBox(height: 20),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
@@ -534,7 +541,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(value, style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark, height: 1.1)),
           const SizedBox(height: 4),
           Text(title, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark, height: 1.2)),
@@ -553,7 +560,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
-      mainAxisExtent: 270,
+      mainAxisExtent: 285.h,
       children: [
         _buildBlockCard('Boys Hostel A', 'Warden - Mr. Verma', 40, 38, 2, 102, 0.98, 'Boys', 'Operating Normally', const Color(0xFF10B981), const Color(0xFFDCFCE7)),
         _buildBlockCard('Boys Hostel B', 'Warden - Mr. Khanna', 38, 30, 8, 72, 0.76, 'Boys', 'Operating Normally', const Color(0xFF10B981), const Color(0xFFDCFCE7)),
@@ -649,9 +656,9 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           const Divider(height: 1, color: Color(0xFFE5E7EB)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -796,7 +803,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
                     Expanded(child: _buildAttendanceCard(LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '5', 'Pending Verification')),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(child: _buildAttendanceCard(LucideIcons.logOut, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), '12', 'Weekend Leave')),
@@ -839,7 +846,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
             decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(10)),
             child: Icon(icon, size: 18, color: color),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(value, style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(label, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
@@ -881,7 +888,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
               Text('Room-level monitoring', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
               const SizedBox(height: 4),
               Text('Snapshot of occupied, partial, vacant and out-of-service rooms.', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               legendWrap,
             ],
           );
@@ -929,7 +936,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 16,
       mainAxisSpacing: 16,
-      mainAxisExtent: 155,
+      mainAxisExtent: 170.h,
       children: [
         _buildRoomStatusCard('Room 203', 'Boys A', 4, 4, 'Full', const Color(0xFF10B981), const Color(0xFFDCFCE7), null),
         _buildRoomStatusCard('Room 204', 'Boys A', 3, 4, 'Medical Isolation', const Color(0xFF8B5CF6), const Color(0xFFF3E8FF), '1 student sick'),
@@ -1120,7 +1127,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
               physics: const NeverScrollableScrollPhysics(),
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
-              mainAxisExtent: 140,
+              mainAxisExtent: 155.h,
               children: [
                 _buildMessCard(LucideIcons.utensils, const Color(0xFF10B981), const Color(0xFFDCFCE7), '312 Students', 'Breakfast Served', 'Completed 08:30 AM'),
                 _buildMessCard(LucideIcons.clock, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), '1:00 PM', 'Lunch Scheduled', 'Menu: Veg thali - Curd rice'),

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/mock_data/subjects_mock.dart';
@@ -169,7 +170,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Subjects'),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -267,19 +268,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Subjects', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 8),
-              Text('Subjects offered across every level, with assigned teachers and syllabus.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted)),
-            ],
+        Text(
+          'Subjects',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
         ),
         _buildCreateButton(),
@@ -462,7 +461,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
               _buildSubjectActionMenu(subject),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,8 +156,8 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Due Payments'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -181,7 +182,7 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
                         _buildAgingBuckets(),
                         const SizedBox(height: 32),
                         _buildDefaultersSection(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildInfoFooter(),
                         const SizedBox(height: 60),
                       ],
@@ -303,7 +304,7 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
               decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
               child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
             const SizedBox(height: 2),
             Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
@@ -324,7 +325,7 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
             Text('Breakdown of overdue amounts by age', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._buckets.map((b) => _buildBucketCard(b)),
       ],
     );
@@ -366,7 +367,7 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
                     Icon(LucideIcons.chevronRight, size: 18, color: _muted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(child: _bucketStat(b['students'].toString(), 'students')),
@@ -479,7 +480,7 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
           child: TextField(
@@ -493,9 +494,9 @@ class _DuePaymentsScreenState extends State<DuePaymentsScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._defaulters.map((d) => _buildDefaulterCard(d)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Center(
           child: Text('Showing ${_defaulters.length} of ${_defaulters.length} defaulters', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
         ),

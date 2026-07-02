@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -125,33 +126,19 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
 
   // --- Header ---
   Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text(
-              'Teacher Insights',
-              style: GoogleFonts.figtree(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: _textDark,
-                letterSpacing: -0.5,
-              ),
-            ),
-            const Spacer(),
-            const Icon(LucideIcons.bell, size: 20, color: _textDark),
-          ],
-        ),
-        const SizedBox(height: 12),
         Text(
-          'Daily teaching operations — availability,\nclasses, free periods and substitutions.',
-          style: GoogleFonts.figtree(
-            fontSize: 14,
-            color: _textMuted,
-            height: 1.4,
+          'Teacher Insights',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
         ),
+        const Icon(LucideIcons.bell, size: 20, color: _textDark),
       ],
     );
   }
@@ -459,7 +446,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
         child: Column(
           children: [
             const Icon(LucideIcons.inbox, size: 48, color: Color(0xFF9CA3AF)),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Text('No teachers found', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.w600, color: _textDark)),
             const SizedBox(height: 8),
             Text('Try adjusting your filters', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
@@ -638,7 +625,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
               Expanded(child: _buildExamCard(LucideIcons.fileText, '12', 'Results Published', 'Priya S. - Vikram I. - Aman V. - +9')),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildExamCard(LucideIcons.clipboardCheck, '9', 'Paper Evaluation', 'Divya R. - Ravi P. - Neha K. - +6')),
@@ -676,7 +663,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
               Text(count, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(title, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(subtitle, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted, height: 1.3)),

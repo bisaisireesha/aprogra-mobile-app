@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -72,7 +73,7 @@ class _PtmSlotBookingScreenState extends State<PtmSlotBookingScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(LucideIcons.calendarClock, size: 64, color: Color(0xFF94A3B8)),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Text(
                       'PTM Slot Booking Coming Soon',
                       style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF1E293B)),

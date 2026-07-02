@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -283,9 +284,9 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
         ),
         const SizedBox(height: 24),
         _buildInputField('Admission No.', 'e.g. ADM-25-1042', _admissionNo, (val) => _admissionNo = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Student Name', 'e.g. Aarav Sharma', _studentName, (val) => _studentName = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Text('Gender', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark)),
         const SizedBox(height: 8),
         Row(
@@ -297,7 +298,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
             Expanded(child: _buildGenderBtn('Other')),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Date of Birth', 'DD/MM/YYYY', _dob, (val) => _dob = val, icon: Icons.calendar_today_outlined, readOnly: true, onTap: () async {
           DateTime initial = DateTime.now();
           if (_dob.isNotEmpty && _dob.contains('/')) {
@@ -318,9 +319,9 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
             });
           }
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDropdown('Nationality', ['Indian', 'Other'], _nationality, (val) => _nationality = val!),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Address', 'e.g. 123, Main Street, City', _address, (val) => _address = val, maxLines: 2),
       ],
     );
@@ -372,9 +373,9 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
         ),
         const SizedBox(height: 24),
         _buildDropdown('Class / Section', _currentClasses, _classSection, (val) => _classSection = val, hint: 'Select Class'),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Roll Number', 'e.g. 15', _rollNumber, (val) => _rollNumber = val, keyboardType: TextInputType.number),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDropdown('Academic Year', ['2024 - 2025', '2025 - 2026'], _academicYear, (val) => _academicYear = val!),
       ],
     );
@@ -424,15 +425,15 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
             Text('Parents / Guardians', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Father\'s Name', 'e.g. Rajesh Sharma', _fatherName, (val) => _fatherName = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Mother\'s Name', 'e.g. Priya Sharma', _motherName, (val) => _motherName = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDropdown('Primary Guardian', ['Father', 'Mother', 'Other'], _primaryGuardian, (val) => _primaryGuardian = val, hint: 'Select relationship'),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Contact Number', 'e.g. 9876543210', _contactNumber, (val) => _contactNumber = val, keyboardType: TextInputType.phone),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Email (optional)', 'parent@example.com', _email, (val) => _email = val),
       ],
     );
@@ -445,11 +446,11 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
         _buildSectionHeader('Medical & Emergency', 'Health and emergency information.'),
         const SizedBox(height: 24),
         _buildDropdown('Blood Group', ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'], _bloodGroup, (val) => _bloodGroup = val, hint: 'Select blood group'),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Emergency Contact Name', 'e.g. Priya Sharma', _emergencyName, (val) => _emergencyName = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Emergency Contact Number', 'e.g. 9876543210', _emergencyNumber, (val) => _emergencyNumber = val, keyboardType: TextInputType.phone),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Notes (optional)', 'Any important medical notes', _medicalNotes, (val) => _medicalNotes = val, maxLines: 3),
       ],
     );
@@ -481,11 +482,11 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
             });
           }
         }),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Previous School (optional)', 'School name (if any)', _prevSchool, (val) => _prevSchool = val),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDropdown('Admission Type', ['New Admission', 'Transfer'], _admissionType, (val) => _admissionType = val!),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildInputField('Reference (optional)', 'Who referred the admission?', _reference, (val) => _reference = val),
         const SizedBox(height: 24),
         Container(
@@ -521,7 +522,7 @@ class _CreateStudentWizardState extends State<CreateStudentWizard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Student Overview', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             CircleAvatar(

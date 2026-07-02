@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,18 +14,7 @@ class RoomAllocationsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Room Allocations'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -37,15 +27,15 @@ class RoomAllocationsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildActionRow(),
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildListHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildAllocationCard('AM', 'Aarav Mehta', 'ADM2024-101', 'Allocated', const Color(0xFF10B981), const Color(0xFFD1FAE5), '9-A', 'Boys', 'Aryabhata', 'B2', '12 Jun 2025'),
                   const SizedBox(height: 12),
                   _buildAllocationCard('DS', 'Diya Sharma', 'ADM2024-118', 'Allocated', const Color(0xFF10B981), const Color(0xFFD1FAE5), '10-B', 'Girls', 'Draupadi', 'B1', '12 Jun 2025'),
@@ -63,27 +53,20 @@ class RoomAllocationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Room Allocations',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Students assigned to hostel rooms\nand beds across all blocks.',
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            height: 1.4,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -334,7 +317,7 @@ class RoomAllocationsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(

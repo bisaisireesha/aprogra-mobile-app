@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -90,9 +91,9 @@ class _CCTVScreenState extends State<CCTVScreen> {
                 ),
                 const SizedBox(height: 24),
                 _buildTextField('CAMERA NAME', 'Main Gate', controller: nameController),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildTextField('LOCATION', 'Block A · Ground Floor', controller: locationController),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildTextField('STREAM URL (OPTIONAL)', 'https://.../stream.mp4', controller: urlController),
                 const SizedBox(height: 24),
                 Row(
@@ -218,7 +219,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
       drawer: const MenuScreen(activeScreen: 'CCTV Cameras'),
-      bottomNavigationBar: _buildBottomNav(),
+      
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,52 +249,20 @@ class _CCTVScreenState extends State<CCTVScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'CCTV Cameras',
-                style: GoogleFonts.figtree(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF171A21),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Live feeds from ${_cameras.length} cameras across campus · ${_cameras.length} online',
-                style: GoogleFonts.figtree(
-                  fontSize: 14,
-                  color: const Color(0xFF6B7280),
-                ),
-              ),
-            ],
+        Text(
+          'CCTV Cameras',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(width: 16),
-        ElevatedButton.icon(
-          onPressed: () => _showAddCameraModal(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF6B4EFF),
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          icon: const Icon(LucideIcons.plus, size: 16),
-          label: Text(
-            'Add CCTV Camera',
-            style: GoogleFonts.figtree(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -31,7 +32,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Reports'),
+      drawer: const MenuScreen(activeScreen: 'Staff Reports'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -72,7 +73,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -126,26 +127,20 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Reports', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text('Staff Reports', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          "Generate, schedule, and download HR and operational reports.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -392,7 +387,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
             Text('6 report types', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...templates.map((t) => _buildReportTemplateCard(t)),
       ],
     );
@@ -428,7 +423,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           Text(t['title'] as String, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 6),
           Text(t['desc'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               GestureDetector(

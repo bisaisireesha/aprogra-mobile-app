@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -148,7 +149,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -227,39 +228,20 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Teaching Staff', style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 8),
-                  Text('Browse and manage all teaching faculty — departments, designations, subjects, and daily status.',
-                      style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
-                ],
-              ),
-            ),
-            const SizedBox(width: 16),
-            ElevatedButton.icon(
-              onPressed: _showAddTeacherDialog,
-              icon: const Icon(Icons.add, size: 18, color: Colors.white),
-              label: Text('Add Teacher', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: _accent,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                elevation: 0,
-              ),
-            ),
-          ],
+        Text(
+          'Teaching Staff',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -287,7 +269,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 TextField(
                   controller: roleController,
                   decoration: InputDecoration(
@@ -296,7 +278,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 TextField(
                   controller: deptController,
                   decoration: InputDecoration(
@@ -433,7 +415,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                 ),
                 child: Icon(icon, color: color, size: 24),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Text(title, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textMuted)),
               const SizedBox(height: 4),
               Text(value, style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark, height: 1.1)),
@@ -477,7 +459,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
             Expanded(child: _buildStatusToggle('Probation')),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -559,7 +541,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                     items: designations.map((d) => DropdownMenuItem(value: d, child: Text(d, style: GoogleFonts.figtree(fontSize: 14)))).toList(),
                     onChanged: (val) => setStateDialog(() => tempDesignation = val!),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Text('Subject', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
@@ -729,7 +711,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(data['name'] as String, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(data['role'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
@@ -751,7 +733,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
               child: Text(sub, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w600, color: const Color(0xFF4F46E5))),
             )).toList(),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               const Icon(LucideIcons.bookOpen, size: 14, color: Color(0xFF8F96A3)),
@@ -761,7 +743,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
           ),
           const SizedBox(height: 20),
           const Divider(height: 1, color: Color(0xFFE5E7EB)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

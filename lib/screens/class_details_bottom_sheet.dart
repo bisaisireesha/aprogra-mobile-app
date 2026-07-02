@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -199,11 +200,11 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 children: [
                   if (_selectedTab == 'Overview') ...[
                     _buildAttendanceOverview(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildClassTeachers(),
                     const SizedBox(height: 24),
                     _buildTimetableHeader(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     ..._currentTeachers.map((t) => Padding(
                       padding: const EdgeInsets.only(bottom: 24),
                       child: _buildTimetableBlock(t['section'] as String, t['name'] as String, '${t['students']} Students'),
@@ -238,51 +239,21 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
     );
   }
   
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(color: const Color(0xFFF3F0FF), borderRadius: BorderRadius.circular(16)),
-                child: const Icon(Icons.corporate_fare, color: _accent, size: 24),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(widget.className, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
-                      const SizedBox(width: 8),
-                      const Text('2 SECTIONS', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  RichText(
-                    text: const TextSpan(
-                      style: TextStyle(fontSize: 12, color: _textMuted),
-                      children: [
-                        TextSpan(text: 'Total Students: '),
-                        TextSpan(text: '49', style: TextStyle(fontWeight: FontWeight.bold, color: _accent)),
-                        TextSpan(text: ' / 60'),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          '2 SECTIONS',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-          IconButton(
-            icon: const Icon(Icons.close, color: _textMuted),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
   
@@ -447,9 +418,9 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                         Text('$absentPercent%', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     const Divider(height: 1, color: _borderColor),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -572,7 +543,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Edit Timetable', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   // Section Dropdown
                   Row(
@@ -615,7 +586,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   // List of periods
                   SizedBox(
@@ -661,7 +632,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   // Save Button
                   SizedBox(
@@ -794,7 +765,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             Text(students, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _accent)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: ['M', 'T', 'W', 'T', 'F', 'S'].asMap().entries.map((entry) {
@@ -819,7 +790,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             );
           }).toList(),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GestureDetector(
           onTap: () => _showEditTimetableBottomSheet(section, currentDayIndex),
           behavior: HitTestBehavior.opaque,
@@ -1202,7 +1173,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             Expanded(child: _buildAttendanceStatCard('ABSENT', '$absent', '$absentPercent%', Icons.cancel_outlined, Colors.red)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildSmallStatCard('AVG THIS WEEK', '86%', Colors.blue, null)),
@@ -1210,7 +1181,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             Expanded(child: _buildSmallStatCard('AVG THIS MONTH', '84%', Colors.blue, null)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildSmallStatCard('BELOW 75%', '9', Colors.red, 'Students at risk')),
@@ -1245,7 +1216,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               const Text('TODAY', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
           const SizedBox(height: 4),
           Row(
@@ -1259,7 +1230,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: const [
               Text('Click to view list', style: TextStyle(fontSize: 10, color: _textMuted)),
@@ -1306,7 +1277,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
           if (showA)
             _buildProgressRow('${widget.className} A', '22/25', '88%', 0.88),
           if (showA && showB)
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
           if (showB)
             _buildProgressRow('${widget.className} B', '21/24', '88%', 0.88),
         ],
@@ -1568,7 +1539,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               Text('$count ${isUpcoming ? 'scheduled' : 'done'}', style: const TextStyle(fontSize: 12, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...exams.asMap().entries.map((entry) {
             final e = entry.value;
             
@@ -1740,7 +1711,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
             Text('${subjects.length} subjects', style: const TextStyle(fontSize: 11, color: _textMuted)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...List.generate(subjects.length, (index) {
           final s = subjects[index];
           return Container(
@@ -2117,7 +2088,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                       IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   ...List.generate(_teachersData.length, (i) {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
@@ -2140,7 +2111,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                       ),
                     );
                   }),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -2219,7 +2190,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               _buildFilterOption('ACTIVE', 'Active Only', Icons.check_circle_outline),
               const SizedBox(height: 12),
               _buildFilterOption('LOW ATTD.', 'Low Attendance', Icons.warning_amber_outlined),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
             ],
           ),
         );
@@ -2313,7 +2284,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
               _buildAttendanceFilterOption('This Month', 'This Month', Icons.calendar_month_outlined),
               const SizedBox(height: 12),
               _buildAttendanceFilterOption('Overall', 'Overall', Icons.history),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
             ],
           ),
         );
@@ -2384,23 +2355,23 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                   IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: nameController,
                 decoration: InputDecoration(labelText: 'Subject Name', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: teacherController,
                 decoration: InputDecoration(labelText: 'Teacher Name', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: progressController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: 'Progress %', border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -2463,7 +2434,7 @@ class _ClassDetailsBottomSheetState extends State<ClassDetailsBottomSheet> {
                     IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Expanded(
                   child: ListView.builder(
                     itemCount: examsToEdit.length,

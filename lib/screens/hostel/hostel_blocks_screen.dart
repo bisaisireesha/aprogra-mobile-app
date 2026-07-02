@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,18 +14,7 @@ class HostelBlocksScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Blocks'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -41,9 +31,9 @@ class HostelBlocksScreen extends StatelessWidget {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildBlocksListHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildNewBlockCard(context, 'A', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Aryabhata Block', 'Block A · 2 open tickets', 'Boys', 4, 60, 228, 240, 95, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFEF4444), 'Mr. R. Sharma', '+91 98xxxx 1023', 2, 'A'),
                   const SizedBox(height: 12),
                   _buildNewBlockCard(context, 'B', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Bhaskara Block', 'Block B · 1 open ticket', 'Boys', 4, 60, 210, 240, 88, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFF59E0B), 'Mr. K. Iyer', '+91 98xxxx 2234', 1, 'B'),
@@ -361,7 +351,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -483,7 +473,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Align(
               alignment: Alignment.centerRight,
               child: GestureDetector(
@@ -635,13 +625,13 @@ class HostelBlocksScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _buildDetailRow(LucideIcons.building, 'Type', type),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildDetailRow(LucideIcons.scan, 'Block Code', blockCode),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildDetailRow(LucideIcons.users, 'Total Capacity', occTotal.toString()),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildDetailRow(LucideIcons.user, 'Occupied', occUsed.toString()),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildDetailRow(LucideIcons.checkSquare, 'Open Tickets', openTickets.toString()),
             const SizedBox(height: 32),
             SizedBox(
@@ -666,7 +656,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
           ],
         ),
       ),

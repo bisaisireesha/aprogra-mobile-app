@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -152,8 +153,8 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Invoices'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -176,13 +177,13 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
                         _buildKPIs(),
                         const SizedBox(height: 20),
                         _buildSearchRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildTabsRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildCountStatusRow(),
                         const SizedBox(height: 12),
                         _buildInvoiceContainer(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildPagination(),
                         const SizedBox(height: 24),
                         _buildStatusBreakdown(),
@@ -203,67 +204,20 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
   }
 
   // ── Header: title left | Export + Create right, description below
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Invoices', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _dark)),
-                const SizedBox(height: 4),
-                Text('Manage and track fee invoices for all students', style: GoogleFonts.figtree(fontSize: 16, color: _muted)),
-              ],
-            ),
-            Row(
-              children: [
-                // Export
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: _border),
-                    ),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(LucideIcons.download, size: 14, color: _muted),
-                      const SizedBox(width: 6),
-                      Text('Export', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _muted)),
-                    ]),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                // Create Invoice
-                GestureDetector(
-                  onTap: _showCreateModal,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                    decoration: BoxDecoration(
-                      color: _primary,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))],
-                    ),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(LucideIcons.plus, size: 14, color: Colors.white),
-                      const SizedBox(width: 6),
-                      Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
-                    ]),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
         Text(
-          'Browse, filter, and manage all student invoices across classes and terms.',
-          style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+          'Invoices',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -414,14 +368,14 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
                     )
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Text('Class', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                 const SizedBox(height: 6),
                 _dropdownBtn(_selectedClass, _classOptions, (v) { 
                   setState(() { _selectedClass = v; _currentPage = 1; });
                   setModalState(() {});
                 }),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Text('Status', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                 const SizedBox(height: 6),
                 _dropdownBtn(_selectedStatus, _statusOptions, (v) { 
@@ -510,7 +464,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
             title: Text(o, style: GoogleFonts.figtree(fontSize: 14, fontWeight: o == current ? FontWeight.bold : FontWeight.normal, color: o == current ? _primary : _dark)),
             trailing: o == current ? const Icon(LucideIcons.check, size: 16, color: _primary) : null,
           )),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
         ],
       ),
     );
@@ -801,7 +755,7 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Quick Stats', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _quickStatRow('Total Invoiced', '₹3,84,000'),
           const SizedBox(height: 12),
           _quickStatRow('Total Collected', '₹1,86,500'),

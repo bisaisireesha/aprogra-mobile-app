@@ -3,6 +3,11 @@ import '../../data/mock_data/dashboard_mock.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
+import '../calendar/calendar_screen.dart';
+import '../teachers/teachers_screen.dart';
+import '../attendance/student_attendance_screen.dart';
+import '../fees/fees_dashboard_screen.dart';
+import 'action_center_screen.dart';
 import 'dart:ui' as ui;
 
 const _bgPrimary = Color(0xFFF9F9FB);
@@ -64,7 +69,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       ),
       drawer: const MenuScreen(activeScreen: 'Main Dashboard'),
-      bottomNavigationBar: _buildBottomNav(),
     );
   }
 
@@ -101,23 +105,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
       mainAxisSpacing: 16,
       mainAxisExtent: 140,
       children: [
-        _buildKPICard(
-          title: 'STUDENTS',
-          value: MockData.kpiData['students'] as String,
-          trend: MockData.kpiData['studentsTrend'] as String,
-          trendUp: true,
-          icon: Icons.people_outline,
-          progress: MockData.kpiData['studentsProgress'] as double,
-          progressColor: _accent,
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const StudentInsightsScreen()),
+            );
+          },
+          child: _buildKPICard(
+            title: 'STUDENTS',
+            value: MockData.kpiData['students'] as String,
+            trend: MockData.kpiData['studentsTrend'] as String,
+            trendUp: true,
+            icon: Icons.people_outline,
+            progress: MockData.kpiData['studentsProgress'] as double,
+            progressColor: _accent,
+          ),
         ),
-        _buildKPICard(
-          title: 'STAFF',
-          value: MockData.kpiData['staff'] as String,
-          trend: MockData.kpiData['staffTrend'] as String,
-          trendUp: true,
-          icon: Icons.person_outline,
-          progress: MockData.kpiData['staffProgress'] as double,
-          progressColor: const Color(0xFFE0E0E0),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const TeacherInsightsScreen()),
+            );
+          },
+          child: _buildKPICard(
+            title: 'STAFF',
+            value: MockData.kpiData['staff'] as String,
+            trend: MockData.kpiData['staffTrend'] as String,
+            trendUp: true,
+            icon: Icons.person_outline,
+            progress: MockData.kpiData['staffProgress'] as double,
+            progressColor: const Color(0xFFE0E0E0),
+          ),
         ),
         _buildAttendanceKPICard(),
         _buildFeesKPICard(),
@@ -174,13 +194,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
             child: Text(value, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Container(
             height: 6,
             width: double.infinity,
@@ -349,9 +369,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               'Action Required',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
             ),
-            const Text(
-              'View all',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ActionCenterScreen()),
+                );
+              },
+              child: const Text(
+                'View all',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+              ),
             ),
           ],
         ),
@@ -362,7 +390,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             // [Responsive Fix]: Expand grid to 4 items per row on tablets/landscape
             crossAxisCount: _isTablet ? 4 : 2,
-            mainAxisExtent: 220,
+            mainAxisExtent: 175,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
@@ -372,82 +400,122 @@ class _DashboardScreenState extends State<DashboardScreen> {
             final colorType = action['colorType'] as String;
             
             Color bgColor = Colors.white;
-            Color badgeBgColor = const Color(0xFFF3F3F6);
+            Color borderColor = const Color(0xFFF0F0F0);
+            Color badgeBgColor = Colors.transparent;
             Color badgeTextColor = _textDark;
+            Color iconBgColor = const Color(0xFFF9F9FB);
+            Color iconColor = _textDark;
             
             if (colorType == 'red') {
-              bgColor = const Color(0xFFFFF1F1);
+              bgColor = const Color(0xFFFFF4F4);
+              borderColor = const Color(0xFFFDE4E4);
               badgeBgColor = Colors.redAccent.withValues(alpha: 0.15);
               badgeTextColor = Colors.redAccent;
-            } else if (colorType == 'blue') {
-              badgeBgColor = Colors.blueAccent.withValues(alpha: 0.15);
-              badgeTextColor = Colors.blueAccent;
-            } else if (colorType == 'purple') {
-              badgeBgColor = _accent.withValues(alpha: 0.15);
-              badgeTextColor = _accent;
+              iconBgColor = Colors.white;
+              iconColor = Colors.redAccent;
             }
             
-            return Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: bgColor,
-                borderRadius: BorderRadius.circular(20),
-                border: (colorType == 'grey' || colorType == 'purple')
-                    ? Border.all(color: const Color(0xFFEBEBEB), width: 1.5)
-                    : null,
-                boxShadow: bgColor == Colors.white ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  )
-                ] : null,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(action['icon'] as IconData, size: 20, color: _textMuted),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: badgeBgColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          action['type'] as String,
-                          style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: badgeTextColor, letterSpacing: 0.5),
-                        ),
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text(action['title'] as String, style: const TextStyle(fontWeight: FontWeight.bold)),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(action['value'] as String, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 8),
+                        Text(action['subtitle'] as String),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Close'),
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(action['title'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                      const SizedBox(height: 2),
-                      Text(action['value'] as String, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
-                      const SizedBox(height: 2),
-                      Text(action['subtitle'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: bgColor,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: borderColor, width: 1.5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.03),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    )
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: iconBgColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(action['icon'] as IconData, size: 18, color: iconColor),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: badgeBgColor,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            action['type'] as String,
+                            style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: badgeTextColor, letterSpacing: 0.5),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      action['title'] as String,
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: _textDark),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      action['value'] as String,
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: _textDark),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      action['subtitle'] as String,
+                      style: const TextStyle(fontSize: 11, color: _textMuted),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Row(
+                      children: [
+                        Text(
                           (action['action'] as String).replaceAll(' →', ''),
                           style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _accent),
-                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.arrow_forward, size: 14, color: _accent),
-                    ],
-                  ),
-                ],
+                        const SizedBox(width: 4),
+                        const Icon(Icons.arrow_forward, size: 14, color: _accent),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -486,13 +554,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Container(
                     width: 56,
                     height: 56,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF0EDFA),
+                    decoration: BoxDecoration(
+                      color: index == 0 ? const Color(0xFFF0EDFA) : const Color(0xFFF3F3F6),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       action['icon'] as IconData,
-                      color: _accent,
+                      color: index == 0 ? _accent : _textDark,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -600,11 +668,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             GestureDetector(
               onTap: () {
-                showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime(2030),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SchoolCalendarScreen()),
                 );
               },
               child: Text(
@@ -631,80 +697,94 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Column(
             children: [
               ...MockData.upcomingEvents.map((event) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: 50,
-                        child: Column(
-                          children: [
-                            Text(
-                              event['date'] as String,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              event['time'] as String,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.1),
-                            ),
-                          ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SchoolCalendarScreen()),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: Column(
+                            children: [
+                              Text(
+                                event['date'] as String,
+                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                event['time'] as String,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.1),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              event['title'] as String,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 6,
-                                  height: 6,
-                                  decoration: const BoxDecoration(color: _accent, shape: BoxShape.circle),
-                                ),
-                                const SizedBox(width: 6),
-                                Expanded(
-                                  child: Text(
-                                    event['location'] as String,
-                                    style: const TextStyle(fontSize: 14, color: _textMuted),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                event['title'] as String,
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
+                              ),
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: const BoxDecoration(color: _accent, shape: BoxShape.circle),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      event['location'] as String,
+                                      style: const TextStyle(fontSize: 14, color: _textMuted),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.more_horiz, color: _textMuted),
-                        onPressed: () {
-                          showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2020),
-                            lastDate: DateTime(2030),
-                          );
-                        },
-                      ),
-                    ],
+                        IconButton(
+                          icon: const Icon(Icons.more_horiz, color: _textMuted),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const SchoolCalendarScreen()),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),
               const Divider(color: Color(0xFFF3F3F6)),
               const SizedBox(height: 12),
-              const Center(
-                child: Text(
-                  'View all events',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SchoolCalendarScreen()),
+                  );
+                },
+                child: const Center(
+                  child: Text(
+                    'View all events',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+                  ),
                 ),
               ),
             ],
@@ -812,15 +892,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
           const SizedBox(height: 24),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFAF9FF),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: const Center(
-              child: Text('View detailed report', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent)),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const StudentAttendanceScreen()),
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFAF9FF),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Text('View detailed report', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent)),
+              ),
             ),
           ),
         ],
@@ -913,6 +1001,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               _buildFinancePill('RECOVERY', MockData.financialInsights['recovery'] as String),
             ],
           ),
+          const SizedBox(height: 16),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const FeesDashboardScreen()),
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Text('View detailed report', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent)),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -937,102 +1045,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
-          ),
-        ],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(0, Icons.dashboard_customize_outlined, 'Home'),
-              _buildNavItem(1, Icons.school_outlined, 'Academics'),
-              _buildNavItem(2, Icons.chat_bubble_outline, 'Messages', badge: '9'),
-              _buildNavItem(3, Icons.cases_outlined, 'Operations'),
-              _buildNavItem(4, Icons.menu, 'More'),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildNavItem(int index, IconData icon, String label, {String? badge}) {
-    final isSelected = _currentIndex == index;
-    return GestureDetector(
-      onTap: () {
-        if (index == 1) {
-          Navigator.pushReplacement(
-            context,
-            PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-              transitionDuration: Duration.zero,
-            ),
-          );
-        } else {
-          setState(() => _currentIndex = index);
-        }
-      },
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Icon(
-                icon,
-                color: isSelected ? _accent : _textMuted,
-                size: 24,
-              ),
-              if (badge != null)
-                Positioned(
-                  right: -6,
-                  top: -4,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: const BoxDecoration(
-                      color: Colors.redAccent,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Text(
-                      badge,
-                      style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-              color: isSelected ? _accent : _textMuted,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
 
 class _LineChartPainter extends CustomPainter {

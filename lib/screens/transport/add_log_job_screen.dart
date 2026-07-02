@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -130,38 +131,21 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      color: Colors.white,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            icon: const Icon(LucideIcons.chevronLeft, color: Color(0xFF181821)),
-            onPressed: () => Navigator.pop(context),
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Add Log Job',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
-          Text(
-            'Add Log Job',
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Save Draft',
-              style: GoogleFonts.inter(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: const Color(0xFF6366F1),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -237,7 +221,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
           children: [
             _buildLabel('Job ID'),
             _buildTextField(hint: 'Auto generated', enabled: false),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Job Type', required: true),
             _buildDropdown(
               value: 'Select job type',
@@ -254,10 +238,10 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 Expanded(child: _buildJobTypeSelector('Inspection', LucideIcons.clipboardCheck, const Color(0xFF64748B))),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Description', required: true),
             _buildTextField(hint: 'Enter job description', maxLines: 3),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Priority'),
             _buildDropdown(
               value: 'Select priority',
@@ -274,7 +258,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 Expanded(child: _buildPrioritySelector('High', const Color(0xFFEF4444))),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               children: [
                 Expanded(
@@ -346,7 +330,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Vehicle Information',
           icon: LucideIcons.bus,
@@ -429,10 +413,10 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Current Mileage (km)'),
             _buildTextField(hint: 'Enter current mileage'),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Location'),
             Container(
               padding: const EdgeInsets.all(12),
@@ -457,7 +441,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Assigned To',
           icon: LucideIcons.user,
@@ -468,7 +452,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
               items: ['Select mechanic', 'Verma Motors', 'In-house', 'Tyre Hub'],
               onChanged: (val) {},
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Helper (Optional)'),
             _buildDropdown(
               value: 'Select helper',
@@ -477,7 +461,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Problem Details',
           icon: LucideIcons.alertTriangle,
@@ -557,21 +541,21 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Reported By Name'),
             _buildTextField(hint: 'Enter name'),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Problem Reported', required: true),
             _buildTextField(hint: 'Describe the problem in detail', maxLines: 3),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Observed By Mechanic', required: true),
             _buildTextField(hint: 'Describe observations / findings', maxLines: 2),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Root Cause (Optional)'),
             _buildTextField(hint: 'Enter root cause (if known)'),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Job Status',
           icon: LucideIcons.activity,
@@ -585,7 +569,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 Expanded(child: _buildStatusSelector('Completed', const Color(0xFF10B981))),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Remarks (Optional)'),
             _buildTextField(hint: 'Add any remarks...', maxLines: 2),
           ],
@@ -735,7 +719,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             _buildCostItem('Seal Kit', 'Qty: 1', '₹1,200'),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Labor & Charges',
           icon: LucideIcons.user,
@@ -764,7 +748,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             _buildCostItem('Service Charges', '', '₹800', showDelete: false),
             Divider(color: Colors.grey.withValues(alpha: 0.1)),
             _buildCostItem('Other Charges (If any)', '', '₹250'),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -788,7 +772,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Job Summary',
           icon: LucideIcons.fileText,
@@ -818,7 +802,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 Text('Enter amount', style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFFEF4444))),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -849,7 +833,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Attachments',
           icon: LucideIcons.paperclip,
@@ -925,17 +909,17 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildSectionCard(
           title: 'Work Notes',
           icon: LucideIcons.clipboardList,
           children: [
             _buildLabel('Work Performed', required: true),
             _buildTextField(hint: 'Describe work performed', maxLines: 3),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Recommendations'),
             _buildTextField(hint: 'Enter recommendations (If any)', maxLines: 2),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Next Service Due (Optional)'),
             GestureDetector(
               onTap: () => _pickDate(context, true),
@@ -961,7 +945,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildLabel('Next Service Mileage (Optional)'),
             _buildTextField(hint: 'Enter mileage'),
           ],

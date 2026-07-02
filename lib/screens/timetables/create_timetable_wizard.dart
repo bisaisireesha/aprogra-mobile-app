@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -296,87 +297,21 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
     );
   }
 
-  Widget _buildHeader() {
-    final bool canPublish = _nameController.text.trim().isNotEmpty && _periods.isNotEmpty;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.close, color: _textDark),
-            onPressed: () => Navigator.pop(context),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            splashRadius: 24,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Create Timetable',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              'Create Timetable',
-              style: GoogleFonts.figtree(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: _textDark,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const SizedBox(width: 8),
-          if (!widget.isViewOnly)
-            ElevatedButton(
-              onPressed: canPublish ? () {
-                setState(() {
-                _draftPeriods = []; // Clear draft when publishing
-              });
-              
-              final newTimetable = {
-                'title': _nameController.text.isNotEmpty ? _nameController.text : 'New Timetable',
-                'level': _classSection?.contains('Nursery') == true ? 'Pre Primary' : 'Primary',
-                'time': '08:00 - 14:00',
-                'class': _classSection?.split(' - ').first ?? 'Custom Class',
-                'teacher': _classSection?.split(' - ').last ?? 'Assigned Teacher',
-                'periods': _periods.length,
-                'breaks': 1,
-                'duration': '6h',
-                'periods_data': List<Map<String, dynamic>>.from(_periods),
-              };
-
-              if (widget.initialData != null) {
-                final index = TimetablesMockData.allTimetables.indexOf(widget.initialData!);
-                if (index != -1) {
-                  TimetablesMockData.allTimetables[index] = newTimetable;
-                } else {
-                  TimetablesMockData.allTimetables.add(newTimetable);
-                }
-              } else {
-                TimetablesMockData.allTimetables.add(newTimetable);
-              }
-
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Timetable Published Successfully')),
-              );
-            } : null,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: canPublish ? const Color(0xFFACA1FF) : const Color(0xFFE2E8F0),
-              disabledBackgroundColor: const Color(0xFFE2E8F0),
-              disabledForegroundColor: const Color(0xFFA1A1AA),
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            child: Text(
-              'Publish Timetable',
-              style: GoogleFonts.figtree(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -390,11 +325,11 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
               _periods.clear();
             });
           }),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildTextField('TIMETABLE NAME', _nameController),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildDateField('EFFECTIVE FROM', _effectiveDate),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildViewToggle(),
         ],
       );
@@ -970,7 +905,7 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
           child: ListView.separated(
             padding: const EdgeInsets.all(24),
             itemCount: _periods.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
+            separatorBuilder: (context, index) => SizedBox(height: 12.h),
             itemBuilder: (context, index) {
               final p = _periods[index];
               final dayData = p['days'] != null ? p['days'][_activeDay] : null;
@@ -1178,7 +1113,7 @@ class _CreateTimetableWizardState extends State<CreateTimetableWizard> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
               ],
             ),
           ),

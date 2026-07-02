@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'screens/auth/splash_screen.dart';
+import 'screens/app_shell.dart';
 import 'screens/dashboard/dashboard_screen.dart';
 
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
               },
               home: const SplashScreen(),
               routes: {
-                '/home': (context) => const DashboardScreen(),
+                '/home': (context) => const AppShell(),
               },
             );
           },

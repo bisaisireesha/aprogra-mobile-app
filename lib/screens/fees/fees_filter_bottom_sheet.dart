@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -136,17 +137,17 @@ class _FeesFilterBottomSheetState extends State<FeesFilterBottomSheet> {
                     'Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'
                   ], (v) => setState(() => _selectedClass = v!)),
                   
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDropdownSection('Fee Type', _selectedFeeType, [
                     'All Fee Types', 'Tuition Fee', 'Transport', 'Hostel Fee', 'Exam Fee', 'Misc'
                   ], (v) => setState(() => _selectedFeeType = v!)),
                   
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDropdownSection('Payment Status', _selectedStatus, [
                     'All Status', 'Paid', 'Pending', 'Overdue', 'Partial'
                   ], (v) => setState(() => _selectedStatus = v!)),
                   
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDropdownSection('Due Date', _selectedDateRange, [
                     'All Time', 'Custom Range'
                   ], (v) => setState(() => _selectedDateRange = v!)),
@@ -162,7 +163,7 @@ class _FeesFilterBottomSheetState extends State<FeesFilterBottomSheet> {
                     ),
                   ],
                   
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDropdownSection('Amount Range', _selectedAmountRange, [
                     'All Amounts', 'Below ₹5,000', '₹5,000 - ₹20,000', 'Above ₹20,000'
                   ], (v) => setState(() => _selectedAmountRange = v!)),

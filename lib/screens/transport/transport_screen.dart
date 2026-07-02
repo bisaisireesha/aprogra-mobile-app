@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -200,7 +201,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                         isIdle: v['isIdle'] as bool? ?? false,
                       ),
                     )),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                   ],
                 ),
               ),
@@ -208,7 +209,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -217,14 +218,6 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
-          Builder(
-            builder: (context) => GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(Icons.menu, color: _textDark, size: 28),
-            ),
-          ),
           const SizedBox(width: 16),
           Expanded(
             child: Container(
@@ -454,7 +447,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -543,7 +536,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               Text(bayNumber, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             width: double.infinity,
             height: 100,
@@ -555,11 +548,11 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               child: Icon(LucideIcons.bus, size: 40, color: _primary),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(vehicleNo, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(route, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -584,7 +577,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -679,9 +672,9 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                         Expanded(child: _buildFormField('Capacity', '45', capacityController)),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildFormField('Route', 'Route 02 • Area', routeController),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       children: [
                         Expanded(child: _buildFormField('Driver', 'Unassigned', driverController)),
@@ -689,7 +682,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                         Expanded(child: _buildFormField('Bay', 'Bay A-01', bayController)),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       children: [
                         Expanded(

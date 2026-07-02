@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -152,8 +153,8 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Payment Reminders'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -310,7 +311,7 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
             decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
             child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
           const SizedBox(height: 2),
           Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
@@ -624,7 +625,7 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ..._deliveryLogs.map((d) => _buildDeliveryLogCard(d)),
           Padding(
             padding: const EdgeInsets.all(16),

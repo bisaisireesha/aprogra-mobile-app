@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -62,129 +63,20 @@ class MaintenanceJobDetailsModal extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    IconData getIconForType(String type) {
-      if (type == 'Repair') return LucideIcons.wrench;
-      if (type == 'Preventive') return LucideIcons.shield;
-      if (type == 'Inspection') return LucideIcons.clipboardCheck;
-      return LucideIcons.settings;
-    }
-
-    Color getColorForType(String type) {
-      if (type == 'Repair') return const Color(0xFFEF4444);
-      if (type == 'Preventive') return const Color(0xFF6366F1);
-      if (type == 'Inspection') return const Color(0xFF64748B);
-      return const Color(0xFF94A3B8);
-    }
-
-    Color getStatusColor(String status) {
-      if (status == 'Completed') return const Color(0xFF10B981);
-      if (status == 'Scheduled') return const Color(0xFF0EA5E9);
-      if (status == 'In Service') return const Color(0xFFF59E0B);
-      return const Color(0xFF94A3B8);
-    }
-
-    final typeColor = getColorForType(job['type']);
-    final statusColor = getStatusColor(job['status']);
-
+    Widget _buildHeader() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: typeColor.withValues(alpha: 0.1),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(getIconForType(job['type']), color: typeColor, size: 24),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    job['id'],
-                    style: GoogleFonts.inter(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF181821),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: statusColor.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: BoxDecoration(
-                            color: statusColor,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        Text(
-                          job['status'],
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: statusColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 4),
-              Row(
-                children: [
-                  Text(
-                    job['bus'],
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF595973),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '·',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      color: const Color(0xFF94A3B8),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    job['type'],
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      color: const Color(0xFF595973),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                job['title'],
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-            ],
+        Text(
+          '·',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -387,15 +279,15 @@ class MaintenanceJobDetailsModal extends StatelessWidget {
               color: const Color(0xFF181821),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildPartItem('Gear Oil', 'Qty: 5 L', '₹2,500'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildPartItem('Clutch Plate', 'Qty: 1', '₹6,800'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildPartItem('Seal Kit', 'Qty: 1', '₹1,200'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Divider(color: Colors.grey.withValues(alpha: 0.2), height: 1),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

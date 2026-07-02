@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,8 +125,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Fee Reports'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -282,7 +283,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
             child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: k['value'] == 'Daily Collection' ? 18 : 24, fontWeight: FontWeight.bold, color: _dark)),
           const SizedBox(height: 2),
           Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
@@ -508,7 +509,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
             Text('6 report types available', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._reportTypes.map((r) => _buildReportCard(r)),
       ],
     );
@@ -538,7 +539,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               Text('${r['downloads']} downloads', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(r['title'] as String, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
           const SizedBox(height: 4),
           Text(r['desc'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _muted)),

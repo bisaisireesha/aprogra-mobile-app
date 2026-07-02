@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -116,7 +117,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Students'),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -231,19 +232,17 @@ class _StudentsScreenState extends State<StudentsScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Students', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 8),
-              Text('All students enrolled across pre-primary, primary, and secondary.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted)),
-            ],
+        Text(
+          'Students',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
         ),
         _buildCreateButton(),
@@ -262,7 +261,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
               Expanded(child: _buildStatCard('38', 'Pre-Primary Students', LucideIcons.baby, Colors.redAccent)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildStatCard('72', 'Primary Students', LucideIcons.fileText, Colors.orange)),
@@ -307,7 +306,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
             ),
             child: Icon(icon, color: color, size: 18),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(count, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(label, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),

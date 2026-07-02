@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -124,8 +125,8 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Collect Fee'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -146,9 +147,9 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
                         _buildHeader(context),
                         const SizedBox(height: 20),
                         _buildCollectionAnalytics(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildSearchStudent(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildStudentList(),
                       ],
                     ),
@@ -1089,19 +1090,19 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
                         ] else if (sheetShowSummary) ...[
                           // ── Summary
                           _sheetStudentInfoRow(s, initials, amount, statusColor, status),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildPaymentSummaryCard(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildApplyDiscountCard(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildPaymentNoteCard(),
                           const SizedBox(height: 100),
                         ] else ...[
                           // ── Details
                           _sheetStudentInfoRow(s, initials, amount, statusColor, status),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildOutstandingInvoicesCard(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _sheetPaymentModeCard(sheetPaymentMode, (v) => setSheet(() => sheetPaymentMode = v)),
                           const SizedBox(height: 100),
                         ],
@@ -1228,7 +1229,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Payment Mode', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -1262,7 +1263,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           if (selectedMode == 'UPI') ...[
             const SizedBox(height: 20),
             _buildInputField('UPI ID / VPA', 'e.g. 9821044312@ybl', _upiController),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildInputField('Transaction Reference (Optional)', 'e.g. T2505121024XYZ', _txnRefController),
           ],
         ],
@@ -1299,7 +1300,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         // Receipt card
         Container(
           padding: const EdgeInsets.all(24),
@@ -1323,7 +1324,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         // Action buttons
         Row(
           children: [
@@ -1399,13 +1400,13 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           ),
           const SizedBox(height: 24),
           _infoRow(LucideIcons.hash, 'Admission No.', s['id']),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.graduationCap, 'Academic Year', 'AY 2025–26'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.user, 'Parent / Guardian', 'Rajesh Sharma'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.phone, 'Contact', '+91 98210 44312'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.mail, 'Email', 'rajesh.sharma@gmail.com'),
         ],
       ),
@@ -1533,7 +1534,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Payment Mode', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -1576,9 +1577,9 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           if (_selectedPaymentMode == 'UPI') ...[
             const SizedBox(height: 20),
             _buildInputField('UPI ID / VPA', 'e.g. 9821044312@ybl', _upiController),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildInputField('Transaction Reference ID (Optional)', 'e.g. T2505121024XYZ', _txnRefController),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1683,7 +1684,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           _summaryRow('Subtotal', '₹27,200.00'),
           _summaryRow('Discount', '–'),
           _summaryRow('Late Fee', '+ ₹250.00', isAdd: true),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(color: const Color(0xFFEEF2FF), borderRadius: BorderRadius.circular(12)),
@@ -1721,7 +1722,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Apply Discount', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Icon(LucideIcons.tag, size: 14, color: _primary),
@@ -1762,7 +1763,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: const Color(0xFFFEF9C3), borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFFEF08A))),
@@ -1794,7 +1795,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
               Text('(Optional)', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           TextField(
             controller: _noteController,
             maxLines: 4,

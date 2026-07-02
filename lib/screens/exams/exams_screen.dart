@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -170,7 +171,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -218,66 +219,20 @@ class _ExamsScreenState extends State<ExamsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    if (!_isTablet) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Exams', style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark)),
-              ElevatedButton.icon(
-                onPressed: _showCreateExamModal,
-                icon: const Icon(Icons.add, size: 16, color: Colors.white),
-                label: Text('New Exam', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _accent,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  elevation: 0,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Schedule exams across classes, assign invigilators and rooms, and enter results.',
-            style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
-          ),
-        ],
-      );
-    }
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Exams', style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: _textDark)),
-              const SizedBox(height: 8),
-              Text(
-                'Schedule exams across classes, assign invigilators and rooms, and enter results.',
-                style: GoogleFonts.figtree(fontSize: 16, color: _textMuted),
-              ),
-            ],
+        Text(
+          'Exams',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
         ),
-        const SizedBox(width: 16),
-        ElevatedButton.icon(
-          onPressed: _showCreateExamModal,
-          icon: const Icon(Icons.add, size: 18, color: Colors.white),
-          label: Text('New Exam', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: _accent,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            elevation: 0,
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -432,7 +387,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('${_currentExams.length} exams', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted, fontWeight: FontWeight.w500)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ..._currentExams.map(_buildMobileCard),
         ],
       );
@@ -540,7 +495,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               _buildPopupMenu(item),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Text(item['class'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
@@ -548,7 +503,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               _buildTypeBadge(item['type']),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -742,11 +697,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 180,
+          mainAxisExtent: 195.h,
         ),
         itemCount: _currentSeating.length,
         itemBuilder: (context, index) => _buildSeatingCardDesktop(_currentSeating[index]),
@@ -880,7 +835,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
@@ -945,7 +900,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       return Column(
         children: [
           _buildResultDropdown('EXAM', 'Unit Test 1 · Class 5A'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildResultDropdown('PAPER', 'English · 2026-07-01'),
         ],
       );
@@ -992,7 +947,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
         crossAxisCount: _isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 110,
+        mainAxisExtent: 125.h,
       ),
       itemCount: kpis.length,
       itemBuilder: (context, index) {

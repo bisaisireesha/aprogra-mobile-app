@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -155,7 +156,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -209,7 +210,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -263,26 +264,20 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Workload', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text('Teacher Workload', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          "Monitor teaching hours, subject distribution, and identify overloaded staff.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -412,7 +407,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -553,7 +548,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
                     child: Text(subject, style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF6B7280), fontWeight: FontWeight.w500)),
                   )).toList(),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -654,7 +649,7 @@ void _showWorkloadDetails(
                 const SizedBox(height: 24),
                 // Detail Rows
                 _buildWorkloadPopupRow('Department', Text(workload['department'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildWorkloadPopupRow(
                   'Subjects',
                   Wrap(
@@ -671,13 +666,13 @@ void _showWorkloadDetails(
                     )).toList(),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildWorkloadPopupRow('Classes', Text(workload['classes'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildWorkloadPopupRow('Periods / Week', Text('${workload['periods']}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildWorkloadPopupRow('Load %', Text('${(workload['utilization'] * 100).toInt()}%', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildWorkloadPopupRow(
                   'Status',
                   Column(
@@ -787,13 +782,13 @@ void _showWorkloadDetails(
           Text('Top 5 by load %', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
           const SizedBox(height: 24),
           _buildMostLoadedTeacherItem('Sanjay Verma', 'Physics', 1.13),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Priya Sharma', 'Mathematics', 1.07),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Vikram Nair', 'Mathematics', 1.00),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Rajan Pillai', 'Science', 0.93),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Kavita Mehta', 'Chemistry', 0.90),
         ],
       ),

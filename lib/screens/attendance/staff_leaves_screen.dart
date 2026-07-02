@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -176,7 +177,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -234,7 +235,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -288,26 +289,20 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Leaves', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text('Leave Management', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          "Review leave requests, manage approvals, and track staff leave balances.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -618,7 +613,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                     _buildStatusBadge(item['status']),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -748,11 +743,11 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
           Text('Average remaining across all staff', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
           const SizedBox(height: 24),
           _buildProgressRow('Casual', 8, 12),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Sick', 7, 10),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Earned', 12, 20),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Maternity', 90, 90),
         ],
       ),
@@ -949,7 +944,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             items: const ['Anita Desai', 'Deepa Iyer', 'Sanjay Verma', 'Meena Krishnamurthy', 'Rajan Pillai'],
                             onChanged: (v) => setModalState(() => selectedStaff = v),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Leave Type'),
                           _buildDropdown(
                             hint: 'Select leave type',
@@ -957,7 +952,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             items: const ['Casual', 'Sick', 'Earned', 'Maternity'],
                             onChanged: (v) => setModalState(() => selectedType = v),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Start Date'),
                           _buildDatePicker(
                             hint: 'Select start date',
@@ -967,7 +962,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               if (picked != null) setModalState(() => startDate = picked);
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('End Date'),
                           _buildDatePicker(
                             hint: 'Select end date',
@@ -977,7 +972,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               if (picked != null) setModalState(() => endDate = picked);
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Total Days'),
                           Container(
                             width: double.infinity,
@@ -988,7 +983,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             ),
                             child: Text('${totalDays > 0 ? totalDays : 0} Days', style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Reason'),
                           Container(
                             decoration: BoxDecoration(
@@ -1006,7 +1001,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Attachment (Optional)'),
                           Container(
                             width: double.infinity,

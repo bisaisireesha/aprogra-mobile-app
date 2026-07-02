@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,17 +14,7 @@ class MessMenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Mess Menu'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.utensils), label: 'Mess'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -50,94 +41,20 @@ class MessMenuScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Mess Menu',
-                    style: GoogleFonts.inter(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF181821),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Weekly menu — what is served day by day across all four meals.',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      color: const Color(0xFF595973),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+        Text(
+          'Mess Menu',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
+          ),
         ),
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.withValues(alpha: 0.15)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(LucideIcons.printer, size: 16, color: Color(0xFF181821)),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Print',
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF181821),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(LucideIcons.edit2, size: 16, color: Colors.white),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Edit Menu',
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -233,7 +150,7 @@ class MessMenuScreen extends StatelessWidget {
             color: const Color(0xFF94A3B8),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ExpandableDayItem(
           day: 'Monday',
           letter: 'M',

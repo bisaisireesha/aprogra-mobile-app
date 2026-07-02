@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
@@ -193,17 +194,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Transport Dashboard'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -220,7 +211,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 32),
                   _buildListHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildBusesList(),
                   const SizedBox(height: 24),
                 ],
@@ -232,35 +223,20 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Transport Dashboard',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Live overview of school buses, routes and on-road status.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _buildPrimaryButton('Add Bus', LucideIcons.plus, () {
-              _showAddBusModal(context);
-            }),
-          ],
-        ),
+        _buildPrimaryButton('Add Bus', LucideIcons.plus, () {}),
       ],
     );
   }
@@ -459,7 +435,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             ...['All', 'On Route', 'At School', 'Idle', 'Maintenance'].map((status) => RadioListTile(
               title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
               activeColor: const Color(0xFF6366F1),
@@ -507,7 +483,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -578,7 +554,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -633,7 +609,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             color: const Color(0xFF595973),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -731,7 +707,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           child: Column(
             children: [
               Icon(LucideIcons.search, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Text(
                 'No buses found',
                 style: GoogleFonts.inter(
@@ -1016,7 +992,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           // Row 3: Footer (Location & Fuel)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1272,7 +1248,7 @@ class _AddBusModalState extends State<AddBusModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildSectionCard(
                   'Route & Assignment',
                   LucideIcons.map,
@@ -1302,7 +1278,7 @@ class _AddBusModalState extends State<AddBusModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildSectionCard(
                   'Current Location',
                   LucideIcons.mapPin,
@@ -1336,7 +1312,7 @@ class _AddBusModalState extends State<AddBusModal> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildSectionCard(
                   'Bus Image',
                   LucideIcons.image,
@@ -1355,7 +1331,7 @@ class _AddBusModalState extends State<AddBusModal> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Image.file(_selectedImage!, height: 150, width: double.infinity, fit: BoxFit.cover),
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 12.h),
                                 GestureDetector(
                                   onTap: _pickImage,
                                   child: Text('Change Image', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF6366F1))),
@@ -1382,7 +1358,7 @@ class _AddBusModalState extends State<AddBusModal> {
                                   'JPG, PNG up to 5MB',
                                   style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8)),
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 12.h),
                                 GestureDetector(
                                   onTap: _pickImage,
                                   child: Container(
@@ -1473,7 +1449,7 @@ class _AddBusModalState extends State<AddBusModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),

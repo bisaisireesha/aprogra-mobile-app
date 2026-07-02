@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -88,11 +89,11 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildContactCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildOverviewCard(statusText, statusBg, status),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildAdditionalInfoCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildActionsCard(),
                 ],
               ),
@@ -100,7 +101,7 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -159,7 +160,7 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Overview', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildInfoRow('Department', staff['dept']),
           const SizedBox(height: 12),
           _buildInfoRow('Joined On', staff['joined']),
@@ -196,7 +197,7 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Additional Info', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildInfoRow('Date of Birth', '12 Mar 1988'),
           const SizedBox(height: 12),
           _buildInfoRow('Address', 'Hyderabad, Telangana'),
@@ -231,13 +232,13 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Actions', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.edit2, 'Edit Staff'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.calendarCheck, 'Mark Attendance'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.users, 'Assign Department'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(Icons.more_vert, 'More Options'),
         ],
       ),

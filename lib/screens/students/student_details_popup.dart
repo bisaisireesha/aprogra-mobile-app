@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -167,7 +168,7 @@ class _StudentDetailsPopupState extends State<StudentDetailsPopup> {
                     Text('Boy', style: GoogleFonts.figtree(color: _textMuted, fontSize: 14)),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -667,7 +668,7 @@ class _StudentDetailsPopupState extends State<StudentDetailsPopup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w700, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...rows.map((row) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Row(
@@ -705,7 +706,7 @@ class _StudentDetailsPopupState extends State<StudentDetailsPopup> {
               ],
             ),
             if (!isWide) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   Expanded(child: _buildFeeSummaryCard('OUTSTANDING', '₹12,500', const Color(0xFFEF4444), const Color(0xFFFEF2F2))),

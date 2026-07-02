@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,7 +167,7 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -247,24 +248,20 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Non-Teaching Staff', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
+        Text(
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
-        const SizedBox(height: 16),
-        Text('Non-Teaching Staff', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
-        Text('Administration, support services, transport,\nsecurity and housekeeping personnel.',
-            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted, height: 1.4)),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -279,7 +276,7 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
             crossAxisCount: _isTablet ? 4 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            mainAxisExtent: 164,
+            mainAxisExtent: 179.h,
           ),
           children: [
             _buildKpiCard(
@@ -402,7 +399,7 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
             )
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildStaffList(),
       ],
     );

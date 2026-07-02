@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -206,7 +207,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -254,43 +255,22 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return LayoutBuilder(builder: (context, constraints) {
-      final isMobile = constraints.maxWidth < 600;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      Icon(LucideIcons.clipboardList, color: _accent, size: isMobile ? 24 : 28),
-                      const SizedBox(width: 12),
-                      Text('Assignments', style: GoogleFonts.figtree(fontSize: isMobile ? 28 : 32, fontWeight: FontWeight.bold, color: _textDark)),
-                    ]),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Plan longer assignments and holiday projects with flexible date ranges.',
-                      style: GoogleFonts.figtree(fontSize: isMobile ? 14 : 16, color: _textMuted),
-                    ),
-                  ],
-                ),
-              ),
-              if (!isMobile) _buildCreateButton(),
-            ],
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Assignments',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-          if (isMobile) ...[
-            const SizedBox(height: 16),
-            Align(alignment: Alignment.centerRight, child: _buildCreateButton()),
-          ],
-        ],
-      );
-    });
+        ),
+        _buildCreateButton(),
+      ],
+    );
   }
 
   Widget _buildCreateButton() {
@@ -477,7 +457,7 @@ class _AssignmentsScreenState extends State<AssignmentsScreen> {
                 ])),
                 _buildPopupMenu(item),
               ]),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text('${item['submitted']}/${item['total']} submitted', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted, fontWeight: FontWeight.w600)),
                 Row(children: [
@@ -630,11 +610,11 @@ class _AssignmentViewDialog extends StatelessWidget {
                   }),
                   const SizedBox(height: 32),
                   _sectionTitle('Submitted ($submittedCount)'),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _studentGrid(submitted, true),
                   const SizedBox(height: 32),
                   _sectionTitle('Not Submitted ($notSubmittedCount)'),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _studentGrid(notSubmitted, false),
                 ]),
               ),

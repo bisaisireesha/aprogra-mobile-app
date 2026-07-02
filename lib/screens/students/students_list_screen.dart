@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../dashboard/dashboard_screen.dart';
@@ -61,22 +62,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       key: _scaffoldKey,
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Academics'),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: _accent,
-        unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_outlined), activeIcon: Icon(Icons.notifications), label: 'Action'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_outlined), activeIcon: Icon(Icons.menu), label: 'More'),
-        ],
-      ),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -103,22 +89,22 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         _buildClassSectionsGrid(isTablet),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Recent Activity', 'View all'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildRecentActivity(),
                         const SizedBox(height: 32),
                         _buildRequiringAttention(),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Enrollment Distribution', ''),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildEnrollmentDistribution(isTablet),
                         const SizedBox(height: 32),
                         _buildSectionTitle('New Admissions', 'View all'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildNewAdmissions(),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Class Capacity Monitor', ''),
                         const Text('Monitor over and under-filled classes', style: TextStyle(fontSize: 12, color: _textMuted)),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildClassCapacityMonitor(),
                         const SizedBox(height: 32),
                         _buildHealthSafety(),
@@ -137,13 +123,20 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Student Insights', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
-        SizedBox(height: 4),
-        Text('A quick, operational view of students across the school.', style: TextStyle(fontSize: 13, color: _textMuted)),
+        Text(
+          'Student Insights',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -156,7 +149,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         crossAxisCount: isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 140, // Fixed height to prevent overflow
+        mainAxisExtent: 155.h, // Fixed height to prevent overflow
       ),
       itemCount: MockData.studentInsightsKpi.length,
       itemBuilder: (context, index) {
@@ -256,7 +249,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         crossAxisCount: isTablet ? 3 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 180, // Fixed height for the card
+        mainAxisExtent: 195.h, // Fixed height for the card
       ),
       itemCount: classesData.length,
       itemBuilder: (context, index) {
@@ -311,7 +304,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                     const Icon(Icons.more_vert, size: 18, color: _textMuted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -568,7 +561,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           const SizedBox(height: 12),
           Text(dist['total'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
           const Text('total students', style: TextStyle(fontSize: 10, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           const Divider(height: 1, color: _borderColor),
           const SizedBox(height: 12),
           Row(
@@ -686,7 +679,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           }),
           const SizedBox(height: 8),
           const Divider(height: 1, color: _borderColor),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           const Text('UNDER-CAPACITY', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
           const SizedBox(height: 12),
           ...MockData.studentInsightsCapacityUnder.map((cap) {
@@ -717,7 +710,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             Text('Health & Safety Alerts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -779,7 +772,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             Text('Today\'s Highlights', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...MockData.studentInsightsHighlights.map((hl) {
           return Container(
             margin: const EdgeInsets.only(bottom: 12),

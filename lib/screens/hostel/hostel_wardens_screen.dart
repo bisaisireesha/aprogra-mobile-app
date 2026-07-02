@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,18 +14,7 @@ class HostelWardensScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Wardens'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -41,7 +31,7 @@ class HostelWardensScreen extends StatelessWidget {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchAndFilterRow(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildWardenCard('RS', 'Mr. R. Sharma', 'Boys hostel', 'Aryabhata Block', 'Block A', 'Morning', 'On Duty'),
                   const SizedBox(height: 12),
                   _buildWardenCard('KI', 'Mr. K. Iyer', 'Boys hostel', 'Bhaskara Block', 'Block B', 'Evening', 'On Duty'),
@@ -211,7 +201,7 @@ class HostelWardensScreen extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -322,7 +312,7 @@ class HostelWardensScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,

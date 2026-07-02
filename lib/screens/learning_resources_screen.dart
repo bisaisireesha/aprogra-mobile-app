@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -204,7 +205,7 @@ class _LearningResourcesScreenState extends State<LearningResourcesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -356,7 +357,7 @@ class _LearningResourcesScreenState extends State<LearningResourcesScreen> {
           'Organize and manage study materials by level and subject.',
           style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildKPICard(LucideIcons.folder, 'Total Folders', '$_totalFoldersCount', const Color(0xFFF4F1FF), _accent)),
@@ -670,7 +671,7 @@ class _LearningResourcesScreenState extends State<LearningResourcesScreen> {
               Text('${folder['foldersCount']} • ${folder['resourcesCount']} resources', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             ((folder['tags'] ?? ['Notes']) as List).join(' • '),
             style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3), height: 1.5),

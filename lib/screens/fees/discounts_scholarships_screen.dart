@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,8 +143,8 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Discounts & Scholarships'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -279,7 +280,7 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
             decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
             child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
           const SizedBox(height: 2),
           Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _muted)),
@@ -462,7 +463,7 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
           child: Row(
@@ -475,7 +476,7 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -501,9 +502,9 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._schemeDetails.map((s) => _buildSchemeCard(s)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Center(
           child: Text('Showing ${_schemeDetails.length} of ${_schemeDetails.length} schemes', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
         ),
@@ -591,7 +592,7 @@ class _DiscountsScholarshipsScreenState extends State<DiscountsScholarshipsScree
                     const Icon(LucideIcons.chevronRight, size: 18, color: _muted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(

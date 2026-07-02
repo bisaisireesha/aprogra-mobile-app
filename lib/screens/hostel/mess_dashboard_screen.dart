@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,18 +14,7 @@ class MessDashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Mess Dashboard'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.utensils), label: 'Mess'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -37,7 +27,7 @@ class MessDashboardScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 children: [
                   _buildStatusBadge(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildHeader(),
                   const SizedBox(height: 24),
                   _buildSearchAndActions(),
@@ -103,27 +93,20 @@ class MessDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Mess Dashboard',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Daily mess operations — menu, meal counts, kitchen inventory, vendors and diner feedback.',
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            height: 1.4,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -172,7 +155,7 @@ class MessDashboardScreen extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
@@ -407,7 +390,7 @@ class MessDashboardScreen extends StatelessWidget {
             ),
             child: Icon(icon, color: iconColor, size: 22),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             title,
             style: GoogleFonts.inter(
@@ -537,7 +520,7 @@ class MessDashboardScreen extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
@@ -707,7 +690,7 @@ class MessDashboardScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -1436,7 +1419,7 @@ class MessDashboardScreen extends StatelessWidget {
             color: const Color(0xFF595973),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,

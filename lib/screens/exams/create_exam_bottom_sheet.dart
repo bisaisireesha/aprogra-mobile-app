@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -149,9 +150,9 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildSectionTitle('EXAM DETAILS'),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildTextField('Exam Name', _nameController, hint: 'e.g. Mid-Term Examination', icon: LucideIcons.fileText),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Row(
                     children: [
                       Expanded(child: _buildDropdownField('Type', _selectedType, ['Unit Test', 'Term Exam', 'Mid Term', 'Mock', 'Final'], (v) => setState(() => _selectedType = v!), icon: LucideIcons.fileType)),
@@ -163,9 +164,9 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
                       ], (v) => setState(() => _selectedClass = v!), icon: LucideIcons.graduationCap)),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDropdownField('Status', _selectedStatus, ['Scheduled', 'Draft', 'Published'], (v) => setState(() => _selectedStatus = v!), icon: LucideIcons.calendar),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildTextField('General Instructions (optional)', _generalInstructionsController, hint: 'Common instructions visible to all papers', maxLines: 4),
                   
                   const SizedBox(height: 32),
@@ -180,7 +181,7 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   ...List.generate(_papers.length, (index) => _buildPaperCard(index)),
                 ],
               ),
@@ -192,42 +193,21 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              margin: const EdgeInsets.only(bottom: 16),
-              decoration: BoxDecoration(color: const Color(0xFFE5E7EB), borderRadius: BorderRadius.circular(2)),
-            ),
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Create New Exam',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Create New Exam', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF181B20))),
-                  const SizedBox(height: 4),
-                  Text('Add subject papers, dates, invigilators, and rooms.', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF595973))),
-                ],
-              ),
-              IconButton(
-                icon: const Icon(Icons.close, color: Color(0xFF595973)),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -332,7 +312,7 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
           ], (v) {
             setState(() => paper['subject'] = v!);
           }, icon: LucideIcons.book),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -364,7 +344,7 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -376,7 +356,7 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -388,15 +368,15 @@ class _CreateExamBottomSheetState extends State<CreateExamBottomSheet> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildDropdownField('Invigilator', paper['invigilator'], [
             'Assign teacher', 'Mr. Sharma', 'Ms. Gupta', 'Mrs. Iyer', 'Mr. Verma', 'Ms. Kaur', 'Mr. Khan', 'Mrs. Reddy'
           ], (v) {
             setState(() => paper['invigilator'] = v!);
           }, icon: LucideIcons.user),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildTextField('Syllabus', TextEditingController(text: paper['syllabus']), hint: 'Topics / chapters covered', maxLines: 3),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildTextField('Paper Instructions', TextEditingController(text: paper['instructions']), hint: 'Specific notes for this paper', maxLines: 3),
         ],
       ),

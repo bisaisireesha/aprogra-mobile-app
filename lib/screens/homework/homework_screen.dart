@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -217,7 +218,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Homework'),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -271,96 +272,21 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isMobile = constraints.maxWidth < 600;
-        
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (!isMobile)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(LucideIcons.notebookPen, color: _accent, size: 28),
-                            const SizedBox(width: 12),
-                            Text(
-                              'Homework',
-                              style: GoogleFonts.figtree(
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                                color: _textDark,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Assign daily homework to classes and track who has completed it.',
-                          style: GoogleFonts.figtree(
-                            fontSize: 16,
-                            color: _textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  _buildCreateButton(),
-                ],
-              )
-            else ...[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(LucideIcons.notebookPen, color: _accent, size: 24),
-                            const SizedBox(width: 12),
-                            Text(
-                              'Homework',
-                              style: GoogleFonts.figtree(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: _textDark,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Assign daily homework to classes and track who has completed it.',
-                          style: GoogleFonts.figtree(
-                            fontSize: 14,
-                            color: _textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Align(
-                alignment: Alignment.centerRight,
-                child: _buildCreateButton(),
-              ),
-            ],
-          ],
-        );
-      },
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Homework',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
+        _buildCreateButton(),
+      ],
     );
   }
 
@@ -676,7 +602,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                     _buildPopupMenu(item),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/library_mock.dart';
 import '../auth/menu_screen.dart';
@@ -88,7 +89,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
     return Scaffold(
       backgroundColor: _bgPrimary,
       drawer: const MenuScreen(activeScreen: 'Library Insights'),
-      bottomNavigationBar: _buildBottomNav(),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -122,83 +123,20 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.green.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 6,
-                    height: 6,
-                    decoration: const BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  const Text(
-                    'Library Open - Live',
-                    style: TextStyle(color: Colors.green, fontSize: 12, fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              'Updated just now',
-              style: TextStyle(color: _textMuted, fontSize: 12),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'Library Insights',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: _textDark),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    'Monitor library operations, book circulation, availability, and student engagement.',
-                    style: TextStyle(color: _textMuted, fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-            if (_isTablet) ...[
-              const SizedBox(width: 16),
-              Expanded(child: _buildSecondarySearchBar()),
-              const SizedBox(width: 16),
-              _buildFilterButton(),
-            ]
-          ],
-        ),
-        if (!_isTablet) ...[
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(child: _buildSecondarySearchBar()),
-              const SizedBox(width: 16),
-              _buildFilterButton(),
-            ],
+        Text(
+          'Library Open - Live',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-        ]
+        ),
+        _buildFilterButton(),
       ],
     );
   }
@@ -342,10 +280,8 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -532,7 +468,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -647,7 +583,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -810,7 +746,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
               ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -973,7 +909,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         if (_isTablet)
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -989,9 +925,9 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
           Column(
             children: [
               _buildTopBorrowersList(),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildPendingReturnsList(),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildReadingAwardsList(),
             ],
           ),
@@ -1027,7 +963,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...LibraryMockData.topBorrowers.map((item) => _buildBorrowerItem(item)),
         ],
       ),
@@ -1102,7 +1038,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...LibraryMockData.pendingReturns.map((item) => _buildPendingReturnItem(item)),
         ],
       ),
@@ -1165,7 +1101,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...LibraryMockData.readingAwards.map((item) => _buildReadingAwardItem(item)),
         ],
       ),
@@ -1224,7 +1160,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -1261,7 +1197,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Wrap(
                 spacing: 16,
                 runSpacing: 8,
@@ -1347,7 +1283,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1439,7 +1375,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -1566,7 +1502,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1666,7 +1602,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -1777,7 +1713,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1902,7 +1838,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
           decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../../screens/auth/menu_screen.dart';
@@ -53,13 +54,13 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildKpiGrid(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFilters(),
                           const SizedBox(height: 20),
                           _buildAlertsList(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildRecommendedActions(),
                           const SizedBox(height: 24),
                         ],
@@ -73,7 +74,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Action Center'),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -172,10 +173,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF5C5C).withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xFFFDE9E9),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFF8D7D7)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -184,7 +186,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 width: 6,
                 height: 6,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFFF5C5C),
+                  color: Color(0xFFF72222),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -192,29 +194,29 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               const Text(
                 'LIVE • ACTION REQUIRED',
                 style: TextStyle(
-                  color: Color(0xFFFF5C5C),
                   fontSize: 10,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFFF72222),
                   letterSpacing: 0.5,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        const Text(
+        const SizedBox(height: 12),
+        Text(
           'Action Center',
           style: TextStyle(
-            color: _textDark,
-            fontSize: 32,
+            fontSize: 28.sp,
             fontWeight: FontWeight.bold,
+            color: _textDark,
             letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         const Text(
           'Items requiring your attention across the school.',
-          style: TextStyle(color: Color(0xFF8F96A3), fontSize: 16),
+          style: TextStyle(fontSize: 15, color: _textMuted),
         ),
       ],
     );
@@ -227,18 +229,18 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // [Responsive Fix]: Switch to 4 columns on tablets/landscape
         crossAxisCount: _isTablet ? 4 : 2,
-        mainAxisExtent: 160,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        mainAxisExtent: 115.h,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
       itemCount: MockData.actionCenterKpi.length,
       itemBuilder: (context, index) {
         final kpi = MockData.actionCenterKpi[index];
         return Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(color: const Color(0xFFF9FAFB)),
             boxShadow: [
               BoxShadow(
@@ -255,46 +257,46 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               Row(
                 children: [
                   Container(
-                    width: 32,
-                    height: 32,
+                    width: 24,
+                    height: 24,
                     decoration: BoxDecoration(
                       color: kpi['iconBg'] as Color,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(kpi['icon'] as IconData, size: 16, color: kpi['iconColor'] as Color),
+                    child: Icon(kpi['icon'] as IconData, size: 12, color: kpi['iconColor'] as Color),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       kpi['title'] as String,
                       style: const TextStyle(
-                        fontSize: 13,
+                        fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF8F96A3),
-                        height: 1.2,
+                        height: 1.1,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     kpi['value'] as String,
                     style: const TextStyle(
-                      fontSize: 34,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF181B20),
                       height: 1.0,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 2),
                   Text(
                     kpi['subtitle'] as String,
                     style: TextStyle(
-                      fontSize: 11,
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                       color: kpi['subtitleColor'] as Color,
                     ),
@@ -532,7 +534,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 12.h),
                                 Text(
                                   item['title'] as String,
                                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF181B20), height: 1.3),
@@ -666,7 +668,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                     rec['subtitle'] as String,
                     style: const TextStyle(fontSize: 14, color: Color(0xFF8F96A3), height: 1.5),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),

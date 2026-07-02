@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,17 +127,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Live Tracking'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -153,7 +144,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildMapPlaceholder(),
                   const SizedBox(height: 24),
                   _buildLiveBusList(),
@@ -167,91 +158,20 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Live Tracking',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Real-time location, ETA and speed for every bus in service.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Live Tracking',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF10B981),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'Live · updated 12s ago',
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF94A3B8),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            GestureDetector(
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Refreshing locations...')));
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(LucideIcons.refreshCw, size: 14, color: Color(0xFF181821)),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Refresh',
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xFF181821),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -282,7 +202,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -347,7 +267,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -651,7 +571,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Location Row
                     Row(
                       children: [
@@ -677,7 +597,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Progress Bar
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -718,7 +638,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Bottom Stats Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

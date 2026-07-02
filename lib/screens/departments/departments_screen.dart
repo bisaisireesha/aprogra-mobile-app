@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -265,7 +266,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -404,7 +405,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
                   color: _textMuted,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildAddButton(),
             ],
           ],
@@ -446,7 +447,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
             crossAxisCount: _isTablet ? 4 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            mainAxisExtent: 184,
+            mainAxisExtent: 199.h,
           ),
           children: [
             _buildKpiCard(
@@ -543,7 +544,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
               Text('View All', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF4F46E5))),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
         ],
         LayoutBuilder(
           builder: (context, constraints) {
@@ -614,7 +615,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(dept['name'] as String, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Row(
@@ -624,7 +625,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
               Text('HOD: ${dept['hod']}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -737,7 +738,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
                 ),
                 const SizedBox(height: 24),
                 Text('Overview', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildPopupDetailRow('Open Roles', '${dept['openRoles']} Vacancies'),
                 const SizedBox(height: 12),
                 _buildPopupDetailRow('Members', '${dept['members']} Total'),
@@ -795,7 +796,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Department Comparison', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _isTablet ? _buildComparisonTable() : _buildComparisonMobileList(),
       ],
     );
@@ -893,7 +894,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _comparisonData.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      separatorBuilder: (context, index) => SizedBox(height: 12.h),
       itemBuilder: (context, index) {
         return _buildMobileComparisonCard(_comparisonData[index]);
       },

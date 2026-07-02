@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -293,7 +294,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             ...children,
           ],
         ),
@@ -583,7 +584,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             ...['All', 'Allocated', 'Pending', 'Opted Out'].map((status) => RadioListTile(
               title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
               activeColor: const Color(0xFF6366F1),
@@ -607,17 +608,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Student Allocation'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -634,7 +625,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildStudentsList(),
                 ],
               ),
@@ -645,57 +636,20 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Student Allocation',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Map students to bus routes, stops and pickup timings.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            GestureDetector(
-              onTap: () => _showAllocateStudentModal(context),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF6366F1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(LucideIcons.userPlus, size: 16, color: Colors.white),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Allocate Student',
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -740,7 +694,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -826,7 +780,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -936,7 +890,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           child: Column(
             children: [
               Icon(LucideIcons.users, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Text(
                 'No students found',
                 style: GoogleFonts.inter(

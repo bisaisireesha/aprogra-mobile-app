@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -12,18 +13,8 @@ class HostelReportsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
-      drawer: const MenuScreen(activeScreen: 'Reports'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.utensils), label: 'Mess'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 0, // Since reports can be home/admin
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      drawer: const MenuScreen(activeScreen: 'Hostel Reports'),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -36,13 +27,13 @@ class HostelReportsScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterBar(),
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchAndCategoryFilters(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildReportsList(),
                   const SizedBox(height: 24),
                 ],
@@ -54,26 +45,20 @@ class HostelReportsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Reports',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Pre-built reports for hostel operations, mess, inventory, and vendors.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -212,7 +197,7 @@ class HostelReportsScreen extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

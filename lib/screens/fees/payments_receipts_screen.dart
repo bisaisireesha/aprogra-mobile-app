@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -112,8 +113,8 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Payments & Receipts'),
+      
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -138,7 +139,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
                         _buildPaymentModes(),
                         const SizedBox(height: 32),
                         _buildReceiptsListSection(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildInfoFooter(),
                         const SizedBox(height: 60),
                       ],
@@ -247,7 +248,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
               decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
               child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
             const SizedBox(height: 2),
             Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
@@ -263,7 +264,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('By Payment Mode', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         
         // All Modes
         // All Modes
@@ -290,7 +291,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
 
         // Payment Mode List
         ..._paymentModes.map((m) => _buildPaymentModeCard(m)),
@@ -425,7 +426,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
           child: TextField(
@@ -462,9 +463,9 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._receipts.map((r) => _buildReceiptCard(r)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Center(
           child: Text('Showing ${_receipts.length} of ${_receipts.length} receipts', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
         ),

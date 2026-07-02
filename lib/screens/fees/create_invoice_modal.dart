@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -165,11 +166,11 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
               child: Column(
                 children: [
                   _buildStudentInfoCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildInvoiceDetailsCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildInvoiceItemsCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildAdditionalSettingsCard(),
                   const SizedBox(height: 24), // padding for bottom bar
                 ],
@@ -252,7 +253,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           if (_selectedStudent != null) Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -290,7 +291,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Invoice Details', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildInputLabel('Invoice Date', _buildDatePicker(_invoiceDate, (d) => setState(() => _invoiceDate = d)))),
@@ -298,7 +299,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
               Expanded(child: _buildInputLabel('Due Date', _buildDatePicker(_dueDate, (d) => setState(() => _dueDate = d)))),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -314,7 +315,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildInputLabel('Notes (Optional)', _buildTextArea(_notesCtrl, 'Add a note for this invoice...')),
         ],
       ),
@@ -521,7 +522,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
                     Text(_discountAmt > 0 ? '- ₹$discStr' : '0.00', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF22C55E))),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -546,7 +547,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Additional Settings', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -635,7 +636,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   Text('Description', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                   const SizedBox(height: 6),
@@ -649,7 +650,7 @@ class _CreateInvoiceModalState extends State<CreateInvoiceModal> {
                       isDense: true,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   Text('Amount (₹)', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
                   const SizedBox(height: 6),

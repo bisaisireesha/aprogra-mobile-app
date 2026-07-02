@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,18 +14,7 @@ class HostelAttendanceScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Hostel Attendance'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Column(
           children: [
@@ -37,13 +27,13 @@ class HostelAttendanceScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildActionRow(),
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchAndFilterRow(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -90,27 +80,20 @@ class HostelAttendanceScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Hostel Attendance',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Nightly roll-call across all hostel blocks · 50% present today.',
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            height: 1.4,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -280,7 +263,7 @@ class HostelAttendanceScreen extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -416,7 +399,7 @@ class HostelAttendanceScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -16,18 +17,7 @@ class HostelDashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Hostel Dashboard'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: _primary,
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -111,17 +101,17 @@ class HostelDashboardScreen extends StatelessWidget {
                         _buildStatCard('Attendance', '319/324', 'checked in', LucideIcons.calendarCheck, const Color(0xFF3B82F6), const Color(0xFFDBEAFE)),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildReportCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildQuickActionsCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildTodaysScheduleCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildPendingTasksCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildMaintenanceCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildNoticesCard(),
                     const SizedBox(height: 24),
                   ],
@@ -928,7 +918,7 @@ class HostelDashboardScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               _buildInputField('Student Name or ID', 'Search student...', LucideIcons.search),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   Expanded(child: _buildDropdownField('Block', 'Select Block')),
@@ -936,7 +926,7 @@ class HostelDashboardScreen extends StatelessWidget {
                   Expanded(child: _buildDropdownField('Room Type', 'e.g. AC / Non-AC')),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   Expanded(child: _buildDropdownField('Room No.', 'Select Room')),
@@ -944,7 +934,7 @@ class HostelDashboardScreen extends StatelessWidget {
                   Expanded(child: _buildDropdownField('Bed', 'Select Bed')),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildInputField('Date of Allocation', 'DD/MM/YYYY', LucideIcons.calendar),
               const SizedBox(height: 32),
               SizedBox(

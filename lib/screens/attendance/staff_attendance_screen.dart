@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -116,7 +117,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Attendance'),
+      drawer: const MenuScreen(activeScreen: 'Staff Attendance'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -141,7 +142,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -162,7 +163,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
       floatingActionButton: !_isTablet ? FloatingActionButton.extended(
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Attendance saved successfully!')));
@@ -224,26 +225,20 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Attendance', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text('Staff Attendance', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          "Today's check-in/out log for all staff — present, absent, on leave, and late arrivals.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -339,7 +334,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

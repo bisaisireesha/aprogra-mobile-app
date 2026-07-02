@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -154,7 +155,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
       floatingActionButton: !_isTablet ? FloatingActionButton.extended(
         onPressed: () {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Attendance saved successfully!')));
@@ -210,16 +211,20 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('Student Attendance', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          'Mark and review daily attendance · ${_selectedDate.day} ${_monthString(_selectedDate.month)} ${_selectedDate.year}',
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Student Attendance',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -240,7 +245,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -430,19 +435,19 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempClass,
                       items: availableClasses,
                       onChanged: (v) => setModalState(() => tempClass = v!),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempSection,
                       items: availableSections,
                       onChanged: (v) => setModalState(() => tempSection = v!),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempStatus,
                       items: availableStatuses,

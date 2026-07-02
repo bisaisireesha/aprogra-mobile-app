@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -201,60 +202,20 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Staff Insights',
-                style: GoogleFonts.figtree(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: _textDark,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Non-teaching staff directory, attendance and departments.',
-                style: GoogleFonts.figtree(
-                  fontSize: 14,
-                  color: _textMuted,
-                ),
-              ),
-            ],
+        Text(
+          'Staff Insights',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
         ),
-        const SizedBox(width: 16),
-        GestureDetector(
-          onTap: () => _showAddStaffModal(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: _primary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(LucideIcons.plus, color: Colors.white, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  'Add Staff',
-                  style: GoogleFonts.figtree(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -280,7 +241,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: roleController,
                 decoration: InputDecoration(
@@ -288,7 +249,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: deptController,
                 decoration: InputDecoration(
@@ -367,7 +328,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -423,7 +384,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
             ),
             child: Icon(icon, color: iconColor, size: 24),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             title,
             style: GoogleFonts.figtree(
@@ -477,7 +438,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -563,7 +524,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
                     'Filter by Department',
                     style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -169,7 +170,7 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      
     );
   }
 
@@ -223,26 +224,20 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Documents', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text('Staff Documents', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
-        const SizedBox(height: 8),
         Text(
-          "Central repository for contracts, ID proofs, certifications, and compliance documents.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          'Home',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -344,7 +339,7 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -445,13 +440,13 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(doc['title'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark), maxLines: 1, overflow: TextOverflow.ellipsis),
           const SizedBox(height: 4),
           Text(doc['name'], style: GoogleFonts.figtree(fontSize: 13, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
           const SizedBox(height: 2),
           Text(doc['department'], style: GoogleFonts.figtree(fontSize: 13, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text('Uploaded: ${doc['uploaded']}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
           const SizedBox(height: 4),
           Row(

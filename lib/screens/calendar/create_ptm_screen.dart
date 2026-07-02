@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -80,7 +81,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
                 children: [
                   const SizedBox(height: 12),
                   Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -238,7 +239,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
         children: [
           const SizedBox(height: 12),
           Container(width: 40, height: 4, decoration: BoxDecoration(color: const Color(0xFFE2E8F0), borderRadius: BorderRadius.circular(2))),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
@@ -304,7 +305,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
                 Text('New PTM', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFF6366F1))),
                 const SizedBox(height: 4),
                 Text(_titleCtrl.text.isEmpty ? 'Meeting title' : _titleCtrl.text, style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: const Color(0xFF0F172A))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildPreviewRow(LucideIcons.calendar, _selectedDate == null ? 'No date selected' : DateFormat('EEEE, d MMM yyyy').format(_selectedDate!)),
                 _buildPreviewRow(LucideIcons.clock, _startTime == null || _endTime == null ? 'Time not set' : '${_startTime!.format(context)} to ${_endTime!.format(context)}'),
                 _buildPreviewRow(LucideIcons.mapPin, _selectedVenue ?? 'No venue'),
@@ -318,7 +319,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
           _buildLabel('Meeting Title', required: true),
           _buildTextField(_titleCtrl, 'e.g. Term 1 Parent-Teacher Meeting', onChanged: (v) => setState((){})),
           
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -361,7 +362,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
             ],
           ),
           
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -398,7 +399,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
             ],
           ),
           
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildLabel('Parents Invited', required: true),
           _buildTextField(_parentsCtrl, 'e.g. 120', onChanged: (v) => setState((){}), keyboardType: TextInputType.number),
           
@@ -457,7 +458,7 @@ class _CreatePtmScreenState extends State<CreatePtmScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Meeting Summary', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF0F172A))),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildSummaryRow(LucideIcons.calendar, 'Title', _titleCtrl.text),
                 _buildSummaryRow(LucideIcons.calendar, 'Date', _selectedDate == null ? 'Not selected' : DateFormat('dd MMM yyyy').format(_selectedDate!)),
                 _buildSummaryRow(LucideIcons.clock, 'Time', _startTime == null || _endTime == null ? '--:-- -- to --:-- --' : '${_startTime!.format(context)} to ${_endTime!.format(context)}'),

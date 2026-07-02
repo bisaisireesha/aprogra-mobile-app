@@ -76,10 +76,14 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   late String _activeGroup;
+  String? _activeScreenState;
+
+  String get _activeScreen => _activeScreenState ?? widget.activeScreen;
 
   @override
   void initState() {
     super.initState();
+    _activeScreenState = widget.activeScreen;
     if (_isAcademicsGroup(widget.activeScreen)) {
       _activeGroup = 'Academics';
     } else if (_isStaffGroup(widget.activeScreen)) {
@@ -117,7 +121,7 @@ class _MenuScreenState extends State<MenuScreen> {
   bool _isHostelGroup(String screen) {
     const hostelScreens = [
       'Hostel Dashboard', 'Blocks', 'Room Allocations', 'Wardens', 'Hostel Attendance',
-      'Mess Dashboard', 'Mess Menu', 'Inventory', 'Vendors', 'Reports'
+      'Mess Dashboard', 'Mess Menu', 'Inventory', 'Vendors', 'Hostel Reports'
     ];
     return hostelScreens.contains(screen);
   }
@@ -125,7 +129,7 @@ class _MenuScreenState extends State<MenuScreen> {
   bool _isStaffGroup(String screen) {
     const staffScreens = [
       'Staff Overview', 'Teaching Staff', 'Non-Teaching Staff', 'Departments',
-      'Attendance', 'Leaves', 'Workload', 'Payroll', 'Documents', 'Staff'
+      'Staff Attendance', 'Leaves', 'Workload', 'Payroll', 'Documents', 'Staff Reports'
     ];
     return staffScreens.contains(screen);
   }
@@ -134,7 +138,7 @@ class _MenuScreenState extends State<MenuScreen> {
     const academicsScreens = [
       'Academics', 'Student Insights', 'Classes', 'Subjects', 'Students',
       'Timetables', 'Teachers', 'Homework', 'Assignments',
-      'Student Attendance', 'Teacher Attendance', 'Exams', 'Grade Scales',
+      'Student Attendance', 'Staff Attendance', 'Exams', 'Grade Scales',
       'Marks Entry', 'Report Cards', 'Learning Resources', 'Transfer Certificates',
       'Bonafide Certificates', 'Custom Certificates'
     ];
@@ -143,9 +147,9 @@ class _MenuScreenState extends State<MenuScreen> {
 
   bool _isFeesGroup(String screen) {
     const feesScreens = [
-      'Fees & Invoices', 'Collect Fee', 'Invoices', 'Fee Structure',
+      'Fee Dashboard', 'Collect Fee', 'Invoices', 'Fee Structure',
       'Due Payments', 'Payments & Receipts', 'Payment Reminders',
-      'Discounts & Scholarships', 'Fee Reports', 'Fee Reports'
+      'Discounts & Scholarships', 'Fee Reports'
     ];
     return feesScreens.contains(screen);
   }
@@ -237,30 +241,37 @@ class _MenuScreenState extends State<MenuScreen> {
               child: Column(
                 children: [
                   _buildRailIcon(context, LucideIcons.layoutGrid, _activeGroup == 'Overview', () {
-                    setState(() { _activeGroup = 'Overview'; });
+                    setState(() { _activeGroup = 'Overview'; _activeScreenState = 'Main Dashboard'; });
+                    _navigateTo(context, const DashboardScreen());
                   }),
                   _buildRailIcon(context, LucideIcons.graduationCap, _activeGroup == 'Academics', () {
-                    setState(() { _activeGroup = 'Academics'; });
+                    setState(() { _activeGroup = 'Academics'; _activeScreenState = 'Classes'; });
+                    _navigateTo(context, const ClassesScreen());
                   }),
                   _buildRailIcon(context, LucideIcons.briefcase, _activeGroup == 'StaffManagement', () {
-                    setState(() { _activeGroup = 'StaffManagement'; });
+                    setState(() { _activeGroup = 'StaffManagement'; _activeScreenState = 'Staff Overview'; });
+                    _navigateTo(context, const StaffManagementScreen());
                   }),
-                  _buildRailIcon(context, LucideIcons.creditCard, _activeGroup == 'Fees' || widget.activeScreen == 'Financial Summary', () {
-                    setState(() { _activeGroup = 'Fees'; });
+                  _buildRailIcon(context, LucideIcons.creditCard, _activeGroup == 'Fees', () {
+                    setState(() { _activeGroup = 'Fees'; _activeScreenState = 'Fee Dashboard'; });
+                    _navigateTo(context, const FeesDashboardScreen());
                   }),
-                  _buildRailIcon(context, LucideIcons.calendar, _activeGroup == 'Events' || widget.activeScreen == 'Calendar' || widget.activeScreen == 'PTM Slot Booking', () {
-                    setState(() { _activeGroup = 'Events'; });
+                  _buildRailIcon(context, LucideIcons.calendar, _activeGroup == 'Events', () {
+                    setState(() { _activeGroup = 'Events'; _activeScreenState = 'Calendar'; });
+                    _navigateTo(context, const SchoolCalendarScreen());
                   }),
                   _buildRailIcon(context, LucideIcons.bedDouble, _activeGroup == 'Hostel', () {
-                    setState(() { _activeGroup = 'Hostel'; });
+                    setState(() { _activeGroup = 'Hostel'; _activeScreenState = 'Hostel Dashboard'; });
+                    _navigateTo(context, const HostelDashboardScreen());
                   }),
                   _buildRailIcon(context, LucideIcons.messageSquare, _activeGroup == 'Messages', () {
-                    setState(() { _activeGroup = 'Messages'; });
+                    setState(() { _activeGroup = 'Messages'; _activeScreenState = 'Messages'; });
                     _navigateTo(context, const MessagesScreen());
                   }, hasBadge: true),
 
                   _buildRailIcon(context, LucideIcons.bus, _activeGroup == 'Transport', () {
-                    setState(() { _activeGroup = 'Transport'; });
+                    setState(() { _activeGroup = 'Transport'; _activeScreenState = 'Transport Dashboard'; });
+                    _navigateTo(context, const TransportDashboardScreen());
                   }),
                 ],
               ),
@@ -547,7 +558,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Discounts & Scholarships', LucideIcons.award, const DiscountsScholarshipsScreen()),
                   _buildMenuItem(context, 'Payment Reminders', LucideIcons.messageSquare, const PaymentRemindersScreen()),
                   _buildSectionTitle('INSIGHTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const ReportsScreen()),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const ReportsScreen(), activeId: 'Fee Reports'),
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -609,14 +620,14 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Departments', LucideIcons.layoutDashboard, const DepartmentsScreen()),
                   
                   _buildSectionTitle('OPERATIONS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Attendance', LucideIcons.calendarCheck, const StaffAttendanceScreen()),
+                  _buildMenuItem(context, 'Attendance', LucideIcons.calendarCheck, const StaffAttendanceScreen(), activeId: 'Staff Attendance'),
                   _buildMenuItem(context, 'Leaves', LucideIcons.calendarOff, const StaffLeavesScreen()),
                   _buildMenuItem(context, 'Workload', LucideIcons.clipboardList, const StaffWorkloadScreen()),
                   _buildMenuItem(context, 'Payroll', LucideIcons.wallet, const StaffPayrollScreen()),
                   
                   _buildSectionTitle('RECORDS', topPadding: 20.h),
                   _buildMenuItem(context, 'Documents', LucideIcons.fileText, const StaffDocumentsScreen()),
-                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const StaffReportsScreen()),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const StaffReportsScreen(), activeId: 'Staff Reports'),
                   
                   SizedBox(height: 24.h),
                 ],
@@ -732,7 +743,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Inventory', LucideIcons.package, const HostelInventoryScreen()),
                   _buildMenuItem(context, 'Vendors', LucideIcons.briefcase, const HostelVendorsScreen()),
                   _buildSectionTitle('INSIGHTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const HostelReportsScreen()),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const HostelReportsScreen(), activeId: 'Hostel Reports'),
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -792,7 +803,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   _buildMenuItem(context, 'Live Tracking', LucideIcons.activity, const LiveTrackingScreen()),
                   _buildMenuItem(context, 'Maintenance', LucideIcons.package, const MaintenanceScreen()),
                   _buildSectionTitle('INSIGHTS', topPadding: 20.h),
-                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const TransportReportsScreen()),
+                  _buildMenuItem(context, 'Reports', LucideIcons.barChart2, const TransportReportsScreen(), activeId: 'Transport Reports'),
                   SizedBox(height: 24.h),
                 ],
               ),
@@ -819,11 +830,15 @@ class _MenuScreenState extends State<MenuScreen> {
     );
   }
 
-  Widget _buildMenuItem(BuildContext context, String title, IconData icon, Widget screen) {
+  Widget _buildMenuItem(BuildContext context, String title, IconData icon, Widget screen, {String? activeId}) {
     const isDark = false;
-    final isActive = widget.activeScreen == title || (widget.activeScreen == 'Main Dashboard' && title == 'Main Dashboard');
+    final matchId = activeId ?? title;
+    final isActive = _activeScreen == matchId || (_activeScreen == 'Main Dashboard' && matchId == 'Main Dashboard');
     return GestureDetector(
-      onTap: () => _navigateTo(context, screen),
+      onTap: () {
+        setState(() { _activeScreenState = matchId; });
+        _navigateTo(context, screen);
+      },
       behavior: HitTestBehavior.opaque,
       child: Container(
         margin: EdgeInsets.only(bottom: 4.h), 

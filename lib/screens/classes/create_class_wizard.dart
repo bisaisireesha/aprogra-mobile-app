@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -111,54 +112,21 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      child: Row(
-        children: [
-          IconButton(
-            icon: const Icon(Icons.close, color: Color(0xFF8F96A3), size: 20),
-            onPressed: () => Navigator.pop(context),
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Create New Class',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-          const SizedBox(width: 8),
-          Expanded(child: Text('Create New Class', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark), overflow: TextOverflow.ellipsis)),
-          if (_currentStep == 1)
-            IconButton(
-              icon: const Icon(Icons.chevron_left, color: Color(0xFF8F96A3)),
-              onPressed: () {
-                setState(() {
-                  _currentStep = 0;
-                });
-              },
-            ),
-          const SizedBox(width: 8),
-          ElevatedButton(
-            onPressed: () {
-              if (_currentStep == 0 && _enableSections) {
-                setState(() {
-                  _currentStep = 1;
-                });
-              } else {
-                _submitWizard();
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _accent.withValues(alpha: (_currentStep == 0 && !_enableSections) ? 0.5 : 1.0),
-              elevation: 0,
-              padding: EdgeInsets.symmetric(horizontal: _isWide ? 24 : 12, vertical: 14),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-            child: Text(
-              _currentStep == 0 ? 'Continue' : 'Create',
-              style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+        ),
+        const SizedBox.shrink(),
+      ],
     );
   }
 
@@ -244,7 +212,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
                 ),
                 const SizedBox(height: 32),
                 const Divider(height: 1, color: Color(0xFFEBEBEB)),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -366,7 +334,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
               Text('${_sections.length} total', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -548,7 +516,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
         ) : Column(
           children: [
             _buildSectionNameInput(),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildClassTeacherInput(),
           ],
         ),
@@ -562,7 +530,7 @@ class _CreateClassWizardState extends State<CreateClassWizard> {
         ) : Column(
           children: [
             _buildRoomInput(),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildCapacityInput(),
           ],
         ),

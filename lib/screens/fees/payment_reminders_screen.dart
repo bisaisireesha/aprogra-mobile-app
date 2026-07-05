@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -22,9 +23,6 @@ class PaymentRemindersScreen extends StatefulWidget {
 }
 
 class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
-
-
-  
   @override
   void initState() {
     super.initState();
@@ -36,18 +34,68 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
   String _activeTemplateTab = 'Email';
 
   List<Map<String, dynamic>> _templates = [
-    {'name': 'Friendly Reminder', 'status': 'Active', 'preview': 'Dear {parent_name}, your fee of ₹{amount} is due on {due_date}. Kindly...'},
-    {'name': '2nd Notice', 'status': 'Active', 'preview': 'This is a gentle follow-up regarding an outstanding fee of ₹{amount}...'},
-    {'name': 'Final Notice', 'status': 'Active', 'preview': 'URGENT: Fee dues of ₹{amount} for {student_name} are significantly...'},
-    {'name': 'Receipt Confirmed', 'status': 'Draft', 'preview': 'We have received ₹{amount} towards {invoice_ref}. Your receipt is...'},
+    {
+      'name': 'Friendly Reminder',
+      'status': 'Active',
+      'preview':
+          'Dear {parent_name}, your fee of ₹{amount} is due on {due_date}. Kindly...',
+    },
+    {
+      'name': '2nd Notice',
+      'status': 'Active',
+      'preview':
+          'This is a gentle follow-up regarding an outstanding fee of ₹{amount}...',
+    },
+    {
+      'name': 'Final Notice',
+      'status': 'Active',
+      'preview':
+          'URGENT: Fee dues of ₹{amount} for {student_name} are significantly...',
+    },
+    {
+      'name': 'Receipt Confirmed',
+      'status': 'Draft',
+      'preview':
+          'We have received ₹{amount} towards {invoice_ref}. Your receipt is...',
+    },
   ];
 
   final List<Map<String, dynamic>> _campaigns = [
-    {'name': 'May 2025 – 1st Reminder', 'status': 'Scheduled', 'date': '16 May 2025, 09:00 AM', 'channels': 'Email & SMS', 'recipients': '248'},
-    {'name': 'Overdue – WhatsApp Blast', 'status': 'Sent', 'date': '15 May 2025, 04:30 PM', 'channels': 'WhatsApp', 'recipients': '84'},
-    {'name': 'Apr Final Notice', 'status': 'Sent', 'date': '30 Apr 2025, 10:00 AM', 'channels': 'SMS', 'recipients': '62'},
-    {'name': 'Apr 2nd Follow-up', 'status': 'Sent', 'date': '25 Apr 2025, 09:00 AM', 'channels': 'Email', 'recipients': '110'},
-    {'name': 'Welcome + Fee Invoice', 'status': 'Sent', 'date': '01 Apr 2025, 08:00 AM', 'channels': 'Email', 'recipients': '620'},
+    {
+      'name': 'May 2025 – 1st Reminder',
+      'status': 'Scheduled',
+      'date': '16 May 2025, 09:00 AM',
+      'channels': 'Email & SMS',
+      'recipients': '248',
+    },
+    {
+      'name': 'Overdue – WhatsApp Blast',
+      'status': 'Sent',
+      'date': '15 May 2025, 04:30 PM',
+      'channels': 'WhatsApp',
+      'recipients': '84',
+    },
+    {
+      'name': 'Apr Final Notice',
+      'status': 'Sent',
+      'date': '30 Apr 2025, 10:00 AM',
+      'channels': 'SMS',
+      'recipients': '62',
+    },
+    {
+      'name': 'Apr 2nd Follow-up',
+      'status': 'Sent',
+      'date': '25 Apr 2025, 09:00 AM',
+      'channels': 'Email',
+      'recipients': '110',
+    },
+    {
+      'name': 'Welcome + Fee Invoice',
+      'status': 'Sent',
+      'date': '01 Apr 2025, 08:00 AM',
+      'channels': 'Email',
+      'recipients': '620',
+    },
   ];
 
   final List<Map<String, dynamic>> _deliveryLogs = [
@@ -113,7 +161,6 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
     },
   ];
 
-  
   Future<void> _loadTemplates() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__templates_data');
@@ -152,8 +199,8 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Payment Reminders'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -167,7 +214,10 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -212,7 +262,11 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
             margin: const EdgeInsets.only(top: 2),
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(color: Colors.transparent),
-            child: Icon(canPop ? LucideIcons.arrowLeft : LucideIcons.menu, size: 24, color: _dark),
+            child: Icon(
+              canPop ? LucideIcons.arrowLeft : LucideIcons.menu,
+              size: 24,
+              color: _dark,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -220,9 +274,19 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Payment Reminders', style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark)),
+              Text(
+                'Payment Reminders',
+                style: GoogleFonts.figtree(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: _dark,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('Automate and send reminders across Email, SMS, and WhatsApp channels.', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+              Text(
+                'Automate and send reminders across Email, SMS, and WhatsApp channels.',
+                style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+              ),
             ],
           ),
         ),
@@ -236,7 +300,9 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
       children: [
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New Template clicked')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('New Template clicked')),
+            );
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -250,7 +316,14 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               children: [
                 const Icon(LucideIcons.plus, size: 14, color: _dark),
                 const SizedBox(width: 6),
-                Text('New Template', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _dark)),
+                Text(
+                  'New Template',
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: _dark,
+                  ),
+                ),
               ],
             ),
           ),
@@ -258,21 +331,36 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
         const SizedBox(width: 12),
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Create Campaign clicked')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Create Campaign clicked')),
+            );
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               color: _primary,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))],
+              boxShadow: [
+                BoxShadow(
+                  color: _primary.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(LucideIcons.send, size: 14, color: Colors.white),
                 const SizedBox(width: 6),
-                Text('Create Campaign', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
+                Text(
+                  'Create Campaign',
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -283,17 +371,57 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildSummaryCards() {
     final kpis = [
-      {'label': 'Sent This Month', 'value': '1,248', 'sub': '+84 today', 'icon': LucideIcons.send, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFF3E8FF)},
-      {'label': 'Delivered', 'value': '1,186', 'sub': '95.0% rate', 'icon': LucideIcons.checkCircle, 'color': const Color(0xFF22C55E), 'bg': const Color(0xFFF0FDF4)},
-      {'label': 'Opened', 'value': '834', 'sub': '70.3% rate', 'icon': LucideIcons.eye, 'color': const Color(0xFF0EA5E9), 'bg': const Color(0xFFF0F9FF)},
-      {'label': 'Responded', 'value': '312', 'sub': '37.4% rate', 'icon': LucideIcons.barChart2, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFFFBEB)},
+      {
+        'label': 'Sent This Month',
+        'value': '1,248',
+        'sub': '+84 today',
+        'icon': LucideIcons.send,
+        'color': const Color(0xFF8B5CF6),
+        'bg': const Color(0xFFF3E8FF),
+      },
+      {
+        'label': 'Delivered',
+        'value': '1,186',
+        'sub': '95.0% rate',
+        'icon': LucideIcons.checkCircle,
+        'color': const Color(0xFF22C55E),
+        'bg': const Color(0xFFF0FDF4),
+      },
+      {
+        'label': 'Opened',
+        'value': '834',
+        'sub': '70.3% rate',
+        'icon': LucideIcons.eye,
+        'color': const Color(0xFF0EA5E9),
+        'bg': const Color(0xFFF0F9FF),
+      },
+      {
+        'label': 'Responded',
+        'value': '312',
+        'sub': '37.4% rate',
+        'icon': LucideIcons.barChart2,
+        'color': const Color(0xFFF59E0B),
+        'bg': const Color(0xFFFFFBEB),
+      },
     ];
 
     return Column(
       children: [
-        Row(children: [Expanded(child: _kpiCard(kpis[0])), const SizedBox(width: 12), Expanded(child: _kpiCard(kpis[1]))]),
+        Row(
+          children: [
+            Expanded(child: _kpiCard(kpis[0])),
+            const SizedBox(width: 12),
+            Expanded(child: _kpiCard(kpis[1])),
+          ],
+        ),
         const SizedBox(height: 12),
-        Row(children: [Expanded(child: _kpiCard(kpis[2])), const SizedBox(width: 12), Expanded(child: _kpiCard(kpis[3]))]),
+        Row(
+          children: [
+            Expanded(child: _kpiCard(kpis[2])),
+            const SizedBox(width: 12),
+            Expanded(child: _kpiCard(kpis[3])),
+          ],
+        ),
       ],
     );
   }
@@ -301,20 +429,48 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
   Widget _kpiCard(Map<String, dynamic> k) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
-            child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
+            decoration: BoxDecoration(
+              color: k['bg'] as Color,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              k['icon'] as IconData,
+              size: 18,
+              color: k['color'] as Color,
+            ),
           ),
           const SizedBox(height: 16),
-          Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
+          Text(
+            k['value'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: _dark,
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
-          Text(k['sub'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+          Text(
+            k['label'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: _dark,
+            ),
+          ),
+          Text(
+            k['sub'] as String,
+            style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+          ),
         ],
       ),
     );
@@ -324,7 +480,13 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -336,11 +498,31 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
         showUnselectedLabels: true,
         currentIndex: 2,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            activeIcon: Icon(Icons.account_balance_wallet),
+            label: 'Fees',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );
@@ -348,7 +530,11 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildMessageTemplates() {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -357,14 +543,26 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Message Templates', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                Text(
+                  'Message Templates',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _dark,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Edit and manage channel-specific templates', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                Text(
+                  'Edit and manage channel-specific templates',
+                  style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                ),
               ],
             ),
           ),
           Container(
-            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: _border))),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: _border)),
+            ),
             child: Row(
               children: [
                 _buildTemplateTab('Email', LucideIcons.mail),
@@ -378,13 +576,22 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
             padding: const EdgeInsets.all(20),
             child: GestureDetector(
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Add template clicked')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Add template clicked')),
+                );
               },
               child: Row(
                 children: [
                   const Icon(LucideIcons.plus, size: 16, color: _primary),
                   const SizedBox(width: 8),
-                  Text('Add template', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _primary)),
+                  Text(
+                    'Add template',
+                    style: GoogleFonts.figtree(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: _primary,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -402,14 +609,26 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: isActive ? _primary : Colors.transparent, width: 2)),
+            border: Border(
+              bottom: BorderSide(
+                color: isActive ? _primary : Colors.transparent,
+                width: 2,
+              ),
+            ),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 14, color: isActive ? _primary : _muted),
               const SizedBox(width: 8),
-              Text(label, style: GoogleFonts.figtree(fontSize: 13, fontWeight: isActive ? FontWeight.w600 : FontWeight.w500, color: isActive ? _primary : _muted)),
+              Text(
+                label,
+                style: GoogleFonts.figtree(
+                  fontSize: 13,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                  color: isActive ? _primary : _muted,
+                ),
+              ),
             ],
           ),
         ),
@@ -419,12 +638,18 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildTemplateCard(Map<String, dynamic> t) {
     final isActive = t['status'] == 'Active';
-    final statusColor = isActive ? const Color(0xFF22C55E) : const Color(0xFF64748B);
-    final statusBg = isActive ? const Color(0xFFF0FDF4) : const Color(0xFFF1F5F9);
+    final statusColor = isActive
+        ? const Color(0xFF22C55E)
+        : const Color(0xFF64748B);
+    final statusBg = isActive
+        ? const Color(0xFFF0FDF4)
+        : const Color(0xFFF1F5F9);
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: _border))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: _border)),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -434,17 +659,43 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: Text(t['name'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark), overflow: TextOverflow.ellipsis)),
+                    Expanded(
+                      child: Text(
+                        t['name'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _dark,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                      child: Text(t['status'] as String, style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusBg,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        t['status'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: statusColor,
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                Text(t['preview'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                Text(
+                  t['preview'] as String,
+                  style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+                ),
               ],
             ),
           ),
@@ -452,12 +703,16 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           Row(
             children: [
               GestureDetector(
-                onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Edit ${t['name']}' ))),
+                onTap: () => ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('Edit ${t['name']}'))),
                 child: const Icon(LucideIcons.pencil, size: 16, color: _muted),
               ),
               const SizedBox(width: 16),
               GestureDetector(
-                onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Duplicate ${t['name']}' ))),
+                onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Duplicate ${t['name']}')),
+                ),
                 child: const Icon(LucideIcons.copy, size: 16, color: _muted),
               ),
             ],
@@ -469,7 +724,11 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildScheduledCampaigns() {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -478,9 +737,19 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Scheduled Campaigns', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                Text(
+                  'Scheduled Campaigns',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _dark,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Upcoming and past campaign runs', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                Text(
+                  'Upcoming and past campaign runs',
+                  style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                ),
               ],
             ),
           ),
@@ -493,12 +762,18 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildCampaignCard(Map<String, dynamic> c) {
     final isScheduled = c['status'] == 'Scheduled';
-    final statusColor = isScheduled ? const Color(0xFFF59E0B) : const Color(0xFF0EA5E9);
-    final statusBg = isScheduled ? const Color(0xFFFFFBEB) : const Color(0xFFF0F9FF);
+    final statusColor = isScheduled
+        ? const Color(0xFFF59E0B)
+        : const Color(0xFF0EA5E9);
+    final statusBg = isScheduled
+        ? const Color(0xFFFFFBEB)
+        : const Color(0xFFF0F9FF);
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: _border))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: _border)),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -508,12 +783,35 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               children: [
                 Row(
                   children: [
-                    Expanded(child: Text(c['name'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark), overflow: TextOverflow.ellipsis)),
+                    Expanded(
+                      child: Text(
+                        c['name'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _dark,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                     const SizedBox(width: 12),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                      child: Text(c['status'] as String, style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusBg,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        c['status'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: statusColor,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -525,15 +823,24 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
                   children: [
                     const Icon(LucideIcons.calendar, size: 12, color: _muted),
                     const SizedBox(width: 4),
-                    Text(c['date'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                    Text(
+                      c['date'] as String,
+                      style: GoogleFonts.figtree(fontSize: 11, color: _muted),
+                    ),
                     const SizedBox(width: 12),
                     const Icon(LucideIcons.bell, size: 12, color: _muted),
                     const SizedBox(width: 4),
-                    Text(c['channels'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                    Text(
+                      c['channels'] as String,
+                      style: GoogleFonts.figtree(fontSize: 11, color: _muted),
+                    ),
                     const SizedBox(width: 12),
                     const Icon(LucideIcons.send, size: 12, color: _muted),
                     const SizedBox(width: 4),
-                    Text('${c['recipients']} recipients', style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                    Text(
+                      '${c['recipients']} recipients',
+                      style: GoogleFonts.figtree(fontSize: 11, color: _muted),
+                    ),
                   ],
                 ),
               ],
@@ -542,22 +849,44 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           const SizedBox(width: 16),
           isScheduled
               ? GestureDetector(
-                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cancel ${c['name']}' ))),
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Cancel ${c['name']}')),
+                  ),
                   child: Row(
                     children: [
-                      const Icon(LucideIcons.trash2, size: 14, color: Color(0xFFEF4444)),
+                      const Icon(
+                        LucideIcons.trash2,
+                        size: 14,
+                        color: Color(0xFFEF4444),
+                      ),
                       const SizedBox(width: 4),
-                      Text('Cancel', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFFEF4444))),
+                      Text(
+                        'Cancel',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFEF4444),
+                        ),
+                      ),
                     ],
                   ),
                 )
               : GestureDetector(
-                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('View ${c['name']}' ))),
+                  onTap: () => ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('View ${c['name']}'))),
                   child: Row(
                     children: [
                       const Icon(LucideIcons.eye, size: 14, color: _muted),
                       const SizedBox(width: 4),
-                      Text('View', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _muted)),
+                      Text(
+                        'View',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: _muted,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -568,7 +897,11 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
 
   Widget _buildDeliveryLogSection() {
     return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -586,23 +919,44 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {},
-                            child: const Icon(LucideIcons.arrowLeft, size: 20, color: _dark),
+                            child: const Icon(
+                              LucideIcons.arrowLeft,
+                              size: 20,
+                              color: _dark,
+                            ),
                           ),
                           const SizedBox(width: 12),
-                          Text('Delivery Log', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                          Text(
+                            'Delivery Log',
+                            style: GoogleFonts.figtree(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: _dark,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.only(left: 32),
-                        child: Text('Real-time delivery and engagement tracking', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                        child: Text(
+                          'Real-time delivery and engagement tracking',
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            color: _muted,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: _border),
+                  ),
                   child: const Icon(LucideIcons.filter, size: 16, color: _dark),
                 ),
               ],
@@ -611,13 +965,24 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Container(
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: _border)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: _border),
+              ),
               child: TextField(
                 style: GoogleFonts.figtree(fontSize: 14, color: _dark),
                 decoration: InputDecoration(
                   hintText: 'Search by recipient or template...',
-                  hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted.withValues(alpha: 0.6)),
-                  prefixIcon: const Icon(LucideIcons.search, size: 18, color: _muted),
+                  hintStyle: GoogleFonts.figtree(
+                    fontSize: 14,
+                    color: _muted.withValues(alpha: 0.6),
+                  ),
+                  prefixIcon: const Icon(
+                    LucideIcons.search,
+                    size: 18,
+                    color: _muted,
+                  ),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(vertical: 14),
                 ),
@@ -629,7 +994,10 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Center(
-              child: Text('Showing ${_deliveryLogs.length} of ${_deliveryLogs.length} entries', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+              child: Text(
+                'Showing ${_deliveryLogs.length} of ${_deliveryLogs.length} entries',
+                style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+              ),
             ),
           ),
         ],
@@ -641,61 +1009,100 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
     final isDelivered = d['status'] == 'Delivered';
     final isOpened = d['opened'] == 'Opened';
 
-    final statusColor = isDelivered ? const Color(0xFF22C55E) : const Color(0xFFEF4444);
-    final statusBg = isDelivered ? const Color(0xFFF0FDF4) : const Color(0xFFFEF2F2);
+    final statusColor = isDelivered
+        ? const Color(0xFF22C55E)
+        : const Color(0xFFEF4444);
+    final statusBg = isDelivered
+        ? const Color(0xFFF0FDF4)
+        : const Color(0xFFFEF2F2);
 
     final channelColor = d['channel'] == 'WhatsApp'
         ? const Color(0xFF0EA5E9)
         : d['channel'] == 'SMS'
-            ? const Color(0xFF22C55E)
-            : const Color(0xFF8B5CF6);
+        ? const Color(0xFF22C55E)
+        : const Color(0xFF8B5CF6);
 
     final channelBg = d['channel'] == 'WhatsApp'
         ? const Color(0xFFF0F9FF)
         : d['channel'] == 'SMS'
-            ? const Color(0xFFF0FDF4)
-            : const Color(0xFFF3E8FF);
+        ? const Color(0xFFF0FDF4)
+        : const Color(0xFFF3E8FF);
 
     final channelIcon = d['channel'] == 'WhatsApp'
         ? LucideIcons.messageCircle
         : d['channel'] == 'SMS'
-            ? LucideIcons.phone
-            : LucideIcons.mail;
+        ? LucideIcons.phone
+        : LucideIcons.mail;
 
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: _border))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: _border)),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(color: d['bg'] as Color, borderRadius: BorderRadius.circular(12)),
-            child: Icon(d['icon'] as IconData, size: 20, color: d['color'] as Color),
+            decoration: BoxDecoration(
+              color: d['bg'] as Color,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              d['icon'] as IconData,
+              size: 20,
+              color: d['color'] as Color,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(d['date'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                Text(
+                  d['date'] as String,
+                  style: GoogleFonts.figtree(fontSize: 11, color: _muted),
+                ),
                 const SizedBox(height: 4),
-                Text(d['name'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                Text(
+                  d['name'] as String,
+                  style: GoogleFonts.figtree(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: _dark,
+                  ),
+                ),
                 const SizedBox(height: 6),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(color: channelBg, borderRadius: BorderRadius.circular(12)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: channelBg,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(channelIcon, size: 10, color: channelColor),
                       const SizedBox(width: 4),
-                      Text(d['channel'] as String, style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: channelColor)),
+                      Text(
+                        d['channel'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: channelColor,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text('${d['template']} · ${d['amount']}', style: GoogleFonts.figtree(fontSize: 12, color: _dark)),
+                Text(
+                  '${d['template']} · ${d['amount']}',
+                  style: GoogleFonts.figtree(fontSize: 12, color: _dark),
+                ),
               ],
             ),
           ),
@@ -706,20 +1113,43 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               const SizedBox(height: 12),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                child: Text(d['status'] as String, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w600, color: statusColor)),
+                decoration: BoxDecoration(
+                  color: statusBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  d['status'] as String,
+                  style: GoogleFonts.figtree(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: statusColor,
+                  ),
+                ),
               ),
               const SizedBox(height: 8),
               if (isOpened)
                 Row(
                   children: [
-                    const Icon(LucideIcons.checkCircle, size: 12, color: Color(0xFF22C55E)),
+                    const Icon(
+                      LucideIcons.checkCircle,
+                      size: 12,
+                      color: Color(0xFF22C55E),
+                    ),
                     const SizedBox(width: 4),
-                    Text('Opened', style: GoogleFonts.figtree(fontSize: 11, color: const Color(0xFF22C55E))),
+                    Text(
+                      'Opened',
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        color: const Color(0xFF22C55E),
+                      ),
+                    ),
                   ],
                 )
               else
-                Text(d['opened'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _muted)),
+                Text(
+                  d['opened'] as String,
+                  style: GoogleFonts.figtree(fontSize: 11, color: _muted),
+                ),
             ],
           ),
         ],

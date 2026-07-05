@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 
 class MessDashboardScreen extends StatelessWidget {
@@ -13,18 +14,7 @@ class MessDashboardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Mess Dashboard'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.utensils), label: 'Mess'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +24,10 @@ class MessDashboardScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildStatusBadge(),
                   const SizedBox(height: 16),
@@ -136,7 +129,10 @@ class MessDashboardScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -144,7 +140,11 @@ class MessDashboardScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.search, size: 18, color: Color(0xFF94A3B8)),
+                    const Icon(
+                      LucideIcons.search,
+                      size: 18,
+                      color: Color(0xFF94A3B8),
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -168,7 +168,11 @@ class MessDashboardScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
               ),
-              child: const Icon(LucideIcons.slidersHorizontal, size: 18, color: Color(0xFF181821)),
+              child: const Icon(
+                LucideIcons.slidersHorizontal,
+                size: 18,
+                color: Color(0xFF181821),
+              ),
             ),
           ],
         ),
@@ -267,18 +271,25 @@ class MessDashboardScreen extends StatelessWidget {
     bool isTrendPositive,
     Color? trendOverrideColor,
   ) {
-    Color trendColor = trendOverrideColor ?? (isTrendPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444));
+    Color trendColor =
+        trendOverrideColor ??
+        (isTrendPositive ? const Color(0xFF10B981) : const Color(0xFFEF4444));
     Color trendBg = trendOverrideColor != null
         ? trendOverrideColor.withValues(alpha: 0.1)
         : (isTrendPositive ? const Color(0xFFD1FAE5) : const Color(0xFFFEE2E2));
-    IconData trendIcon = isTrendPositive ? LucideIcons.trendingUp : LucideIcons.trendingDown;
+    IconData trendIcon = isTrendPositive
+        ? LucideIcons.trendingUp
+        : LucideIcons.trendingDown;
 
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.15), width: 1.5),
+        border: Border.all(
+          color: Colors.grey.withValues(alpha: 0.15),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -362,26 +373,70 @@ class MessDashboardScreen extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: _buildGridNavCard('Mess Menu', 'Weekly plan · live', LucideIcons.fileEdit, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE))),
+            Expanded(
+              child: _buildGridNavCard(
+                'Mess Menu',
+                'Weekly plan · live',
+                LucideIcons.fileEdit,
+                const Color(0xFF8B5CF6),
+                const Color(0xFFEDE9FE),
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildGridNavCard('Meal Attendance', 'Track plate count', LucideIcons.clipboardCheck, const Color(0xFF10B981), const Color(0xFFD1FAE5))),
+            Expanded(
+              child: _buildGridNavCard(
+                'Meal Attendance',
+                'Track plate count',
+                LucideIcons.clipboardCheck,
+                const Color(0xFF10B981),
+                const Color(0xFFD1FAE5),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
         Row(
           children: [
-            Expanded(child: _buildGridNavCard('Inventory', 'Stock · indents', LucideIcons.box, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE))),
+            Expanded(
+              child: _buildGridNavCard(
+                'Inventory',
+                'Stock · indents',
+                LucideIcons.box,
+                const Color(0xFF0EA5E9),
+                const Color(0xFFE0F2FE),
+              ),
+            ),
             const SizedBox(width: 12),
-            Expanded(child: _buildGridNavCard('Vendors', 'Bills · contracts', LucideIcons.briefcase, const Color(0xFFF59E0B), const Color(0xFFFEF3C7))),
+            Expanded(
+              child: _buildGridNavCard(
+                'Vendors',
+                'Bills · contracts',
+                LucideIcons.briefcase,
+                const Color(0xFFF59E0B),
+                const Color(0xFFFEF3C7),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
-        _buildHorizontalNavCard('Reports', 'Cost · wastage', LucideIcons.fileText, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE)),
+        _buildHorizontalNavCard(
+          'Reports',
+          'Cost · wastage',
+          LucideIcons.fileText,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+        ),
       ],
     );
   }
 
-  Widget _buildGridNavCard(String title, String subtitle, IconData icon, Color iconColor, Color iconBg) {
+  Widget _buildGridNavCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -429,7 +484,13 @@ class MessDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHorizontalNavCard(String title, String subtitle, IconData icon, Color iconColor, Color iconBg) {
+  Widget _buildHorizontalNavCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -532,7 +593,11 @@ class MessDashboardScreen extends StatelessWidget {
                     color: const Color(0xFF6366F1),
                   ),
                 ),
-                const Icon(LucideIcons.chevronRight, size: 14, color: Color(0xFF6366F1)),
+                const Icon(
+                  LucideIcons.chevronRight,
+                  size: 14,
+                  color: Color(0xFF6366F1),
+                ),
               ],
             ),
           ],
@@ -597,7 +662,13 @@ class MessDashboardScreen extends StatelessWidget {
                 'UPCOMING',
                 const Color(0xFF64748B),
                 const Color(0xFFF1F5F9),
-                ['Paneer Butter Masala', 'Roti', 'Dal Tadka', 'Rice', 'Gulab Jamun'],
+                [
+                  'Paneer Butter Masala',
+                  'Roti',
+                  'Dal Tadka',
+                  'Rice',
+                  'Gulab Jamun',
+                ],
                 0,
                 320,
                 0.0,
@@ -633,7 +704,10 @@ class MessDashboardScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.withValues(alpha: 0.15), width: 1.5),
+        border: Border.all(
+          color: Colors.grey.withValues(alpha: 0.15),
+          width: 1.5,
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.02),
@@ -674,7 +748,11 @@ class MessDashboardScreen extends StatelessWidget {
                       const SizedBox(height: 2),
                       Row(
                         children: [
-                          const Icon(LucideIcons.clock, size: 12, color: Color(0xFF94A3B8)),
+                          const Icon(
+                            LucideIcons.clock,
+                            size: 12,
+                            color: Color(0xFF94A3B8),
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             time,
@@ -713,7 +791,10 @@ class MessDashboardScreen extends StatelessWidget {
             runSpacing: 8,
             children: items.map((item) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF1F5F9),
                   borderRadius: BorderRadius.circular(16),
@@ -793,7 +874,11 @@ class MessDashboardScreen extends StatelessWidget {
                         color: const Color(0xFFEDE9FE),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(LucideIcons.fileEdit, color: Color(0xFF8B5CF6), size: 18),
+                      child: const Icon(
+                        LucideIcons.fileEdit,
+                        color: Color(0xFF8B5CF6),
+                        size: 18,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Column(
@@ -839,19 +924,97 @@ class MessDashboardScreen extends StatelessWidget {
               horizontalMargin: 16,
               columnSpacing: 24,
               columns: [
-                DataColumn(label: Text('Day', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF595973)))),
-                DataColumn(label: Text('Breakfast', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF595973)))),
-                DataColumn(label: Text('Lunch', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF595973)))),
-                DataColumn(label: Text('Dinner', style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF595973)))),
+                DataColumn(
+                  label: Text(
+                    'Day',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF595973),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Breakfast',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF595973),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Lunch',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF595973),
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Dinner',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF595973),
+                    ),
+                  ),
+                ),
               ],
               rows: [
-                _buildMenuRow('Mon', 'Idli · Sambar', 'Chole · Rice', 'Veg Pulao', false),
-                _buildMenuRow('Tue', 'Poha · Eggs', 'Rajma · Rice', 'Paneer · Roti', false),
-                _buildMenuRow('Wed', 'Paratha · Curd', 'Dal · Sabzi', 'Pasta · Soup', true),
-                _buildMenuRow('Thu', 'Upma · Banana', 'Kadhi · Rice', 'Egg Curry · Roti', false),
-                _buildMenuRow('Fri', 'Sandwich · Milk', 'Biryani · Raita', 'Chowmein · Manchurian', false),
-                _buildMenuRow('Sat', 'Dosa · Chutney', 'Special Thali', 'Pav Bhaji', false),
-                _buildMenuRow('Sun', 'Puri · Aloo', 'Chicken / Mushroom', 'Fried Rice · Dessert', false),
+                _buildMenuRow(
+                  'Mon',
+                  'Idli · Sambar',
+                  'Chole · Rice',
+                  'Veg Pulao',
+                  false,
+                ),
+                _buildMenuRow(
+                  'Tue',
+                  'Poha · Eggs',
+                  'Rajma · Rice',
+                  'Paneer · Roti',
+                  false,
+                ),
+                _buildMenuRow(
+                  'Wed',
+                  'Paratha · Curd',
+                  'Dal · Sabzi',
+                  'Pasta · Soup',
+                  true,
+                ),
+                _buildMenuRow(
+                  'Thu',
+                  'Upma · Banana',
+                  'Kadhi · Rice',
+                  'Egg Curry · Roti',
+                  false,
+                ),
+                _buildMenuRow(
+                  'Fri',
+                  'Sandwich · Milk',
+                  'Biryani · Raita',
+                  'Chowmein · Manchurian',
+                  false,
+                ),
+                _buildMenuRow(
+                  'Sat',
+                  'Dosa · Chutney',
+                  'Special Thali',
+                  'Pav Bhaji',
+                  false,
+                ),
+                _buildMenuRow(
+                  'Sun',
+                  'Puri · Aloo',
+                  'Chicken / Mushroom',
+                  'Fried Rice · Dessert',
+                  false,
+                ),
               ],
             ),
           ),
@@ -861,7 +1024,13 @@ class MessDashboardScreen extends StatelessWidget {
     );
   }
 
-  DataRow _buildMenuRow(String day, String breakfast, String lunch, String dinner, bool isToday) {
+  DataRow _buildMenuRow(
+    String day,
+    String breakfast,
+    String lunch,
+    String dinner,
+    bool isToday,
+  ) {
     return DataRow(
       color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         return isToday ? const Color(0xFFF8F5FF) : null;
@@ -872,28 +1041,63 @@ class MessDashboardScreen extends StatelessWidget {
             children: [
               Text(
                 day,
-                style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF181821)),
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF181821),
+                ),
               ),
               if (isToday) ...[
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFEDE9FE),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     'TODAY',
-                    style: GoogleFonts.inter(fontSize: 9, fontWeight: FontWeight.w700, color: const Color(0xFF8B5CF6)),
+                    style: GoogleFonts.inter(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF8B5CF6),
+                    ),
                   ),
                 ),
               ],
             ],
           ),
         ),
-        DataCell(Text(breakfast, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF595973)))),
-        DataCell(Text(lunch, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF595973)))),
-        DataCell(Text(dinner, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF595973)))),
+        DataCell(
+          Text(
+            breakfast,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: const Color(0xFF595973),
+            ),
+          ),
+        ),
+        DataCell(
+          Text(
+            lunch,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: const Color(0xFF595973),
+            ),
+          ),
+        ),
+        DataCell(
+          Text(
+            dinner,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: const Color(0xFF595973),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -928,7 +1132,11 @@ class MessDashboardScreen extends StatelessWidget {
                         color: const Color(0xFFE0F2FE),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(LucideIcons.box, color: Color(0xFF0EA5E9), size: 18),
+                      child: const Icon(
+                        LucideIcons.box,
+                        color: Color(0xFF0EA5E9),
+                        size: 18,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Column(
@@ -965,18 +1173,88 @@ class MessDashboardScreen extends StatelessWidget {
             ),
           ),
           Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
-          _buildInventoryItem('Rice (Basmati)', '120 kg on hand', 'min 80 kg', LucideIcons.wheat, const Color(0xFF10B981), const Color(0xFFD1FAE5), 'Healthy', 0.8, false),
-          _buildInventoryItem('Wheat Flour', '45 kg on hand', 'min 60 kg', LucideIcons.wheat, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), 'Low', 0.4, false),
-          _buildInventoryItem('Cooking Oil', '28 L on hand', 'min 20 L', LucideIcons.droplet, const Color(0xFF10B981), const Color(0xFFD1FAE5), 'Healthy', 0.6, false),
-          _buildInventoryItem('Toor Dal', '12 kg on hand', 'min 25 kg', LucideIcons.leaf, const Color(0xFFEF4444), const Color(0xFFFEE2E2), 'Critical', 0.15, false),
-          _buildInventoryItem('Onions', '38 kg on hand', 'min 30 kg', LucideIcons.leaf, const Color(0xFF10B981), const Color(0xFFD1FAE5), 'Healthy', 0.7, false),
-          _buildInventoryItem('LPG Cylinders', '2 pcs on hand', 'min 3 pcs', LucideIcons.flame, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), 'Low', 0.3, true),
+          _buildInventoryItem(
+            'Rice (Basmati)',
+            '120 kg on hand',
+            'min 80 kg',
+            LucideIcons.wheat,
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            'Healthy',
+            0.8,
+            false,
+          ),
+          _buildInventoryItem(
+            'Wheat Flour',
+            '45 kg on hand',
+            'min 60 kg',
+            LucideIcons.wheat,
+            const Color(0xFFF59E0B),
+            const Color(0xFFFEF3C7),
+            'Low',
+            0.4,
+            false,
+          ),
+          _buildInventoryItem(
+            'Cooking Oil',
+            '28 L on hand',
+            'min 20 L',
+            LucideIcons.droplet,
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            'Healthy',
+            0.6,
+            false,
+          ),
+          _buildInventoryItem(
+            'Toor Dal',
+            '12 kg on hand',
+            'min 25 kg',
+            LucideIcons.leaf,
+            const Color(0xFFEF4444),
+            const Color(0xFFFEE2E2),
+            'Critical',
+            0.15,
+            false,
+          ),
+          _buildInventoryItem(
+            'Onions',
+            '38 kg on hand',
+            'min 30 kg',
+            LucideIcons.leaf,
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            'Healthy',
+            0.7,
+            false,
+          ),
+          _buildInventoryItem(
+            'LPG Cylinders',
+            '2 pcs on hand',
+            'min 3 pcs',
+            LucideIcons.flame,
+            const Color(0xFFF59E0B),
+            const Color(0xFFFEF3C7),
+            'Low',
+            0.3,
+            true,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildInventoryItem(String name, String onHand, String minStock, IconData icon, Color color, Color bgColor, String status, double progress, bool isLast) {
+  Widget _buildInventoryItem(
+    String name,
+    String onHand,
+    String minStock,
+    IconData icon,
+    Color color,
+    Color bgColor,
+    String status,
+    double progress,
+    bool isLast,
+  ) {
     return Column(
       children: [
         Padding(
@@ -1009,7 +1287,10 @@ class MessDashboardScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: bgColor,
                             borderRadius: BorderRadius.circular(12),
@@ -1073,7 +1354,8 @@ class MessDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-        if (!isLast) Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
+        if (!isLast)
+          Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
       ],
     );
   }
@@ -1108,7 +1390,11 @@ class MessDashboardScreen extends StatelessWidget {
                         color: const Color(0xFFFEF3C7),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(LucideIcons.briefcase, color: Color(0xFFF59E0B), size: 18),
+                      child: const Icon(
+                        LucideIcons.briefcase,
+                        color: Color(0xFFF59E0B),
+                        size: 18,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Column(
@@ -1145,16 +1431,66 @@ class MessDashboardScreen extends StatelessWidget {
             ),
           ),
           Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
-          _buildVendorItem('AG', 'Annapurna Grains', 'Rice · Flour · Pulses', '₹ 48,200', '4.6', 'On-time', const Color(0xFF10B981), const Color(0xFFD1FAE5), false),
-          _buildVendorItem('FF', 'Fresh Farms Co.', 'Vegetables · Fruits', '₹ 12,750', '4.4', 'Due Today', const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), false),
-          _buildVendorItem('D', 'DairyPure', 'Milk · Curd · Paneer', '₹ 8,400', '4.8', 'On-time', const Color(0xFF10B981), const Color(0xFFD1FAE5), false),
-          _buildVendorItem('GG', 'GoldFlame Gas', 'LPG · Fuel', '₹ 6,900', '4.1', 'Overdue', const Color(0xFFEF4444), const Color(0xFFFEE2E2), true),
+          _buildVendorItem(
+            'AG',
+            'Annapurna Grains',
+            'Rice · Flour · Pulses',
+            '₹ 48,200',
+            '4.6',
+            'On-time',
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            false,
+          ),
+          _buildVendorItem(
+            'FF',
+            'Fresh Farms Co.',
+            'Vegetables · Fruits',
+            '₹ 12,750',
+            '4.4',
+            'Due Today',
+            const Color(0xFF0EA5E9),
+            const Color(0xFFE0F2FE),
+            false,
+          ),
+          _buildVendorItem(
+            'D',
+            'DairyPure',
+            'Milk · Curd · Paneer',
+            '₹ 8,400',
+            '4.8',
+            'On-time',
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            false,
+          ),
+          _buildVendorItem(
+            'GG',
+            'GoldFlame Gas',
+            'LPG · Fuel',
+            '₹ 6,900',
+            '4.1',
+            'Overdue',
+            const Color(0xFFEF4444),
+            const Color(0xFFFEE2E2),
+            true,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildVendorItem(String initials, String name, String items, String amount, String rating, String status, Color statusColor, Color statusBg, bool isLast) {
+  Widget _buildVendorItem(
+    String initials,
+    String name,
+    String items,
+    String amount,
+    String rating,
+    String status,
+    Color statusColor,
+    Color statusBg,
+    bool isLast,
+  ) {
     return Column(
       children: [
         Padding(
@@ -1211,7 +1547,11 @@ class MessDashboardScreen extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(LucideIcons.star, size: 12, color: Color(0xFFF59E0B)),
+                      const Icon(
+                        LucideIcons.star,
+                        size: 12,
+                        color: Color(0xFFF59E0B),
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         rating,
@@ -1257,7 +1597,8 @@ class MessDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-        if (!isLast) Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
+        if (!isLast)
+          Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
       ],
     );
   }
@@ -1292,7 +1633,11 @@ class MessDashboardScreen extends StatelessWidget {
                         color: const Color(0xFFEDE9FE),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Icon(LucideIcons.soup, color: Color(0xFF8B5CF6), size: 18),
+                      child: const Icon(
+                        LucideIcons.soup,
+                        color: Color(0xFF8B5CF6),
+                        size: 18,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Column(
@@ -1329,15 +1674,47 @@ class MessDashboardScreen extends StatelessWidget {
             ),
           ),
           Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
-          _buildFeedbackItem('Lunch · Rajma Chawal', '"Loved the rajma today, perfectly cooked."', 'Boys A · 3 reviews', '4.5 / 5', const Color(0xFF10B981), const Color(0xFFD1FAE5), false),
-          _buildFeedbackItem('Breakfast · Poha', '"Poha was slightly dry, tea was great."', 'Girls B · 5 reviews', '3.8 / 5', const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false),
-          _buildFeedbackItem('Dinner · Pasta', '"Less seasoning, served cold."', 'Boys B · 7 reviews', '2.9 / 5', const Color(0xFFEF4444), const Color(0xFFFEE2E2), true),
+          _buildFeedbackItem(
+            'Lunch · Rajma Chawal',
+            '"Loved the rajma today, perfectly cooked."',
+            'Boys A · 3 reviews',
+            '4.5 / 5',
+            const Color(0xFF10B981),
+            const Color(0xFFD1FAE5),
+            false,
+          ),
+          _buildFeedbackItem(
+            'Breakfast · Poha',
+            '"Poha was slightly dry, tea was great."',
+            'Girls B · 5 reviews',
+            '3.8 / 5',
+            const Color(0xFFF59E0B),
+            const Color(0xFFFEF3C7),
+            false,
+          ),
+          _buildFeedbackItem(
+            'Dinner · Pasta',
+            '"Less seasoning, served cold."',
+            'Boys B · 7 reviews',
+            '2.9 / 5',
+            const Color(0xFFEF4444),
+            const Color(0xFFFEE2E2),
+            true,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildFeedbackItem(String title, String feedback, String details, String rating, Color color, Color bgColor, bool isLast) {
+  Widget _buildFeedbackItem(
+    String title,
+    String feedback,
+    String details,
+    String rating,
+    Color color,
+    Color bgColor,
+    bool isLast,
+  ) {
     return Column(
       children: [
         Padding(
@@ -1401,7 +1778,8 @@ class MessDashboardScreen extends StatelessWidget {
             ],
           ),
         ),
-        if (!isLast) Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
+        if (!isLast)
+          Divider(height: 1, color: Colors.grey.withValues(alpha: 0.15)),
       ],
     );
   }
@@ -1442,10 +1820,38 @@ class MessDashboardScreen extends StatelessWidget {
           clipBehavior: Clip.none,
           child: Row(
             children: [
-              _buildSafetyCard('Kitchen temp', '28°C', LucideIcons.thermometer, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), false),
-              _buildSafetyCard('Water test', 'Passed · 09:10', LucideIcons.droplet, const Color(0xFF10B981), const Color(0xFFD1FAE5), true),
-              _buildSafetyCard('Chef hygiene check', 'All 6 cleared', LucideIcons.chefHat, const Color(0xFF10B981), const Color(0xFFD1FAE5), true),
-              _buildSafetyCard('Open complaints', '2 active', LucideIcons.alertTriangle, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false),
+              _buildSafetyCard(
+                'Kitchen temp',
+                '28°C',
+                LucideIcons.thermometer,
+                const Color(0xFF0EA5E9),
+                const Color(0xFFE0F2FE),
+                false,
+              ),
+              _buildSafetyCard(
+                'Water test',
+                'Passed · 09:10',
+                LucideIcons.droplet,
+                const Color(0xFF10B981),
+                const Color(0xFFD1FAE5),
+                true,
+              ),
+              _buildSafetyCard(
+                'Chef hygiene check',
+                'All 6 cleared',
+                LucideIcons.chefHat,
+                const Color(0xFF10B981),
+                const Color(0xFFD1FAE5),
+                true,
+              ),
+              _buildSafetyCard(
+                'Open complaints',
+                '2 active',
+                LucideIcons.alertTriangle,
+                const Color(0xFFF59E0B),
+                const Color(0xFFFEF3C7),
+                false,
+              ),
             ],
           ),
         ),
@@ -1453,7 +1859,14 @@ class MessDashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSafetyCard(String title, String status, IconData icon, Color iconColor, Color iconBg, bool isGood) {
+  Widget _buildSafetyCard(
+    String title,
+    String status,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    bool isGood,
+  ) {
     return Container(
       width: 220,
       margin: const EdgeInsets.only(right: 16),

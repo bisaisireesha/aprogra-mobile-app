@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../../widgets/app_bottom_nav.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 
@@ -86,7 +88,7 @@ class _PtmSlotBookingScreenState extends State<PtmSlotBookingScreen> {
                 ),
               ),
             ),
-            _buildBottomNav(),
+            const AppBottomNav(),
           ],
         ),
       ),

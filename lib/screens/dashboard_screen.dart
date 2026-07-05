@@ -4,6 +4,7 @@ import '../widgets/common_app_bar.dart';
 import 'auth/menu_screen.dart';
 import 'students/student_insights_screen.dart';
 import 'dart:ui' as ui;
+import '../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -35,40 +36,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
             constraints: const BoxConstraints(maxWidth: 1200),
             child: SingleChildScrollView(
               // [Responsive Fix]: Adjust side paddings based on device width
-              padding: EdgeInsets.symmetric(horizontal: _isTablet ? 40 : 20, vertical: 16),
+              padding: EdgeInsets.symmetric(
+                horizontal: _isTablet ? 40 : 20,
+                vertical: 16,
+              ),
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CommonAppBar(),
-              const SizedBox(height: 24),
-              _buildGreeting(),
-              const SizedBox(height: 24),
-              _buildKPIGrid(),
-              const SizedBox(height: 24),
-              _buildActionRequired(),
-              const SizedBox(height: 24),
-              _buildAttendanceInsights(),
-              const SizedBox(height: 24),
-              _buildFinancialInsights(),
-              const SizedBox(height: 24),
-              _buildUpcomingEvents(),
-              const SizedBox(height: 24),
-              _buildAIInsights(),
-              const SizedBox(height: 24),
-              _buildQuickActions(),
-              const SizedBox(height: 40),
-            ],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CommonAppBar(),
+                  const SizedBox(height: 24),
+                  _buildGreeting(),
+                  const SizedBox(height: 24),
+                  _buildKPIGrid(),
+                  const SizedBox(height: 24),
+                  _buildActionRequired(),
+                  const SizedBox(height: 24),
+                  _buildAttendanceInsights(),
+                  const SizedBox(height: 24),
+                  _buildFinancialInsights(),
+                  const SizedBox(height: 24),
+                  _buildUpcomingEvents(),
+                  const SizedBox(height: 24),
+                  _buildAIInsights(),
+                  const SizedBox(height: 24),
+                  _buildQuickActions(),
+                  const SizedBox(height: 40),
+                ],
+              ),
+            ),
           ),
         ),
       ),
-      ),
-      ),
       drawer: const MenuScreen(activeScreen: 'Main Dashboard'),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
-
-
 
   Widget _buildGreeting() {
     return Column(
@@ -144,7 +146,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -159,7 +161,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     Icon(icon, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    Expanded(child: Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: _textMuted,
+                        ),
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -167,9 +179,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(trendUp ? Icons.call_made : Icons.call_received, size: 12, color: _textDark),
+                  Icon(
+                    trendUp ? Icons.call_made : Icons.call_received,
+                    size: 12,
+                    color: _textDark,
+                  ),
                   const SizedBox(width: 2),
-                  Text(trend, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    trend,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -178,7 +201,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: Text(value, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+                height: 1.0,
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -215,7 +246,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -230,7 +261,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     const Icon(Icons.access_time, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    const Expanded(child: Text('ATTENDANCE', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
+                    const Expanded(
+                      child: Text(
+                        'ATTENDANCE',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: _textMuted,
+                        ),
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -240,7 +281,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 children: [
                   const Icon(Icons.call_made, size: 12, color: _textDark),
                   const SizedBox(width: 2),
-                  Text(MockData.kpiData['attendanceTrend'] as String, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    MockData.kpiData['attendanceTrend'] as String,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -252,14 +300,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(MockData.kpiData['attendance'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+                Text(
+                  MockData.kpiData['attendance'] as String,
+                  style: const TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                    height: 1.0,
+                  ),
+                ),
                 const SizedBox(width: 6),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Text('vs', style: TextStyle(fontSize: 10, color: _textMuted, fontWeight: FontWeight.bold, height: 1.0)),
-                    Text('yesterday', style: TextStyle(fontSize: 10, color: _textMuted, height: 1.0)),
+                    Text(
+                      'vs',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: _textMuted,
+                        fontWeight: FontWeight.bold,
+                        height: 1.0,
+                      ),
+                    ),
+                    Text(
+                      'yesterday',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: _textMuted,
+                        height: 1.0,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -281,7 +352,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -296,7 +367,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     const Icon(Icons.credit_card, size: 14, color: _textMuted),
                     const SizedBox(width: 4),
-                    const Expanded(child: Text('FEES', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted), overflow: TextOverflow.visible)),
+                    const Expanded(
+                      child: Text(
+                        'FEES',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: _textMuted,
+                        ),
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -310,9 +391,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.call_received, size: 10, color: Colors.red),
+                    const Icon(
+                      Icons.call_received,
+                      size: 10,
+                      color: Colors.red,
+                    ),
                     const SizedBox(width: 2),
-                    Text(MockData.kpiData['feesBadge'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red)),
+                    Text(
+                      MockData.kpiData['feesBadge'] as String,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -322,7 +414,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: Text(MockData.kpiData['fees'] as String, style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold, color: _textDark, height: 1.0)),
+            child: Text(
+              MockData.kpiData['fees'] as String,
+              style: const TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+                height: 1.0,
+              ),
+            ),
           ),
           const SizedBox(height: 16),
           Container(
@@ -347,11 +447,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             const Text(
               'Action Required',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
             ),
             const Text(
               'View all',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: _accent,
+              ),
             ),
           ],
         ),
@@ -370,11 +478,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           itemBuilder: (context, index) {
             final action = MockData.actionRequired[index];
             final colorType = action['colorType'] as String;
-            
+
             Color bgColor = Colors.white;
             Color badgeBgColor = const Color(0xFFF3F3F6);
             Color badgeTextColor = _textDark;
-            
+
             if (colorType == 'red') {
               bgColor = const Color(0xFFFFF1F1);
               badgeBgColor = Colors.redAccent.withValues(alpha: 0.15);
@@ -386,7 +494,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               badgeBgColor = _accent.withValues(alpha: 0.15);
               badgeTextColor = _accent;
             }
-            
+
             return Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -395,13 +503,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 border: (colorType == 'grey' || colorType == 'purple')
                     ? Border.all(color: const Color(0xFFEBEBEB), width: 1.5)
                     : null,
-                boxShadow: bgColor == Colors.white ? [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  )
-                ] : null,
+                boxShadow: bgColor == Colors.white
+                    ? [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.02),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ]
+                    : null,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,16 +520,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(action['icon'] as IconData, size: 20, color: _textMuted),
+                      Icon(
+                        action['icon'] as IconData,
+                        size: 20,
+                        color: _textMuted,
+                      ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: badgeBgColor,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           action['type'] as String,
-                          style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: badgeTextColor, letterSpacing: 0.5),
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            color: badgeTextColor,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
                     ],
@@ -427,11 +549,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(action['title'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        action['title'] as String,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text(action['value'] as String, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        action['value'] as String,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text(action['subtitle'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                      Text(
+                        action['subtitle'] as String,
+                        style: const TextStyle(fontSize: 11, color: _textMuted),
+                      ),
                     ],
                   ),
                   Row(
@@ -439,7 +578,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Flexible(
                         child: Text(
                           (action['action'] as String).replaceAll(' →', ''),
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _accent),
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: _accent,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -462,7 +605,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       children: [
         const Text(
           'Quick Actions',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
         ),
         const SizedBox(height: 16),
         GridView.builder(
@@ -490,15 +637,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: Color(0xFFF0EDFA),
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
-                      action['icon'] as IconData,
-                      color: _accent,
-                    ),
+                    child: Icon(action['icon'] as IconData, color: _accent),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     action['label'] as String,
-                    style: const TextStyle(fontSize: 12, color: _textDark, fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: _textDark,
+                      fontWeight: FontWeight.w500,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -528,7 +676,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             const SizedBox(width: 8),
             const Text(
               'AI Insights',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
             ),
           ],
         ),
@@ -545,7 +697,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   color: Colors.black.withValues(alpha: 0.03),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
-                )
+                ),
               ],
             ),
             child: Column(
@@ -553,7 +705,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Row(
                   children: [
-                    Icon(insight['icon'] as IconData, size: 16, color: _textMuted),
+                    Icon(
+                      insight['icon'] as IconData,
+                      size: 16,
+                      color: _textMuted,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       insight['type'] as String,
@@ -569,7 +725,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 const SizedBox(height: 12),
                 Text(
                   insight['description'] as String,
-                  style: const TextStyle(fontSize: 15, color: _textDark, height: 1.4),
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: _textDark,
+                    height: 1.4,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -596,7 +756,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             const Text(
               'Upcoming Events',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
             ),
             GestureDetector(
               onTap: () {
@@ -609,7 +773,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
               child: Text(
                 'Calendar',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: _accent.withValues(alpha: 0.8)),
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: _accent.withValues(alpha: 0.8),
+                ),
               ),
             ),
           ],
@@ -625,7 +793,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 color: Colors.black.withValues(alpha: 0.03),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -642,13 +810,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Text(
                               event['date'] as String,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: _textMuted,
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Text(
                               event['time'] as String,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.1),
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                                height: 1.1,
+                              ),
                             ),
                           ],
                         ),
@@ -660,7 +837,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             Text(
                               event['title'] as String,
-                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                              ),
                             ),
                             const SizedBox(height: 4),
                             Row(
@@ -668,13 +849,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Container(
                                   width: 6,
                                   height: 6,
-                                  decoration: const BoxDecoration(color: _accent, shape: BoxShape.circle),
+                                  decoration: const BoxDecoration(
+                                    color: _accent,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
                                 const SizedBox(width: 6),
                                 Expanded(
                                   child: Text(
                                     event['location'] as String,
-                                    style: const TextStyle(fontSize: 14, color: _textMuted),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: _textMuted,
+                                    ),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -704,7 +891,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const Center(
                 child: Text(
                   'View all events',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: _accent,
+                  ),
                 ),
               ),
             ],
@@ -725,7 +916,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 20,
             offset: const Offset(0, 8),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -738,25 +929,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Attendance Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                    const Text(
+                      'Attendance Insights',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(MockData.attendanceInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
+                    Text(
+                      MockData.attendanceInsights['subtitle'] as String,
+                      style: const TextStyle(fontSize: 14, color: _textMuted),
+                    ),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(MockData.attendanceInsights['percentage'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    MockData.attendanceInsights['percentage'] as String,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   Row(
                     children: [
                       const Icon(Icons.trending_up, color: _textDark, size: 14),
                       const SizedBox(width: 2),
-                      Text(MockData.attendanceInsights['trend'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                      Text(
+                        MockData.attendanceInsights['trend'] as String,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
           const SizedBox(height: 32),
@@ -765,7 +980,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             height: 100,
             width: double.infinity,
             child: CustomPaint(
-              painter: _LineChartPainter(MockData.attendanceInsights['chartPoints'] as List<double>),
+              painter: _LineChartPainter(
+                MockData.attendanceInsights['chartPoints'] as List<double>,
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -789,7 +1006,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('TOP PERFORMING', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                    const Text(
+                      'TOP PERFORMING',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: _textMuted,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     _buildStatRow('Class 10', '96%', true),
                     const SizedBox(height: 12),
@@ -801,7 +1026,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('BELOW THRESHOLD', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                    const Text(
+                      'BELOW THRESHOLD',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: _textMuted,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                     const SizedBox(height: 12),
                     _buildStatRow('Class 5', '75%', false),
                     const SizedBox(height: 12),
@@ -820,7 +1053,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Center(
-              child: Text('View detailed report', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _accent)),
+              child: Text(
+                'View detailed report',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: _accent,
+                ),
+              ),
             ),
           ),
         ],
@@ -862,25 +1102,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Financial Insights', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                    const Text(
+                      'Financial Insights',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(MockData.financialInsights['subtitle'] as String, style: const TextStyle(fontSize: 14, color: _textMuted)),
+                    Text(
+                      MockData.financialInsights['subtitle'] as String,
+                      style: const TextStyle(fontSize: 14, color: _textMuted),
+                    ),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(MockData.financialInsights['total'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    MockData.financialInsights['total'] as String,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   Row(
                     children: [
                       const Icon(Icons.trending_up, color: _textDark, size: 14),
                       const SizedBox(width: 2),
-                      Text(MockData.financialInsights['trend'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                      Text(
+                        MockData.financialInsights['trend'] as String,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
           const SizedBox(height: 40),
@@ -888,14 +1152,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
             height: 120,
             width: double.infinity,
             child: CustomPaint(
-              painter: _BarChartPainter(MockData.financialInsights['chartValues'] as List<double>),
+              painter: _BarChartPainter(
+                MockData.financialInsights['chartValues'] as List<double>,
+              ),
             ),
           ),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [
-              Text('       ', style: TextStyle(fontSize: 12, color: Colors.transparent)), // Empty space for first bar
+              Text(
+                '       ',
+                style: TextStyle(fontSize: 12, color: Colors.transparent),
+              ), // Empty space for first bar
               Text('Dec', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Jan', style: TextStyle(fontSize: 12, color: _textMuted)),
               Text('Feb', style: TextStyle(fontSize: 12, color: _textMuted)),
@@ -906,11 +1175,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 24),
           Row(
             children: [
-              _buildFinancePill('OUTSTANDING', MockData.financialInsights['outstanding'] as String),
+              _buildFinancePill(
+                'OUTSTANDING',
+                MockData.financialInsights['outstanding'] as String,
+              ),
               const SizedBox(width: 8),
-              _buildFinancePill('THIS MONTH', MockData.financialInsights['thisMonth'] as String),
+              _buildFinancePill(
+                'THIS MONTH',
+                MockData.financialInsights['thisMonth'] as String,
+              ),
               const SizedBox(width: 8),
-              _buildFinancePill('RECOVERY', MockData.financialInsights['recovery'] as String),
+              _buildFinancePill(
+                'RECOVERY',
+                MockData.financialInsights['recovery'] as String,
+              ),
             ],
           ),
         ],
@@ -928,9 +1206,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         child: Column(
           children: [
-            Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted)),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: _textMuted,
+              ),
+            ),
             const SizedBox(height: 4),
-            Text(value, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
           ],
         ),
       ),
@@ -961,7 +1253,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               _buildNavItem(0, Icons.dashboard_customize_outlined, 'Home'),
               _buildNavItem(1, Icons.school_outlined, 'Academics'),
-              _buildNavItem(2, Icons.chat_bubble_outline, 'Messages', badge: '9'),
+              _buildNavItem(
+                2,
+                Icons.chat_bubble_outline,
+                'Messages',
+                badge: '9',
+              ),
               _buildNavItem(3, Icons.cases_outlined, 'Operations'),
               _buildNavItem(4, Icons.menu, 'More'),
             ],
@@ -971,7 +1268,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget _buildNavItem(int index, IconData icon, String label, {String? badge}) {
+  Widget _buildNavItem(
+    int index,
+    IconData icon,
+    String label, {
+    String? badge,
+  }) {
     final isSelected = _currentIndex == index;
     return GestureDetector(
       onTap: () {
@@ -979,10 +1281,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Navigator.pushReplacement(
             context,
             PageRouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                return FadeTransition(opacity: animation, child: child);
-              },
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const StudentInsightsScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(opacity: animation, child: child);
+                  },
               transitionDuration: Duration.zero,
             ),
           );
@@ -997,11 +1301,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              Icon(
-                icon,
-                color: isSelected ? _accent : _textMuted,
-                size: 24,
-              ),
+              Icon(icon, color: isSelected ? _accent : _textMuted, size: 24),
               if (badge != null)
                 Positioned(
                   right: -6,
@@ -1014,7 +1314,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     child: Text(
                       badge,
-                      style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -1077,14 +1381,10 @@ class _LineChartPainter extends CustomPainter {
     fillPath.close();
 
     final paintFill = Paint()
-      ..shader = ui.Gradient.linear(
-        Offset(0, 0),
-        Offset(0, height),
-        [
-          const Color(0xFF5C88FF).withValues(alpha: 0.25),
-          const Color(0xFF5C88FF).withValues(alpha: 0.0),
-        ],
-      )
+      ..shader = ui.Gradient.linear(Offset(0, 0), Offset(0, height), [
+        const Color(0xFF5C88FF).withValues(alpha: 0.25),
+        const Color(0xFF5C88FF).withValues(alpha: 0.0),
+      ])
       ..style = PaintingStyle.fill;
 
     // Draw grid lines
@@ -1092,7 +1392,7 @@ class _LineChartPainter extends CustomPainter {
       ..color = const Color(0xFFF0F0F5)
       ..strokeWidth = 1
       ..style = PaintingStyle.stroke;
-      
+
     // Draw 3 horizontal dashed lines
     for (int i = 0; i < 3; i++) {
       final y = height * (i / 2);
@@ -1135,7 +1435,7 @@ class _BarChartPainter extends CustomPainter {
       final barHeight = values[i] * height;
       final x = i * (barWidth + spacing);
       final y = height - barHeight;
-      
+
       final rect = RRect.fromRectAndCorners(
         Rect.fromLTWH(x, y, barWidth, barHeight),
         topLeft: const Radius.circular(6),
@@ -1143,7 +1443,7 @@ class _BarChartPainter extends CustomPainter {
         bottomLeft: const Radius.circular(6),
         bottomRight: const Radius.circular(6),
       );
-      
+
       canvas.drawRRect(rect, paint);
     }
   }

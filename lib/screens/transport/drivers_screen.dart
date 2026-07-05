@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import 'add_driver_modal.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class DriversScreen extends StatefulWidget {
   const DriversScreen({super.key});
@@ -154,20 +155,28 @@ class _DriversScreenState extends State<DriversScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(
+              'Filter by Status',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             const SizedBox(height: 16),
-            ...['All', 'On Duty', 'Available', 'On Leave'].map((status) => RadioListTile(
-              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
-              activeColor: const Color(0xFF6366F1),
-              value: status,
-              groupValue: _filterStatus,
-              onChanged: (val) {
-                setState(() {
-                  _filterStatus = val.toString();
-                });
-                Navigator.pop(context);
-              },
-            )),
+            ...['All', 'On Duty', 'Available', 'On Leave'].map(
+              (status) => RadioListTile(
+                title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+                activeColor: const Color(0xFF6366F1),
+                value: status,
+                groupValue: _filterStatus,
+                onChanged: (val) {
+                  setState(() {
+                    _filterStatus = val.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -176,7 +185,12 @@ class _DriversScreenState extends State<DriversScreen> {
 
   void _showViewDetailsModal(BuildContext context, Map<String, dynamic> item) {
     String getInitials(String name) {
-      return name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').join('').toUpperCase().substring(0, 2);
+      return name
+          .split(' ')
+          .map((e) => e.isNotEmpty ? e[0] : '')
+          .join('')
+          .toUpperCase()
+          .substring(0, 2);
     }
 
     Widget _buildDetailRow(String label, String value) {
@@ -245,7 +259,9 @@ class _DriversScreenState extends State<DriversScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1))),
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+                ),
               ),
               child: Column(
                 children: [
@@ -263,7 +279,11 @@ class _DriversScreenState extends State<DriversScreen> {
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF181821)),
+                        child: const Icon(
+                          LucideIcons.x,
+                          size: 24,
+                          color: Color(0xFF181821),
+                        ),
                       ),
                       Text(
                         'Driver Details',
@@ -311,7 +331,8 @@ class _DriversScreenState extends State<DriversScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     item['name'],
@@ -322,9 +343,14 @@ class _DriversScreenState extends State<DriversScreen> {
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: item['statusColor'].withValues(alpha: 0.1),
+                                      color: item['statusColor'].withValues(
+                                        alpha: 0.1,
+                                      ),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Row(
@@ -363,7 +389,11 @@ class _DriversScreenState extends State<DriversScreen> {
                               const SizedBox(height: 4),
                               Row(
                                 children: [
-                                  const Icon(LucideIcons.phone, size: 14, color: Color(0xFF94A3B8)),
+                                  const Icon(
+                                    LucideIcons.phone,
+                                    size: 14,
+                                    color: Color(0xFF94A3B8),
+                                  ),
                                   const SizedBox(width: 4),
                                   Text(
                                     '+91 98xxxx 1023',
@@ -381,28 +411,34 @@ class _DriversScreenState extends State<DriversScreen> {
                     ),
                     const SizedBox(height: 16),
                     Divider(color: Colors.grey.withValues(alpha: 0.1)),
-                    
-                    _buildSectionHeader(LucideIcons.contact, 'License Information'),
+
+                    _buildSectionHeader(
+                      LucideIcons.contact,
+                      'License Information',
+                    ),
                     _buildDetailRow('License Number', item['license']),
                     _buildDetailRow('Issue Date', '12 Aug 2017'),
-                    _buildDetailRow('Expiry Date', '${item['exp']} (14 yrs left)'),
-                    
+                    _buildDetailRow(
+                      'Expiry Date',
+                      '${item['exp']} (14 yrs left)',
+                    ),
+
                     const SizedBox(height: 16),
                     Divider(color: Colors.grey.withValues(alpha: 0.1)),
-                    
+
                     _buildSectionHeader(LucideIcons.car, 'Vehicle & Route'),
                     _buildDetailRow('Vehicle', item['bus']),
                     _buildDetailRow('Route', item['route']),
-                    
+
                     const SizedBox(height: 16),
                     Divider(color: Colors.grey.withValues(alpha: 0.1)),
-                    
+
                     _buildSectionHeader(LucideIcons.info, 'Other Information'),
                     _buildDetailRow('Experience', '14 yrs'),
                     _buildDetailRow('Address', 'Sector 42, Delhi - 110001'),
-                    
+
                     const SizedBox(height: 40),
-                    
+
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
@@ -419,7 +455,11 @@ class _DriversScreenState extends State<DriversScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(LucideIcons.edit2, size: 18, color: Color(0xFF6366F1)),
+                            const Icon(
+                              LucideIcons.edit2,
+                              size: 18,
+                              color: Color(0xFF6366F1),
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               'Edit Driver',
@@ -433,9 +473,9 @@ class _DriversScreenState extends State<DriversScreen> {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 16),
-                    
+
                     GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
@@ -450,7 +490,11 @@ class _DriversScreenState extends State<DriversScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(LucideIcons.trash2, size: 18, color: Colors.red),
+                            const Icon(
+                              LucideIcons.trash2,
+                              size: 18,
+                              color: Colors.red,
+                            ),
                             const SizedBox(width: 8),
                             Text(
                               'Deactivate Driver',
@@ -503,17 +547,7 @@ class _DriversScreenState extends State<DriversScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Drivers'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -523,7 +557,10 @@ class _DriversScreenState extends State<DriversScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -568,7 +605,10 @@ class _DriversScreenState extends State<DriversScreen> {
             GestureDetector(
               onTap: () => _showAddDriverModal(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6366F1),
                   borderRadius: BorderRadius.circular(8),
@@ -696,7 +736,9 @@ class _DriversScreenState extends State<DriversScreen> {
           color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
+            color: isPrimary
+                ? const Color(0xFF7F61EA).withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
           ),
           boxShadow: [
             BoxShadow(
@@ -706,57 +748,57 @@ class _DriversScreenState extends State<DriversScreen> {
             ),
           ],
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                child: Icon(icon, color: iconColor, size: 20),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF595973),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (subtitle.isNotEmpty) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: 16),
             Text(
-              subtitle,
+              value,
               style: GoogleFonts.inter(
-                fontSize: 11,
-                color: const Color(0xFF94A3B8),
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF181821),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF595973),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+            if (subtitle.isNotEmpty) ...[
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  color: const Color(0xFF94A3B8),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
-    ),
     );
   }
 
@@ -773,7 +815,11 @@ class _DriversScreenState extends State<DriversScreen> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+                const Icon(
+                  LucideIcons.search,
+                  color: Color(0xFF94A3B8),
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
@@ -808,7 +854,11 @@ class _DriversScreenState extends State<DriversScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
             ),
-            child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
+            child: const Icon(
+              LucideIcons.filter,
+              color: Color(0xFF595973),
+              size: 20,
+            ),
           ),
         ),
       ],
@@ -817,14 +867,16 @@ class _DriversScreenState extends State<DriversScreen> {
 
   Widget _buildDriversList() {
     final filteredDrivers = _drivers.where((driver) {
-      final matchesSearch = _searchQuery.isEmpty || 
-        driver['name'].toString().toLowerCase().contains(_searchQuery) ||
-        driver['id'].toString().toLowerCase().contains(_searchQuery) ||
-        driver['license'].toString().toLowerCase().contains(_searchQuery) ||
-        driver['bus'].toString().toLowerCase().contains(_searchQuery);
-        
-      final matchesFilter = _filterStatus == 'All' || driver['status'] == _filterStatus;
-      
+      final matchesSearch =
+          _searchQuery.isEmpty ||
+          driver['name'].toString().toLowerCase().contains(_searchQuery) ||
+          driver['id'].toString().toLowerCase().contains(_searchQuery) ||
+          driver['license'].toString().toLowerCase().contains(_searchQuery) ||
+          driver['bus'].toString().toLowerCase().contains(_searchQuery);
+
+      final matchesFilter =
+          _filterStatus == 'All' || driver['status'] == _filterStatus;
+
       return matchesSearch && matchesFilter;
     }).toList();
 
@@ -834,7 +886,11 @@ class _DriversScreenState extends State<DriversScreen> {
         child: Center(
           child: Column(
             children: [
-              Icon(LucideIcons.users, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
+              Icon(
+                LucideIcons.users,
+                size: 48,
+                color: const Color(0xFF94A3B8).withValues(alpha: 0.5),
+              ),
               const SizedBox(height: 16),
               Text(
                 'No drivers found',
@@ -864,7 +920,12 @@ class _DriversScreenState extends State<DriversScreen> {
 
   Widget _buildDriverCard(Map<String, dynamic> driver) {
     String getInitials(String name) {
-      return name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').join('').toUpperCase().substring(0, 2);
+      return name
+          .split(' ')
+          .map((e) => e.isNotEmpty ? e[0] : '')
+          .join('')
+          .toUpperCase()
+          .substring(0, 2);
     }
 
     return Container(
@@ -922,10 +983,16 @@ class _DriversScreenState extends State<DriversScreen> {
                           ),
                         ),
                         PopupMenuButton<String>(
-                          icon: const Icon(LucideIcons.moreVertical, size: 20, color: Color(0xFF94A3B8)),
+                          icon: const Icon(
+                            LucideIcons.moreVertical,
+                            size: 20,
+                            color: Color(0xFF94A3B8),
+                          ),
                           padding: EdgeInsets.zero,
                           color: Colors.white,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           onSelected: (value) {
                             if (value == 'view') {
                               _showViewDetailsModal(context, driver);
@@ -942,9 +1009,19 @@ class _DriversScreenState extends State<DriversScreen> {
                               value: 'view',
                               child: Row(
                                 children: [
-                                  const Icon(LucideIcons.eye, size: 16, color: Color(0xFF595973)),
+                                  const Icon(
+                                    LucideIcons.eye,
+                                    size: 16,
+                                    color: Color(0xFF595973),
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text('View Details', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                                  Text(
+                                    'View Details',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: const Color(0xFF181821),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -952,9 +1029,19 @@ class _DriversScreenState extends State<DriversScreen> {
                               value: 'edit',
                               child: Row(
                                 children: [
-                                  const Icon(LucideIcons.edit2, size: 16, color: Color(0xFF595973)),
+                                  const Icon(
+                                    LucideIcons.edit2,
+                                    size: 16,
+                                    color: Color(0xFF595973),
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text('Edit', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                                  Text(
+                                    'Edit',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: const Color(0xFF181821),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -962,9 +1049,19 @@ class _DriversScreenState extends State<DriversScreen> {
                               value: 'delete',
                               child: Row(
                                 children: [
-                                  const Icon(LucideIcons.trash2, size: 16, color: Colors.red),
+                                  const Icon(
+                                    LucideIcons.trash2,
+                                    size: 16,
+                                    color: Colors.red,
+                                  ),
                                   const SizedBox(width: 8),
-                                  Text('Delete', style: GoogleFonts.inter(fontSize: 13, color: Colors.red)),
+                                  Text(
+                                    'Delete',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      color: Colors.red,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
@@ -1001,8 +1098,12 @@ class _DriversScreenState extends State<DriversScreen> {
                                 'Exp: ${driver['exp']}',
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
-                                  color: driver['expiringSoon'] ? const Color(0xFFF59E0B) : const Color(0xFF595973),
-                                  fontWeight: driver['expiringSoon'] ? FontWeight.w600 : FontWeight.w400,
+                                  color: driver['expiringSoon']
+                                      ? const Color(0xFFF59E0B)
+                                      : const Color(0xFF595973),
+                                  fontWeight: driver['expiringSoon']
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
                                 ),
                               ),
                               if (driver['expiringSoon']) ...[
@@ -1015,7 +1116,7 @@ class _DriversScreenState extends State<DriversScreen> {
                                     color: const Color(0xFFF59E0B),
                                   ),
                                 ),
-                              ]
+                              ],
                             ],
                           ),
                         ),
@@ -1048,7 +1149,10 @@ class _DriversScreenState extends State<DriversScreen> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: driver['statusColor'].withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),

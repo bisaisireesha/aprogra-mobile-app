@@ -5,6 +5,8 @@ import '../../screens/auth/menu_screen.dart';
 import '../dashboard/action_center_screen.dart';
 import '../../screens/class_details_bottom_sheet.dart';
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
+
 // --- Design Tokens ---
 const _bgColor = Color(0xFFFAF9FF);
 const _textDark = Color(0xFF181821);
@@ -61,22 +63,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       key: _scaffoldKey,
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Academics'),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedItemColor: _accent,
-        unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Dashboard'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_outlined), activeIcon: Icon(Icons.notifications), label: 'Action'),
-          BottomNavigationBarItem(icon: Icon(Icons.menu_outlined), activeIcon: Icon(Icons.menu), label: 'More'),
-        ],
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -90,7 +77,10 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: isTablet ? 32 : 16, vertical: 20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isTablet ? 32 : 16,
+                      vertical: 20,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -117,7 +107,10 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         _buildNewAdmissions(),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Class Capacity Monitor', ''),
-                        const Text('Monitor over and under-filled classes', style: TextStyle(fontSize: 12, color: _textMuted)),
+                        const Text(
+                          'Monitor over and under-filled classes',
+                          style: TextStyle(fontSize: 12, color: _textMuted),
+                        ),
                         const SizedBox(height: 16),
                         _buildClassCapacityMonitor(),
                         const SizedBox(height: 32),
@@ -141,9 +134,20 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Student Insights', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
+        Text(
+          'Student Insights',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+            letterSpacing: -0.5,
+          ),
+        ),
         SizedBox(height: 4),
-        Text('A quick, operational view of students across the school.', style: TextStyle(fontSize: 13, color: _textMuted)),
+        Text(
+          'A quick, operational view of students across the school.',
+          style: TextStyle(fontSize: 13, color: _textMuted),
+        ),
       ],
     );
   }
@@ -173,7 +177,17 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
 
         return Container(
           padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))]),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -182,11 +196,28 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(kpi['title'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted)),
+                  Text(
+                    kpi['title'] as String,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(kpi['value'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    kpi['value'] as String,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(kpi['subtitle'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                  Text(
+                    kpi['subtitle'] as String,
+                    style: const TextStyle(fontSize: 11, color: _textMuted),
+                  ),
                 ],
               ),
             ],
@@ -222,7 +253,15 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           color: isSelected ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(color: isSelected ? _accent : _borderColor),
-          boxShadow: isSelected ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: _accent.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -267,7 +306,8 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               context: context,
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
-              builder: (context) => ClassDetailsBottomSheet(className: cls['name'] as String),
+              builder: (context) =>
+                  ClassDetailsBottomSheet(className: cls['name'] as String),
             );
           },
           child: Container(
@@ -275,7 +315,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
               border: Border.all(color: _borderColor, width: 0.5),
             ),
             child: Column(
@@ -291,17 +337,42 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
-                            child: const Icon(Icons.home_outlined, size: 20, color: _accent),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF4F1FF),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.home_outlined,
+                              size: 20,
+                              color: _accent,
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(cls['name'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(
+                                  cls['name'] as String,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: _textDark,
+                                    letterSpacing: -0.3,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                                 const SizedBox(height: 2),
-                                Text(cls['sections'] as String, style: const TextStyle(fontSize: 11, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                Text(
+                                  cls['sections'] as String,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: _textMuted,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
                           ),
@@ -315,12 +386,19 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Class Teacher', style: TextStyle(fontSize: 11, color: _textMuted)),
+                    const Text(
+                      'Class Teacher',
+                      style: TextStyle(fontSize: 11, color: _textMuted),
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        cls['teacher'] as String, 
-                        style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark),
+                        cls['teacher'] as String,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -332,8 +410,18 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Students', style: TextStyle(fontSize: 11, color: _textMuted)),
-                    Text(cls['students'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    const Text(
+                      'Students',
+                      style: TextStyle(fontSize: 11, color: _textMuted),
+                    ),
+                    Text(
+                      cls['students'] as String,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _accent,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -348,7 +436,14 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('View Details', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    const Text(
+                      'View Details',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _accent,
+                      ),
+                    ),
                     const Icon(Icons.arrow_forward, size: 14, color: _accent),
                   ],
                 ),
@@ -360,19 +455,50 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title, String actionLabel, {bool isBadge = false}) {
+  Widget _buildSectionTitle(
+    String title,
+    String actionLabel, {
+    bool isBadge = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
         if (actionLabel.isNotEmpty)
           isBadge
               ? Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.circular(12)),
-                  child: Text(actionLabel, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.white)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    actionLabel,
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
                 )
-              : Text(actionLabel, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
+              : Text(
+                  actionLabel,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: _accent,
+                  ),
+                ),
       ],
     );
   }
@@ -382,7 +508,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: MockData.studentInsightsActivity.map((activity) {
@@ -393,7 +525,11 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Icon(activity['icon'] as IconData, size: 20, color: activity['color'] as Color),
+                    Icon(
+                      activity['icon'] as IconData,
+                      size: 20,
+                      color: activity['color'] as Color,
+                    ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
@@ -401,23 +537,49 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         children: [
                           RichText(
                             text: TextSpan(
-                              style: const TextStyle(fontSize: 13, color: _textDark),
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: _textDark,
+                              ),
                               children: [
-                                TextSpan(text: '${activity['type']}: ', style: const TextStyle(color: _textMuted)),
-                                TextSpan(text: activity['desc'] as String, style: const TextStyle(fontWeight: FontWeight.w600)),
+                                TextSpan(
+                                  text: '${activity['type']}: ',
+                                  style: const TextStyle(color: _textMuted),
+                                ),
+                                TextSpan(
+                                  text: activity['desc'] as String,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
                           const SizedBox(height: 2),
-                          Text(activity['subDesc'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                          Text(
+                            activity['subDesc'] as String,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Text(activity['time'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                    Text(
+                      activity['time'] as String,
+                      style: const TextStyle(fontSize: 11, color: _textMuted),
+                    ),
                   ],
                 ),
               ),
-              if (!isLast) const Divider(height: 1, color: _borderColor, indent: 52, endIndent: 16),
+              if (!isLast)
+                const Divider(
+                  height: 1,
+                  color: _borderColor,
+                  indent: 52,
+                  endIndent: 16,
+                ),
             ],
           );
         }).toList(),
@@ -430,7 +592,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -442,15 +610,40 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                    const Icon(
+                      Icons.error_outline,
+                      color: Colors.redAccent,
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
-                    const Text('Requiring Attention', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                    const Text(
+                      'Requiring Attention',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(color: Colors.redAccent, borderRadius: BorderRadius.circular(12)),
-                  child: const Text('6 cases', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Colors.white)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Text(
+                    '6 cases',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -461,17 +654,23 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               children: MockData.studentInsightsAttention.map((alert) {
                 final isAttendance = alert['badge'] == 'Attendance';
                 final isAcademic = alert['badge'] == 'Academics';
-                final cardBg = isAttendance 
-                    ? const Color(0xFFF4F1FF) 
-                    : isAcademic ? const Color(0xFFFFFBF0) : const Color(0xFFFFF5F5);
-                
-                final badgeColor = isAttendance 
-                    ? _accent 
-                    : isAcademic ? const Color(0xFFD97706) : Colors.redAccent;
-                    
-                final borderColor = isAttendance 
-                    ? _accent.withValues(alpha: 0.2) 
-                    : isAcademic ? const Color(0xFFD97706).withValues(alpha: 0.2) : Colors.redAccent.withValues(alpha: 0.2);
+                final cardBg = isAttendance
+                    ? const Color(0xFFF4F1FF)
+                    : isAcademic
+                    ? const Color(0xFFFFFBF0)
+                    : const Color(0xFFFFF5F5);
+
+                final badgeColor = isAttendance
+                    ? _accent
+                    : isAcademic
+                    ? const Color(0xFFD97706)
+                    : Colors.redAccent;
+
+                final borderColor = isAttendance
+                    ? _accent.withValues(alpha: 0.2)
+                    : isAcademic
+                    ? const Color(0xFFD97706).withValues(alpha: 0.2)
+                    : Colors.redAccent.withValues(alpha: 0.2);
 
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
@@ -485,27 +684,62 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: _textDark.withValues(alpha: 0.8), width: 1),
+                          border: Border.all(
+                            color: _textDark.withValues(alpha: 0.8),
+                            width: 1,
+                          ),
                         ),
                         child: Text(
                           alert['badge'] as String,
-                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textDark),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 12),
-                      Text(alert['name'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                      Text(
+                        alert['name'] as String,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                          letterSpacing: -0.3,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(alert['desc'] as String, style: TextStyle(fontSize: 12, color: badgeColor.withValues(alpha: 0.6))),
+                      Text(
+                        alert['desc'] as String,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: badgeColor.withValues(alpha: 0.6),
+                        ),
+                      ),
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Text('View student', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: badgeColor)),
+                          Text(
+                            'View student',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: badgeColor,
+                            ),
+                          ),
                           const SizedBox(width: 4),
-                          Icon(Icons.arrow_forward, size: 12, color: badgeColor),
+                          Icon(
+                            Icons.arrow_forward,
+                            size: 12,
+                            color: badgeColor,
+                          ),
                         ],
                       ),
                     ],
@@ -522,7 +756,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
 
   Widget _buildEnrollmentDistribution(bool isTablet) {
     final items = MockData.studentInsightsEnrollment;
-    
+
     return Column(
       children: [
         Row(
@@ -553,7 +787,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: _borderColor),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -562,12 +802,30 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             children: [
               Icon(Icons.school, size: 14, color: dist['color'] as Color),
               const SizedBox(width: 6),
-              Text(dist['level'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+              Text(
+                dist['level'] as String,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          Text(dist['total'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
-          const Text('total students', style: TextStyle(fontSize: 10, color: _textMuted)),
+          Text(
+            dist['total'] as String,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
+          const Text(
+            'total students',
+            style: TextStyle(fontSize: 10, color: _textMuted),
+          ),
           const SizedBox(height: 16),
           const Divider(height: 1, color: _borderColor),
           const SizedBox(height: 12),
@@ -577,15 +835,43 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(dist['classes'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-                  const Text('CLASSES', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
+                  Text(
+                    dist['classes'] as String,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
+                  const Text(
+                    'CLASSES',
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(dist['staff'] as String, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
-                  const Text('STAFF AVAIL.', style: TextStyle(fontSize: 8, color: _textMuted, letterSpacing: 0.5)),
+                  Text(
+                    dist['staff'] as String,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
+                  const Text(
+                    'STAFF AVAIL.',
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -600,7 +886,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         children: MockData.studentInsightsAdmissions.map((adm) {
@@ -617,10 +909,18 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                       child: ClipOval(
                         child: Image.network(
                           adm['avatar'] as String,
-                          width: 32, height: 32, fit: BoxFit.cover,
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => Text(
-                            (adm['name'] as String).isNotEmpty ? (adm['name'] as String)[0] : 'S',
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF6C5CE7)),
+                            (adm['name'] as String).isNotEmpty
+                                ? (adm['name'] as String)[0]
+                                : 'S',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF6C5CE7),
+                            ),
                           ),
                         ),
                       ),
@@ -630,28 +930,57 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(adm['name'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+                          Text(
+                            adm['name'] as String,
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: _textDark,
+                            ),
+                          ),
                           const SizedBox(height: 2),
-                          Text(adm['desc'] as String, style: const TextStyle(fontSize: 11, color: _textMuted)),
+                          Text(
+                            adm['desc'] as String,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: adm['statusBg'] as Color,
-                        border: Border.all(color: adm['statusColor'] as Color, width: 0.5),
+                        border: Border.all(
+                          color: adm['statusColor'] as Color,
+                          width: 0.5,
+                        ),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         adm['status'] as String,
-                        style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: adm['statusColor'] as Color),
+                        style: TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: adm['statusColor'] as Color,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
-              if (!isLast) const Divider(height: 1, color: _borderColor, indent: 60, endIndent: 16),
+              if (!isLast)
+                const Divider(
+                  height: 1,
+                  color: _borderColor,
+                  indent: 60,
+                  endIndent: 16,
+                ),
             ],
           );
         }).toList(),
@@ -665,12 +994,26 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('HIGHEST POPULATION', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+          const Text(
+            'HIGHEST POPULATION',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: _textMuted,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 12),
           ...MockData.studentInsightsCapacityHighest.map((cap) {
             return Padding(
@@ -678,8 +1021,22 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(cap['class'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
-                  Text(cap['ratio'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.redAccent)),
+                  Text(
+                    cap['class'] as String,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: _textDark,
+                    ),
+                  ),
+                  Text(
+                    cap['ratio'] as String,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.redAccent,
+                    ),
+                  ),
                 ],
               ),
             );
@@ -687,7 +1044,15 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           const SizedBox(height: 8),
           const Divider(height: 1, color: _borderColor),
           const SizedBox(height: 16),
-          const Text('UNDER-CAPACITY', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+          const Text(
+            'UNDER-CAPACITY',
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: _textMuted,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 12),
           ...MockData.studentInsightsCapacityUnder.map((cap) {
             return Padding(
@@ -695,8 +1060,18 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(cap['class'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
-                  Text(cap['desc'] as String, style: const TextStyle(fontSize: 12, color: _textMuted)),
+                  Text(
+                    cap['class'] as String,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: _textDark,
+                    ),
+                  ),
+                  Text(
+                    cap['desc'] as String,
+                    style: const TextStyle(fontSize: 12, color: _textMuted),
+                  ),
                 ],
               ),
             );
@@ -712,9 +1087,20 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
       children: [
         const Row(
           children: [
-            Icon(Icons.medical_services_outlined, color: Colors.redAccent, size: 22),
+            Icon(
+              Icons.medical_services_outlined,
+              color: Colors.redAccent,
+              size: 22,
+            ),
             SizedBox(width: 8),
-            Text('Health & Safety Alerts', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              'Health & Safety Alerts',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -722,7 +1108,13 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
             border: Border.all(color: _borderColor, width: 0.5),
           ),
           child: Column(
@@ -738,27 +1130,56 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: isFirst ? Colors.redAccent.withValues(alpha: 0.05) : Colors.transparent,
+                            color: isFirst
+                                ? Colors.redAccent.withValues(alpha: 0.05)
+                                : Colors.transparent,
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(alert['icon'] as IconData, size: 20, color: alert['iconColor'] as Color),
+                          child: Icon(
+                            alert['icon'] as IconData,
+                            size: 20,
+                            color: alert['iconColor'] as Color,
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(alert['title'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                              Text(
+                                alert['title'] as String,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: _textDark,
+                                ),
+                              ),
                               const SizedBox(height: 2),
-                              Text(alert['desc'] as String, style: const TextStyle(fontSize: 12, color: _textMuted)),
+                              Text(
+                                alert['desc'] as String,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: _textMuted,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        const Icon(Icons.chevron_right, size: 18, color: _textMuted),
+                        const Icon(
+                          Icons.chevron_right,
+                          size: 18,
+                          color: _textMuted,
+                        ),
                       ],
                     ),
                   ),
-                  if (!isLast) const Divider(height: 1, color: _borderColor, indent: 64, endIndent: 16),
+                  if (!isLast)
+                    const Divider(
+                      height: 1,
+                      color: _borderColor,
+                      indent: 64,
+                      endIndent: 16,
+                    ),
                 ],
               );
             }).toList(),
@@ -776,7 +1197,14 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
           children: [
             Icon(Icons.auto_awesome, color: _accent, size: 22),
             SizedBox(width: 8),
-            Text('Today\'s Highlights', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              'Today\'s Highlights',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -788,13 +1216,30 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: _borderColor),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 4, offset: const Offset(0, 2))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.02),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Row(
               children: [
-                Icon(hl['icon'] as IconData, size: 20, color: hl['iconColor'] as Color),
+                Icon(
+                  hl['icon'] as IconData,
+                  size: 20,
+                  color: hl['iconColor'] as Color,
+                ),
                 const SizedBox(width: 12),
-                Text(hl['text'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                Text(
+                  hl['text'] as String,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                  ),
+                ),
               ],
             ),
           );

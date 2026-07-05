@@ -7,12 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import 'add_admission_modal.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class StudentAllocationScreen extends StatefulWidget {
   const StudentAllocationScreen({super.key});
 
   @override
-  State<StudentAllocationScreen> createState() => _StudentAllocationScreenState();
+  State<StudentAllocationScreen> createState() =>
+      _StudentAllocationScreenState();
 }
 
 class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
@@ -158,7 +160,10 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     );
   }
 
-  void _showEditAdmissionModal(BuildContext context, Map<String, dynamic> student) {
+  void _showEditAdmissionModal(
+    BuildContext context,
+    Map<String, dynamic> student,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -181,9 +186,17 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     );
   }
 
-  void _showViewDetailsModal(BuildContext context, Map<String, dynamic> student) {
+  void _showViewDetailsModal(
+    BuildContext context,
+    Map<String, dynamic> student,
+  ) {
     String getInitials(String name) {
-      return name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').join('').toUpperCase().substring(0, 2);
+      return name
+          .split(' ')
+          .map((e) => e.isNotEmpty ? e[0] : '')
+          .join('')
+          .toUpperCase()
+          .substring(0, 2);
     }
 
     Color getStatusColor(String status) {
@@ -192,7 +205,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
       return const Color(0xFF94A3B8); // Opted Out
     }
 
-    Widget _buildDetailRow(String label, String value, {bool isBadge = false, Color? badgeColor}) {
+    Widget _buildDetailRow(
+      String label,
+      String value, {
+      bool isBadge = false,
+      Color? badgeColor,
+    }) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
@@ -201,15 +219,23 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             Row(
               children: [
                 Icon(
-                  label == 'Class' ? LucideIcons.bookOpen :
-                  label == 'Route' ? LucideIcons.mapPin :
-                  label == 'Stop' ? LucideIcons.mapPin :
-                  label == 'Pickup / Drop' ? LucideIcons.clock :
-                  label == 'Fee Status' ? LucideIcons.dollarSign :
-                  label == 'Status' ? LucideIcons.settings :
-                  label == 'Admission Date' ? LucideIcons.calendar :
-                  label == 'Parent / Guardian' ? LucideIcons.users :
-                  LucideIcons.phone,
+                  label == 'Class'
+                      ? LucideIcons.bookOpen
+                      : label == 'Route'
+                      ? LucideIcons.mapPin
+                      : label == 'Stop'
+                      ? LucideIcons.mapPin
+                      : label == 'Pickup / Drop'
+                      ? LucideIcons.clock
+                      : label == 'Fee Status'
+                      ? LucideIcons.dollarSign
+                      : label == 'Status'
+                      ? LucideIcons.settings
+                      : label == 'Admission Date'
+                      ? LucideIcons.calendar
+                      : label == 'Parent / Guardian'
+                      ? LucideIcons.users
+                      : LucideIcons.phone,
                   size: 16,
                   color: const Color(0xFF94A3B8),
                 ),
@@ -238,7 +264,10 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                       Container(
                         width: 6,
                         height: 6,
-                        decoration: BoxDecoration(color: badgeColor, shape: BoxShape.circle),
+                        decoration: BoxDecoration(
+                          color: badgeColor,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                       const SizedBox(width: 4),
                     ],
@@ -267,7 +296,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
       );
     }
 
-    Widget _buildSectionCard(IconData icon, String title, List<Widget> children) {
+    Widget _buildSectionCard(
+      IconData icon,
+      String title,
+      List<Widget> children,
+    ) {
       return Container(
         margin: const EdgeInsets.only(top: 16),
         padding: const EdgeInsets.all(16),
@@ -306,7 +339,13 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF595973))),
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 14,
+                color: const Color(0xFF595973),
+              ),
+            ),
             Text(
               value,
               style: GoogleFonts.inter(
@@ -339,7 +378,9 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1))),
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+                ),
               ),
               child: Column(
                 children: [
@@ -357,7 +398,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: const Icon(LucideIcons.chevronLeft, size: 24, color: Color(0xFF181821)),
+                        child: const Icon(
+                          LucideIcons.chevronLeft,
+                          size: 24,
+                          color: Color(0xFF181821),
+                        ),
                       ),
                       Text(
                         'Admission Details',
@@ -367,7 +412,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                           color: const Color(0xFF181821),
                         ),
                       ),
-                      const Icon(LucideIcons.moreVertical, size: 24, color: Color(0xFF181821)),
+                      const Icon(
+                        LucideIcons.moreVertical,
+                        size: 24,
+                        color: Color(0xFF181821),
+                      ),
                     ],
                   ),
                 ],
@@ -383,7 +432,9 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+                        border: Border.all(
+                          color: Colors.grey.withValues(alpha: 0.1),
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -413,7 +464,8 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
                                           student['name'],
@@ -424,10 +476,17 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                                           ),
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 4,
+                                          ),
                                           decoration: BoxDecoration(
-                                            color: getStatusColor(student['status']).withValues(alpha: 0.1),
-                                            borderRadius: BorderRadius.circular(12),
+                                            color: getStatusColor(
+                                              student['status'],
+                                            ).withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -435,12 +494,23 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                                               Container(
                                                 width: 6,
                                                 height: 6,
-                                                decoration: BoxDecoration(color: getStatusColor(student['status']), shape: BoxShape.circle),
+                                                decoration: BoxDecoration(
+                                                  color: getStatusColor(
+                                                    student['status'],
+                                                  ),
+                                                  shape: BoxShape.circle,
+                                                ),
                                               ),
                                               const SizedBox(width: 4),
                                               Text(
                                                 student['status'],
-                                                style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: getStatusColor(student['status'])),
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: getStatusColor(
+                                                    student['status'],
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -464,31 +534,64 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                           _buildDetailRow('Class', student['class']),
                           _buildDetailRow('Route', student['route']),
                           _buildDetailRow('Stop', student['stop']),
-                          _buildDetailRow('Pickup / Drop', '${student['pickup']} - ${student['drop']}'),
-                          _buildDetailRow('Fee Status', student['feeStatus'], isBadge: true, badgeColor: student['feeStatus'] == 'Paid' ? const Color(0xFF10B981) : const Color(0xFFEF4444)),
-                          _buildDetailRow('Status', student['status'], isBadge: true, badgeColor: getStatusColor(student['status'])),
-                          _buildDetailRow('Admission Date', student['admissionDate'] ?? 'Unknown'),
-                          _buildDetailRow('Parent / Guardian', student['parent'] ?? 'Unknown'),
-                          _buildDetailRow('Phone', student['phone'] ?? 'Unknown'),
+                          _buildDetailRow(
+                            'Pickup / Drop',
+                            '${student['pickup']} - ${student['drop']}',
+                          ),
+                          _buildDetailRow(
+                            'Fee Status',
+                            student['feeStatus'],
+                            isBadge: true,
+                            badgeColor: student['feeStatus'] == 'Paid'
+                                ? const Color(0xFF10B981)
+                                : const Color(0xFFEF4444),
+                          ),
+                          _buildDetailRow(
+                            'Status',
+                            student['status'],
+                            isBadge: true,
+                            badgeColor: getStatusColor(student['status']),
+                          ),
+                          _buildDetailRow(
+                            'Admission Date',
+                            student['admissionDate'] ?? 'Unknown',
+                          ),
+                          _buildDetailRow(
+                            'Parent / Guardian',
+                            student['parent'] ?? 'Unknown',
+                          ),
+                          _buildDetailRow(
+                            'Phone',
+                            student['phone'] ?? 'Unknown',
+                          ),
                         ],
                       ),
                     ),
-                    
+
                     _buildSectionCard(LucideIcons.fileText, 'Fee Details', [
                       _buildSectionRow('Total Fee', student['totalFee'] ?? '-'),
-                      _buildSectionRow('Paid Amount', student['paidAmount'] ?? '-'),
-                      _buildSectionRow('Due Amount', student['dueAmount'] ?? '-', valueColor: (student['dueAmount'] ?? '₹0') != '₹0' ? const Color(0xFFEF4444) : const Color(0xFF10B981)),
+                      _buildSectionRow(
+                        'Paid Amount',
+                        student['paidAmount'] ?? '-',
+                      ),
+                      _buildSectionRow(
+                        'Due Amount',
+                        student['dueAmount'] ?? '-',
+                        valueColor: (student['dueAmount'] ?? '₹0') != '₹0'
+                            ? const Color(0xFFEF4444)
+                            : const Color(0xFF10B981),
+                      ),
                     ]),
-                    
+
                     _buildSectionCard(LucideIcons.bus, 'Route & Stop', [
                       _buildSectionRow('Route', student['route']),
                       _buildSectionRow('Stop', student['stop']),
                       _buildSectionRow('Pickup Time', student['pickup']),
                       _buildSectionRow('Drop Time', student['drop']),
                     ]),
-                    
+
                     const SizedBox(height: 24),
-                    
+
                     Row(
                       children: [
                         Expanded(
@@ -502,12 +605,18 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: const Color(0xFF6366F1)),
+                                border: Border.all(
+                                  color: const Color(0xFF6366F1),
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(LucideIcons.edit2, size: 16, color: Color(0xFF6366F1)),
+                                  const Icon(
+                                    LucideIcons.edit2,
+                                    size: 16,
+                                    color: Color(0xFF6366F1),
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Edit Admission',
@@ -536,12 +645,18 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: const Color(0xFFEF4444)),
+                                border: Border.all(
+                                  color: const Color(0xFFEF4444),
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(LucideIcons.trash2, size: 16, color: Color(0xFFEF4444)),
+                                  const Icon(
+                                    LucideIcons.trash2,
+                                    size: 16,
+                                    color: Color(0xFFEF4444),
+                                  ),
                                   const SizedBox(width: 8),
                                   Text(
                                     'Delete Admission',
@@ -582,20 +697,28 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(
+              'Filter by Status',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             const SizedBox(height: 16),
-            ...['All', 'Allocated', 'Pending', 'Opted Out'].map((status) => RadioListTile(
-              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
-              activeColor: const Color(0xFF6366F1),
-              value: status,
-              groupValue: _filterStatus,
-              onChanged: (val) {
-                setState(() {
-                  _filterStatus = val.toString();
-                });
-                Navigator.pop(context);
-              },
-            )),
+            ...['All', 'Allocated', 'Pending', 'Opted Out'].map(
+              (status) => RadioListTile(
+                title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+                activeColor: const Color(0xFF6366F1),
+                value: status,
+                groupValue: _filterStatus,
+                onChanged: (val) {
+                  setState(() {
+                    _filterStatus = val.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -607,17 +730,7 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Student Allocation'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -627,7 +740,10 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -672,7 +788,10 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             GestureDetector(
               onTap: () => _showAllocateStudentModal(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 16,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF6366F1),
                   borderRadius: BorderRadius.circular(8),
@@ -680,7 +799,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(LucideIcons.userPlus, size: 16, color: Colors.white),
+                    const Icon(
+                      LucideIcons.userPlus,
+                      size: 16,
+                      color: Colors.white,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       'Allocate Student',
@@ -800,7 +923,9 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
           color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
+            color: isPrimary
+                ? const Color(0xFF7F61EA).withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
           ),
           boxShadow: [
             BoxShadow(
@@ -810,57 +935,57 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             ),
           ],
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                child: Icon(icon, color: iconColor, size: 20),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF595973),
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (subtitle.isNotEmpty) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: 16),
             Text(
-              subtitle,
+              value,
               style: GoogleFonts.inter(
-                fontSize: 11,
-                color: const Color(0xFF94A3B8),
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF181821),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF595973),
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+            if (subtitle.isNotEmpty) ...[
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  color: const Color(0xFF94A3B8),
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
-    ),
     );
   }
 
@@ -877,7 +1002,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+                const Icon(
+                  LucideIcons.search,
+                  color: Color(0xFF94A3B8),
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
@@ -912,7 +1041,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
             ),
-            child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
+            child: const Icon(
+              LucideIcons.filter,
+              color: Color(0xFF595973),
+              size: 20,
+            ),
           ),
         ),
       ],
@@ -921,11 +1054,13 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
 
   Widget _buildStudentsList() {
     final filtered = _students.where((s) {
-      final matchesSearch = s['name'].toLowerCase().contains(_searchQuery) ||
-                            s['id'].toLowerCase().contains(_searchQuery) ||
-                            s['route'].toLowerCase().contains(_searchQuery) ||
-                            s['stop'].toLowerCase().contains(_searchQuery);
-      final matchesStatus = _filterStatus == 'All' || s['status'] == _filterStatus;
+      final matchesSearch =
+          s['name'].toLowerCase().contains(_searchQuery) ||
+          s['id'].toLowerCase().contains(_searchQuery) ||
+          s['route'].toLowerCase().contains(_searchQuery) ||
+          s['stop'].toLowerCase().contains(_searchQuery);
+      final matchesStatus =
+          _filterStatus == 'All' || s['status'] == _filterStatus;
       return matchesSearch && matchesStatus;
     }).toList();
 
@@ -935,7 +1070,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
         child: Center(
           child: Column(
             children: [
-              Icon(LucideIcons.users, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
+              Icon(
+                LucideIcons.users,
+                size: 48,
+                color: const Color(0xFF94A3B8).withValues(alpha: 0.5),
+              ),
               const SizedBox(height: 16),
               Text(
                 'No students found',
@@ -952,7 +1091,12 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
     }
 
     String getInitials(String name) {
-      return name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').join('').toUpperCase().substring(0, 2);
+      return name
+          .split(' ')
+          .map((e) => e.isNotEmpty ? e[0] : '')
+          .join('')
+          .toUpperCase()
+          .substring(0, 2);
     }
 
     Color getStatusColor(String status) {
@@ -1033,7 +1177,11 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                     const SizedBox(height: 6),
                     Row(
                       children: [
-                        const Icon(LucideIcons.clock, size: 14, color: Color(0xFF94A3B8)),
+                        const Icon(
+                          LucideIcons.clock,
+                          size: 14,
+                          color: Color(0xFF94A3B8),
+                        ),
                         const SizedBox(width: 6),
                         Text(
                           '${student['pickup']}  -  ${student['drop']}',
@@ -1053,9 +1201,14 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: feePaid ? const Color(0xFFD1FAE5) : const Color(0xFFFEE2E2),
+                          color: feePaid
+                              ? const Color(0xFFD1FAE5)
+                              : const Color(0xFFFEE2E2),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -1063,13 +1216,19 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                           style: GoogleFonts.inter(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: feePaid ? const Color(0xFF10B981) : const Color(0xFFEF4444),
+                            color: feePaid
+                                ? const Color(0xFF10B981)
+                                : const Color(0xFFEF4444),
                           ),
                         ),
                       ),
                       const SizedBox(width: 8),
                       PopupMenuButton<String>(
-                        icon: const Icon(LucideIcons.moreVertical, size: 20, color: Color(0xFF595973)),
+                        icon: const Icon(
+                          LucideIcons.moreVertical,
+                          size: 20,
+                          color: Color(0xFF595973),
+                        ),
                         color: Colors.white,
                         onSelected: (value) {
                           if (value == 'view') {
@@ -1087,9 +1246,16 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                             value: 'view',
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.eye, size: 16, color: Color(0xFF595973)),
+                                const Icon(
+                                  LucideIcons.eye,
+                                  size: 16,
+                                  color: Color(0xFF595973),
+                                ),
                                 const SizedBox(width: 8),
-                                Text('View Details', style: GoogleFonts.inter(fontSize: 14)),
+                                Text(
+                                  'View Details',
+                                  style: GoogleFonts.inter(fontSize: 14),
+                                ),
                               ],
                             ),
                           ),
@@ -1097,9 +1263,16 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                             value: 'edit',
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.edit2, size: 16, color: Color(0xFF595973)),
+                                const Icon(
+                                  LucideIcons.edit2,
+                                  size: 16,
+                                  color: Color(0xFF595973),
+                                ),
                                 const SizedBox(width: 8),
-                                Text('Edit', style: GoogleFonts.inter(fontSize: 14)),
+                                Text(
+                                  'Edit',
+                                  style: GoogleFonts.inter(fontSize: 14),
+                                ),
                               ],
                             ),
                           ),
@@ -1107,9 +1280,19 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                             value: 'delete',
                             child: Row(
                               children: [
-                                const Icon(LucideIcons.trash2, size: 16, color: Colors.red),
+                                const Icon(
+                                  LucideIcons.trash2,
+                                  size: 16,
+                                  color: Colors.red,
+                                ),
                                 const SizedBox(width: 8),
-                                Text('Delete', style: GoogleFonts.inter(fontSize: 14, color: Colors.red)),
+                                Text(
+                                  'Delete',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14,
+                                    color: Colors.red,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -1119,9 +1302,14 @@ class _StudentAllocationScreenState extends State<StudentAllocationScreen> {
                   ),
                   const SizedBox(height: 32),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: getStatusColor(student['status']).withValues(alpha: 0.1),
+                      color: getStatusColor(
+                        student['status'],
+                      ).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(

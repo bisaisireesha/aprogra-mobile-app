@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class HostelAttendanceScreen extends StatelessWidget {
   const HostelAttendanceScreen({super.key});
@@ -13,18 +14,7 @@ class HostelAttendanceScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Hostel Attendance'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +24,10 @@ class HostelAttendanceScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 16),
@@ -60,7 +53,9 @@ class HostelAttendanceScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.grey.withValues(alpha: 0.1)),
+                      border: Border.all(
+                        color: Colors.grey.withValues(alpha: 0.1),
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withValues(alpha: 0.02),
@@ -71,12 +66,72 @@ class HostelAttendanceScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        _buildAttendanceItem('AM', 'Aarav Mehta', 'ADM2024-101', 'Block A', 'Room A-204', '21:42', 'Present', 'Mr. R. Sharma', false),
-                        _buildAttendanceItem('DS', 'Diya Sharma', 'ADM2024-118', 'Block D', 'Room D-105', '21:30', 'Present', 'Mrs. S. Nair', false),
-                        _buildAttendanceItem('KS', 'Kabir Singh', 'ADM2024-122', 'Block B', 'Room B-312', '22:18', 'Late', 'Mr. K. Iyer', false),
-                        _buildAttendanceItem('RG', 'Rohan Gupta', 'ADM2024-135', 'Block C', 'Room C-210', '—', 'Absent', 'Mr. P. Verma', false),
-                        _buildAttendanceItem('SN', 'Saanvi Nair', 'ADM2024-091', 'Block F', 'Room F-118', '—', 'On Leave', 'Mrs. M. Pillai', false),
-                        _buildAttendanceItem('AI', 'Ananya Iyer', 'ADM2024-066', 'Block D', 'Room D-208', '21:15', 'Present', 'Mrs. S. Nair', true),
+                        _buildAttendanceItem(
+                          'AM',
+                          'Aarav Mehta',
+                          'ADM2024-101',
+                          'Block A',
+                          'Room A-204',
+                          '21:42',
+                          'Present',
+                          'Mr. R. Sharma',
+                          false,
+                        ),
+                        _buildAttendanceItem(
+                          'DS',
+                          'Diya Sharma',
+                          'ADM2024-118',
+                          'Block D',
+                          'Room D-105',
+                          '21:30',
+                          'Present',
+                          'Mrs. S. Nair',
+                          false,
+                        ),
+                        _buildAttendanceItem(
+                          'KS',
+                          'Kabir Singh',
+                          'ADM2024-122',
+                          'Block B',
+                          'Room B-312',
+                          '22:18',
+                          'Late',
+                          'Mr. K. Iyer',
+                          false,
+                        ),
+                        _buildAttendanceItem(
+                          'RG',
+                          'Rohan Gupta',
+                          'ADM2024-135',
+                          'Block C',
+                          'Room C-210',
+                          '—',
+                          'Absent',
+                          'Mr. P. Verma',
+                          false,
+                        ),
+                        _buildAttendanceItem(
+                          'SN',
+                          'Saanvi Nair',
+                          'ADM2024-091',
+                          'Block F',
+                          'Room F-118',
+                          '—',
+                          'On Leave',
+                          'Mrs. M. Pillai',
+                          false,
+                        ),
+                        _buildAttendanceItem(
+                          'AI',
+                          'Ananya Iyer',
+                          'ADM2024-066',
+                          'Block D',
+                          'Room D-208',
+                          '21:15',
+                          'Present',
+                          'Mrs. S. Nair',
+                          true,
+                        ),
                       ],
                     ),
                   ),
@@ -136,7 +191,11 @@ class HostelAttendanceScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              const Icon(LucideIcons.calendar, size: 16, color: Color(0xFF181821)),
+              const Icon(
+                LucideIcons.calendar,
+                size: 16,
+                color: Color(0xFF181821),
+              ),
             ],
           ),
         ),
@@ -150,7 +209,11 @@ class HostelAttendanceScreen extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(LucideIcons.checkSquare, color: Colors.white, size: 18),
+              const Icon(
+                LucideIcons.checkSquare,
+                color: Colors.white,
+                size: 18,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Mark Attendance',
@@ -176,22 +239,64 @@ class HostelAttendanceScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.15,
       children: [
-        _buildStatCard('8', 'Total Residents', LucideIcons.users, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE), true, null),
-        _buildStatCard('4', 'Present', LucideIcons.checkCircle, const Color(0xFF10B981), const Color(0xFFD1FAE5), false, '50%'),
-        _buildStatCard('2', 'Absent', LucideIcons.xCircle, const Color(0xFFEF4444), const Color(0xFFFEE2E2), false, '25%'),
-        _buildStatCard('1', 'Late', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false, '13%'),
+        _buildStatCard(
+          '8',
+          'Total Residents',
+          LucideIcons.users,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+          true,
+          null,
+        ),
+        _buildStatCard(
+          '4',
+          'Present',
+          LucideIcons.checkCircle,
+          const Color(0xFF10B981),
+          const Color(0xFFD1FAE5),
+          false,
+          '50%',
+        ),
+        _buildStatCard(
+          '2',
+          'Absent',
+          LucideIcons.xCircle,
+          const Color(0xFFEF4444),
+          const Color(0xFFFEE2E2),
+          false,
+          '25%',
+        ),
+        _buildStatCard(
+          '1',
+          'Late',
+          LucideIcons.clock,
+          const Color(0xFFF59E0B),
+          const Color(0xFFFEF3C7),
+          false,
+          '13%',
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color iconColor, Color iconBg, bool isActive, String? percentage) {
+  Widget _buildStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    bool isActive,
+    String? percentage,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isActive ? iconColor.withValues(alpha: 0.4) : Colors.grey.withValues(alpha: 0.15),
+          color: isActive
+              ? iconColor.withValues(alpha: 0.4)
+              : Colors.grey.withValues(alpha: 0.15),
           width: 1.5,
         ),
         boxShadow: [
@@ -265,7 +370,11 @@ class HostelAttendanceScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(LucideIcons.search, size: 18, color: Color(0xFF94A3B8)),
+              const Icon(
+                LucideIcons.search,
+                size: 18,
+                color: Color(0xFF94A3B8),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -307,7 +416,9 @@ class HostelAttendanceScreen extends StatelessWidget {
         color: isSelected ? const Color(0xFF6366F1) : Colors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: isSelected ? const Color(0xFF6366F1) : Colors.grey.withValues(alpha: 0.2),
+          color: isSelected
+              ? const Color(0xFF6366F1)
+              : Colors.grey.withValues(alpha: 0.2),
         ),
       ),
       child: Text(
@@ -432,7 +543,10 @@ class HostelAttendanceScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusBg,
                       borderRadius: BorderRadius.circular(6),
@@ -468,10 +582,7 @@ class HostelAttendanceScreen extends StatelessWidget {
           ),
         ),
         if (!isLast)
-          Divider(
-            height: 1,
-            color: Colors.grey.withValues(alpha: 0.1),
-          ),
+          Divider(height: 1, color: Colors.grey.withValues(alpha: 0.1)),
       ],
     );
   }

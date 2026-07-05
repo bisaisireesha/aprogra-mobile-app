@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../../screens/auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -48,7 +49,12 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -73,15 +79,13 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Action Center'),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
+      decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
         bottom: false,
@@ -92,7 +96,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
+                child: const Icon(
+                  Icons.menu_rounded,
+                  color: Color(0xFF8F96A3),
+                  size: 28,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -107,7 +115,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.search_rounded, color: Color(0xFF8F96A3), size: 20),
+                    const Icon(
+                      Icons.search_rounded,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -119,12 +131,18 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                         },
                         decoration: const InputDecoration(
                           hintText: 'Search anything...',
-                          hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
+                          hintStyle: TextStyle(
+                            color: Color(0xFF8F96A3),
+                            fontSize: 14,
+                          ),
                           border: InputBorder.none,
                           isDense: true,
                           contentPadding: EdgeInsets.zero,
                         ),
-                        style: const TextStyle(color: Color(0xFF181B20), fontSize: 14),
+                        style: const TextStyle(
+                          color: Color(0xFF181B20),
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -134,7 +152,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
             const SizedBox(width: 16),
             Stack(
               children: [
-                const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 28),
+                const Icon(
+                  Icons.notifications_none_rounded,
+                  color: Color(0xFF8F96A3),
+                  size: 28,
+                ),
                 Positioned(
                   right: 2,
                   top: 2,
@@ -245,7 +267,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -261,7 +283,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       color: kpi['iconBg'] as Color,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(kpi['icon'] as IconData, size: 16, color: kpi['iconColor'] as Color),
+                    child: Icon(
+                      kpi['icon'] as IconData,
+                      size: 16,
+                      color: kpi['iconColor'] as Color,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
@@ -310,7 +336,6 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     );
   }
 
-
   Widget _buildFilters() {
     final firstLineFilters = ['All', 'Critical', 'Attendance', 'Finance'];
     final secondLineFilters = ['Admissions', 'Academics', 'Staff'];
@@ -328,7 +353,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF7C5BFF) : Colors.white,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: isSelected ? const Color(0xFF7C5BFF) : const Color(0xFFF3F4F6)),
+            border: Border.all(
+              color: isSelected
+                  ? const Color(0xFF7C5BFF)
+                  : const Color(0xFFF3F4F6),
+            ),
           ),
           child: Text(
             filter,
@@ -379,10 +408,14 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       children: MockData.actionCenterAlerts.map((section) {
         final allItems = section['items'] as List<Map<String, dynamic>>;
         final filteredItems = allItems.where((item) {
-          final matchesFilter = _activeFilter == 'All' ||
+          final matchesFilter =
+              _activeFilter == 'All' ||
               (_activeFilter == 'Critical' && item['isCritical'] == true) ||
-              (item['category'] as String).toLowerCase().contains(_activeFilter.toLowerCase());
-          final matchesSearch = _searchQuery.isEmpty ||
+              (item['category'] as String).toLowerCase().contains(
+                _activeFilter.toLowerCase(),
+              );
+          final matchesSearch =
+              _searchQuery.isEmpty ||
               (item['title'] as String).toLowerCase().contains(_searchQuery) ||
               (item['subtitle'] as String).toLowerCase().contains(_searchQuery);
           return matchesFilter && matchesSearch;
@@ -407,26 +440,41 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                           shape: BoxShape.circle,
                           border: Border.all(color: const Color(0xFFF3F4F6)),
                         ),
-                        child: Icon(section['sectionIcon'] as IconData, size: 20, color: section['sectionIconColor'] as Color),
+                        child: Icon(
+                          section['sectionIcon'] as IconData,
+                          size: 20,
+                          color: section['sectionIconColor'] as Color,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           section['sectionTitle'] as String,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFE5E7EB),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           section['sectionBadge'] as String,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8F96A3)),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF8F96A3),
+                          ),
                         ),
                       ),
                     ],
@@ -436,12 +484,22 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   onPressed: () {},
                   child: Row(
                     children: const [
-                      Text('View all', style: TextStyle(fontSize: 13, color: Color(0xFF8F96A3))),
+                      Text(
+                        'View all',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Color(0xFF8F96A3),
+                        ),
+                      ),
                       SizedBox(width: 4),
-                      Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFF8F96A3)),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 10,
+                        color: Color(0xFF8F96A3),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -452,14 +510,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: isCritical ? const Color(0x33FF5C5C) : const Color(0xFFF3F4F6)),
-                  boxShadow: isCritical ? [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.02),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    )
-                  ] : null,
+                  border: Border.all(
+                    color: isCritical
+                        ? const Color(0x33FF5C5C)
+                        : const Color(0xFFF3F4F6),
+                  ),
+                  boxShadow: isCritical
+                      ? [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.02),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(24),
@@ -468,10 +532,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         if (isCritical)
-                          Container(
-                            width: 4,
-                            color: const Color(0xFFFF5C5C),
-                          ),
+                          Container(width: 4, color: const Color(0xFFFF5C5C)),
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.all(20),
@@ -479,27 +540,44 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Expanded(
                                       child: Row(
                                         children: [
                                           Container(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                              vertical: 6,
+                                            ),
                                             decoration: BoxDecoration(
-                                              color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5252) : item['badgeColor'] as Color,
-                                              borderRadius: BorderRadius.circular(12),
+                                              color: item['badge'] == 'CRITICAL'
+                                                  ? const Color(0xFFFF5252)
+                                                  : item['badgeColor'] as Color,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
                                             ),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                if (item['badge'] == 'CRITICAL') ...[
-                                                  const Icon(Icons.gpp_maybe_outlined, size: 12, color: Colors.white),
+                                                if (item['badge'] ==
+                                                    'CRITICAL') ...[
+                                                  const Icon(
+                                                    Icons.gpp_maybe_outlined,
+                                                    size: 12,
+                                                    color: Colors.white,
+                                                  ),
                                                   const SizedBox(width: 4),
                                                 ],
                                                 Text(
                                                   item['badge'] as String,
-                                                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Colors.white, letterSpacing: 0.5),
+                                                  style: const TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w800,
+                                                    color: Colors.white,
+                                                    letterSpacing: 0.5,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -508,7 +586,12 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                           Expanded(
                                             child: Text(
                                               item['category'] as String,
-                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8D95A5), letterSpacing: 1.0),
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xFF8D95A5),
+                                                letterSpacing: 1.0,
+                                              ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -518,12 +601,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     Expanded(
                                       child: Row(
                                         children: [
-                                          const Icon(Icons.access_time_rounded, size: 12, color: Color(0xFF8D95A5)),
+                                          const Icon(
+                                            Icons.access_time_rounded,
+                                            size: 12,
+                                            color: Color(0xFF8D95A5),
+                                          ),
                                           const SizedBox(width: 4),
                                           Flexible(
                                             child: Text(
                                               item['time'] as String,
-                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Color(0xFF8D95A5)),
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w500,
+                                                color: Color(0xFF8D95A5),
+                                              ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -535,12 +626,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                 const SizedBox(height: 16),
                                 Text(
                                   item['title'] as String,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF181B20), height: 1.3),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF181B20),
+                                    height: 1.3,
+                                  ),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   item['subtitle'] as String,
-                                  style: const TextStyle(fontSize: 14, color: Color(0xFF8F96A3)),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF8F96A3),
+                                  ),
                                 ),
                                 const SizedBox(height: 24),
                                 Row(
@@ -548,17 +647,29 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     Expanded(
                                       child: Container(
                                         // [Responsive Fix]: Min height constraint to prevent text clipping if scaled up
-                                        constraints: const BoxConstraints(minHeight: 48),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        constraints: const BoxConstraints(
+                                          minHeight: 48,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 12,
+                                        ),
                                         decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius: BorderRadius.circular(16),
-                                          border: Border.all(color: const Color(0xFF181B20)),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                          border: Border.all(
+                                            color: const Color(0xFF181B20),
+                                          ),
                                         ),
                                         child: Center(
                                           child: Text(
                                             item['btn1'] as String,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFF181B20)),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Color(0xFF181B20),
+                                            ),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -568,16 +679,28 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     Expanded(
                                       child: Container(
                                         // [Responsive Fix]: Min height constraint
-                                        constraints: const BoxConstraints(minHeight: 48),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        constraints: const BoxConstraints(
+                                          minHeight: 48,
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 12,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5C5C) : item['btn2Color'] as Color,
-                                          borderRadius: BorderRadius.circular(16),
+                                          color: item['badge'] == 'CRITICAL'
+                                              ? const Color(0xFFFF5C5C)
+                                              : item['btn2Color'] as Color,
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
                                         ),
                                         child: Center(
                                           child: Text(
                                             item['btn2'] as String,
-                                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
@@ -624,21 +747,42 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   color: Color(0x337C5BFF),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.lightbulb_outline, size: 20, color: Color(0xFF7C5BFF)),
+                child: const Icon(
+                  Icons.lightbulb_outline,
+                  size: 20,
+                  color: Color(0xFF7C5BFF),
+                ),
               ),
               const SizedBox(width: 16),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Recommended Actions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                  const Text(
+                    'Recommended Actions',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: const Color(0x337C5BFF),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text('AI Suggestions', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF7C5BFF))),
+                    child: const Text(
+                      'AI Suggestions',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF7C5BFF),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -659,12 +803,21 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 children: [
                   Text(
                     rec['title'] as String,
-                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, height: 1.3),
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                      height: 1.3,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     rec['subtitle'] as String,
-                    style: const TextStyle(fontSize: 14, color: Color(0xFF8F96A3), height: 1.5),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF8F96A3),
+                      height: 1.5,
+                    ),
                   ),
                   const SizedBox(height: 16),
                   Container(
@@ -677,7 +830,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                     child: Center(
                       child: Text(
                         rec['btn'] as String,
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -694,7 +851,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -703,10 +862,12 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const StudentInsightsScreen(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
                 transitionDuration: Duration.zero,
               ),
             );
@@ -720,23 +881,43 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
           BottomNavigationBarItem(
             icon: Stack(
               clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.show_chart),
-              ],
+              children: [const Icon(Icons.show_chart)],
             ),
             activeIcon: const Icon(Icons.show_chart),
             label: 'Activity',
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

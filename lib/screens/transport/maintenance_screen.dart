@@ -8,6 +8,7 @@ import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import 'maintenance_job_details_modal.dart';
 import 'add_log_job_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class MaintenanceScreen extends StatefulWidget {
   const MaintenanceScreen({super.key});
@@ -124,17 +125,7 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Maintenance'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -144,7 +135,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -186,74 +180,83 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.currency_rupee,
+                    size: 14,
+                    color: Color(0xFF94A3B8),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.currency_rupee, size: 14, color: Color(0xFF94A3B8)),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Spend this month ',
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xFF595973),
-                        ),
-                      ),
-                      Text(
-                        '₹32,200',
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF181821),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () async {
-                    final newJob = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AddLogJobScreen()),
-                    );
-                    if (newJob != null) {
-                      setState(() {
-                        _jobs.insert(0, newJob);
-                      });
-                      _saveJobs();
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(LucideIcons.plus, size: 16, color: Colors.white),
-                        const SizedBox(width: 6),
-                        Text(
-                          'Log Job',
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
+                  const SizedBox(width: 4),
+                  Text(
+                    'Spend this month ',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF595973),
                     ),
                   ),
+                  Text(
+                    '₹32,200',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF181821),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            GestureDetector(
+              onTap: () async {
+                final newJob = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddLogJobScreen(),
+                  ),
+                );
+                if (newJob != null) {
+                  setState(() {
+                    _jobs.insert(0, newJob);
+                  });
+                  _saveJobs();
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 16,
                 ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6366F1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.plus, size: 16, color: Colors.white),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Log Job',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -357,7 +360,9 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : (borderColor ?? Colors.grey.withValues(alpha: 0.1)),
+            color: isPrimary
+                ? const Color(0xFF7F61EA).withValues(alpha: 0.3)
+                : (borderColor ?? Colors.grey.withValues(alpha: 0.1)),
           ),
           boxShadow: [
             BoxShadow(
@@ -367,45 +372,45 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             ),
           ],
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                child: Icon(icon, color: iconColor, size: 20),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF181821),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF595973),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: const Color(0xFF595973),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 
@@ -422,7 +427,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+                const Icon(
+                  LucideIcons.search,
+                  color: Color(0xFF94A3B8),
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
@@ -457,7 +466,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
             ),
-            child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
+            child: const Icon(
+              LucideIcons.filter,
+              color: Color(0xFF595973),
+              size: 20,
+            ),
           ),
         ),
       ],
@@ -477,20 +490,28 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(
+              'Filter by Status',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             const SizedBox(height: 16),
-            ...['All', 'Scheduled', 'In Service', 'Completed'].map((status) => RadioListTile(
-              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
-              activeColor: const Color(0xFF6366F1),
-              value: status,
-              groupValue: _filterStatus,
-              onChanged: (val) {
-                setState(() {
-                  _filterStatus = val.toString();
-                });
-                Navigator.pop(context);
-              },
-            )),
+            ...['All', 'Scheduled', 'In Service', 'Completed'].map(
+              (status) => RadioListTile(
+                title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+                activeColor: const Color(0xFF6366F1),
+                value: status,
+                groupValue: _filterStatus,
+                onChanged: (val) {
+                  setState(() {
+                    _filterStatus = val.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -500,12 +521,14 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
   Widget _buildJobsList() {
     final filteredJobs = _jobs.where((job) {
       final searchLower = _searchQuery.toLowerCase();
-      final matchesSearch = job['id'].toString().toLowerCase().contains(searchLower) ||
-             job['bus'].toString().toLowerCase().contains(searchLower) ||
-             job['mechanic'].toString().toLowerCase().contains(searchLower);
-             
-      final matchesFilter = _filterStatus == 'All' || job['status'] == _filterStatus;
-      
+      final matchesSearch =
+          job['id'].toString().toLowerCase().contains(searchLower) ||
+          job['bus'].toString().toLowerCase().contains(searchLower) ||
+          job['mechanic'].toString().toLowerCase().contains(searchLower);
+
+      final matchesFilter =
+          _filterStatus == 'All' || job['status'] == _filterStatus;
+
       return matchesSearch && matchesFilter;
     }).toList();
 
@@ -515,7 +538,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
         child: Center(
           child: Column(
             children: [
-              Icon(LucideIcons.settings, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
+              Icon(
+                LucideIcons.settings,
+                size: 48,
+                color: const Color(0xFF94A3B8).withValues(alpha: 0.5),
+              ),
               const SizedBox(height: 16),
               Text(
                 'No maintenance jobs found',
@@ -610,7 +637,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             color: typeColor.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
-                          child: Icon(getIconForType(job['type']), color: typeColor, size: 24),
+                          child: Icon(
+                            getIconForType(job['type']),
+                            color: typeColor,
+                            size: 24,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         // Content
@@ -619,7 +650,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     job['id'],
@@ -632,10 +664,17 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                   Row(
                                     children: [
                                       Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 4,
+                                        ),
                                         decoration: BoxDecoration(
-                                          color: statusColor.withValues(alpha: 0.1),
-                                          borderRadius: BorderRadius.circular(12),
+                                          color: statusColor.withValues(
+                                            alpha: 0.1,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                         ),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.min,
@@ -662,13 +701,29 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                       ),
                                       const SizedBox(width: 4),
                                       PopupMenuButton<String>(
-                                        icon: const Icon(LucideIcons.moreVertical, size: 20, color: Color(0xFF94A3B8)),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                        icon: const Icon(
+                                          LucideIcons.moreVertical,
+                                          size: 20,
+                                          color: Color(0xFF94A3B8),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
                                         onSelected: (value) {
                                           if (value == 'view') {
                                             _showJobDetailsModal(job);
                                           } else {
-                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value ${job['id']}')));
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  '$value ${job['id']}',
+                                                ),
+                                              ),
+                                            );
                                           }
                                         },
                                         itemBuilder: (context) => [
@@ -682,7 +737,12 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                           ),
                                           const PopupMenuItem(
                                             value: 'delete',
-                                            child: Text('Delete', style: TextStyle(color: Colors.red)),
+                                            child: Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -710,7 +770,10 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                   ),
                                   const SizedBox(width: 8),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: typeColor.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(12),
@@ -728,7 +791,8 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                               ),
                               const SizedBox(height: 8),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     job['title'],
@@ -750,7 +814,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                               const SizedBox(height: 12),
                               Row(
                                 children: [
-                                  const Icon(LucideIcons.calendar, size: 14, color: Color(0xFF94A3B8)),
+                                  const Icon(
+                                    LucideIcons.calendar,
+                                    size: 14,
+                                    color: Color(0xFF94A3B8),
+                                  ),
                                   const SizedBox(width: 6),
                                   Text(
                                     job['date'],
@@ -760,7 +828,11 @@ class _MaintenanceScreenState extends State<MaintenanceScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 12),
-                                  const Icon(LucideIcons.user, size: 14, color: Color(0xFF94A3B8)),
+                                  const Icon(
+                                    LucideIcons.user,
+                                    size: 14,
+                                    color: Color(0xFF94A3B8),
+                                  ),
                                   const SizedBox(width: 6),
                                   Text(
                                     job['mechanic'],

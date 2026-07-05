@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class HostelWardensScreen extends StatelessWidget {
   const HostelWardensScreen({super.key});
@@ -13,18 +14,7 @@ class HostelWardensScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Wardens'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +24,10 @@ class HostelWardensScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildTopHeader(),
                   const SizedBox(height: 24),
@@ -42,13 +35,45 @@ class HostelWardensScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   _buildSearchAndFilterRow(),
                   const SizedBox(height: 16),
-                  _buildWardenCard('RS', 'Mr. R. Sharma', 'Boys hostel', 'Aryabhata Block', 'Block A', 'Morning', 'On Duty'),
+                  _buildWardenCard(
+                    'RS',
+                    'Mr. R. Sharma',
+                    'Boys hostel',
+                    'Aryabhata Block',
+                    'Block A',
+                    'Morning',
+                    'On Duty',
+                  ),
                   const SizedBox(height: 12),
-                  _buildWardenCard('KI', 'Mr. K. Iyer', 'Boys hostel', 'Bhaskara Block', 'Block B', 'Evening', 'On Duty'),
+                  _buildWardenCard(
+                    'KI',
+                    'Mr. K. Iyer',
+                    'Boys hostel',
+                    'Bhaskara Block',
+                    'Block B',
+                    'Evening',
+                    'On Duty',
+                  ),
                   const SizedBox(height: 12),
-                  _buildWardenCard('PV', 'Mr. P. Verma', 'Boys hostel', 'Chandragupta', 'Block C', 'Night', 'Off Duty'),
+                  _buildWardenCard(
+                    'PV',
+                    'Mr. P. Verma',
+                    'Boys hostel',
+                    'Chandragupta',
+                    'Block C',
+                    'Night',
+                    'Off Duty',
+                  ),
                   const SizedBox(height: 12),
-                  _buildWardenCard('SN', 'Mrs. S. Nair', 'Girls hostel', 'Draupadi Block', 'Block D', 'Morning', 'On Duty'),
+                  _buildWardenCard(
+                    'SN',
+                    'Mrs. S. Nair',
+                    'Girls hostel',
+                    'Draupadi Block',
+                    'Block D',
+                    'Morning',
+                    'On Duty',
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -122,22 +147,59 @@ class HostelWardensScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.15,
       children: [
-        _buildStatCard('6', 'Total Wardens', LucideIcons.users, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE), true),
-        _buildStatCard('4', 'On Duty', LucideIcons.shieldCheck, const Color(0xFF10B981), const Color(0xFFD1FAE5), false),
-        _buildStatCard('1', 'Off Duty', LucideIcons.userMinus, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), false),
-        _buildStatCard('1', 'On Leave', LucideIcons.userX, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false),
+        _buildStatCard(
+          '6',
+          'Total Wardens',
+          LucideIcons.users,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+          true,
+        ),
+        _buildStatCard(
+          '4',
+          'On Duty',
+          LucideIcons.shieldCheck,
+          const Color(0xFF10B981),
+          const Color(0xFFD1FAE5),
+          false,
+        ),
+        _buildStatCard(
+          '1',
+          'Off Duty',
+          LucideIcons.userMinus,
+          const Color(0xFF0EA5E9),
+          const Color(0xFFE0F2FE),
+          false,
+        ),
+        _buildStatCard(
+          '1',
+          'On Leave',
+          LucideIcons.userX,
+          const Color(0xFFF59E0B),
+          const Color(0xFFFEF3C7),
+          false,
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color iconColor, Color iconBg, bool isActive) {
+  Widget _buildStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    bool isActive,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isActive ? iconColor.withValues(alpha: 0.4) : Colors.grey.withValues(alpha: 0.15),
+          color: isActive
+              ? iconColor.withValues(alpha: 0.4)
+              : Colors.grey.withValues(alpha: 0.15),
           width: 1.5,
         ),
         boxShadow: [
@@ -196,7 +258,11 @@ class HostelWardensScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(LucideIcons.search, size: 18, color: Color(0xFF94A3B8)),
+              const Icon(
+                LucideIcons.search,
+                size: 18,
+                color: Color(0xFF94A3B8),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -223,7 +289,11 @@ class HostelWardensScreen extends StatelessWidget {
                 color: const Color(0xFF595973),
               ),
             ),
-            const Icon(LucideIcons.listFilter, size: 18, color: Color(0xFF181821)),
+            const Icon(
+              LucideIcons.listFilter,
+              size: 18,
+              color: Color(0xFF181821),
+            ),
           ],
         ),
       ],
@@ -352,7 +422,10 @@ class HostelWardensScreen extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: shiftBg,
                       borderRadius: BorderRadius.circular(12),
@@ -368,7 +441,10 @@ class HostelWardensScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusBg,
                       borderRadius: BorderRadius.circular(12),

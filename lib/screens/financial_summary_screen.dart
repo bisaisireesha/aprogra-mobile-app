@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
 import '../widgets/common_app_bar.dart';
+import '../widgets/app_bottom_nav.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -29,6 +30,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Financial Summary'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'routes/app_routes.dart';
 import 'screens/auth/splash_screen.dart';
-import 'screens/dashboard/dashboard_screen.dart';
 
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
 
@@ -26,26 +26,30 @@ class MyApp extends StatelessWidget {
               title: 'Smart School Management',
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4)),
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color(0xFF9B8EC4),
+                ),
                 useMaterial3: true,
               ),
               darkTheme: ThemeData(
-                colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9B8EC4), brightness: Brightness.dark),
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color(0xFF9B8EC4),
+                  brightness: Brightness.dark,
+                ),
                 useMaterial3: true,
                 brightness: Brightness.dark,
               ),
               themeMode: currentThemeMode,
               builder: (context, widget) {
-                final data = MediaQuery.maybeOf(context) ?? const MediaQueryData();
+                final data =
+                    MediaQuery.maybeOf(context) ?? const MediaQueryData();
                 return MediaQuery(
                   data: data.copyWith(textScaler: TextScaler.noScaling),
                   child: widget!,
                 );
               },
               home: const SplashScreen(),
-              routes: {
-                '/home': (context) => const DashboardScreen(),
-              },
+              onGenerateRoute: AppRoutes.generateRoute,
             );
           },
         );

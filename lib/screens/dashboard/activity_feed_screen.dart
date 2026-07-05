@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -49,7 +50,12 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 20, 0, _isTablet ? 40 : 20, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 20,
+                        0,
+                        _isTablet ? 40 : 20,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,7 +84,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Activity Feed'),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -87,14 +93,14 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
-        Builder(
-          builder: (context) => GestureDetector(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: const Icon(Icons.menu, color: _textDark, size: 28),
+          Builder(
+            builder: (context) => GestureDetector(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: const Icon(Icons.menu, color: _textDark, size: 28),
+            ),
           ),
-        ),
           const SizedBox(width: 16),
           Expanded(
             child: Container(
@@ -107,10 +113,16 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               ),
               child: Row(
                 children: const [
-                Icon(Icons.search, color: _textMuted, size: 20),
-                SizedBox(width: 8),
-                Expanded(child: Text('Search posts, updates...', style: TextStyle(color: _textMuted, fontSize: 14), overflow: TextOverflow.ellipsis)),
-              ],
+                  Icon(Icons.search, color: _textMuted, size: 20),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Search posts, updates...',
+                      style: TextStyle(color: _textMuted, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -229,7 +241,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                 color: Colors.black.withValues(alpha: 0.015),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
-              )
+              ),
             ],
           ),
           child: Column(
@@ -245,23 +257,42 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                       color: kpi['iconBg'] as Color,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(kpi['icon'] as IconData, size: 16, color: kpi['iconColor'] as Color),
+                    child: Icon(
+                      kpi['icon'] as IconData,
+                      size: 16,
+                      color: kpi['iconColor'] as Color,
+                    ),
                   ),
                   if ((kpi['trend'] as String).isNotEmpty)
                     Text(
                       kpi['trend'] as String,
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
                     ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(kpi['value'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    kpi['value'] as String,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   const SizedBox(height: 2),
                   Text(
                     kpi['title'] as String,
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -294,7 +325,11 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
             SizedBox(width: 8),
             Text(
               "Today's Highlights",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark),
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
             ),
           ],
         ),
@@ -306,7 +341,12 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
           ),
           child: const Text(
             'UPDATED 2 MIN AGO',
-            style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _accent, letterSpacing: 0.5),
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: _accent,
+              letterSpacing: 0.5,
+            ),
           ),
         ),
       ],
@@ -345,13 +385,21 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                       color: item['iconBg'] as Color,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(item['icon'] as IconData, size: 20, color: item['iconColor'] as Color),
+                    child: Icon(
+                      item['icon'] as IconData,
+                      size: 20,
+                      color: item['iconColor'] as Color,
+                    ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       item['title'] as String,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark),
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -391,7 +439,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
               decoration: BoxDecoration(
                 color: isSelected ? _accent : Colors.white,
                 borderRadius: BorderRadius.circular(20),
-                border: isSelected ? null : Border.all(color: const Color(0xFFEBEBEB)),
+                border: isSelected
+                    ? null
+                    : Border.all(color: const Color(0xFFEBEBEB)),
               ),
               child: Text(
                 filter,
@@ -407,7 +457,6 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       ),
     );
   }
-
 
   /// Returns a badge icon for each badge type, matching the reference image.
   IconData _badgeIcon(String badge) {
@@ -425,13 +474,21 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
       children: MockData.activityEvents.map((group) {
         final allEvents = group['events'] as List<Map<String, dynamic>>;
         final filteredEvents = allEvents.where((event) {
-          final matchesFilter = _activeFilter == 'All modules' ||
-              (event['title'] as String).toLowerCase().contains(_activeFilter.toLowerCase()) ||
-              (event['badge'] as String).toLowerCase().contains(_activeFilter.toLowerCase());
-          final matchesSearch = _searchQuery.isEmpty ||
+          final matchesFilter =
+              _activeFilter == 'All modules' ||
+              (event['title'] as String).toLowerCase().contains(
+                _activeFilter.toLowerCase(),
+              ) ||
+              (event['badge'] as String).toLowerCase().contains(
+                _activeFilter.toLowerCase(),
+              );
+          final matchesSearch =
+              _searchQuery.isEmpty ||
               (event['title'] as String).toLowerCase().contains(_searchQuery) ||
               (event['main'] as String).toLowerCase().contains(_searchQuery) ||
-              (event['subtitle'] as String).toLowerCase().contains(_searchQuery);
+              (event['subtitle'] as String).toLowerCase().contains(
+                _searchQuery,
+              );
           return matchesFilter && matchesSearch;
         }).toList();
 
@@ -477,7 +534,7 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                       width: 46,
                       height: 46,
                       decoration: BoxDecoration(
-                        color: Colors.white,       // white outer ring
+                        color: Colors.white, // white outer ring
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 2),
                         boxShadow: [
@@ -490,14 +547,16 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: initColor.withValues(alpha: 0.12), // light pastel fill
+                          color: initColor.withValues(
+                            alpha: 0.12,
+                          ), // light pastel fill
                           shape: BoxShape.circle,
                         ),
                         child: Center(
                           child: Text(
                             event['init'] as String,
                             style: TextStyle(
-                              color: initColor,            // dark colored text
+                              color: initColor, // dark colored text
                               fontWeight: FontWeight.bold,
                               fontSize: 13,
                             ),
@@ -512,13 +571,16 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: const Color(0xFFF3F3F6), width: 1.5),
+                          border: Border.all(
+                            color: const Color(0xFFF3F3F6),
+                            width: 1.5,
+                          ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.015),
                               blurRadius: 10,
                               offset: const Offset(0, 4),
-                            )
+                            ),
                           ],
                         ),
                         child: Column(
@@ -533,11 +595,16 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
-                                      style: const TextStyle(fontSize: 13, color: _textDark),
+                                      style: const TextStyle(
+                                        fontSize: 13,
+                                        color: _textDark,
+                                      ),
                                       children: [
                                         TextSpan(
                                           text: event['title'] as String,
-                                          style: const TextStyle(fontWeight: FontWeight.bold),
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         const TextSpan(
                                           text: ' • ',
@@ -545,7 +612,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                                         ),
                                         TextSpan(
                                           text: event['subtitle'] as String,
-                                          style: const TextStyle(color: _textMuted),
+                                          style: const TextStyle(
+                                            color: _textMuted,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -554,14 +623,20 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                                 const SizedBox(width: 8),
                                 Text(
                                   event['time'] as String,
-                                  style: const TextStyle(fontSize: 11, color: _textMuted),
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: _textMuted,
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 10),
                             // ── Badge with icon, matching reference ──
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
                               decoration: BoxDecoration(
                                 color: badgeColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(6),
@@ -601,13 +676,21 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                             // ── Detail rows stacked vertically (matches reference image) ──
                             RichText(
                               text: TextSpan(
-                                style: const TextStyle(fontSize: 12, color: _textMuted),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: _textMuted,
+                                ),
                                 children: [
-                                  TextSpan(text: event['detail1Label'] as String),
+                                  TextSpan(
+                                    text: event['detail1Label'] as String,
+                                  ),
                                   const TextSpan(text: ' '),
                                   TextSpan(
                                     text: event['detail1Value'] as String,
-                                    style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600),
+                                    style: const TextStyle(
+                                      color: _textDark,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -615,13 +698,21 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                             const SizedBox(height: 4),
                             RichText(
                               text: TextSpan(
-                                style: const TextStyle(fontSize: 12, color: _textMuted),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: _textMuted,
+                                ),
                                 children: [
-                                  TextSpan(text: event['detail2Label'] as String),
+                                  TextSpan(
+                                    text: event['detail2Label'] as String,
+                                  ),
                                   const TextSpan(text: ' '),
                                   TextSpan(
                                     text: event['detail2Value'] as String,
-                                    style: const TextStyle(color: _textDark, fontWeight: FontWeight.w600),
+                                    style: const TextStyle(
+                                      color: _textDark,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -629,7 +720,10 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                             // ── Action link (e.g. "View pass ˅") ──
                             if (action.isNotEmpty) ...[
                               const SizedBox(height: 16),
-                              const Divider(height: 1, color: Color(0xFFF3F3F6)),
+                              const Divider(
+                                height: 1,
+                                color: Color(0xFFF3F3F6),
+                              ),
                               const SizedBox(height: 12),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -646,7 +740,11 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
                                     ),
                                   ),
                                   const SizedBox(width: 4),
-                                  const Icon(Icons.keyboard_arrow_down, size: 16, color: _accent),
+                                  const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 16,
+                                    color: _accent,
+                                  ),
                                 ],
                               ),
                             ],
@@ -675,7 +773,11 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         ),
         child: const Text(
           'Load earlier activity',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _textMuted),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: _textMuted,
+          ),
         ),
       ),
     );
@@ -685,7 +787,9 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -694,10 +798,12 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(),
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const StudentInsightsScreen(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
                 transitionDuration: Duration.zero,
               ),
             );
@@ -711,14 +817,40 @@ class _ActivityFeedScreenState extends State<ActivityFeedScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), activeIcon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            activeIcon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

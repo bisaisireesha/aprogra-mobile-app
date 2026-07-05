@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:intl/intl.dart';
 
+import '../../widgets/app_bottom_nav.dart';
+
 class AddLogJobScreen extends StatefulWidget {
   const AddLogJobScreen({super.key});
 
@@ -123,7 +125,7 @@ class _AddLogJobScreenState extends State<AddLogJobScreen> {
                 ],
               ),
             ),
-            _buildBottomNav(),
+            const AppBottomNav(),
           ],
         ),
       ),

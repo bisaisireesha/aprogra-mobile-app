@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class MessMenuScreen extends StatelessWidget {
   const MessMenuScreen({super.key});
@@ -13,17 +14,7 @@ class MessMenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Mess Menu'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.utensils), label: 'Mess'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -33,7 +24,10 @@ class MessMenuScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -92,12 +86,18 @@ class MessMenuScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.withValues(alpha: 0.15)),
+                  border: Border.all(
+                    color: Colors.grey.withValues(alpha: 0.15),
+                  ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(LucideIcons.printer, size: 16, color: Color(0xFF181821)),
+                    const Icon(
+                      LucideIcons.printer,
+                      size: 16,
+                      color: Color(0xFF181821),
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Print',
@@ -122,7 +122,11 @@ class MessMenuScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(LucideIcons.edit2, size: 16, color: Colors.white),
+                    const Icon(
+                      LucideIcons.edit2,
+                      size: 16,
+                      color: Colors.white,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Edit Menu',
@@ -151,15 +155,45 @@ class MessMenuScreen extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        _buildStatCard('Breakfast', '7:30 - 9:00 AM', LucideIcons.coffee, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-        _buildStatCard('Lunch', '12:30 - 2:00 PM', LucideIcons.utensils, const Color(0xFF10B981), const Color(0xFFD1FAE5)),
-        _buildStatCard('Snacks', '4:30 - 5:30 PM', LucideIcons.cookie, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
-        _buildStatCard('Dinner', '7:30 - 9:00 PM', LucideIcons.moon, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE)),
+        _buildStatCard(
+          'Breakfast',
+          '7:30 - 9:00 AM',
+          LucideIcons.coffee,
+          const Color(0xFFF59E0B),
+          const Color(0xFFFEF3C7),
+        ),
+        _buildStatCard(
+          'Lunch',
+          '12:30 - 2:00 PM',
+          LucideIcons.utensils,
+          const Color(0xFF10B981),
+          const Color(0xFFD1FAE5),
+        ),
+        _buildStatCard(
+          'Snacks',
+          '4:30 - 5:30 PM',
+          LucideIcons.cookie,
+          const Color(0xFF0EA5E9),
+          const Color(0xFFE0F2FE),
+        ),
+        _buildStatCard(
+          'Dinner',
+          '7:30 - 9:00 PM',
+          LucideIcons.moon,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String title, String subtitle, IconData icon, Color iconColor, Color iconBgColor) {
+  Widget _buildStatCard(
+    String title,
+    String subtitle,
+    IconData icon,
+    Color iconColor,
+    Color iconBgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -213,7 +247,11 @@ class MessMenuScreen extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Icon(LucideIcons.fileEdit, size: 18, color: Color(0xFF595973)),
+            const Icon(
+              LucideIcons.fileEdit,
+              size: 18,
+              color: Color(0xFF595973),
+            ),
             const SizedBox(width: 8),
             Text(
               "This Week's Menu",
@@ -239,15 +277,33 @@ class MessMenuScreen extends StatelessWidget {
           letter: 'M',
           isToday: true,
           breakfast: const ['Poha', 'Boiled Egg', 'Banana', 'Tea / Milk'],
-          lunch: const ['Rice', 'Dal Tadka', 'Aloo Gobi', 'Chapati', 'Salad', 'Curd'],
+          lunch: const [
+            'Rice',
+            'Dal Tadka',
+            'Aloo Gobi',
+            'Chapati',
+            'Salad',
+            'Curd',
+          ],
           snacks: const ['Vegetable Sandwich', 'Tea / Coffee'],
-          dinner: const ['Chapati', 'Rajma', 'Jeera Rice', 'Mixed Veg', 'Pickle'],
+          dinner: const [
+            'Chapati',
+            'Rajma',
+            'Jeera Rice',
+            'Mixed Veg',
+            'Pickle',
+          ],
         ),
         ExpandableDayItem(
           day: 'Tuesday',
           letter: 'T',
           isToday: false,
-          breakfast: const ['Idli & Sambar', 'Coconut Chutney', 'Fruit', 'Tea / Milk'],
+          breakfast: const [
+            'Idli & Sambar',
+            'Coconut Chutney',
+            'Fruit',
+            'Tea / Milk',
+          ],
           lunch: const ['Rice', 'Sambar', 'Beans Poriyal', 'Chapati', 'Curd'],
           snacks: const ['Samosa', 'Tea / Coffee'],
           dinner: const ['Chapati', 'Chole', 'Veg Pulao', 'Raita'],
@@ -256,8 +312,19 @@ class MessMenuScreen extends StatelessWidget {
           day: 'Wednesday',
           letter: 'W',
           isToday: false,
-          breakfast: const ['Paratha & Curd', 'Omelette', 'Apple', 'Tea / Milk'],
-          lunch: const ['Jeera Rice', 'Dal Fry', 'Paneer Butter Masala', 'Roti', 'Salad'],
+          breakfast: const [
+            'Paratha & Curd',
+            'Omelette',
+            'Apple',
+            'Tea / Milk',
+          ],
+          lunch: const [
+            'Jeera Rice',
+            'Dal Fry',
+            'Paneer Butter Masala',
+            'Roti',
+            'Salad',
+          ],
           snacks: const ['Pakora', 'Tea / Coffee'],
           dinner: const ['Chapati', 'Dal Makhani', 'Rice', 'Gulab Jamun'],
         ),
@@ -363,7 +430,9 @@ class _ExpandableDayItemState extends State<ExpandableDayItem> {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: widget.isToday ? const Color(0xFFEDE9FE) : const Color(0xFFF1F5F9),
+                    color: widget.isToday
+                        ? const Color(0xFFEDE9FE)
+                        : const Color(0xFFF1F5F9),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
@@ -372,7 +441,9 @@ class _ExpandableDayItemState extends State<ExpandableDayItem> {
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: widget.isToday ? const Color(0xFF6366F1) : const Color(0xFF181821),
+                      color: widget.isToday
+                          ? const Color(0xFF6366F1)
+                          : const Color(0xFF181821),
                     ),
                   ),
                 ),
@@ -389,7 +460,10 @@ class _ExpandableDayItemState extends State<ExpandableDayItem> {
               if (_isExpanded && widget.isToday) ...[
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFEDE9FE),
                     borderRadius: BorderRadius.circular(6),
@@ -431,13 +505,41 @@ class _ExpandableDayItemState extends State<ExpandableDayItem> {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Column(
                 children: [
-                  _buildMealCard('Breakfast', '7:30 - 9:00 AM', LucideIcons.coffee, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), widget.breakfast),
+                  _buildMealCard(
+                    'Breakfast',
+                    '7:30 - 9:00 AM',
+                    LucideIcons.coffee,
+                    const Color(0xFFF59E0B),
+                    const Color(0xFFFEF3C7),
+                    widget.breakfast,
+                  ),
                   const SizedBox(height: 12),
-                  _buildMealCard('Lunch', '12:30 - 2:00 PM', LucideIcons.utensils, const Color(0xFF10B981), const Color(0xFFD1FAE5), widget.lunch),
+                  _buildMealCard(
+                    'Lunch',
+                    '12:30 - 2:00 PM',
+                    LucideIcons.utensils,
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    widget.lunch,
+                  ),
                   const SizedBox(height: 12),
-                  _buildMealCard('Snacks', '4:30 - 5:30 PM', LucideIcons.cookie, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), widget.snacks),
+                  _buildMealCard(
+                    'Snacks',
+                    '4:30 - 5:30 PM',
+                    LucideIcons.cookie,
+                    const Color(0xFF0EA5E9),
+                    const Color(0xFFE0F2FE),
+                    widget.snacks,
+                  ),
                   const SizedBox(height: 12),
-                  _buildMealCard('Dinner', '7:30 - 9:00 PM', LucideIcons.moon, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE), widget.dinner),
+                  _buildMealCard(
+                    'Dinner',
+                    '7:30 - 9:00 PM',
+                    LucideIcons.moon,
+                    const Color(0xFF8B5CF6),
+                    const Color(0xFFEDE9FE),
+                    widget.dinner,
+                  ),
                 ],
               ),
             ),
@@ -447,7 +549,14 @@ class _ExpandableDayItemState extends State<ExpandableDayItem> {
     );
   }
 
-  Widget _buildMealCard(String title, String time, IconData icon, Color iconColor, Color iconBg, List<String> items) {
+  Widget _buildMealCard(
+    String title,
+    String time,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    List<String> items,
+  ) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),

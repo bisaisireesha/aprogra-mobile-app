@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 import 'staff_details_popup.dart';
 
@@ -170,6 +171,7 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Non Teaching Staff'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -194,7 +196,6 @@ class _StaffInsightsScreenState extends State<StaffInsightsScreen> {
                 ),
               ),
             ),
-            _buildBottomNav(),
           ],
         ),
       ),

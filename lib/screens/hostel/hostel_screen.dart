@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../../screens/auth/menu_screen.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
@@ -50,6 +51,7 @@ class _HostelInsightsScreenState extends State<HostelInsightsScreen> {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Hostel Insights'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(

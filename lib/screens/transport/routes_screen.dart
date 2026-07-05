@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
 import 'add_route_modal.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class RoutesScreen extends StatefulWidget {
   const RoutesScreen({super.key});
@@ -202,7 +203,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1))),
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,7 +220,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF181821)),
+                    child: const Icon(
+                      LucideIcons.x,
+                      size: 24,
+                      color: Color(0xFF181821),
+                    ),
                   ),
                 ],
               ),
@@ -274,20 +281,28 @@ class _RoutesScreenState extends State<RoutesScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
+            Text(
+              'Filter by Status',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             const SizedBox(height: 16),
-            ...['All', 'Active', 'Paused', 'Draft'].map((status) => RadioListTile(
-              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
-              activeColor: const Color(0xFF6366F1),
-              value: status,
-              groupValue: _filterStatus,
-              onChanged: (val) {
-                setState(() {
-                  _filterStatus = val.toString();
-                });
-                Navigator.pop(context);
-              },
-            )),
+            ...['All', 'Active', 'Paused', 'Draft'].map(
+              (status) => RadioListTile(
+                title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+                activeColor: const Color(0xFF6366F1),
+                value: status,
+                groupValue: _filterStatus,
+                onChanged: (val) {
+                  setState(() {
+                    _filterStatus = val.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -299,17 +314,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Routes'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Transport'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: const Color(0xFF94A3B8),
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -319,7 +324,10 @@ class _RoutesScreenState extends State<RoutesScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -497,7 +505,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
           color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
+            color: isPrimary
+                ? const Color(0xFF7F61EA).withValues(alpha: 0.3)
+                : Colors.grey.withValues(alpha: 0.1),
           ),
           boxShadow: [
             BoxShadow(
@@ -507,61 +517,61 @@ class _RoutesScreenState extends State<RoutesScreen> {
             ),
           ],
         ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: iconBgColor,
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: iconBgColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(icon, color: iconColor, size: 20),
                 ),
-                child: Icon(icon, color: iconColor, size: 20),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF181821),
+              ],
             ),
-          ),
-          const SizedBox(height: 4),
-          Row(
-            children: [
+            const SizedBox(height: 16),
+            Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF181821),
+              ),
+            ),
+            const SizedBox(height: 4),
+            Row(
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF595973),
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            if (subtitle.isNotEmpty) ...[
+              const SizedBox(height: 2),
               Text(
-                title,
+                subtitle,
                 style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: const Color(0xFF595973),
+                  fontSize: 11,
+                  color: const Color(0xFF94A3B8),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
-          ),
-          if (subtitle.isNotEmpty) ...[
-            const SizedBox(height: 2),
-            Text(
-              subtitle,
-              style: GoogleFonts.inter(
-                fontSize: 11,
-                color: const Color(0xFF94A3B8),
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ]
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 
@@ -578,7 +588,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 20),
+                const Icon(
+                  LucideIcons.search,
+                  color: Color(0xFF94A3B8),
+                  size: 20,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
@@ -609,7 +623,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
             ),
-            child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
+            child: const Icon(
+              LucideIcons.filter,
+              color: Color(0xFF595973),
+              size: 20,
+            ),
           ),
         ),
       ],
@@ -618,14 +636,16 @@ class _RoutesScreenState extends State<RoutesScreen> {
 
   Widget _buildRoutesList() {
     final filteredRoutes = _routes.where((route) {
-      final matchesSearch = _searchQuery.isEmpty || 
-        route['code'].toString().toLowerCase().contains(_searchQuery) ||
-        route['name'].toString().toLowerCase().contains(_searchQuery) ||
-        route['driver'].toString().toLowerCase().contains(_searchQuery) ||
-        route['bus'].toString().toLowerCase().contains(_searchQuery);
-        
-      final matchesFilter = _filterStatus == 'All' || route['status'] == _filterStatus;
-      
+      final matchesSearch =
+          _searchQuery.isEmpty ||
+          route['code'].toString().toLowerCase().contains(_searchQuery) ||
+          route['name'].toString().toLowerCase().contains(_searchQuery) ||
+          route['driver'].toString().toLowerCase().contains(_searchQuery) ||
+          route['bus'].toString().toLowerCase().contains(_searchQuery);
+
+      final matchesFilter =
+          _filterStatus == 'All' || route['status'] == _filterStatus;
+
       return matchesSearch && matchesFilter;
     }).toList();
 
@@ -635,7 +655,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
         child: Center(
           child: Column(
             children: [
-              Icon(LucideIcons.search, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
+              Icon(
+                LucideIcons.search,
+                size: 48,
+                color: const Color(0xFF94A3B8).withValues(alpha: 0.5),
+              ),
               const SizedBox(height: 16),
               Text(
                 'No routes found',
@@ -695,9 +719,14 @@ class _RoutesScreenState extends State<RoutesScreen> {
                       children: [
                         // Route Code Box
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
                           decoration: BoxDecoration(
-                            color: isDraft ? const Color(0xFFF1F5F9) : route['color'].withValues(alpha: 0.15),
+                            color: isDraft
+                                ? const Color(0xFFF1F5F9)
+                                : route['color'].withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -705,7 +734,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                             style: GoogleFonts.inter(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: isDraft ? const Color(0xFF64748B) : route['color'],
+                              color: isDraft
+                                  ? const Color(0xFF64748B)
+                                  : route['color'],
                             ),
                           ),
                         ),
@@ -716,7 +747,8 @@ class _RoutesScreenState extends State<RoutesScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     route['name'],
@@ -727,9 +759,15 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                     ),
                                   ),
                                   PopupMenuButton<String>(
-                                    icon: const Icon(LucideIcons.moreVertical, size: 16, color: Color(0xFF94A3B8)),
+                                    icon: const Icon(
+                                      LucideIcons.moreVertical,
+                                      size: 16,
+                                      color: Color(0xFF94A3B8),
+                                    ),
                                     color: Colors.white,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
                                     onSelected: (value) {
                                       if (value == 'view') {
                                         _showViewDetailsModal(context, route);
@@ -746,9 +784,19 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                         value: 'view',
                                         child: Row(
                                           children: [
-                                            const Icon(LucideIcons.eye, size: 16, color: Color(0xFF595973)),
+                                            const Icon(
+                                              LucideIcons.eye,
+                                              size: 16,
+                                              color: Color(0xFF595973),
+                                            ),
                                             const SizedBox(width: 8),
-                                            Text('View Details', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                                            Text(
+                                              'View Details',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 13,
+                                                color: const Color(0xFF181821),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -756,9 +804,19 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                         value: 'edit',
                                         child: Row(
                                           children: [
-                                            const Icon(LucideIcons.edit2, size: 16, color: Color(0xFF595973)),
+                                            const Icon(
+                                              LucideIcons.edit2,
+                                              size: 16,
+                                              color: Color(0xFF595973),
+                                            ),
                                             const SizedBox(width: 8),
-                                            Text('Edit', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                                            Text(
+                                              'Edit',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 13,
+                                                color: const Color(0xFF181821),
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -766,9 +824,19 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                         value: 'delete',
                                         child: Row(
                                           children: [
-                                            const Icon(LucideIcons.trash2, size: 16, color: Colors.red),
+                                            const Icon(
+                                              LucideIcons.trash2,
+                                              size: 16,
+                                              color: Colors.red,
+                                            ),
                                             const SizedBox(width: 8),
-                                            Text('Delete', style: GoogleFonts.inter(fontSize: 13, color: Colors.red)),
+                                            Text(
+                                              'Delete',
+                                              style: GoogleFonts.inter(
+                                                fontSize: 13,
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -786,11 +854,13 @@ class _RoutesScreenState extends State<RoutesScreen> {
                               ),
                               const SizedBox(height: 12),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
                                           children: [
@@ -802,7 +872,11 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                               ),
                                             ),
                                             const SizedBox(width: 4),
-                                            const Icon(LucideIcons.arrowRight, size: 12, color: Color(0xFF94A3B8)),
+                                            const Icon(
+                                              LucideIcons.arrowRight,
+                                              size: 12,
+                                              color: Color(0xFF94A3B8),
+                                            ),
                                             const SizedBox(width: 4),
                                             Text(
                                               route['to'],
@@ -827,9 +901,16 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                   ),
                                   // Status badge
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 4,
+                                    ),
                                     decoration: BoxDecoration(
-                                      color: isDraft ? const Color(0xFFF1F5F9) : route['color'].withValues(alpha: 0.1),
+                                      color: isDraft
+                                          ? const Color(0xFFF1F5F9)
+                                          : route['color'].withValues(
+                                              alpha: 0.1,
+                                            ),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Row(
@@ -851,7 +932,9 @@ class _RoutesScreenState extends State<RoutesScreen> {
                                           style: GoogleFonts.inter(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w600,
-                                            color: isDraft ? const Color(0xFF64748B) : route['color'],
+                                            color: isDraft
+                                                ? const Color(0xFF64748B)
+                                                : route['color'],
                                           ),
                                         ),
                                       ],

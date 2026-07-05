@@ -6,6 +6,7 @@ import '../auth/menu_screen.dart';
 import '../../screens/class_details_bottom_sheet.dart';
 import '../students/students_list_screen.dart'; // Example for bottom nav
 import 'create_class_wizard.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -48,7 +49,12 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,15 +84,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Classes'),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
+      decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: SafeArea(
         bottom: false,
@@ -97,7 +101,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
+                child: const Icon(
+                  Icons.menu_rounded,
+                  color: Color(0xFF8F96A3),
+                  size: 28,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -113,21 +121,42 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -139,7 +168,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final isMobile = constraints.maxWidth < 600;
-        
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -186,10 +215,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
               const SizedBox(height: 8),
               Text(
                 'Every class clubbed with its sections, teachers, and capacity.',
-                style: GoogleFonts.figtree(
-                  fontSize: 14,
-                  color: _textMuted,
-                ),
+                style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
               ),
               const SizedBox(height: 16),
               _buildCreateButton(),
@@ -199,6 +225,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
       },
     );
   }
+
   Widget _buildCreateButton() {
     return ElevatedButton.icon(
       onPressed: _showCreateClassPopup,
@@ -215,9 +242,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         backgroundColor: _accent,
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -261,9 +286,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
         return Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white, 
-            borderRadius: BorderRadius.circular(20), 
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
             border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
           ),
           child: Column(
@@ -274,11 +305,29 @@ class _ClassesScreenState extends State<ClassesScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(kpi['title'] as String, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted)),
+                  Text(
+                    kpi['title'] as String,
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(kpi['value'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
+                  Text(
+                    kpi['value'] as String,
+                    style: GoogleFonts.figtree(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(kpi['subtitle'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                  Text(
+                    kpi['subtitle'] as String,
+                    style: GoogleFonts.figtree(fontSize: 11, color: _textMuted),
+                  ),
                 ],
               ),
             ],
@@ -319,8 +368,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Recent Class Activity', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-            Text('View all', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+            Text(
+              'Recent Class Activity',
+              style: GoogleFonts.figtree(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+            Text(
+              'View all',
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _accent,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -328,12 +391,19 @@ class _ClassesScreenState extends State<ClassesScreen> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.02),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
             border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
           ),
           child: Column(
             children: ClassesMockData.recentClassActivity.map((activity) {
-              final isLast = activity == ClassesMockData.recentClassActivity.last;
+              final isLast =
+                  activity == ClassesMockData.recentClassActivity.last;
               return Column(
                 children: [
                   Padding(
@@ -343,10 +413,16 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: (activity['color'] as Color).withValues(alpha: 0.1),
+                            color: (activity['color'] as Color).withValues(
+                              alpha: 0.1,
+                            ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(activity['icon'] as IconData, size: 20, color: activity['color'] as Color),
+                          child: Icon(
+                            activity['icon'] as IconData,
+                            size: 20,
+                            color: activity['color'] as Color,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
@@ -355,23 +431,54 @@ class _ClassesScreenState extends State<ClassesScreen> {
                             children: [
                               RichText(
                                 text: TextSpan(
-                                  style: GoogleFonts.figtree(fontSize: 13, color: _textDark),
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 13,
+                                    color: _textDark,
+                                  ),
                                   children: [
-                                    TextSpan(text: '${activity['action']} ', style: GoogleFonts.figtree(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: '· ${activity['class']}', style: GoogleFonts.figtree(color: _textMuted)),
+                                    TextSpan(
+                                      text: '${activity['action']} ',
+                                      style: GoogleFonts.figtree(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '· ${activity['class']}',
+                                      style: GoogleFonts.figtree(
+                                        color: _textMuted,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               const SizedBox(height: 4),
-                              Text(activity['details'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                              Text(
+                                activity['details'] as String,
+                                style: GoogleFonts.figtree(
+                                  fontSize: 11,
+                                  color: _textMuted,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        Text(activity['time'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                        Text(
+                          activity['time'] as String,
+                          style: GoogleFonts.figtree(
+                            fontSize: 11,
+                            color: _textMuted,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  if (!isLast) const Divider(height: 1, color: Color(0xFFEBEBEB), indent: 64, endIndent: 16),
+                  if (!isLast)
+                    const Divider(
+                      height: 1,
+                      color: Color(0xFFEBEBEB),
+                      indent: 64,
+                      endIndent: 16,
+                    ),
                 ],
               );
             }).toList(),
@@ -386,7 +493,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
       ),
       child: Column(
@@ -404,17 +517,38 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(color: const Color(0xFFFFF1F1), borderRadius: BorderRadius.circular(8)),
-                        child: const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFF1F1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.error_outline,
+                          color: Colors.redAccent,
+                          size: 20,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Classes Requiring Attention', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                            Text(
+                              'Classes Requiring Attention',
+                              style: GoogleFonts.figtree(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                                letterSpacing: -0.3,
+                              ),
+                            ),
                             const SizedBox(height: 4),
-                            Text('Open items across capacity, staffing, and schedules', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                            Text(
+                              'Open items across capacity, staffing, and schedules',
+                              style: GoogleFonts.figtree(
+                                fontSize: 12,
+                                color: _textMuted,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -423,13 +557,25 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 ),
                 const SizedBox(width: 12),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFFF1F1), 
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: Colors.redAccent.withValues(alpha: 0.3)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
                   ),
-                  child: Text('6 items', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.redAccent)),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF1F1),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(
+                      color: Colors.redAccent.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Text(
+                    '6 items',
+                    style: GoogleFonts.figtree(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -451,7 +597,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   ),
                   itemCount: ClassesMockData.classesRequiringAttention.length,
                   itemBuilder: (context, index) {
-                    final alert = ClassesMockData.classesRequiringAttention[index];
+                    final alert =
+                        ClassesMockData.classesRequiringAttention[index];
                     final badgeColor = alert['badgeColor'] as Color;
 
                     return Container(
@@ -465,21 +612,47 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: badgeColor.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: badgeColor.withValues(alpha: 0.3)),
+                              border: Border.all(
+                                color: badgeColor.withValues(alpha: 0.3),
+                              ),
                             ),
                             child: Text(
                               alert['badge'] as String,
-                              style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: badgeColor, letterSpacing: 0.5),
+                              style: GoogleFonts.figtree(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: badgeColor,
+                                letterSpacing: 0.5,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Text(alert['class'] as String, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                          Text(
+                            alert['class'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: _textDark,
+                              letterSpacing: -0.3,
+                            ),
+                          ),
                           const SizedBox(height: 4),
-                          Text('${alert['level']} · ${alert['details']}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted), maxLines: 2, overflow: TextOverflow.ellipsis),
+                          Text(
+                            '${alert['level']} · ${alert['details']}',
+                            style: GoogleFonts.figtree(
+                              fontSize: 12,
+                              color: _textMuted,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const Spacer(),
                           InkWell(
                             onTap: () {
@@ -487,16 +660,29 @@ class _ClassesScreenState extends State<ClassesScreen> {
                                 context: context,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                builder: (context) => ClassDetailsBottomSheet(className: alert['class'] as String),
+                                builder: (context) => ClassDetailsBottomSheet(
+                                  className: alert['class'] as String,
+                                ),
                               );
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),
                               child: Row(
                                 children: [
-                                  Text('View class', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
+                                  Text(
+                                    'View class',
+                                    style: GoogleFonts.figtree(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: _accent,
+                                    ),
+                                  ),
                                   const SizedBox(width: 4),
-                                  const Icon(Icons.arrow_forward, size: 14, color: _accent),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    size: 14,
+                                    color: _accent,
+                                  ),
                                 ],
                               ),
                             ),
@@ -506,7 +692,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     );
                   },
                 );
-              }
+              },
             ),
           ),
           const SizedBox(height: 8),
@@ -519,18 +705,37 @@ class _ClassesScreenState extends State<ClassesScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Class Distribution', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+        Text(
+          'Class Distribution',
+          style: GoogleFonts.figtree(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
         const SizedBox(height: 16),
         LayoutBuilder(
           builder: (context, constraints) {
             if (_isTablet) {
               return Row(
                 children: [
-                  Expanded(child: _buildDistributionCard(ClassesMockData.classDistribution[0])),
+                  Expanded(
+                    child: _buildDistributionCard(
+                      ClassesMockData.classDistribution[0],
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildDistributionCard(ClassesMockData.classDistribution[1])),
+                  Expanded(
+                    child: _buildDistributionCard(
+                      ClassesMockData.classDistribution[1],
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _buildDistributionCard(ClassesMockData.classDistribution[2])),
+                  Expanded(
+                    child: _buildDistributionCard(
+                      ClassesMockData.classDistribution[2],
+                    ),
+                  ),
                 ],
               );
             }
@@ -564,12 +769,30 @@ class _ClassesScreenState extends State<ClassesScreen> {
             children: [
               Icon(data['icon'] as IconData, size: 14, color: _textMuted),
               const SizedBox(width: 6),
-              Text(data['level'] as String, style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+              Text(
+                data['level'] as String,
+                style: GoogleFonts.figtree(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(data['sections'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
-          Text('total sections', style: GoogleFonts.figtree(fontSize: 10, color: _textMuted)),
+          Text(
+            data['sections'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
+          Text(
+            'total sections',
+            style: GoogleFonts.figtree(fontSize: 10, color: _textMuted),
+          ),
           const SizedBox(height: 16),
           Container(
             padding: const EdgeInsets.all(12),
@@ -583,9 +806,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Classes', style: GoogleFonts.figtree(fontSize: 10, color: _textMuted)),
+                      Text(
+                        'Classes',
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          color: _textMuted,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(data['classes'] as String, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        data['classes'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -595,9 +831,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Seats Available', style: GoogleFonts.figtree(fontSize: 10, color: _textMuted)),
+                      Text(
+                        'Seats Available',
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          color: _textMuted,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(data['seats'] as String, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        data['seats'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -634,8 +883,18 @@ class _ClassesScreenState extends State<ClassesScreen> {
         decoration: BoxDecoration(
           color: isSelected ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: isSelected ? _accent : const Color(0xFFEBEBEB)),
-          boxShadow: isSelected ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
+          border: Border.all(
+            color: isSelected ? _accent : const Color(0xFFEBEBEB),
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: _accent.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -680,7 +939,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
               context: context,
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
-              builder: (context) => ClassDetailsBottomSheet(className: cls['name'] as String),
+              builder: (context) =>
+                  ClassDetailsBottomSheet(className: cls['name'] as String),
             );
           },
           child: Container(
@@ -688,7 +948,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, 4))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
               border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
             ),
             child: Column(
@@ -704,8 +970,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         children: [
                           Container(
                             padding: const EdgeInsets.all(10),
-                            decoration: const BoxDecoration(color: Color(0xFFF4F1FF), shape: BoxShape.circle),
-                            child: const Icon(Icons.home_outlined, size: 20, color: _accent),
+                            decoration: const BoxDecoration(
+                              color: Color(0xFFF4F1FF),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.home_outlined,
+                              size: 20,
+                              color: _accent,
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
@@ -713,17 +986,25 @@ class _ClassesScreenState extends State<ClassesScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  cls['name'] as String, 
-                                  style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3), 
-                                  maxLines: 1, 
-                                  overflow: TextOverflow.ellipsis
+                                  cls['name'] as String,
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: _textDark,
+                                    letterSpacing: -0.3,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
-                                  cls['sections'] as String, 
-                                  style: GoogleFonts.figtree(fontSize: 11, color: _textMuted), 
-                                  maxLines: 1, 
-                                  overflow: TextOverflow.ellipsis
+                                  cls['sections'] as String,
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 11,
+                                    color: _textMuted,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),
@@ -738,12 +1019,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Class Teacher', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                    Text(
+                      'Class Teacher',
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        color: _textMuted,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        cls['teacher'] as String, 
-                        style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w600, color: _textDark),
+                        cls['teacher'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -755,8 +1046,21 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Students', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
-                    Text(cls['students'] as String, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    Text(
+                      'Students',
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        color: _textMuted,
+                      ),
+                    ),
+                    Text(
+                      cls['students'] as String,
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _accent,
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 6),
@@ -771,7 +1075,14 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('View Details', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    Text(
+                      'View Details',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _accent,
+                      ),
+                    ),
                     const Icon(Icons.arrow_forward, size: 14, color: _accent),
                   ],
                 ),
@@ -825,12 +1136,32 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Recently Updated Classes', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+                    Text(
+                      'Recently Updated Classes',
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('Newly created or reassigned', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                    Text(
+                      'Newly created or reassigned',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        color: _textMuted,
+                      ),
+                    ),
                   ],
                 ),
-                Text('View all', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                Text(
+                  'View all',
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: _accent,
+                  ),
+                ),
               ],
             ),
           ),
@@ -853,7 +1184,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         alignment: Alignment.center,
                         child: Text(
                           item['avatarText'] as String,
-                          style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: item['avatarTextColor'] as Color),
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: item['avatarTextColor'] as Color,
+                          ),
                         ),
                       ),
                       const SizedBox(width: 16),
@@ -861,27 +1196,56 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(item['title'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                            Text(
+                              item['title'] as String,
+                              style: GoogleFonts.figtree(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                              ),
+                            ),
                             const SizedBox(height: 4),
-                            Text(item['subtitle'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                            Text(
+                              item['subtitle'] as String,
+                              style: GoogleFonts.figtree(
+                                fontSize: 12,
+                                color: _textMuted,
+                              ),
+                            ),
                           ],
                         ),
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(item['time'] as String, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                          Text(
+                            item['time'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 11,
+                              color: _textMuted,
+                            ),
+                          ),
                           const SizedBox(height: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: item['statusBg'] as Color,
                               borderRadius: BorderRadius.circular(4),
-                              border: Border.all(color: (item['statusColor'] as Color).withValues(alpha: 0.3)),
+                              border: Border.all(
+                                color: (item['statusColor'] as Color)
+                                    .withValues(alpha: 0.3),
+                              ),
                             ),
                             child: Text(
                               item['status'] as String,
-                              style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: item['statusColor'] as Color),
+                              style: GoogleFonts.figtree(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: item['statusColor'] as Color,
+                              ),
                             ),
                           ),
                         ],
@@ -889,7 +1253,12 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ],
                   ),
                 ),
-                if (!isLast) const Divider(height: 1, color: Color(0xFFEBEBEB), indent: 72),
+                if (!isLast)
+                  const Divider(
+                    height: 1,
+                    color: Color(0xFFEBEBEB),
+                    indent: 72,
+                  ),
               ],
             );
           }),
@@ -910,9 +1279,19 @@ class _ClassesScreenState extends State<ClassesScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Class Composition', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(
+            'Class Composition',
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text('Current tab · Primary', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+          Text(
+            'Current tab · Primary',
+            style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+          ),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -926,9 +1305,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Boys', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF0369A1))),
+                      Text(
+                        'Boys',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: const Color(0xFF0369A1),
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text(comp['boys'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF0369A1))),
+                      Text(
+                        comp['boys'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF0369A1),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -944,9 +1336,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Girls', style: GoogleFonts.figtree(fontSize: 12, color: const Color(0xFF7E22CE))),
+                      Text(
+                        'Girls',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: const Color(0xFF7E22CE),
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text(comp['girls'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF7E22CE))),
+                      Text(
+                        comp['girls'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF7E22CE),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -966,9 +1371,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Total', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                      Text(
+                        'Total',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text(comp['total'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        comp['total'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -984,9 +1402,22 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Sections', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                      Text(
+                        'Sections',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      Text(comp['sections'] as String, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        comp['sections'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -1044,7 +1475,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
       ),
       child: Column(
@@ -1055,9 +1492,20 @@ class _ClassesScreenState extends State<ClassesScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Class Capacity Monitor', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                Text(
+                  'Class Capacity Monitor',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                    letterSpacing: -0.3,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Where seats are full and where they\'re open', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                Text(
+                  'Where seats are full and where they\'re open',
+                  style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                ),
               ],
             ),
           ),
@@ -1071,9 +1519,24 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('HIGHEST ENROLLMENT', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                      Text(
+                        'HIGHEST ENROLLMENT',
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: _textMuted,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                       const SizedBox(height: 12),
-                      ...ClassesMockData.classCapacityMonitor['highestEnrollment']!.map((item) => _buildCapacityRow(item['class']!, item['seats']!)),
+                      ...ClassesMockData
+                          .classCapacityMonitor['highestEnrollment']!
+                          .map(
+                            (item) => _buildCapacityRow(
+                              item['class']!,
+                              item['seats']!,
+                            ),
+                          ),
                     ],
                   ),
                 ),
@@ -1082,9 +1545,23 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('AVAILABLE SEATS', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                      Text(
+                        'AVAILABLE SEATS',
+                        style: GoogleFonts.figtree(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: _textMuted,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
                       const SizedBox(height: 12),
-                      ...ClassesMockData.classCapacityMonitor['availableSeats']!.map((item) => _buildCapacityRow(item['class']!, item['seats']!)),
+                      ...ClassesMockData.classCapacityMonitor['availableSeats']!
+                          .map(
+                            (item) => _buildCapacityRow(
+                              item['class']!,
+                              item['seats']!,
+                            ),
+                          ),
                     ],
                   ),
                 ),
@@ -1108,8 +1585,18 @@ class _ClassesScreenState extends State<ClassesScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
-          Text(value, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+          Text(
+            title,
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
+          ),
+          Text(
+            value,
+            style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+          ),
         ],
       ),
     );
@@ -1121,7 +1608,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
       ),
       child: Column(
@@ -1133,7 +1626,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
               children: [
                 const Icon(Icons.co_present_outlined, color: _accent, size: 20),
                 const SizedBox(width: 8),
-                Text('Teacher Coverage', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                Text(
+                  'Teacher Coverage',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                    letterSpacing: -0.3,
+                  ),
+                ),
               ],
             ),
           ),
@@ -1142,19 +1643,47 @@ class _ClassesScreenState extends State<ClassesScreen> {
             padding: const EdgeInsets.all(16),
             child: Column(
               children: [
-                _buildCoverageRow('Classes with teacher', data['classesWithTeacher']!, _textDark, isBold: true),
+                _buildCoverageRow(
+                  'Classes with teacher',
+                  data['classesWithTeacher']!,
+                  _textDark,
+                  isBold: true,
+                ),
                 const SizedBox(height: 16),
-                _buildCoverageRow('Unassigned classes', data['unassignedClasses']!, const Color(0xFFD97706), isBold: true),
+                _buildCoverageRow(
+                  'Unassigned classes',
+                  data['unassignedClasses']!,
+                  const Color(0xFFD97706),
+                  isBold: true,
+                ),
                 const SizedBox(height: 16),
-                _buildCoverageRow('Substitutes needed', data['substitutesNeeded']!, _textDark, isBold: true),
+                _buildCoverageRow(
+                  'Substitutes needed',
+                  data['substitutesNeeded']!,
+                  _textDark,
+                  isBold: true,
+                ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Avg. teacher rating', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                    Text(
+                      'Avg. teacher rating',
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        color: _textMuted,
+                      ),
+                    ),
                     Row(
                       children: [
-                        Text(data['avgTeacherRating']!, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.green)),
+                        Text(
+                          data['avgTeacherRating']!,
+                          style: GoogleFonts.figtree(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
                         const SizedBox(width: 4),
                         const Icon(Icons.star, size: 14, color: Colors.green),
                       ],
@@ -1169,12 +1698,27 @@ class _ClassesScreenState extends State<ClassesScreen> {
     );
   }
 
-  Widget _buildCoverageRow(String label, String value, Color valueColor, {bool isBold = false}) {
+  Widget _buildCoverageRow(
+    String label,
+    String value,
+    Color valueColor, {
+    bool isBold = false,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-        Text(value, style: GoogleFonts.figtree(fontSize: 13, fontWeight: isBold ? FontWeight.bold : FontWeight.normal, color: valueColor)),
+        Text(
+          label,
+          style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+        ),
+        Text(
+          value,
+          style: GoogleFonts.figtree(
+            fontSize: 13,
+            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            color: valueColor,
+          ),
+        ),
       ],
     );
   }
@@ -1184,7 +1728,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
       ),
       child: Column(
@@ -1196,16 +1746,37 @@ class _ClassesScreenState extends State<ClassesScreen> {
               children: [
                 Container(
                   padding: const EdgeInsets.all(6),
-                  decoration: BoxDecoration(color: const Color(0xFFFFF1F1), borderRadius: BorderRadius.circular(6)),
-                  child: const Icon(Icons.favorite_border, color: Colors.redAccent, size: 16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF1F1),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: const Icon(
+                    Icons.favorite_border,
+                    color: Colors.redAccent,
+                    size: 16,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Classroom Safety & Compliance', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                    Text(
+                      'Classroom Safety & Compliance',
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('Active concerns only', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                    Text(
+                      'Active concerns only',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        color: _textMuted,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -1216,12 +1787,17 @@ class _ClassesScreenState extends State<ClassesScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: ClassesMockData.safetyCompliance.length,
-            separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFEBEBEB)),
+            separatorBuilder: (context, index) =>
+                const Divider(height: 1, color: Color(0xFFEBEBEB)),
             itemBuilder: (context, index) {
               final item = ClassesMockData.safetyCompliance[index];
               final isRed = item['colorType'] == 'red';
-              final iconColor = isRed ? Colors.redAccent : const Color(0xFFD97706);
-              final bgColor = isRed ? const Color(0xFFFFF1F1) : const Color(0xFFFFF7E6);
+              final iconColor = isRed
+                  ? Colors.redAccent
+                  : const Color(0xFFD97706);
+              final bgColor = isRed
+                  ? const Color(0xFFFFF1F1)
+                  : const Color(0xFFFFF7E6);
 
               return Padding(
                 padding: const EdgeInsets.all(16),
@@ -1229,29 +1805,63 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   children: [
                     Container(
                       padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(8)),
-                      child: Icon(item['icon'] as IconData, color: iconColor, size: 20),
+                      decoration: BoxDecoration(
+                        color: bgColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        item['icon'] as IconData,
+                        color: iconColor,
+                        size: 20,
+                      ),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item['title'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                          Text(
+                            item['title'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: _textDark,
+                            ),
+                          ),
                           const SizedBox(height: 4),
-                          Text(item['subtitle'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                          Text(
+                            item['subtitle'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 12,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     InkWell(
                       onTap: () => _showSafetyDetails(context, item),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 4,
+                          horizontal: 8,
+                        ),
                         child: Row(
                           children: [
-                            Text('View details', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
+                            Text(
+                              'View details',
+                              style: GoogleFonts.figtree(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: _accent,
+                              ),
+                            ),
                             const SizedBox(width: 4),
-                            const Icon(Icons.arrow_forward, size: 14, color: _accent),
+                            const Icon(
+                              Icons.arrow_forward,
+                              size: 14,
+                              color: _accent,
+                            ),
                           ],
                         ),
                       ),
@@ -1269,7 +1879,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
   void _showSafetyDetails(BuildContext context, Map<String, dynamic> item) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (context) {
         return Container(
           padding: const EdgeInsets.all(24),
@@ -1279,15 +1891,40 @@ class _ClassesScreenState extends State<ClassesScreen> {
             children: [
               Row(
                 children: [
-                  Icon(item['icon'] as IconData, color: item['colorType'] == 'red' ? Colors.redAccent : const Color(0xFFD97706), size: 28),
+                  Icon(
+                    item['icon'] as IconData,
+                    color: item['colorType'] == 'red'
+                        ? Colors.redAccent
+                        : const Color(0xFFD97706),
+                    size: 28,
+                  ),
                   const SizedBox(width: 12),
-                  Expanded(child: Text(item['title'] as String, style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark))),
+                  Expanded(
+                    child: Text(
+                      item['title'] as String,
+                      style: GoogleFonts.figtree(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),
-              Text('Details', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textMuted)),
+              Text(
+                'Details',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                ),
+              ),
               const SizedBox(height: 8),
-              Text(item['subtitle'] as String, style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+              Text(
+                item['subtitle'] as String,
+                style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
+              ),
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
@@ -1296,9 +1933,18 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _accent,
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
                   ),
-                  child: Text('Close', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+                  child: Text(
+                    'Close',
+                    style: GoogleFonts.figtree(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -1313,7 +1959,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
         border: Border.all(color: const Color(0xFFEBEBEB), width: 0.5),
       ),
       child: Column(
@@ -1325,7 +1977,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
               children: [
                 const Icon(Icons.auto_awesome, color: _accent, size: 20),
                 const SizedBox(width: 8),
-                Text('Today\'s Highlights', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.3)),
+                Text(
+                  'Today\'s Highlights',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                    letterSpacing: -0.3,
+                  ),
+                ),
               ],
             ),
           ),
@@ -1360,12 +2020,25 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     children: [
                       Container(
                         padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(6)),
-                        child: Icon(highlight['icon'] as IconData, color: iconColor, size: 16),
+                        decoration: BoxDecoration(
+                          color: bgColor,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Icon(
+                          highlight['icon'] as IconData,
+                          color: iconColor,
+                          size: 16,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(highlight['desc'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _textDark)),
+                        child: Text(
+                          highlight['desc'] as String,
+                          style: GoogleFonts.figtree(
+                            fontSize: 13,
+                            color: _textDark,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -1382,7 +2055,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -1392,10 +2067,12 @@ class _ClassesScreenState extends State<ClassesScreen> {
             Navigator.pushReplacement(
               context,
               PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) => const StudentInsightsScreen(), // Assuming this routes correctly for now
-                transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    const StudentInsightsScreen(), // Assuming this routes correctly for now
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                      return FadeTransition(opacity: animation, child: child);
+                    },
                 transitionDuration: Duration.zero,
               ),
             );
@@ -1409,23 +2086,43 @@ class _ClassesScreenState extends State<ClassesScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
           BottomNavigationBarItem(
             icon: Stack(
               clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.show_chart),
-              ],
+              children: [const Icon(Icons.show_chart)],
             ),
             activeIcon: const Icon(Icons.show_chart),
             label: 'Activity',
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

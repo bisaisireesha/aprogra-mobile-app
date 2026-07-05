@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -19,9 +20,6 @@ class StaffDocumentsScreen extends StatefulWidget {
 }
 
 class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
-
-
-  
   @override
   void initState() {
     super.initState();
@@ -90,7 +88,6 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
     super.dispose();
   }
 
-  
   Future<void> _loadDocuments() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__documents_data');
@@ -140,16 +137,19 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(child: _buildHeader()),
-                            ],
+                            children: [Expanded(child: _buildHeader())],
                           ),
                           const SizedBox(height: 24),
                           _buildTopControls(),
@@ -169,7 +169,7 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -201,21 +201,42 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -229,19 +250,42 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
       children: [
         Row(
           children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            Text(
+              'Home',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
             const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            Text(
+              'Staff',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
             const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Documents', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              'Documents',
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
-        Text('Staff Documents', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
+        Text(
+          'Staff Documents',
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 32 : 28,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
         const SizedBox(height: 8),
         Text(
           "Central repository for contracts, ID proofs, certifications, and compliance documents.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 16 : 14,
+            color: _textMuted,
+          ),
         ),
       ],
     );
@@ -262,7 +306,14 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
             children: [
               const Icon(LucideIcons.upload, size: 16, color: Colors.white),
               const SizedBox(width: 8),
-              Text('Upload Document', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              Text(
+                'Upload Document',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
         ),
@@ -281,17 +332,47 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
           mainAxisSpacing: 16,
           childAspectRatio: _isTablet ? 1.4 : 1.1,
           children: [
-            _buildKpiCard('186', 'Total Documents', LucideIcons.fileText, const Color(0xFF8463E9), const Color(0xFFF4F1FF)),
-            _buildKpiCard('142', 'Verified', LucideIcons.checkCircle2, const Color(0xFF10B981), const Color(0xFFD1FAE5)),
-            _buildKpiCard('31', 'Pending Verification', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-            _buildKpiCard('13', 'Expiring in 30 Days', LucideIcons.alertTriangle, const Color(0xFFEF4444), const Color(0xFFFEE2E2)),
+            _buildKpiCard(
+              '186',
+              'Total Documents',
+              LucideIcons.fileText,
+              const Color(0xFF8463E9),
+              const Color(0xFFF4F1FF),
+            ),
+            _buildKpiCard(
+              '142',
+              'Verified',
+              LucideIcons.checkCircle2,
+              const Color(0xFF10B981),
+              const Color(0xFFD1FAE5),
+            ),
+            _buildKpiCard(
+              '31',
+              'Pending Verification',
+              LucideIcons.clock,
+              const Color(0xFFF59E0B),
+              const Color(0xFFFEF3C7),
+            ),
+            _buildKpiCard(
+              '13',
+              'Expiring in 30 Days',
+              LucideIcons.alertTriangle,
+              const Color(0xFFEF4444),
+              const Color(0xFFFEE2E2),
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _buildKpiCard(String value, String title, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String value,
+    String title,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -313,12 +394,21 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
           const SizedBox(height: 12),
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.w900, color: _textDark, height: 1.0),
+            style: GoogleFonts.figtree(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: _textDark,
+              height: 1.0,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             title,
-            style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textMuted),
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _textMuted,
+            ),
           ),
         ],
       ),
@@ -337,7 +427,11 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
           ),
           child: const TextField(
             decoration: InputDecoration(
-              icon: Icon(LucideIcons.search, size: 20, color: Color(0xFF9CA3AF)),
+              icon: Icon(
+                LucideIcons.search,
+                size: 20,
+                color: Color(0xFF9CA3AF),
+              ),
               hintText: 'Search staff or document...',
               hintStyle: TextStyle(color: Color(0xFF9CA3AF), fontSize: 14),
               border: InputBorder.none,
@@ -355,7 +449,10 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                 _buildDropdown('All'),
               ],
             ),
-            Text('12 documents', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+            Text(
+              '12 documents',
+              style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+            ),
           ],
         ),
       ],
@@ -372,7 +469,14 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
       ),
       child: Row(
         children: [
-          Text(text, style: GoogleFonts.figtree(fontSize: 14, color: _textDark, fontWeight: FontWeight.w500)),
+          Text(
+            text,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              color: _textDark,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(width: 8),
           const Icon(LucideIcons.chevronDown, size: 16, color: _textDark),
         ],
@@ -386,17 +490,14 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
         final double width = constraints.maxWidth;
         int cols = _isTablet ? 3 : 2;
         if (width < 350) cols = 1;
-        
+
         final double cardWidth = (width - ((cols - 1) * 16)) / cols;
 
         return Wrap(
           spacing: 16,
           runSpacing: 16,
           children: _documents.map((doc) {
-            return SizedBox(
-              width: cardWidth,
-              child: _buildDocumentCard(doc),
-            );
+            return SizedBox(width: cardWidth, child: _buildDocumentCard(doc));
           }).toList(),
         );
       },
@@ -405,7 +506,10 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
 
   Widget _buildDocumentCard(Map<String, dynamic> doc) {
     bool isExpired = doc['status'] == 'Expired';
-    bool isExpiringSoon = doc['expiry'].toString().contains('2025') && doc['status'] == 'Verified' && doc['expiry'] != 'No expiry';
+    bool isExpiringSoon =
+        doc['expiry'].toString().contains('2025') &&
+        doc['status'] == 'Verified' &&
+        doc['expiry'] != 'No expiry';
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -426,12 +530,21 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                   color: const Color(0xFFF4F1FF),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(LucideIcons.fileText, size: 20, color: Color(0xFF8463E9)),
+                child: const Icon(
+                  LucideIcons.fileText,
+                  size: 20,
+                  color: Color(0xFF8463E9),
+                ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
-                  color: isExpired ? const Color(0xFFFEE2E2) : const Color(0xFFD1FAE5),
+                  color: isExpired
+                      ? const Color(0xFFFEE2E2)
+                      : const Color(0xFFD1FAE5),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -439,35 +552,67 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                   style: GoogleFonts.figtree(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: isExpired ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                    color: isExpired
+                        ? const Color(0xFFEF4444)
+                        : const Color(0xFF10B981),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(doc['title'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark), maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(
+            doc['title'],
+            style: GoogleFonts.figtree(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 4),
-          Text(doc['name'], style: GoogleFonts.figtree(fontSize: 13, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(
+            doc['name'],
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 2),
-          Text(doc['department'], style: GoogleFonts.figtree(fontSize: 13, color: _textMuted), maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text(
+            doc['department'],
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SizedBox(height: 16),
-          Text('Uploaded: ${doc['uploaded']}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+          Text(
+            'Uploaded: ${doc['uploaded']}',
+            style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+          ),
           const SizedBox(height: 4),
           Row(
             children: [
               if (isExpiringSoon)
                 const Padding(
                   padding: EdgeInsets.only(right: 4),
-                  child: Icon(LucideIcons.alertTriangle, size: 12, color: Color(0xFFEF4444)),
+                  child: Icon(
+                    LucideIcons.alertTriangle,
+                    size: 12,
+                    color: Color(0xFFEF4444),
+                  ),
                 ),
               Expanded(
                 child: Text(
                   doc['expiry'],
                   style: GoogleFonts.figtree(
                     fontSize: 12,
-                    fontWeight: isExpiringSoon ? FontWeight.w600 : FontWeight.normal,
-                    color: isExpiringSoon ? const Color(0xFFEF4444) : _textMuted,
+                    fontWeight: isExpiringSoon
+                        ? FontWeight.w600
+                        : FontWeight.normal,
+                    color: isExpiringSoon
+                        ? const Color(0xFFEF4444)
+                        : _textMuted,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -482,7 +627,10 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                 child: GestureDetector(
                   onTap: () => _showDocumentDetails(context, doc),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -496,7 +644,14 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                         children: [
                           const Icon(LucideIcons.eye, size: 14, color: _accent),
                           const SizedBox(width: 4),
-                          Text('View', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _accent)),
+                          Text(
+                            'View',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: _accent,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -516,7 +671,10 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                     );
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -528,9 +686,20 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(LucideIcons.download, size: 14, color: _textMuted),
+                          const Icon(
+                            LucideIcons.download,
+                            size: 14,
+                            color: _textMuted,
+                          ),
                           const SizedBox(width: 4),
-                          Text('Download', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textMuted)),
+                          Text(
+                            'Download',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -551,7 +720,9 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Container(
             width: 360,
             padding: const EdgeInsets.all(20),
@@ -568,22 +739,35 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                         color: const Color(0xFFF4F1FF),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Icon(LucideIcons.fileText, color: _accent, size: 22),
+                      child: const Icon(
+                        LucideIcons.fileText,
+                        color: _accent,
+                        size: 22,
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
                         doc['title'],
-                        style: GoogleFonts.figtree(fontSize: 17, fontWeight: FontWeight.bold, color: _textDark),
+                        style: GoogleFonts.figtree(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     const SizedBox(width: 8),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: isExpired ? const Color(0xFFFEE2E2) : const Color(0xFFD1FAE5),
+                        color: isExpired
+                            ? const Color(0xFFFEE2E2)
+                            : const Color(0xFFD1FAE5),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -591,14 +775,20 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                         style: GoogleFonts.figtree(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: isExpired ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                          color: isExpired
+                              ? const Color(0xFFEF4444)
+                              : const Color(0xFF10B981),
                         ),
                       ),
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.close, size: 20, color: _textMuted),
+                      child: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: _textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -612,7 +802,9 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
                 _buildPopupDetailRow(
                   'Expires On',
-                  doc['expiry'] == 'No expiry' ? 'N/A' : doc['expiry'].toString().replaceAll('Expires: ', ''),
+                  doc['expiry'] == 'No expiry'
+                      ? 'N/A'
+                      : doc['expiry'].toString().replaceAll('Expires: ', ''),
                 ),
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
                 _buildPopupDetailRow('Status', doc['status'], isStatus: true),
@@ -624,7 +816,11 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
     );
   }
 
-  Widget _buildPopupDetailRow(String label, String value, {bool isStatus = false}) {
+  Widget _buildPopupDetailRow(
+    String label,
+    String value, {
+    bool isStatus = false,
+  }) {
     Color valueColor = _textDark;
     if (isStatus) {
       if (value == 'Expired') {
@@ -639,7 +835,10 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
+          ),
           Text(
             value,
             style: GoogleFonts.figtree(
@@ -657,7 +856,13 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
     return Container(
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(color: Color(0xFFEBEBEB))),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, -4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -666,14 +871,39 @@ class _StaffDocumentsScreenState extends State<StaffDocumentsScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

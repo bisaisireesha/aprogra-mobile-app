@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 
 class HostelBlocksScreen extends StatelessWidget {
@@ -13,18 +14,7 @@ class HostelBlocksScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Blocks'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +24,10 @@ class HostelBlocksScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildTopHeader(),
                   const SizedBox(height: 24),
@@ -44,17 +37,143 @@ class HostelBlocksScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   _buildBlocksListHeader(),
                   const SizedBox(height: 16),
-                  _buildNewBlockCard(context, 'A', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Aryabhata Block', 'Block A · 2 open tickets', 'Boys', 4, 60, 228, 240, 95, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFEF4444), 'Mr. R. Sharma', '+91 98xxxx 1023', 2, 'A'),
+                  _buildNewBlockCard(
+                    context,
+                    'A',
+                    const Color(0xFFEDE9FE),
+                    const Color(0xFF6366F1),
+                    'Aryabhata Block',
+                    'Block A · 2 open tickets',
+                    'Boys',
+                    4,
+                    60,
+                    228,
+                    240,
+                    95,
+                    'Active',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    const Color(0xFFEF4444),
+                    'Mr. R. Sharma',
+                    '+91 98xxxx 1023',
+                    2,
+                    'A',
+                  ),
                   const SizedBox(height: 12),
-                  _buildNewBlockCard(context, 'B', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Bhaskara Block', 'Block B · 1 open ticket', 'Boys', 4, 60, 210, 240, 88, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFF59E0B), 'Mr. K. Iyer', '+91 98xxxx 2234', 1, 'B'),
+                  _buildNewBlockCard(
+                    context,
+                    'B',
+                    const Color(0xFFEDE9FE),
+                    const Color(0xFF6366F1),
+                    'Bhaskara Block',
+                    'Block B · 1 open ticket',
+                    'Boys',
+                    4,
+                    60,
+                    210,
+                    240,
+                    88,
+                    'Active',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    const Color(0xFFF59E0B),
+                    'Mr. K. Iyer',
+                    '+91 98xxxx 2234',
+                    1,
+                    'B',
+                  ),
                   const SizedBox(height: 12),
-                  _buildNewBlockCard(context, 'C', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Chandragupta', 'Block C', 'Boys', 3, 45, 175, 180, 97, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFEF4444), 'Mr. P. Verma', '+91 98xxxx 4412', 0, 'C'),
+                  _buildNewBlockCard(
+                    context,
+                    'C',
+                    const Color(0xFFEDE9FE),
+                    const Color(0xFF6366F1),
+                    'Chandragupta',
+                    'Block C',
+                    'Boys',
+                    3,
+                    45,
+                    175,
+                    180,
+                    97,
+                    'Active',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    const Color(0xFFEF4444),
+                    'Mr. P. Verma',
+                    '+91 98xxxx 4412',
+                    0,
+                    'C',
+                  ),
                   const SizedBox(height: 12),
-                  _buildNewBlockCard(context, 'D', const Color(0xFFFEE2E2), const Color(0xFFEF4444), 'Draupadi Block', 'Block D · 3 open tickets', 'Girls', 4, 60, 232, 240, 97, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFEF4444), 'Mrs. S. Nair', '+91 98xxxx 9087', 3, 'D'),
+                  _buildNewBlockCard(
+                    context,
+                    'D',
+                    const Color(0xFFFEE2E2),
+                    const Color(0xFFEF4444),
+                    'Draupadi Block',
+                    'Block D · 3 open tickets',
+                    'Girls',
+                    4,
+                    60,
+                    232,
+                    240,
+                    97,
+                    'Active',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    const Color(0xFFEF4444),
+                    'Mrs. S. Nair',
+                    '+91 98xxxx 9087',
+                    3,
+                    'D',
+                  ),
                   const SizedBox(height: 12),
-                  _buildNewBlockCard(context, 'E', const Color(0xFFEDE9FE), const Color(0xFF6366F1), 'Eklavya Block', 'Block E · 6 open tickets', 'Boys', 3, 45, 120, 180, 67, 'Maint.', const Color(0xFFF59E0B), const Color(0xFFFEF3C7), const Color(0xFF10B981), 'Mr. A. Khan', '+91 98xxxx 3321', 6, 'E'),
+                  _buildNewBlockCard(
+                    context,
+                    'E',
+                    const Color(0xFFEDE9FE),
+                    const Color(0xFF6366F1),
+                    'Eklavya Block',
+                    'Block E · 6 open tickets',
+                    'Boys',
+                    3,
+                    45,
+                    120,
+                    180,
+                    67,
+                    'Maint.',
+                    const Color(0xFFF59E0B),
+                    const Color(0xFFFEF3C7),
+                    const Color(0xFF10B981),
+                    'Mr. A. Khan',
+                    '+91 98xxxx 3321',
+                    6,
+                    'E',
+                  ),
                   const SizedBox(height: 12),
-                  _buildNewBlockCard(context, 'F', const Color(0xFFFEE2E2), const Color(0xFFEF4444), 'Ferozshah Block', 'Block F · 1 open ticket', 'Girls', 4, 60, 215, 240, 90, 'Active', const Color(0xFF10B981), const Color(0xFFD1FAE5), const Color(0xFFF59E0B), 'Mrs. M. Pillai', '+91 98xxxx 6543', 1, 'F'),
+                  _buildNewBlockCard(
+                    context,
+                    'F',
+                    const Color(0xFFFEE2E2),
+                    const Color(0xFFEF4444),
+                    'Ferozshah Block',
+                    'Block F · 1 open ticket',
+                    'Girls',
+                    4,
+                    60,
+                    215,
+                    240,
+                    90,
+                    'Active',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    const Color(0xFFF59E0B),
+                    'Mrs. M. Pillai',
+                    '+91 98xxxx 6543',
+                    1,
+                    'F',
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -127,22 +246,59 @@ class HostelBlocksScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.15,
       children: [
-        _buildStatCard('6', 'Total Blocks', LucideIcons.layoutGrid, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE), true),
-        _buildStatCard('4', 'Boys Blocks', LucideIcons.bed, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE), false),
-        _buildStatCard('2', 'Girls Blocks', LucideIcons.bed, const Color(0xFFEF4444), const Color(0xFFFEE2E2), false),
-        _buildStatCard('13', 'Maintenance', LucideIcons.wrench, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false),
+        _buildStatCard(
+          '6',
+          'Total Blocks',
+          LucideIcons.layoutGrid,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+          true,
+        ),
+        _buildStatCard(
+          '4',
+          'Boys Blocks',
+          LucideIcons.bed,
+          const Color(0xFF0EA5E9),
+          const Color(0xFFE0F2FE),
+          false,
+        ),
+        _buildStatCard(
+          '2',
+          'Girls Blocks',
+          LucideIcons.bed,
+          const Color(0xFFEF4444),
+          const Color(0xFFFEE2E2),
+          false,
+        ),
+        _buildStatCard(
+          '13',
+          'Maintenance',
+          LucideIcons.wrench,
+          const Color(0xFFF59E0B),
+          const Color(0xFFFEF3C7),
+          false,
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color iconColor, Color iconBg, bool isActive) {
+  Widget _buildStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    bool isActive,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isActive ? iconColor.withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.15),
+          color: isActive
+              ? iconColor.withValues(alpha: 0.3)
+              : Colors.grey.withValues(alpha: 0.15),
           width: 1.5,
         ),
         boxShadow: [
@@ -326,9 +482,14 @@ class HostelBlocksScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
-                          color: type == 'Boys' ? const Color(0xFFE0F2FE) : const Color(0xFFFEE2E2),
+                          color: type == 'Boys'
+                              ? const Color(0xFFE0F2FE)
+                              : const Color(0xFFFEE2E2),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -336,7 +497,9 @@ class HostelBlocksScreen extends StatelessWidget {
                           style: GoogleFonts.inter(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: type == 'Boys' ? const Color(0xFF0EA5E9) : const Color(0xFFEF4444),
+                            color: type == 'Boys'
+                                ? const Color(0xFF0EA5E9)
+                                : const Color(0xFFEF4444),
                           ),
                         ),
                       ),
@@ -344,7 +507,10 @@ class HostelBlocksScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: statusBg,
                     borderRadius: BorderRadius.circular(12),
@@ -377,7 +543,13 @@ class HostelBlocksScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Text('·', style: TextStyle(color: Color(0xFF595973), fontWeight: FontWeight.bold)),
+                    const Text(
+                      '·',
+                      style: TextStyle(
+                        color: Color(0xFF595973),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       '$rooms Rooms',
@@ -403,7 +575,10 @@ class HostelBlocksScreen extends StatelessWidget {
                           TextSpan(text: '$occUsed/$occTotal'),
                           TextSpan(
                             text: '    $occPercent%',
-                            style: const TextStyle(color: Color(0xFF595973), fontWeight: FontWeight.w500),
+                            style: const TextStyle(
+                              color: Color(0xFF595973),
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
@@ -468,7 +643,12 @@ class HostelBlocksScreen extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
-        padding: const EdgeInsets.only(top: 12, left: 24, right: 24, bottom: 32),
+        padding: const EdgeInsets.only(
+          top: 12,
+          left: 24,
+          right: 24,
+          bottom: 32,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -488,7 +668,11 @@ class HostelBlocksScreen extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF595973)),
+                child: const Icon(
+                  LucideIcons.x,
+                  size: 24,
+                  color: Color(0xFF595973),
+                ),
               ),
             ),
             Row(
@@ -522,7 +706,10 @@ class HostelBlocksScreen extends StatelessWidget {
                           ),
                           const SizedBox(width: 12),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: statusBg,
                               borderRadius: BorderRadius.circular(8),
@@ -554,13 +741,45 @@ class HostelBlocksScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Row(
               children: [
-                Expanded(child: _buildPopStatCard(floors.toString(), 'Floors', LucideIcons.building2, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE))),
+                Expanded(
+                  child: _buildPopStatCard(
+                    floors.toString(),
+                    'Floors',
+                    LucideIcons.building2,
+                    const Color(0xFF8B5CF6),
+                    const Color(0xFFEDE9FE),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                Expanded(child: _buildPopStatCard(rooms.toString(), 'Rooms', LucideIcons.bedDouble, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE))),
+                Expanded(
+                  child: _buildPopStatCard(
+                    rooms.toString(),
+                    'Rooms',
+                    LucideIcons.bedDouble,
+                    const Color(0xFF0EA5E9),
+                    const Color(0xFFE0F2FE),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                Expanded(child: _buildPopStatCard('$occUsed/$occTotal', 'Occupancy', LucideIcons.users, const Color(0xFFF59E0B), const Color(0xFFFEF3C7))),
+                Expanded(
+                  child: _buildPopStatCard(
+                    '$occUsed/$occTotal',
+                    'Occupancy',
+                    LucideIcons.users,
+                    const Color(0xFFF59E0B),
+                    const Color(0xFFFEF3C7),
+                  ),
+                ),
                 const SizedBox(width: 12),
-                Expanded(child: _buildPopStatCard('$occPercent%', 'Occupancy %', LucideIcons.pieChart, const Color(0xFF10B981), const Color(0xFFD1FAE5))),
+                Expanded(
+                  child: _buildPopStatCard(
+                    '$occPercent%',
+                    'Occupancy %',
+                    LucideIcons.pieChart,
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -593,7 +812,11 @@ class HostelBlocksScreen extends StatelessWidget {
                                 color: const Color(0xFFF1F5F9),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Icon(LucideIcons.user, size: 16, color: Color(0xFF6366F1)),
+                              child: const Icon(
+                                LucideIcons.user,
+                                size: 16,
+                                color: Color(0xFF6366F1),
+                              ),
                             ),
                             const SizedBox(width: 12),
                             Column(
@@ -628,7 +851,11 @@ class HostelBlocksScreen extends StatelessWidget {
                       color: Color(0xFFEDE9FE),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(LucideIcons.phone, color: Color(0xFF6366F1), size: 20),
+                    child: const Icon(
+                      LucideIcons.phone,
+                      color: Color(0xFF6366F1),
+                      size: 20,
+                    ),
                   ),
                 ],
               ),
@@ -638,11 +865,19 @@ class HostelBlocksScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _buildDetailRow(LucideIcons.scan, 'Block Code', blockCode),
             const SizedBox(height: 16),
-            _buildDetailRow(LucideIcons.users, 'Total Capacity', occTotal.toString()),
+            _buildDetailRow(
+              LucideIcons.users,
+              'Total Capacity',
+              occTotal.toString(),
+            ),
             const SizedBox(height: 16),
             _buildDetailRow(LucideIcons.user, 'Occupied', occUsed.toString()),
             const SizedBox(height: 16),
-            _buildDetailRow(LucideIcons.checkSquare, 'Open Tickets', openTickets.toString()),
+            _buildDetailRow(
+              LucideIcons.checkSquare,
+              'Open Tickets',
+              openTickets.toString(),
+            ),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -673,7 +908,13 @@ class HostelBlocksScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPopStatCard(String value, String label, IconData icon, Color iconColor, Color iconBg) {
+  Widget _buildPopStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
       decoration: BoxDecoration(

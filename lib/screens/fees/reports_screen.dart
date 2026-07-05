@@ -8,6 +8,7 @@ import 'package:fl_chart/fl_chart.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -23,9 +24,6 @@ class ReportsScreen extends StatefulWidget {
 }
 
 class _ReportsScreenState extends State<ReportsScreen> {
-
-
-  
   @override
   void initState() {
     super.initState();
@@ -85,7 +83,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
     },
   ];
 
-  
   Future<void> _loadReporttypes() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__reportTypes_data');
@@ -124,8 +121,8 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: _bg,
-      drawer: const MenuScreen(activeScreen: 'Fees & Invoices'),
-      bottomNavigationBar: _buildBottomNav(),
+      drawer: const MenuScreen(activeScreen: 'Fee Reports'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -139,7 +136,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -184,7 +184,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
             margin: const EdgeInsets.only(top: 2),
             padding: const EdgeInsets.all(8),
             decoration: const BoxDecoration(color: Colors.transparent),
-            child: Icon(canPop ? LucideIcons.arrowLeft : LucideIcons.menu, size: 24, color: _dark),
+            child: Icon(
+              canPop ? LucideIcons.arrowLeft : LucideIcons.menu,
+              size: 24,
+              color: _dark,
+            ),
           ),
         ),
         const SizedBox(width: 8),
@@ -192,9 +196,19 @@ class _ReportsScreenState extends State<ReportsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Reports', style: GoogleFonts.figtree(fontSize: 22, fontWeight: FontWeight.bold, color: _dark)),
+              Text(
+                'Reports',
+                style: GoogleFonts.figtree(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: _dark,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('Download financial reports and explore collection insights at a glance.', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+              Text(
+                'Download financial reports and explore collection insights at a glance.',
+                style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+              ),
             ],
           ),
         ),
@@ -208,7 +222,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
       children: [
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Schedule clicked')));
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Schedule clicked')));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -222,7 +238,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
               children: [
                 const Icon(LucideIcons.calendar, size: 14, color: _dark),
                 const SizedBox(width: 6),
-                Text('Schedule', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _dark)),
+                Text(
+                  'Schedule',
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: _dark,
+                  ),
+                ),
               ],
             ),
           ),
@@ -230,21 +253,36 @@ class _ReportsScreenState extends State<ReportsScreen> {
         const SizedBox(width: 12),
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Export All clicked')));
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Export All clicked')));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             decoration: BoxDecoration(
               color: _primary,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: _primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 3))],
+              boxShadow: [
+                BoxShadow(
+                  color: _primary.withValues(alpha: 0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ],
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Icon(LucideIcons.download, size: 14, color: Colors.white),
                 const SizedBox(width: 6),
-                Text('Export All', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
+                Text(
+                  'Export All',
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -255,17 +293,57 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   Widget _buildSummaryCards() {
     final kpis = [
-      {'value': '148', 'label': 'Generated This Month', 'sub': '+12 vs last month', 'icon': LucideIcons.fileText, 'color': const Color(0xFF8B5CF6), 'bg': const Color(0xFFF3E8FF)},
-      {'value': 'Daily Collection', 'label': 'Most Downloaded', 'sub': '62 downloads', 'icon': LucideIcons.star, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFFFBEB)},
-      {'value': '1.4s', 'label': 'Avg Generation Time', 'sub': 'across all types', 'icon': LucideIcons.clock, 'color': const Color(0xFF0EA5E9), 'bg': const Color(0xFFF0F9FF)},
-      {'value': '9', 'label': 'Scheduled Reports', 'sub': 'active schedules', 'icon': LucideIcons.refreshCcw, 'color': const Color(0xFF22C55E), 'bg': const Color(0xFFF0FDF4)},
+      {
+        'value': '148',
+        'label': 'Generated This Month',
+        'sub': '+12 vs last month',
+        'icon': LucideIcons.fileText,
+        'color': const Color(0xFF8B5CF6),
+        'bg': const Color(0xFFF3E8FF),
+      },
+      {
+        'value': 'Daily Collection',
+        'label': 'Most Downloaded',
+        'sub': '62 downloads',
+        'icon': LucideIcons.star,
+        'color': const Color(0xFFF59E0B),
+        'bg': const Color(0xFFFFFBEB),
+      },
+      {
+        'value': '1.4s',
+        'label': 'Avg Generation Time',
+        'sub': 'across all types',
+        'icon': LucideIcons.clock,
+        'color': const Color(0xFF0EA5E9),
+        'bg': const Color(0xFFF0F9FF),
+      },
+      {
+        'value': '9',
+        'label': 'Scheduled Reports',
+        'sub': 'active schedules',
+        'icon': LucideIcons.refreshCcw,
+        'color': const Color(0xFF22C55E),
+        'bg': const Color(0xFFF0FDF4),
+      },
     ];
 
     return Column(
       children: [
-        Row(children: [Expanded(child: _kpiCard(kpis[0])), const SizedBox(width: 12), Expanded(child: _kpiCard(kpis[1]))]),
+        Row(
+          children: [
+            Expanded(child: _kpiCard(kpis[0])),
+            const SizedBox(width: 12),
+            Expanded(child: _kpiCard(kpis[1])),
+          ],
+        ),
         const SizedBox(height: 12),
-        Row(children: [Expanded(child: _kpiCard(kpis[2])), const SizedBox(width: 12), Expanded(child: _kpiCard(kpis[3]))]),
+        Row(
+          children: [
+            Expanded(child: _kpiCard(kpis[2])),
+            const SizedBox(width: 12),
+            Expanded(child: _kpiCard(kpis[3])),
+          ],
+        ),
       ],
     );
   }
@@ -273,20 +351,48 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _kpiCard(Map<String, dynamic> k) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: k['bg'] as Color, borderRadius: BorderRadius.circular(10)),
-            child: Icon(k['icon'] as IconData, size: 18, color: k['color'] as Color),
+            decoration: BoxDecoration(
+              color: k['bg'] as Color,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              k['icon'] as IconData,
+              size: 18,
+              color: k['color'] as Color,
+            ),
           ),
           const SizedBox(height: 16),
-          Text(k['value'] as String, style: GoogleFonts.figtree(fontSize: k['value'] == 'Daily Collection' ? 18 : 24, fontWeight: FontWeight.bold, color: _dark)),
+          Text(
+            k['value'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: k['value'] == 'Daily Collection' ? 18 : 24,
+              fontWeight: FontWeight.bold,
+              color: _dark,
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(k['label'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
-          Text(k['sub'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+          Text(
+            k['label'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: _dark,
+            ),
+          ),
+          Text(
+            k['sub'] as String,
+            style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+          ),
         ],
       ),
     );
@@ -296,7 +402,13 @@ class _ReportsScreenState extends State<ReportsScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, -5))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, -5),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -308,11 +420,31 @@ class _ReportsScreenState extends State<ReportsScreen> {
         showUnselectedLabels: true,
         currentIndex: 2,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            activeIcon: Icon(Icons.account_balance_wallet),
+            label: 'Fees',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );
@@ -321,7 +453,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildCollectionTrendChart() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -332,9 +468,19 @@ class _ReportsScreenState extends State<ReportsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Collection Trend', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                  Text(
+                    'Collection Trend',
+                    style: GoogleFonts.figtree(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _dark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text('Invoiced vs Collected · last 6 months (₹L)', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    'Invoiced vs Collected · last 6 months (₹L)',
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
               Row(
@@ -351,20 +497,55 @@ class _ReportsScreenState extends State<ReportsScreen> {
             height: 200,
             child: LineChart(
               LineChartData(
-                gridData: FlGridData(show: true, drawVerticalLine: true, horizontalInterval: 30, getDrawingHorizontalLine: (value) => const FlLine(color: _border, strokeWidth: 1, dashArray: [4, 4]), getDrawingVerticalLine: (value) => const FlLine(color: _border, strokeWidth: 1, dashArray: [4, 4])),
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: true,
+                  horizontalInterval: 30,
+                  getDrawingHorizontalLine: (value) => const FlLine(
+                    color: _border,
+                    strokeWidth: 1,
+                    dashArray: [4, 4],
+                  ),
+                  getDrawingVerticalLine: (value) => const FlLine(
+                    color: _border,
+                    strokeWidth: 1,
+                    dashArray: [4, 4],
+                  ),
+                ),
                 titlesData: FlTitlesData(
                   show: true,
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 30,
                       interval: 1,
                       getTitlesWidget: (value, meta) {
-                        const months = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'];
-                        if (value.toInt() >= 0 && value.toInt() < months.length) {
-                          return Padding(padding: const EdgeInsets.only(top: 8), child: Text(months[value.toInt()], style: GoogleFonts.figtree(fontSize: 11, color: _muted)));
+                        const months = [
+                          'Nov',
+                          'Dec',
+                          'Jan',
+                          'Feb',
+                          'Mar',
+                          'Apr',
+                        ];
+                        if (value.toInt() >= 0 &&
+                            value.toInt() < months.length) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              months[value.toInt()],
+                              style: GoogleFonts.figtree(
+                                fontSize: 11,
+                                color: _muted,
+                              ),
+                            ),
+                          );
                         }
                         return const Text('');
                       },
@@ -375,34 +556,78 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       showTitles: true,
                       interval: 30,
                       getTitlesWidget: (value, meta) {
-                        return Text(value.toInt().toString(), style: GoogleFonts.figtree(fontSize: 11, color: _muted));
+                        return Text(
+                          value.toInt().toString(),
+                          style: GoogleFonts.figtree(
+                            fontSize: 11,
+                            color: _muted,
+                          ),
+                        );
                       },
                       reservedSize: 28,
                     ),
                   ),
                 ),
-                borderData: FlBorderData(show: true, border: const Border(bottom: BorderSide(color: _muted, width: 1), left: BorderSide(color: _muted, width: 1))),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(color: _muted, width: 1),
+                    left: BorderSide(color: _muted, width: 1),
+                  ),
+                ),
                 minX: 0,
                 maxX: 5,
                 minY: 0,
                 maxY: 120,
                 lineBarsData: [
                   LineChartBarData(
-                    spots: const [FlSpot(0, 78), FlSpot(1, 89), FlSpot(2, 92), FlSpot(3, 96), FlSpot(4, 102), FlSpot(5, 110)],
+                    spots: const [
+                      FlSpot(0, 78),
+                      FlSpot(1, 89),
+                      FlSpot(2, 92),
+                      FlSpot(3, 96),
+                      FlSpot(4, 102),
+                      FlSpot(5, 110),
+                    ],
                     isCurved: true,
                     color: const Color(0xFF8B5CF6),
                     barWidth: 3,
                     isStrokeCapRound: true,
-                    dotData: FlDotData(show: true, getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(radius: 4, color: const Color(0xFF8B5CF6), strokeWidth: 2, strokeColor: Colors.white)),
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
+                            radius: 4,
+                            color: const Color(0xFF8B5CF6),
+                            strokeWidth: 2,
+                            strokeColor: Colors.white,
+                          ),
+                    ),
                     belowBarData: BarAreaData(show: false),
                   ),
                   LineChartBarData(
-                    spots: const [FlSpot(0, 65), FlSpot(1, 75), FlSpot(2, 80), FlSpot(3, 82), FlSpot(4, 88), FlSpot(5, 94)],
+                    spots: const [
+                      FlSpot(0, 65),
+                      FlSpot(1, 75),
+                      FlSpot(2, 80),
+                      FlSpot(3, 82),
+                      FlSpot(4, 88),
+                      FlSpot(5, 94),
+                    ],
                     isCurved: true,
                     color: const Color(0xFF22C55E),
                     barWidth: 3,
                     isStrokeCapRound: true,
-                    dotData: FlDotData(show: true, getDotPainter: (spot, percent, barData, index) => FlDotCirclePainter(radius: 4, color: const Color(0xFF22C55E), strokeWidth: 2, strokeColor: Colors.white)),
+                    dotData: FlDotData(
+                      show: true,
+                      getDotPainter: (spot, percent, barData, index) =>
+                          FlDotCirclePainter(
+                            radius: 4,
+                            color: const Color(0xFF22C55E),
+                            strokeWidth: 2,
+                            strokeColor: Colors.white,
+                          ),
+                    ),
                     belowBarData: BarAreaData(show: false),
                   ),
                 ],
@@ -417,7 +642,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildLegendItem(String label, Color color) {
     return Row(
       children: [
-        Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
         const SizedBox(width: 6),
         Text(label, style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
       ],
@@ -427,7 +656,11 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildCollectionByClassChart() {
     return Container(
       padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -437,12 +670,26 @@ class _ReportsScreenState extends State<ReportsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Collection by Class', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                  Text(
+                    'Collection by Class',
+                    style: GoogleFonts.figtree(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _dark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text('This month (₹L)', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    'This month (₹L)',
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
-              const Icon(LucideIcons.barChart, size: 20, color: Color(0xFF22C55E)),
+              const Icon(
+                LucideIcons.barChart,
+                size: 20,
+                color: Color(0xFF22C55E),
+              ),
             ],
           ),
           const SizedBox(height: 32),
@@ -450,18 +697,48 @@ class _ReportsScreenState extends State<ReportsScreen> {
             height: 200,
             child: BarChart(
               BarChartData(
-                gridData: FlGridData(show: true, drawVerticalLine: false, horizontalInterval: 10, getDrawingHorizontalLine: (value) => const FlLine(color: _border, strokeWidth: 1, dashArray: [4, 4])),
+                gridData: FlGridData(
+                  show: true,
+                  drawVerticalLine: false,
+                  horizontalInterval: 10,
+                  getDrawingHorizontalLine: (value) => const FlLine(
+                    color: _border,
+                    strokeWidth: 1,
+                    dashArray: [4, 4],
+                  ),
+                ),
                 titlesData: FlTitlesData(
                   show: true,
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const classes = ['Class 5', 'Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10'];
-                        if (value.toInt() >= 0 && value.toInt() < classes.length) {
-                          return Padding(padding: const EdgeInsets.only(top: 8), child: Text(classes[value.toInt()], style: GoogleFonts.figtree(fontSize: 11, color: _muted)));
+                        const classes = [
+                          'Class 5',
+                          'Class 6',
+                          'Class 7',
+                          'Class 8',
+                          'Class 9',
+                          'Class 10',
+                        ];
+                        if (value.toInt() >= 0 &&
+                            value.toInt() < classes.length) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              classes[value.toInt()],
+                              style: GoogleFonts.figtree(
+                                fontSize: 11,
+                                color: _muted,
+                              ),
+                            ),
+                          );
                         }
                         return const Text('');
                       },
@@ -473,19 +750,103 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       interval: 10,
                       reservedSize: 28,
                       getTitlesWidget: (value, meta) {
-                        return Text(value.toInt().toString(), style: GoogleFonts.figtree(fontSize: 11, color: _muted));
+                        return Text(
+                          value.toInt().toString(),
+                          style: GoogleFonts.figtree(
+                            fontSize: 11,
+                            color: _muted,
+                          ),
+                        );
                       },
                     ),
                   ),
                 ),
-                borderData: FlBorderData(show: true, border: const Border(bottom: BorderSide(color: _muted, width: 1), left: BorderSide(color: _muted, width: 1))),
+                borderData: FlBorderData(
+                  show: true,
+                  border: const Border(
+                    bottom: BorderSide(color: _muted, width: 1),
+                    left: BorderSide(color: _muted, width: 1),
+                  ),
+                ),
                 barGroups: [
-                  BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 18, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
-                  BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 22, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
-                  BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 24, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
-                  BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 28, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
-                  BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 32, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
-                  BarChartGroupData(x: 5, barRods: [BarChartRodData(toY: 38, color: const Color(0xFF8B5CF6), width: 36, borderRadius: const BorderRadius.vertical(top: Radius.circular(4)))]),
+                  BarChartGroupData(
+                    x: 0,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 18,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 1,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 22,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 2,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 24,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 3,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 28,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 4,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 32,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
+                  BarChartGroupData(
+                    x: 5,
+                    barRods: [
+                      BarChartRodData(
+                        toY: 38,
+                        color: const Color(0xFF8B5CF6),
+                        width: 36,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(4),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
                 maxY: 40,
               ),
@@ -504,8 +865,18 @@ class _ReportsScreenState extends State<ReportsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text('Download Reports', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _dark)),
-            Text('6 report types available', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+            Text(
+              'Download Reports',
+              style: GoogleFonts.figtree(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _dark,
+              ),
+            ),
+            Text(
+              '6 report types available',
+              style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -532,24 +903,52 @@ class _ReportsScreenState extends State<ReportsScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(color: r['bg'] as Color, borderRadius: BorderRadius.circular(10)),
-                child: Icon(r['icon'] as IconData, size: 20, color: r['color'] as Color),
+                decoration: BoxDecoration(
+                  color: r['bg'] as Color,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  r['icon'] as IconData,
+                  size: 20,
+                  color: r['color'] as Color,
+                ),
               ),
-              Text('${r['downloads']} downloads', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+              Text(
+                '${r['downloads']} downloads',
+                style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+              ),
             ],
           ),
           const SizedBox(height: 16),
-          Text(r['title'] as String, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _dark)),
+          Text(
+            r['title'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: _dark,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(r['desc'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+          Text(
+            r['desc'] as String,
+            style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+          ),
           const SizedBox(height: 20),
           Row(
             children: [
               _buildReportActionButton('PDF', LucideIcons.download, true),
               const SizedBox(width: 12),
-              _buildReportActionButton('Excel', LucideIcons.fileSpreadsheet, false),
+              _buildReportActionButton(
+                'Excel',
+                LucideIcons.fileSpreadsheet,
+                false,
+              ),
               const SizedBox(width: 12),
-              _buildReportActionButton('Schedule', LucideIcons.refreshCcw, false),
+              _buildReportActionButton(
+                'Schedule',
+                LucideIcons.refreshCcw,
+                false,
+              ),
             ],
           ),
         ],
@@ -560,7 +959,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Widget _buildReportActionButton(String label, IconData icon, bool isPrimary) {
     return GestureDetector(
       onTap: () {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$label clicked')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('$label clicked')));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
@@ -574,7 +975,14 @@ class _ReportsScreenState extends State<ReportsScreen> {
           children: [
             Icon(icon, size: 14, color: isPrimary ? Colors.white : _dark),
             const SizedBox(width: 6),
-            Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: isPrimary ? Colors.white : _dark)),
+            Text(
+              label,
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isPrimary ? Colors.white : _dark,
+              ),
+            ),
           ],
         ),
       ),

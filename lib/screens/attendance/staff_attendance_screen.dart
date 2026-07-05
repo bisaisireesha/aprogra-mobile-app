@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../../data/mock_data/staff_attendance_mock.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -39,7 +40,9 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   void initState() {
     super.initState();
     _loadRoster();
-    _roster = StaffAttendanceMockData.attendanceRoster.map((e) => Map<String, dynamic>.from(e)).toList();
+    _roster = StaffAttendanceMockData.attendanceRoster
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList();
     _searchController.addListener(() => setState(() {}));
   }
 
@@ -52,18 +55,28 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   List<Map<String, dynamic>> get _filteredRoster {
     final query = _searchController.text.toLowerCase();
     return _roster.where((item) {
-      final matchesQuery = query.isEmpty ||
+      final matchesQuery =
+          query.isEmpty ||
           (item['name'] as String).toLowerCase().contains(query) ||
           (item['empId'] as String).toLowerCase().contains(query) ||
           (item['department'] as String).toLowerCase().contains(query) ||
           (item['role'] as String).toLowerCase().contains(query);
-          
-      final matchesDepartment = _selectedDepartment == 'All Departments' || item['department'] == _selectedDepartment;
-      final matchesRole = _selectedRole == 'All Roles' || item['role'] == _selectedRole;
-      final matchesShift = _selectedShift == 'All Shifts' || item['shift'] == _selectedShift;
-      final matchesStatus = _selectedStatus == 'All Status' || item['status'] == _selectedStatus;
 
-      return matchesQuery && matchesDepartment && matchesRole && matchesShift && matchesStatus;
+      final matchesDepartment =
+          _selectedDepartment == 'All Departments' ||
+          item['department'] == _selectedDepartment;
+      final matchesRole =
+          _selectedRole == 'All Roles' || item['role'] == _selectedRole;
+      final matchesShift =
+          _selectedShift == 'All Shifts' || item['shift'] == _selectedShift;
+      final matchesStatus =
+          _selectedStatus == 'All Status' || item['status'] == _selectedStatus;
+
+      return matchesQuery &&
+          matchesDepartment &&
+          matchesRole &&
+          matchesShift &&
+          matchesStatus;
     }).toList();
   }
 
@@ -74,11 +87,23 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   }
 
   String _monthString(int month) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     return months[month - 1];
   }
 
-  
   Future<void> _loadRoster() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__roster_data');
@@ -128,7 +153,12 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -162,15 +192,27 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNav(),
-      floatingActionButton: !_isTablet ? FloatingActionButton.extended(
-        onPressed: () {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Attendance saved successfully!')));
-        },
-        backgroundColor: _accent,
-        icon: const Icon(LucideIcons.save, color: Colors.white, size: 20),
-        label: Text('Save', style: GoogleFonts.figtree(fontWeight: FontWeight.bold, color: Colors.white)),
-      ) : null,
+      bottomNavigationBar: const AppBottomNav(),
+      floatingActionButton: !_isTablet
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Attendance saved successfully!'),
+                  ),
+                );
+              },
+              backgroundColor: _accent,
+              icon: const Icon(LucideIcons.save, color: Colors.white, size: 20),
+              label: Text(
+                'Save',
+                style: GoogleFonts.figtree(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            )
+          : null,
     );
   }
 
@@ -202,21 +244,42 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+              child: Text(
+                'A',
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _accent,
+                ),
+              ),
             ),
           ],
         ),
@@ -230,19 +293,42 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
       children: [
         Row(
           children: [
-            Text('Home', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            Text(
+              'Home',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
             const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Staff', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+            Text(
+              'Staff',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
             const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
-            Text('Attendance', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              'Attendance',
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
-        Text('Staff Attendance', style: GoogleFonts.figtree(fontSize: _isTablet ? 32 : 28, fontWeight: FontWeight.bold, color: _textDark)),
+        Text(
+          'Staff Attendance',
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 32 : 28,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
+          ),
+        ),
         const SizedBox(height: 8),
         Text(
           "Today's check-in/out log for all staff — present, absent, on leave, and late arrivals.",
-          style: GoogleFonts.figtree(fontSize: _isTablet ? 16 : 14, color: _textMuted),
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 16 : 14,
+            color: _textMuted,
+          ),
         ),
       ],
     );
@@ -265,7 +351,14 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             children: [
               const Icon(LucideIcons.download, size: 16, color: _textDark),
               const SizedBox(width: 8),
-              Text('Export', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Export',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
             ],
           ),
         ),
@@ -282,7 +375,14 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             children: [
               const Icon(LucideIcons.save, size: 16, color: Colors.white),
               const SizedBox(width: 8),
-              Text('Save', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              Text(
+                'Save',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
         ),
@@ -298,15 +398,26 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             flex: 2,
             child: Container(
               height: 44,
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22), border: Border.all(color: const Color(0xFFE5E7EB))),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                border: Border.all(color: const Color(0xFFE5E7EB)),
+              ),
               child: TextField(
                 controller: _searchController,
                 decoration: const InputDecoration(
                   hintText: 'Search by name or department...',
                   hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                  prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color(0xFF8F96A3),
+                    size: 20,
+                  ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                 ),
               ),
             ),
@@ -316,7 +427,23 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           Expanded(flex: 1, child: const SizedBox()),
           _buildTabletDropdown(
             value: _selectedDepartment,
-            items: const ['All Departments', 'Administration', 'Pre-Primary', 'Languages', 'Mathematics', 'Sciences', 'Social Studies', 'Computer Science', 'Arts', 'Physical Education', 'Accounts', 'Library', 'Transport', 'Security', 'Maintenance'],
+            items: const [
+              'All Departments',
+              'Administration',
+              'Pre-Primary',
+              'Languages',
+              'Mathematics',
+              'Sciences',
+              'Social Studies',
+              'Computer Science',
+              'Arts',
+              'Physical Education',
+              'Accounts',
+              'Library',
+              'Transport',
+              'Security',
+              'Maintenance',
+            ],
             onChanged: (v) => setState(() => _selectedDepartment = v!),
           ),
         ],
@@ -327,15 +454,26 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         children: [
           Container(
             height: 44,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(22), border: Border.all(color: const Color(0xFFE5E7EB))),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: const Color(0xFFE5E7EB)),
+            ),
             child: TextField(
               controller: _searchController,
               decoration: const InputDecoration(
                 hintText: 'Search by name or department...',
                 hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Color(0xFF8F96A3),
+                  size: 20,
+                ),
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
           ),
@@ -346,17 +484,59 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               Container(
                 height: 36,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFE5E7EB))),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: _selectedDepartment,
-                    icon: const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
-                    items: const ['All Departments', 'Administration', 'Pre-Primary', 'Languages', 'Mathematics', 'Sciences', 'Social Studies', 'Computer Science', 'Arts', 'Physical Education', 'Accounts', 'Library', 'Transport', 'Security', 'Maintenance'].map((e) => DropdownMenuItem(value: e, child: Text(e, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w500, color: _textDark)))).toList(),
+                    icon: const Icon(
+                      LucideIcons.chevronDown,
+                      size: 16,
+                      color: _textMuted,
+                    ),
+                    items:
+                        const [
+                              'All Departments',
+                              'Administration',
+                              'Pre-Primary',
+                              'Languages',
+                              'Mathematics',
+                              'Sciences',
+                              'Social Studies',
+                              'Computer Science',
+                              'Arts',
+                              'Physical Education',
+                              'Accounts',
+                              'Library',
+                              'Transport',
+                              'Security',
+                              'Maintenance',
+                            ]
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e,
+                                child: Text(
+                                  e,
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: _textDark,
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList(),
                     onChanged: (v) => setState(() => _selectedDepartment = v!),
                   ),
                 ),
               ),
-              Text('${_filteredRoster.length} records', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+              Text(
+                '${_filteredRoster.length} records',
+                style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+              ),
             ],
           ),
         ],
@@ -364,19 +544,45 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     }
   }
 
-  Widget _buildTabletDropdown({required String value, required List<String> items, required ValueChanged<String?> onChanged}) {
+  Widget _buildTabletDropdown({
+    required String value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
     return Expanded(
       child: Container(
         height: 44,
         padding: const EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
             value: value,
             isExpanded: true,
             dropdownColor: Colors.white,
-            icon: const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
-            items: items.map((e) => DropdownMenuItem(value: e, child: Text(e, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w500, color: _textDark)))).toList(),
+            icon: const Icon(
+              LucideIcons.chevronDown,
+              size: 16,
+              color: _textMuted,
+            ),
+            items: items
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e,
+                    child: Text(
+                      e,
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: _textDark,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
             onChanged: onChanged,
           ),
         ),
@@ -384,18 +590,44 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     );
   }
 
-  Widget _buildRealDropdown({required String value, required List<String> items, required ValueChanged<String?> onChanged}) {
+  Widget _buildRealDropdown({
+    required String value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
     return Container(
       height: 44,
       padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFE5E7EB))),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value,
           isExpanded: true,
           dropdownColor: Colors.white,
-          icon: const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
-          items: items.map((e) => DropdownMenuItem(value: e, child: Text(e, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w500, color: _textDark)))).toList(),
+          icon: const Icon(
+            LucideIcons.chevronDown,
+            size: 16,
+            color: _textMuted,
+          ),
+          items: items
+              .map(
+                (e) => DropdownMenuItem(
+                  value: e,
+                  child: Text(
+                    e,
+                    style: GoogleFonts.figtree(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: _textDark,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
           onChanged: onChanged,
         ),
       ),
@@ -407,7 +639,9 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     int present = _filteredRoster.where((r) => r['status'] == 'Present').length;
     int absent = _filteredRoster.where((r) => r['status'] == 'Absent').length;
     int late = _filteredRoster.where((r) => r['status'] == 'Late').length;
-    int onLeave = _filteredRoster.where((r) => r['status'] == 'On Leave').length;
+    int onLeave = _filteredRoster
+        .where((r) => r['status'] == 'On Leave')
+        .length;
 
     double presentPct = total > 0 ? (present / total) * 100 : 0;
     double absentPct = total > 0 ? (absent / total) * 100 : 0;
@@ -423,17 +657,52 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           mainAxisSpacing: 12,
           childAspectRatio: _isTablet ? 1.4 : 1.05,
           children: [
-            _buildKpiCard('$present', 'Present', '${presentPct.toStringAsFixed(1)}% of total', LucideIcons.userCheck, const Color(0xFF22C55E), const Color(0xFFDCFCE7)),
-            _buildKpiCard('$absent', 'Absent', '${absentPct.toStringAsFixed(1)}% of total', LucideIcons.userX, const Color(0xFFEF4444), const Color(0xFFFEE2E2)),
-            _buildKpiCard('$onLeave', 'On Leave', '${leavePct.toStringAsFixed(1)}% of total', LucideIcons.calendarOff, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-            _buildKpiCard('$late', 'Late Arrivals', 'After 9:15 AM', LucideIcons.clock, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+            _buildKpiCard(
+              '$present',
+              'Present',
+              '${presentPct.toStringAsFixed(1)}% of total',
+              LucideIcons.userCheck,
+              const Color(0xFF22C55E),
+              const Color(0xFFDCFCE7),
+            ),
+            _buildKpiCard(
+              '$absent',
+              'Absent',
+              '${absentPct.toStringAsFixed(1)}% of total',
+              LucideIcons.userX,
+              const Color(0xFFEF4444),
+              const Color(0xFFFEE2E2),
+            ),
+            _buildKpiCard(
+              '$onLeave',
+              'On Leave',
+              '${leavePct.toStringAsFixed(1)}% of total',
+              LucideIcons.calendarOff,
+              const Color(0xFFF59E0B),
+              const Color(0xFFFEF3C7),
+            ),
+            _buildKpiCard(
+              '$late',
+              'Late Arrivals',
+              'After 9:15 AM',
+              LucideIcons.clock,
+              const Color(0xFF0EA5E9),
+              const Color(0xFFE0F2FE),
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _buildKpiCard(String value, String title, String subtitle, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String value,
+    String title,
+    String subtitle,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -455,17 +724,29 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           const SizedBox(height: 12),
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.w900, color: _textDark, height: 1.0),
+            style: GoogleFonts.figtree(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: _textDark,
+              height: 1.0,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             title,
-            style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark),
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3)),
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              color: const Color(0xFF8F96A3),
+            ),
           ),
         ],
       ),
@@ -485,12 +766,19 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         children: [
           Text(
             'Hourly Check-in Pattern',
-            style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Number of staff checking in per hour',
-            style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3)),
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              color: const Color(0xFF8F96A3),
+            ),
           ),
           const SizedBox(height: 32),
           SizedBox(
@@ -506,18 +794,39 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        const style = TextStyle(color: Color(0xFF8F96A3), fontWeight: FontWeight.w500, fontSize: 12);
+                        const style = TextStyle(
+                          color: Color(0xFF8F96A3),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12,
+                        );
                         Widget text;
                         switch (value.toInt()) {
-                          case 0: text = const Text('7AM', style: style); break;
-                          case 1: text = const Text('8AM', style: style); break;
-                          case 2: text = const Text('8:30', style: style); break;
-                          case 3: text = const Text('9AM', style: style); break;
-                          case 4: text = const Text('9:30', style: style); break;
-                          case 5: text = const Text('10AM', style: style); break;
-                          default: text = const Text('', style: style); break;
+                          case 0:
+                            text = const Text('7AM', style: style);
+                            break;
+                          case 1:
+                            text = const Text('8AM', style: style);
+                            break;
+                          case 2:
+                            text = const Text('8:30', style: style);
+                            break;
+                          case 3:
+                            text = const Text('9AM', style: style);
+                            break;
+                          case 4:
+                            text = const Text('9:30', style: style);
+                            break;
+                          case 5:
+                            text = const Text('10AM', style: style);
+                            break;
+                          default:
+                            text = const Text('', style: style);
+                            break;
                         }
-                        return Padding(padding: const EdgeInsets.only(top: 8), child: text);
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: text,
+                        );
                       },
                       reservedSize: 28,
                     ),
@@ -527,13 +836,23 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
                         if (value % 20 != 0) return const SizedBox.shrink();
-                        return Text('${value.toInt()}', style: const TextStyle(color: Color(0xFF8F96A3), fontSize: 12));
+                        return Text(
+                          '${value.toInt()}',
+                          style: const TextStyle(
+                            color: Color(0xFF8F96A3),
+                            fontSize: 12,
+                          ),
+                        );
                       },
                       reservedSize: 28,
                     ),
                   ),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 gridData: const FlGridData(show: false),
                 borderData: FlBorderData(show: false),
@@ -564,20 +883,41 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                     color: const Color(0xFFF4F1FF),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(LucideIcons.barChart2, color: Color(0xFF8463E9), size: 20),
+                  child: const Icon(
+                    LucideIcons.barChart2,
+                    color: Color(0xFF8463E9),
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Peak Time', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        'Peak Time',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text('8:30 AM - 72 Check-ins', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8F96A3))),
+                      Text(
+                        '8:30 AM - 72 Check-ins',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          color: const Color(0xFF8F96A3),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFF8F96A3)),
+                const Icon(
+                  LucideIcons.chevronRight,
+                  size: 20,
+                  color: Color(0xFF8F96A3),
+                ),
               ],
             ),
           ),
@@ -603,9 +943,9 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget _buildRosterList() {
     return Container(
       decoration: BoxDecoration(
-        color: _isTablet ? Colors.white : Colors.transparent, 
-        borderRadius: BorderRadius.circular(12), 
-        border: _isTablet ? Border.all(color: const Color(0xFFE5E7EB)) : null
+        color: _isTablet ? Colors.white : Colors.transparent,
+        borderRadius: BorderRadius.circular(12),
+        border: _isTablet ? Border.all(color: const Color(0xFFE5E7EB)) : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -613,13 +953,32 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
           if (_isTablet)
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB)))),
-              child: Row(children: [
-                Expanded(child: Text('Roster · ${_filteredRoster.length} of ${_filteredRoster.length}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                Text(_isLocked ? 'Locked mode' : 'Editing mode', style: GoogleFonts.figtree(fontSize: 13, color: _isLocked ? const Color(0xFFEF4444) : _textMuted)),
-              ]),
+              decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Roster · ${_filteredRoster.length} of ${_filteredRoster.length}',
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: _textDark,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    _isLocked ? 'Locked mode' : 'Editing mode',
+                    style: GoogleFonts.figtree(
+                      fontSize: 13,
+                      color: _isLocked ? const Color(0xFFEF4444) : _textMuted,
+                    ),
+                  ),
+                ],
+              ),
             )
-          else 
+          else
             Container(
               margin: const EdgeInsets.only(bottom: 16),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -628,30 +987,50 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: const Color(0xFFE5E7EB)),
               ),
-              child: Text("Today's Attendance Log (${_filteredRoster.length})", style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+              child: Text(
+                "Today's Attendance Log (${_filteredRoster.length})",
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
             ),
           if (_filteredRoster.isEmpty)
-            Padding(padding: const EdgeInsets.all(32), child: Text('No staff found.', style: GoogleFonts.figtree(fontSize: 16, color: _textMuted))),
-          if (_filteredRoster.isNotEmpty && _isTablet)
-            _buildTableHeader(),
-          if (_isTablet) ..._filteredRoster.map(_buildDesktopRow) else ..._filteredRoster.asMap().entries.map((e) {
-            final idx = e.key;
-            final item = e.value;
-            return Column(
-              children: [
-                _buildMobileCard(item),
-                if (idx != _filteredRoster.length - 1)
-                  const Divider(height: 1, color: Color(0xFFF3F4F6)),
-              ],
-            );
-          }),
+            Padding(
+              padding: const EdgeInsets.all(32),
+              child: Text(
+                'No staff found.',
+                style: GoogleFonts.figtree(fontSize: 16, color: _textMuted),
+              ),
+            ),
+          if (_filteredRoster.isNotEmpty && _isTablet) _buildTableHeader(),
+          if (_isTablet)
+            ..._filteredRoster.map(_buildDesktopRow)
+          else
+            ..._filteredRoster.asMap().entries.map((e) {
+              final idx = e.key;
+              final item = e.value;
+              return Column(
+                children: [
+                  _buildMobileCard(item),
+                  if (idx != _filteredRoster.length - 1)
+                    const Divider(height: 1, color: Color(0xFFF3F4F6)),
+                ],
+              );
+            }),
         ],
       ),
     );
   }
-  
+
   void _showStaffDetails(Map<String, dynamic> staff) {
-    String initials = staff['name'].toString().split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
+    String initials = staff['name']
+        .toString()
+        .split(' ')
+        .map((e) => e.isNotEmpty ? e[0] : '')
+        .take(2)
+        .join();
     final colors = [
       (const Color(0xFFEBEBFF), const Color(0xFF6366F1)),
       (const Color(0xFFE0F2FE), const Color(0xFF0EA5E9)),
@@ -681,8 +1060,12 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             // Handle bar
             Center(
               child: Container(
-                width: 40, height: 4,
-                decoration: BoxDecoration(color: const Color(0xFFE5E7EB), borderRadius: BorderRadius.circular(2)),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFE5E7EB),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -692,16 +1075,36 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                 CircleAvatar(
                   radius: 28,
                   backgroundColor: avatarBg,
-                  child: Text(initials, style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: avatarFg)),
+                  child: Text(
+                    initials,
+                    style: GoogleFonts.figtree(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: avatarFg,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(staff['name'], style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        staff['name'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(staff['role'] ?? staff['department'] ?? '', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                      Text(
+                        staff['role'] ?? staff['department'] ?? '',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -744,9 +1147,18 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                   backgroundColor: const Color(0xFF8463E9),
                   elevation: 0,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: Text('Close', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                child: Text(
+                  'Close',
+                  style: GoogleFonts.figtree(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
@@ -761,27 +1173,70 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
-          Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
+          ),
+          Text(
+            value,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildMobileCard(Map<String, dynamic> item) {
-    String initials = item['name'].toString().split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join();
-    if (initials.length > 2 && item['name'].toString().startsWith('Dr. ')) initials = item['name'].toString().substring(4).split(' ').map((e) => e[0]).take(2).join();
-    if (initials.length > 2 && item['name'].toString().startsWith('Mr. ')) initials = item['name'].toString().substring(4).split(' ').map((e) => e[0]).take(2).join();
-    if (initials.length > 2 && item['name'].toString().startsWith('Ms. ')) initials = item['name'].toString().substring(4).split(' ').map((e) => e[0]).take(2).join();
-    if (initials.length > 2 && item['name'].toString().startsWith('Mrs. ')) initials = item['name'].toString().substring(5).split(' ').map((e) => e[0]).take(2).join();
+    String initials = item['name']
+        .toString()
+        .split(' ')
+        .map((e) => e.isNotEmpty ? e[0] : '')
+        .take(2)
+        .join();
+    if (initials.length > 2 && item['name'].toString().startsWith('Dr. '))
+      initials = item['name']
+          .toString()
+          .substring(4)
+          .split(' ')
+          .map((e) => e[0])
+          .take(2)
+          .join();
+    if (initials.length > 2 && item['name'].toString().startsWith('Mr. '))
+      initials = item['name']
+          .toString()
+          .substring(4)
+          .split(' ')
+          .map((e) => e[0])
+          .take(2)
+          .join();
+    if (initials.length > 2 && item['name'].toString().startsWith('Ms. '))
+      initials = item['name']
+          .toString()
+          .substring(4)
+          .split(' ')
+          .map((e) => e[0])
+          .take(2)
+          .join();
+    if (initials.length > 2 && item['name'].toString().startsWith('Mrs. '))
+      initials = item['name']
+          .toString()
+          .substring(5)
+          .split(' ')
+          .map((e) => e[0])
+          .take(2)
+          .join();
 
     final colors = [
-      (const Color(0xFFEBEBFF), const Color(0xFF6366F1)), 
-      (const Color(0xFFE0F2FE), const Color(0xFF0EA5E9)), 
-      (const Color(0xFFDCFCE7), const Color(0xFF22C55E)), 
-      (const Color(0xFFFEF3C7), const Color(0xFFF59E0B)), 
-      (const Color(0xFFFEE2E2), const Color(0xFFEF4444)), 
-      (const Color(0xFFF3E8FF), const Color(0xFF9333EA)), 
+      (const Color(0xFFEBEBFF), const Color(0xFF6366F1)),
+      (const Color(0xFFE0F2FE), const Color(0xFF0EA5E9)),
+      (const Color(0xFFDCFCE7), const Color(0xFF22C55E)),
+      (const Color(0xFFFEF3C7), const Color(0xFFF59E0B)),
+      (const Color(0xFFFEE2E2), const Color(0xFFEF4444)),
+      (const Color(0xFFF3E8FF), const Color(0xFF9333EA)),
     ];
     int hash = item['name'].toString().codeUnits.fold(0, (a, b) => a + b);
     final avatarBg = colors[hash % colors.length].$1;
@@ -794,66 +1249,165 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         color: Colors.transparent,
         child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundColor: avatarBg,
-            child: Text(initials, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: avatarFg)),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              backgroundColor: avatarBg,
+              child: Text(
+                initials,
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: avatarFg,
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          item['name'],
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          item['department'],
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            color: _textMuted,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          item['checkIn'] ?? '—',
+                          style: GoogleFonts.figtree(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          '— ${item['checkOut'] ?? '—'}',
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            color: _textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(item['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-                      const SizedBox(height: 2),
-                      Text(item['department'], style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-                      const SizedBox(height: 12),
-                      Text(item['checkIn'] ?? '—', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                      const SizedBox(height: 2),
-                      Text('— ${item['checkOut'] ?? '—'}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                      _buildStatusBadge(item['status']),
+                      const SizedBox(height: 24),
+                      Text(
+                        '7h 53m',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _buildStatusBadge(item['status']),
-                    const SizedBox(height: 24),
-                    Text('7h 53m', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 12),
-          const Icon(LucideIcons.chevronRight, size: 20, color: Color(0xFFD1D5DB)),
-        ],
+            const SizedBox(width: 12),
+            const Icon(
+              LucideIcons.chevronRight,
+              size: 20,
+              color: Color(0xFFD1D5DB),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   Widget _buildDesktopRow(Map<String, dynamic> item) {
     final isLast = item == _filteredRoster.last;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFE5E7EB)))),
+      decoration: BoxDecoration(
+        border: isLast
+            ? null
+            : const Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(width: 70, child: Text(item['empId'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-          Expanded(flex: 2, child: Text(item['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-          Expanded(flex: 2, child: Text(item['department'], style: GoogleFonts.figtree(fontSize: 13, color: _textDark))),
-          Expanded(flex: 2, child: Text(item['role'], style: GoogleFonts.figtree(fontSize: 13, color: _textDark))),
-          Expanded(flex: 1, child: Text(item['shift'], style: GoogleFonts.figtree(fontSize: 13, color: _textDark))),
+          SizedBox(
+            width: 70,
+            child: Text(
+              item['empId'],
+              style: GoogleFonts.figtree(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: _textDark,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              item['name'],
+              style: GoogleFonts.figtree(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: _textDark,
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              item['department'],
+              style: GoogleFonts.figtree(fontSize: 13, color: _textDark),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(
+              item['role'],
+              style: GoogleFonts.figtree(fontSize: 13, color: _textDark),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              item['shift'],
+              style: GoogleFonts.figtree(fontSize: 13, color: _textDark),
+            ),
+          ),
           Expanded(flex: 1, child: _buildStatusBadge(item['status'])),
-          Expanded(flex: 1, child: Text(item['checkIn'] ?? '—', style: GoogleFonts.figtree(fontSize: 14, color: _textDark))),
-          Expanded(flex: 1, child: Text(item['checkOut'] ?? '—', style: GoogleFonts.figtree(fontSize: 14, color: _textDark))),
+          Expanded(
+            flex: 1,
+            child: Text(
+              item['checkIn'] ?? '—',
+              style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Text(
+              item['checkOut'] ?? '—',
+              style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
+            ),
+          ),
           Expanded(flex: 2, child: _buildMarkControls(item)),
           Expanded(flex: 2, child: _buildRemarksField(item)),
         ],
@@ -864,10 +1418,15 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget _buildTableHeader() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB)))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+      ),
       child: Row(
         children: [
-          SizedBox(width: 70, child: Text('Employee ID', style: _headerStyle())),
+          SizedBox(
+            width: 70,
+            child: Text('Employee ID', style: _headerStyle()),
+          ),
           Expanded(flex: 2, child: Text('Staff Name', style: _headerStyle())),
           Expanded(flex: 2, child: Text('Department', style: _headerStyle())),
           Expanded(flex: 2, child: Text('Role', style: _headerStyle())),
@@ -882,20 +1441,43 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     );
   }
 
-  TextStyle _headerStyle() => GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF8F96A3));
+  TextStyle _headerStyle() => GoogleFonts.figtree(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: const Color(0xFF8F96A3),
+  );
 
   Widget _buildStatusBadge(String status) {
     Color color;
     Color bgColor;
-    if (status == 'Present') { color = const Color(0xFF22C55E); bgColor = const Color(0xFFDCFCE7); }
-    else if (status == 'Absent') { color = const Color(0xFFEF4444); bgColor = const Color(0xFFFEE2E2); }
-    else if (status == 'Late') { color = const Color(0xFF0EA5E9); bgColor = const Color(0xFFE0F2FE); }
-    else { color = const Color(0xFFF59E0B); bgColor = const Color(0xFFFEF3C7); } // On Leave
+    if (status == 'Present') {
+      color = const Color(0xFF22C55E);
+      bgColor = const Color(0xFFDCFCE7);
+    } else if (status == 'Absent') {
+      color = const Color(0xFFEF4444);
+      bgColor = const Color(0xFFFEE2E2);
+    } else if (status == 'Late') {
+      color = const Color(0xFF0EA5E9);
+      bgColor = const Color(0xFFE0F2FE);
+    } else {
+      color = const Color(0xFFF59E0B);
+      bgColor = const Color(0xFFFEF3C7);
+    } // On Leave
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(12)),
-      child: Text(status, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w700, color: color)),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        status,
+        style: GoogleFonts.figtree(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: color,
+        ),
+      ),
     );
   }
 
@@ -904,28 +1486,63 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     return Opacity(
       opacity: _isLocked ? 0.5 : 1.0,
       child: Container(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFFE5E7EB))),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildMarkBtn('P', status == 'Present', const Color(0xFF22C55E), () { if (!_isLocked) _handleMark(item, 'Present'); }),
+            _buildMarkBtn(
+              'P',
+              status == 'Present',
+              const Color(0xFF22C55E),
+              () {
+                if (!_isLocked) _handleMark(item, 'Present');
+              },
+            ),
             Container(width: 1, height: 24, color: const Color(0xFFE5E7EB)),
-            _buildMarkBtn('L', status == 'Late', const Color(0xFFF59E0B), () { if (!_isLocked) _handleMark(item, 'Late'); }),
+            _buildMarkBtn('L', status == 'Late', const Color(0xFFF59E0B), () {
+              if (!_isLocked) _handleMark(item, 'Late');
+            }),
             Container(width: 1, height: 24, color: const Color(0xFFE5E7EB)),
-            _buildMarkBtn('Lv', status == 'On Leave', const Color(0xFF3B82F6), () { if (!_isLocked) _handleMark(item, 'On Leave'); }),
+            _buildMarkBtn(
+              'Lv',
+              status == 'On Leave',
+              const Color(0xFF3B82F6),
+              () {
+                if (!_isLocked) _handleMark(item, 'On Leave');
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMarkBtn(String label, bool isSelected, Color activeColor, VoidCallback onTap) {
+  Widget _buildMarkBtn(
+    String label,
+    bool isSelected,
+    Color activeColor,
+    VoidCallback onTap,
+  ) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(color: isSelected ? activeColor : Colors.transparent, borderRadius: BorderRadius.circular(3)),
-        child: Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w700, color: isSelected ? Colors.white : _textDark)),
+        decoration: BoxDecoration(
+          color: isSelected ? activeColor : Colors.transparent,
+          borderRadius: BorderRadius.circular(3),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+            color: isSelected ? Colors.white : _textDark,
+          ),
+        ),
       ),
     );
   }
@@ -933,7 +1550,11 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget _buildRemarksField(Map<String, dynamic> item) {
     return Container(
       height: 36,
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(4), border: Border.all(color: const Color(0xFFE5E7EB))),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: const Color(0xFFE5E7EB)),
+      ),
       child: TextField(
         enabled: !_isLocked,
         controller: TextEditingController(text: item['remarks']),
@@ -952,7 +1573,13 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     return Container(
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(color: Color(0xFFEBEBEB))),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, -4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -961,14 +1588,39 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

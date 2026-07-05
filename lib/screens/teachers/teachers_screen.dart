@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../../screens/auth/menu_screen.dart';
 import 'teacher_details_screen.dart';
 
@@ -38,6 +39,7 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Teacher Insights'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -784,4 +786,3 @@ class _TeacherInsightsScreenState extends State<TeacherInsightsScreen> {
     );
   }
 }
-

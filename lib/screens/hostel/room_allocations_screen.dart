@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 
 class RoomAllocationsScreen extends StatelessWidget {
@@ -13,18 +14,7 @@ class RoomAllocationsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Room Allocations'),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bedDouble), label: 'Hostel'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.settings), label: 'Settings'),
-        ],
-        currentIndex: 1,
-        selectedItemColor: const Color(0xFF6366F1),
-        unselectedItemColor: Colors.grey,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-      ),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -34,7 +24,10 @@ class RoomAllocationsScreen extends StatelessWidget {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 16),
@@ -46,13 +39,61 @@ class RoomAllocationsScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   _buildListHeader(),
                   const SizedBox(height: 16),
-                  _buildAllocationCard('AM', 'Aarav Mehta', 'ADM2024-101', 'Allocated', const Color(0xFF10B981), const Color(0xFFD1FAE5), '9-A', 'Boys', 'Aryabhata', 'B2', '12 Jun 2025'),
+                  _buildAllocationCard(
+                    'AM',
+                    'Aarav Mehta',
+                    'ADM2024-101',
+                    'Allocated',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    '9-A',
+                    'Boys',
+                    'Aryabhata',
+                    'B2',
+                    '12 Jun 2025',
+                  ),
                   const SizedBox(height: 12),
-                  _buildAllocationCard('DS', 'Diya Sharma', 'ADM2024-118', 'Allocated', const Color(0xFF10B981), const Color(0xFFD1FAE5), '10-B', 'Girls', 'Draupadi', 'B1', '12 Jun 2025'),
+                  _buildAllocationCard(
+                    'DS',
+                    'Diya Sharma',
+                    'ADM2024-118',
+                    'Allocated',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    '10-B',
+                    'Girls',
+                    'Draupadi',
+                    'B1',
+                    '12 Jun 2025',
+                  ),
                   const SizedBox(height: 12),
-                  _buildAllocationCard('KS', 'Kabir Singh', 'ADM2024-122', 'Allocated', const Color(0xFF10B981), const Color(0xFFD1FAE5), '11-A', 'Boys', 'Bhaskara', 'B3', '14 Jun 2025'),
+                  _buildAllocationCard(
+                    'KS',
+                    'Kabir Singh',
+                    'ADM2024-122',
+                    'Allocated',
+                    const Color(0xFF10B981),
+                    const Color(0xFFD1FAE5),
+                    '11-A',
+                    'Boys',
+                    'Bhaskara',
+                    'B3',
+                    '14 Jun 2025',
+                  ),
                   const SizedBox(height: 12),
-                  _buildAllocationCard('IR', 'Ishita Roy', 'ADM2025-008', 'Pending', const Color(0xFFF59E0B), const Color(0xFFFEF3C7), '9-C', 'Girls', 'Ferozshah', '--', ''),
+                  _buildAllocationCard(
+                    'IR',
+                    'Ishita Roy',
+                    'ADM2025-008',
+                    'Pending',
+                    const Color(0xFFF59E0B),
+                    const Color(0xFFFEF3C7),
+                    '9-C',
+                    'Girls',
+                    'Ferozshah',
+                    '--',
+                    '',
+                  ),
                   const SizedBox(height: 24),
                 ],
               ),
@@ -126,22 +167,59 @@ class RoomAllocationsScreen extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.15,
       children: [
-        _buildStatCard('8', 'Total Records', LucideIcons.users, const Color(0xFF8B5CF6), const Color(0xFFEDE9FE), true),
-        _buildStatCard('5', 'Allocated', LucideIcons.bedDouble, const Color(0xFF10B981), const Color(0xFFD1FAE5), false),
-        _buildStatCard('2', 'Pending Requests', LucideIcons.clipboardList, const Color(0xFFF59E0B), const Color(0xFFFEF3C7), false),
-        _buildStatCard('1', 'Checked Out', LucideIcons.doorOpen, const Color(0xFF64748B), const Color(0xFFF1F5F9), false),
+        _buildStatCard(
+          '8',
+          'Total Records',
+          LucideIcons.users,
+          const Color(0xFF8B5CF6),
+          const Color(0xFFEDE9FE),
+          true,
+        ),
+        _buildStatCard(
+          '5',
+          'Allocated',
+          LucideIcons.bedDouble,
+          const Color(0xFF10B981),
+          const Color(0xFFD1FAE5),
+          false,
+        ),
+        _buildStatCard(
+          '2',
+          'Pending Requests',
+          LucideIcons.clipboardList,
+          const Color(0xFFF59E0B),
+          const Color(0xFFFEF3C7),
+          false,
+        ),
+        _buildStatCard(
+          '1',
+          'Checked Out',
+          LucideIcons.doorOpen,
+          const Color(0xFF64748B),
+          const Color(0xFFF1F5F9),
+          false,
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String value, String label, IconData icon, Color iconColor, Color iconBg, bool isActive) {
+  Widget _buildStatCard(
+    String value,
+    String label,
+    IconData icon,
+    Color iconColor,
+    Color iconBg,
+    bool isActive,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isActive ? iconColor.withValues(alpha: 0.4) : Colors.grey.withValues(alpha: 0.15),
+          color: isActive
+              ? iconColor.withValues(alpha: 0.4)
+              : Colors.grey.withValues(alpha: 0.15),
           width: 1.5,
         ),
         boxShadow: [
@@ -232,7 +310,11 @@ class RoomAllocationsScreen extends StatelessWidget {
           ),
           child: Row(
             children: [
-              const Icon(LucideIcons.listFilter, size: 14, color: Color(0xFF181821)),
+              const Icon(
+                LucideIcons.listFilter,
+                size: 14,
+                color: Color(0xFF181821),
+              ),
               const SizedBox(width: 6),
               Text(
                 'Filter',
@@ -388,7 +470,13 @@ class RoomAllocationsScreen extends StatelessWidget {
                         ),
                         if (date.isNotEmpty) ...[
                           const SizedBox(width: 8),
-                          const Text('·', style: TextStyle(color: Color(0xFF595973), fontWeight: FontWeight.bold)),
+                          const Text(
+                            '·',
+                            style: TextStyle(
+                              color: Color(0xFF595973),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             date,

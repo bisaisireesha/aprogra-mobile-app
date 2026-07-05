@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/library_mock.dart';
 import '../auth/menu_screen.dart';
@@ -175,9 +176,10 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -421,10 +423,8 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -630,7 +630,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -785,7 +785,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -1019,7 +1019,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
               ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1250,7 +1250,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         if (_isTablet)
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1266,9 +1266,9 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
           Column(
             children: [
               _buildTopBorrowersList(),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildPendingReturnsList(),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildReadingAwardsList(),
             ],
           ),
@@ -1677,7 +1677,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -1778,7 +1778,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Wrap(
                 spacing: 16,
                 runSpacing: 8,
@@ -1904,7 +1904,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -2049,7 +2049,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -2257,7 +2257,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -2410,7 +2410,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -2584,7 +2584,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -2768,7 +2768,7 @@ class _LibraryInsightsScreenState extends State<LibraryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
           decoration: BoxDecoration(

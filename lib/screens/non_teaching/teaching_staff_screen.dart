@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -334,9 +335,10 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -388,6 +390,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
             ),
           ],
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -423,7 +426,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 TextField(
                   controller: roleController,
                   decoration: InputDecoration(
@@ -434,7 +437,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 TextField(
                   controller: deptController,
                   decoration: InputDecoration(
@@ -660,7 +663,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
             Expanded(child: _buildStatusToggle('Probation')),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -1112,7 +1115,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
                 )
                 .toList(),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               const Icon(
@@ -1132,7 +1135,7 @@ class _TeachingStaffScreenState extends State<TeachingStaffScreen> {
           ),
           const SizedBox(height: 20),
           const Divider(height: 1, color: Color(0xFFE5E7EB)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

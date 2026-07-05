@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -76,9 +77,9 @@ class InvoiceDetailsModal extends StatelessWidget {
               child: Column(
                 children: [
                   _buildStudentInfoCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildInvoiceDetailsCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildInvoiceItemsCard(amtStr),
                   const SizedBox(height: 24), // padding for bottom bar
                 ],
@@ -148,7 +149,7 @@ class InvoiceDetailsModal extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Student Information', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -186,7 +187,7 @@ class InvoiceDetailsModal extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Invoice Details', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildReadonlyField('Invoice Date', invoice['issued'] ?? 'N/A')),
@@ -194,7 +195,7 @@ class InvoiceDetailsModal extends StatelessWidget {
               Expanded(child: _buildReadonlyField('Due Date', invoice['due'] ?? 'N/A')),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(child: _buildReadonlyField('Invoice Type', invoice['type'] ?? 'Tuition Fee')),
@@ -307,7 +308,7 @@ class InvoiceDetailsModal extends StatelessWidget {
                     Text('0.00', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF22C55E))),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

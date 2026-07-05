@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -322,7 +323,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Column(
@@ -365,6 +366,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
             elevation: 0,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -758,7 +760,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               _buildPopupMenu(item),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Text(
@@ -773,7 +775,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
               _buildTypeBadge(item['type']),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1077,11 +1079,11 @@ class _ExamsScreenState extends State<ExamsScreen> {
       return GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
-          mainAxisExtent: 180,
+          mainAxisExtent: 195.h,
         ),
         itemCount: _currentSeating.length,
         itemBuilder: (context, index) =>
@@ -1293,7 +1295,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -1388,7 +1390,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
       return Column(
         children: [
           _buildResultDropdown('EXAM', 'Unit Test 1 · Class 5A'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildResultDropdown('PAPER', 'English · 2026-07-01'),
         ],
       );
@@ -1469,7 +1471,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
         crossAxisCount: _isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 110,
+        mainAxisExtent: 125.h,
       ),
       itemCount: kpis.length,
       itemBuilder: (context, index) {

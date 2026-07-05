@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -138,17 +139,17 @@ class HostelDashboardScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildReportCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildQuickActionsCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildTodaysScheduleCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildPendingTasksCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildMaintenanceCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildNoticesCard(),
                     const SizedBox(height: 24),
                   ],
@@ -1238,7 +1239,7 @@ class HostelDashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   Expanded(

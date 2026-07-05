@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -355,13 +356,13 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
                         _buildKPIs(),
                         const SizedBox(height: 20),
                         _buildSearchRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildTabsRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildCountStatusRow(),
                         const SizedBox(height: 12),
                         _buildInvoiceContainer(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildPagination(),
                         const SizedBox(height: 24),
                         _buildStatusBreakdown(),
@@ -382,9 +383,10 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
   }
 
   // ── Header: title left | Export + Create right, description below
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -490,9 +492,14 @@ class _InvoicesScreenState extends State<InvoicesScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Browse, filter, and manage all student invoices across classes and terms.',
-          style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+          'Invoices',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
+          ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -250,7 +251,7 @@ class _FeeStructureScreenState extends State<FeeStructureScreen> {
                         _buildKPIs(),
                         const SizedBox(height: 24),
                         _buildTabs(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildClassesList(),
                         const SizedBox(height: 60),
                       ],

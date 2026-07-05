@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -30,13 +31,13 @@ class RoomAllocationsScreen extends StatelessWidget {
                 ),
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildActionRow(),
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildListHeader(),
                   const SizedBox(height: 16),
                   _buildAllocationCard(
@@ -104,27 +105,20 @@ class RoomAllocationsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Room Allocations',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Students assigned to hostel rooms\nand beds across all blocks.',
-          style: GoogleFonts.inter(
-            fontSize: 14,
-            height: 1.4,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -416,7 +410,7 @@ class RoomAllocationsScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(

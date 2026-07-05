@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -77,7 +78,7 @@ class TeacherDetailsScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(initials, style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Text(name, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
                 const SizedBox(height: 4),
                 Text('$subject Department', style: GoogleFonts.figtree(fontSize: 13, color: _textDark.withValues(alpha: 0.8))),
@@ -148,7 +149,7 @@ class TeacherDetailsScreen extends StatelessWidget {
                 _buildTimelineItem('Period 4', '10:35 – 11:20 AM', 'Free Period', false),
                 _buildTimelineItem('Period 5', '11:40 – 12:25 PM', '9B - $subject', true, isLast: true),
                 
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -179,7 +180,7 @@ class TeacherDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -32,7 +33,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Reports'),
+      drawer: const MenuScreen(activeScreen: 'Staff Reports'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -151,9 +152,10 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -194,6 +196,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -607,7 +610,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...templates.map((t) => _buildReportTemplateCard(t)),
       ],
     );

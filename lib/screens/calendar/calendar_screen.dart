@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -465,7 +466,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildHeader(context),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                     ],
                   ),
                 ),
@@ -675,7 +676,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen>
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: weekDays.asMap().entries.map((entry) {
@@ -871,7 +872,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen>
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               if (dateEvents.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -1729,7 +1730,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen>
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           // Categories List (Mocking the table design of Lovable)
           Container(
             decoration: BoxDecoration(
@@ -2035,7 +2036,7 @@ class _SchoolCalendarScreenState extends State<SchoolCalendarScreen>
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       children: [
                         Expanded(

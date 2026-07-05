@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -443,56 +444,20 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Teachers',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF111827),
-                  letterSpacing: -0.5,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'All teaching staff across pre-primary, primary, and secondary levels.',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  color: const Color(0xFF6B7280),
-                ),
-              ),
-            ],
+        Text(
+          'Teachers',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(width: 16),
-        ElevatedButton.icon(
-          onPressed: _showAddTeacherPopup,
-          icon: const Icon(LucideIcons.plus, size: 18, color: Colors.white),
-          label: Text(
-            'Add Teacher',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF6366F1),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -805,7 +770,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
                   Expanded(child: prePrimaryCard),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 children: [
                   Expanded(child: primaryCard),
@@ -872,7 +837,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
               ),
               child: Icon(icon, size: 20, color: iconColor),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Text(
               value,
               style: GoogleFonts.inter(
@@ -987,7 +952,7 @@ class _TeachersListScreenState extends State<TeachersListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   searchField,
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   showingText,
                 ],
               );

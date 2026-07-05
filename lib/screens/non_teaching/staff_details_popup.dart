@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -79,7 +80,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       _buildTabs(),
                       const SizedBox(height: 24),
                       _buildContent(),
@@ -316,7 +317,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: roleController,
                 decoration: InputDecoration(
@@ -324,7 +325,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               TextField(
                 controller: deptController,
                 decoration: InputDecoration(
@@ -391,7 +392,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _CollapsibleSection(
               title: 'Contact',
               subtitle: 'Phone, email & emergency contact',
@@ -408,7 +409,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _CollapsibleSection(
               title: 'Employment',
               subtitle: 'Job role, department & reporting',
@@ -427,7 +428,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _CollapsibleSection(
               title: 'Qualifications',
               subtitle: 'Education, skills & experience',
@@ -507,7 +508,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
                   const Icon(LucideIcons.chevronRight, size: 20, color: _textDark),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -536,12 +537,12 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
           {'icon': LucideIcons.checkCircle, 'label': 'Attendance', 'value': '94%'},
           {'icon': LucideIcons.xCircle, 'label': 'Absent days', 'value': '4'},
         ]),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildStatCard('YEAR-TO-DATE', [
           {'icon': LucideIcons.activity, 'label': 'Avg. attendance', 'value': '92%'},
           {'icon': LucideIcons.clock, 'label': 'Late marks', 'value': '3'},
         ]),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildStatCard('PUNCTUALITY', [
           {'icon': LucideIcons.zap, 'label': 'Streak', 'value': '22 days'},
           {'icon': LucideIcons.alertTriangle, 'label': 'Warnings', 'value': '0'},
@@ -581,7 +582,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('ASSIGNED DUTIES', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildDutyRow(
                 widget.staff['department'] == 'Security' ? 'Main Gate · Day Shift' : 
                 widget.staff['department'] == 'Transport' ? 'Morning Route' : 
@@ -619,15 +620,15 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
               Text('THIS WEEK\\\'S SCHEDULE', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
               const SizedBox(height: 20),
               _buildScheduleRow('Mon', '08:00 – 16:00 · ${widget.staff['department']} Dept'),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildScheduleRow('Tue', '08:00 – 16:00 · ${widget.staff['department']} Dept'),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildScheduleRow('Wed', '08:00 – 16:00 · ${widget.staff['department']} Dept'),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildScheduleRow('Thu', '08:00 – 16:00 · ${widget.staff['department']} Dept'),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildScheduleRow('Fri', '08:00 – 16:00 · ${widget.staff['department']} Dept'),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildScheduleRow('Sat', '08:00 – 12:00 · ${widget.staff['department']} Dept'),
             ],
           ),
@@ -701,7 +702,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('RECENT PAYSLIPS', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildPayslipRow('May 2026', 'Gross ₹28,000 · Net ₹24,640'),
               const Divider(color: _cardBorder, height: 32),
               _buildPayslipRow('Apr 2026', 'Gross ₹28,000 · Net ₹24,640'),
@@ -724,7 +725,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('BANK & TAX', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildBankRow(LucideIcons.wallet, 'Salary Account', '${_mockData['bank']} · ${_mockData['acc']}'),
               _buildBankRow(LucideIcons.creditCard, 'PAN Number', _mockData['pan']!),
               _buildBankRow(LucideIcons.fileText, 'PF Account', 'MH/BAN/12345/678'),
@@ -835,7 +836,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('LEAVE BALANCES', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildLeaveBalanceRow('Casual Leave', '2 / 8'),
               _buildLeaveBalanceRow('Sick Leave', '4 / 10'),
               _buildLeaveBalanceRow('Earned Leave', '6 / 6'),
@@ -854,7 +855,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('RECENT APPLICATIONS', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildLeaveAppRow('Casual Leave', '14 – 15 Apr 2026', 'Approved', true),
               const Divider(color: _cardBorder, height: 32),
               _buildLeaveAppRow('Sick Leave', '02 Mar 2026', 'Approved', true),
@@ -944,7 +945,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             _buildDocRow('Passport', true, 'Verified'),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDocumentCard(
           'EMPLOYMENT DOCUMENTS',
           [
@@ -954,7 +955,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             _buildDocRow('Background Verification', true, 'On file'),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDocumentCard(
           'EDUCATION / SKILL',
           [
@@ -964,7 +965,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
             _buildDocRow('Certifications', true, 'Verified'),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildDocumentCard(
           'COMPLIANCE',
           [
@@ -998,7 +999,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),
@@ -1208,7 +1209,7 @@ class _StaffDetailsPopupState extends State<StaffDetailsPopup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.w700, color: _textMuted)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...rows.map((row) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Row(
@@ -1360,7 +1361,7 @@ class _CollapsibleSectionState extends State<_CollapsibleSection> {
               ],
             ),
             if (_isExpanded) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               const Divider(color: _cardBorder, height: 1),
               const SizedBox(height: 8),
               widget.content,

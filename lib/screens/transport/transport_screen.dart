@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -231,14 +232,6 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
-          Builder(
-            builder: (context) => GestureDetector(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: const Icon(Icons.menu, color: _textDark, size: 28),
-            ),
-          ),
           const SizedBox(width: 16),
           Expanded(
             child: Container(
@@ -581,7 +574,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -714,7 +707,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             width: double.infinity,
             height: 100,
@@ -795,7 +788,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

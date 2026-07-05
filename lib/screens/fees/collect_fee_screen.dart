@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -267,9 +268,9 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
                         _buildHeader(context),
                         const SizedBox(height: 20),
                         _buildCollectionAnalytics(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildSearchStudent(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildStudentList(),
                       ],
                     ),
@@ -1717,9 +1718,9 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
                           ),
                           const SizedBox(height: 16),
                           _buildPaymentSummaryCard(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildApplyDiscountCard(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildPaymentNoteCard(),
                           const SizedBox(height: 100),
                         ] else ...[
@@ -2098,7 +2099,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         // Receipt card
         Container(
           padding: const EdgeInsets.all(24),
@@ -2141,7 +2142,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         // Action buttons
         Row(
           children: [
@@ -2274,13 +2275,13 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           ),
           const SizedBox(height: 24),
           _infoRow(LucideIcons.hash, 'Admission No.', s['id']),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.graduationCap, 'Academic Year', 'AY 2025–26'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.user, 'Parent / Guardian', 'Rajesh Sharma'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.phone, 'Contact', '+91 98210 44312'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _infoRow(LucideIcons.mail, 'Email', 'rajesh.sharma@gmail.com'),
         ],
       ),
@@ -2763,7 +2764,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
           _summaryRow('Subtotal', '₹27,200.00'),
           _summaryRow('Discount', '–'),
           _summaryRow('Late Fee', '+ ₹250.00', isAdd: true),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -2908,7 +2909,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -2970,7 +2971,7 @@ class _CollectFeeScreenState extends State<CollectFeeScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           TextField(
             controller: _noteController,
             maxLines: 4,

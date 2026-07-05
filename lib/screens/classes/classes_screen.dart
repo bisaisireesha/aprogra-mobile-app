@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/mock_data/classes_mock.dart';
 import '../../data/mock_data/dashboard_mock.dart';
@@ -59,19 +60,19 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           _buildKpiGrid(),
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                           _buildFilterButtons(),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           _buildClassSectionsGrid(),
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                           _buildOldBottomSections(),
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                           _buildClassDistribution(),
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                           _buildNewBottomSections(),
-                          const SizedBox(height: 32),
+                          SizedBox(height: 32.h),
                           _buildFinalDashboardSections(),
                         ],
                       ),
@@ -108,18 +109,18 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Container(
-                height: 40,
+                height: 40.h,
                 decoration: BoxDecoration(
                   color: const Color(0xFFF5F6F8),
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(8.r),
                   border: Border.all(color: const Color(0xFFE5E7EB)),
                 ),
                 child: TextField(
                   controller: _searchController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Search...',
                     hintStyle: TextStyle(
                       color: Color(0xFF8F96A3),
@@ -229,11 +230,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
   Widget _buildCreateButton() {
     return ElevatedButton.icon(
       onPressed: _showCreateClassPopup,
-      icon: const Icon(Icons.add, size: 18, color: Colors.white),
+      icon: Icon(Icons.add, size: 18, color: Colors.white),
       label: Text(
         'Create Class',
         style: GoogleFonts.figtree(
-          fontSize: 14,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
           color: Colors.white,
         ),
@@ -276,7 +277,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisCount: _isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 140, // Square-like vertical layout
+        mainAxisExtent: 140.h,
       ),
       itemCount: ClassesMockData.classesKPIs.length,
       itemBuilder: (context, index) {
@@ -284,7 +285,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         final iconColor = kpi['color'] as Color;
 
         return Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.w),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -299,7 +300,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Icon(kpi['icon'] as IconData, size: 24, color: iconColor),
               Column(
@@ -345,7 +345,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(flex: 7, child: _buildRecentActivity()),
-              const SizedBox(width: 24),
+              SizedBox(width: 24.w),
               Expanded(flex: 5, child: _buildRequiringAttention()),
             ],
           );
@@ -353,7 +353,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         return Column(
           children: [
             _buildRecentActivity(),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             _buildRequiringAttention(),
           ],
         );
@@ -386,7 +386,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16.h),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -407,11 +407,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w),
                     child: Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(8),
+                          padding: EdgeInsets.all(8.w),
                           decoration: BoxDecoration(
                             color: (activity['color'] as Color).withValues(
                               alpha: 0.1,
@@ -424,7 +424,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                             color: activity['color'] as Color,
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        SizedBox(width: 16.w),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,7 +506,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -527,7 +527,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                           size: 20,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -555,7 +555,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -580,9 +580,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.w),
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final isWide = constraints.maxWidth > 300;
@@ -593,7 +593,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     crossAxisCount: isWide ? 2 : 1,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    mainAxisExtent: 160, // Increased height to prevent overflow
+                    mainAxisExtent: 180.h,
                   ),
                   itemCount: ClassesMockData.classesRequiringAttention.length,
                   itemBuilder: (context, index) {
@@ -602,10 +602,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     final badgeColor = alert['badgeColor'] as Color;
 
                     return Container(
-                      padding: const EdgeInsets.all(16),
+                      padding: EdgeInsets.all(16.w),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         border: Border.all(color: const Color(0xFFEBEBEB)),
                       ),
                       child: Column(
@@ -666,7 +666,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                               );
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              padding: EdgeInsets.symmetric(vertical: 4.w),
                               child: Row(
                                 children: [
                                   Text(
@@ -695,7 +695,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
               },
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
         ],
       ),
     );
@@ -742,9 +742,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
             return Column(
               children: [
                 _buildDistributionCard(ClassesMockData.classDistribution[0]),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildDistributionCard(ClassesMockData.classDistribution[1]),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 _buildDistributionCard(ClassesMockData.classDistribution[2]),
               ],
             );
@@ -756,10 +756,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
 
   Widget _buildDistributionCard(Map<String, dynamic> data) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Column(
@@ -795,10 +795,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
           ),
           const SizedBox(height: 16),
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
               color: const Color(0xFFF9F9FB),
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
               children: [
@@ -825,8 +825,8 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ],
                   ),
                 ),
-                Container(width: 1, height: 24, color: const Color(0xFFEBEBEB)),
-                const SizedBox(width: 16),
+                Container(width: 1.w, height: 24.h, color: const Color(0xFFEBEBEB)),
+                SizedBox(width: 16.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -862,9 +862,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
     return Row(
       children: [
         Expanded(child: _buildFilterButton('Pre-Primary', 1)),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         Expanded(child: _buildFilterButton('Primary', 2)),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         Expanded(child: _buildFilterButton('Secondary', 3)),
       ],
     );
@@ -879,7 +879,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         });
       },
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: EdgeInsets.symmetric(vertical: 12.w),
         decoration: BoxDecoration(
           color: isSelected ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -900,7 +900,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         child: Text(
           label,
           style: GoogleFonts.figtree(
-            fontSize: 13,
+            fontSize: 13.sp,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
             color: isSelected ? Colors.white : _textMuted,
           ),
@@ -928,7 +928,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisCount: _isTablet ? 3 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 180, // Fixed height for the card
+        mainAxisExtent: 200.h,
       ),
       itemCount: classesData.length,
       itemBuilder: (context, index) {
@@ -944,7 +944,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             );
           },
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -980,7 +980,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                               color: _accent,
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12.w),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -996,7 +996,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 2),
+                                SizedBox(height: 2.h),
                                 Text(
                                   cls['sections'] as String,
                                   style: GoogleFonts.figtree(
@@ -1012,10 +1012,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         ],
                       ),
                     ),
-                    const Icon(Icons.more_vert, size: 18, color: _textMuted),
+                    Icon(Icons.more_vert, size: 18, color: _textMuted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1042,7 +1042,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1063,13 +1063,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 LinearProgressIndicator(
                   value: cls['progress'] as double,
                   backgroundColor: const Color(0xFFEBEBEB),
                   color: _accent,
                   minHeight: 6,
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(4.r),
                 ),
                 const Spacer(),
                 Row(
@@ -1102,7 +1102,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(flex: 7, child: _buildRecentlyUpdated()),
-              const SizedBox(width: 24),
+              SizedBox(width: 24.w),
               Expanded(flex: 4, child: _buildClassComposition()),
             ],
           );
@@ -1110,7 +1110,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         return Column(
           children: [
             _buildRecentlyUpdated(),
-            const SizedBox(height: 32),
+            SizedBox(height: 32.h),
             _buildClassComposition(),
           ],
         );
@@ -1122,14 +1122,14 @@ class _ClassesScreenState extends State<ClassesScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1165,18 +1165,18 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           ...ClassesMockData.recentlyUpdatedClasses.map((item) {
             final isLast = item == ClassesMockData.recentlyUpdatedClasses.last;
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   child: Row(
                     children: [
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 40.w,
+                        height: 40.h,
                         decoration: BoxDecoration(
                           color: item['avatarColor'] as Color,
                           shape: BoxShape.circle,
@@ -1191,7 +1191,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1270,10 +1270,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
   Widget _buildClassComposition() {
     final comp = ClassesMockData.classComposition;
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Column(
@@ -1297,10 +1297,10 @@ class _ClassesScreenState extends State<ClassesScreen> {
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFE0F2FE), // Light blue
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1325,13 +1325,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF3E8FF), // Light purple
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1358,15 +1358,15 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF9F9FB),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1391,13 +1391,13 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   ),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.w),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF9F9FB),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1439,16 +1439,16 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(flex: 7, child: _buildClassCapacityMonitor()),
-                  const SizedBox(width: 24),
+                  SizedBox(width: 24.w),
                   Expanded(flex: 5, child: _buildTeacherCoverage()),
                 ],
               ),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(flex: 7, child: _buildSafetyCompliance()),
-                  const SizedBox(width: 24),
+                  SizedBox(width: 24.w),
                   Expanded(flex: 5, child: _buildTodaysHighlights()),
                 ],
               ),
@@ -1458,11 +1458,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
         return Column(
           children: [
             _buildClassCapacityMonitor(),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             _buildTeacherCoverage(),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             _buildSafetyCompliance(),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             _buildTodaysHighlights(),
           ],
         );
@@ -1488,7 +1488,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1509,9 +1509,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1540,7 +1540,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(width: 24),
+                SizedBox(width: 24.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1575,11 +1575,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
 
   Widget _buildCapacityRow(String title, String value) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: EdgeInsets.only(bottom: 8.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0xFFEBEBEB)),
       ),
       child: Row(
@@ -1621,7 +1621,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               children: [
                 const Icon(Icons.co_present_outlined, color: _accent, size: 20),
@@ -1638,9 +1638,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               children: [
                 _buildCoverageRow(
@@ -1741,7 +1741,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               children: [
                 Container(
@@ -1756,7 +1756,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                     size: 16,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -1782,7 +1782,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -1800,7 +1800,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                   : const Color(0xFFFFF7E6);
 
               return Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.w),
                 child: Row(
                   children: [
                     Container(
@@ -1815,7 +1815,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                         size: 20,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1884,7 +1884,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
       ),
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(24),
+          padding: EdgeInsets.all(24.w),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1972,7 +1972,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Row(
               children: [
                 const Icon(Icons.auto_awesome, color: _accent, size: 20),
@@ -1989,9 +1989,9 @@ class _ClassesScreenState extends State<ClassesScreen> {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFEBEBEB)),
+          Divider(height: 1.h, color: Color(0xFFEBEBEB)),
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.w),
             child: Column(
               children: ClassesMockData.todaysHighlights.map((highlight) {
                 final colorType = highlight['colorType'] as String;
@@ -2009,11 +2009,11 @@ class _ClassesScreenState extends State<ClassesScreen> {
                 }
 
                 return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(12),
+                  margin: EdgeInsets.only(bottom: 12.w),
+                  padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     border: Border.all(color: const Color(0xFFEBEBEB)),
                   ),
                   child: Row(
@@ -2030,7 +2030,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
                           size: 16,
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Expanded(
                         child: Text(
                           highlight['desc'] as String,
@@ -2110,7 +2110,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
               clipBehavior: Clip.none,
               children: [const Icon(Icons.show_chart)],
             ),
-            activeIcon: const Icon(Icons.show_chart),
+            activeIcon: Icon(Icons.show_chart),
             label: 'Activity',
           ),
           const BottomNavigationBarItem(

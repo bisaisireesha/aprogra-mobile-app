@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -211,7 +212,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildSectionCard(
                     title: 'Route & Driver',
                     icon: LucideIcons.gitMerge,
@@ -249,7 +250,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildSectionCard(
                     title: 'Fuel Information',
                     icon: LucideIcons.fuel,
@@ -275,7 +276,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
                       _buildTextField('Fuel Card / Provider (Optional)', _fuelCardController, hint: 'e.g. IOCL', required: false),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   // Vehicle Image Section
                   Column(
@@ -348,7 +349,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
                                       'JPG, PNG up to 5MB',
                                       style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8)),
                                     ),
-                                    const SizedBox(height: 16),
+                                    SizedBox(height: 12.h),
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                       decoration: BoxDecoration(
@@ -400,7 +401,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
                       _buildTextField('Notes', _notesController, hint: 'e.g. Any additional information', required: false, maxLines: 2),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   _buildSectionCard(
                     title: 'Status',
@@ -530,7 +531,7 @@ class _AddVehicleModalState extends State<AddVehicleModal> {
               ]
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -126,11 +127,11 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildContactCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildOverviewCard(statusText, statusBg, status),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildAdditionalInfoCard(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildActionsCard(),
                 ],
               ),
@@ -351,11 +352,11 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _buildActionRow(LucideIcons.edit2, 'Edit Staff'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.calendarCheck, 'Mark Attendance'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.users, 'Assign Department'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildActionRow(Icons.more_vert, 'More Options'),
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -333,7 +334,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildRoutesList(),
                 ],
               ),
@@ -344,35 +345,20 @@ class _RoutesScreenState extends State<RoutesScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Routes',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Define and manage bus routes, stops and assigned vehicles.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _buildPrimaryButton('New Route', LucideIcons.plus, () {
-              _showAddRouteModal(context);
-            }),
-          ],
-        ),
+        _buildPrimaryButton('New Route', LucideIcons.plus, () {}),
       ],
     );
   }
@@ -445,7 +431,7 @@ class _RoutesScreenState extends State<RoutesScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(

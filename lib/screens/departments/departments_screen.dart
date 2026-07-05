@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -544,7 +545,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
                 'Department directory with head of department, member count, vacancies, and budget utilisation.',
                 style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               _buildAddButton(),
             ],
           ],
@@ -584,7 +585,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
             crossAxisCount: _isTablet ? 4 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            mainAxisExtent: 184,
+            mainAxisExtent: 199.h,
           ),
           children: [
             _buildKpiCard(
@@ -714,7 +715,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
         ],
         LayoutBuilder(
           builder: (context, constraints) {
@@ -823,7 +824,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -1352,7 +1353,7 @@ class _DepartmentsScreenState extends State<DepartmentsScreen> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _comparisonData.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 16),
+      separatorBuilder: (context, index) => SizedBox(height: 12.h),
       itemBuilder: (context, index) {
         return _buildMobileComparisonCard(_comparisonData[index]);
       },

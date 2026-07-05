@@ -24,6 +24,9 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   late String _activeGroup;
+  String? _activeScreenState;
+
+  String get _activeScreen => _activeScreenState ?? widget.activeScreen;
 
   @override
   void initState() {

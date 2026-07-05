@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../dashboard/dashboard_screen.dart';
@@ -93,17 +94,17 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                         _buildClassSectionsGrid(isTablet),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Recent Activity', 'View all'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildRecentActivity(),
                         const SizedBox(height: 32),
                         _buildRequiringAttention(),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Enrollment Distribution', ''),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildEnrollmentDistribution(isTablet),
                         const SizedBox(height: 32),
                         _buildSectionTitle('New Admissions', 'View all'),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildNewAdmissions(),
                         const SizedBox(height: 32),
                         _buildSectionTitle('Class Capacity Monitor', ''),
@@ -130,9 +131,10 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Student Insights',
@@ -160,7 +162,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         crossAxisCount: isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 140, // Fixed height to prevent overflow
+        mainAxisExtent: 155.h, // Fixed height to prevent overflow
       ),
       itemCount: MockData.studentInsightsKpi.length,
       itemBuilder: (context, index) {
@@ -295,7 +297,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
         crossAxisCount: isTablet ? 3 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 180, // Fixed height for the card
+        mainAxisExtent: 195.h, // Fixed height for the card
       ),
       itemCount: classesData.length,
       itemBuilder: (context, index) {
@@ -382,7 +384,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
                     const Icon(Icons.more_vert, size: 18, color: _textMuted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1103,7 +1105,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -1207,7 +1209,7 @@ class _StudentInsightsScreenState extends State<StudentInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...MockData.studentInsightsHighlights.map((hl) {
           return Container(
             margin: const EdgeInsets.only(bottom: 12),

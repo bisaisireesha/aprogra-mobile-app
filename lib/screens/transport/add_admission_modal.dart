@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -235,7 +236,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
                       _buildTextField('Address', _addressController, hint: 'e.g. Sector 42, Delhi - 110001', prefixIcon: LucideIcons.mapPin),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
 
                   _buildSectionCard(
                     title: 'Route & Stop Allocation',
@@ -267,7 +268,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
 
                   _buildSectionCard(
                     title: 'Fee Details',
@@ -298,7 +299,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   _buildSectionCard(
                     title: 'Additional Information',
@@ -309,7 +310,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
                       _buildTextField('Notes', _notesController, hint: 'Any additional information...', maxLines: 3, titleSuffix: '(Optional)'),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
 
                   _buildSectionCard(
                     title: 'Status',
@@ -350,7 +351,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
               Container(width: 32, height: 4, decoration: BoxDecoration(color: Colors.grey.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(2))),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -406,7 +407,7 @@ class _AddAdmissionModalState extends State<AddAdmissionModal> {
               ]
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),

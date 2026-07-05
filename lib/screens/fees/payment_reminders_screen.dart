@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -989,7 +990,7 @@ class _PaymentRemindersScreenState extends State<PaymentRemindersScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ..._deliveryLogs.map((d) => _buildDeliveryLogCard(d)),
           Padding(
             padding: const EdgeInsets.all(16),

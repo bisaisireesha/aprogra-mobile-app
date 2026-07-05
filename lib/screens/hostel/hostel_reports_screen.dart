@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -30,13 +31,13 @@ class HostelReportsScreen extends StatelessWidget {
                 ),
                 children: [
                   _buildHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildFilterBar(),
                   const SizedBox(height: 24),
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchAndCategoryFilters(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildReportsList(),
                   const SizedBox(height: 24),
                 ],
@@ -48,26 +49,20 @@ class HostelReportsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Reports',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Pre-built reports for hostel operations, mess, inventory, and vendors.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -250,7 +245,7 @@ class HostelReportsScreen extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -292,9 +293,10 @@ class _CCTVScreenState extends State<CCTVScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Column(
@@ -340,6 +342,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
             ),
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }

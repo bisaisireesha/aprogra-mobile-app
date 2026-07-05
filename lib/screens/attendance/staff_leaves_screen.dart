@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -181,7 +182,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -316,9 +317,10 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -359,6 +361,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -792,7 +795,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                     _buildStatusBadge(item['status']),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1010,11 +1013,11 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
           ),
           const SizedBox(height: 24),
           _buildProgressRow('Casual', 8, 12),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Sick', 7, 10),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Earned', 12, 20),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildProgressRow('Maternity', 90, 90),
         ],
       ),
@@ -1326,7 +1329,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             onChanged: (v) =>
                                 setModalState(() => selectedStaff = v),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Leave Type'),
                           _buildDropdown(
                             hint: 'Select leave type',
@@ -1340,7 +1343,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                             onChanged: (v) =>
                                 setModalState(() => selectedType = v),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Start Date'),
                           _buildDatePicker(
                             hint: 'Select start date',
@@ -1356,7 +1359,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                                 setModalState(() => startDate = picked);
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('End Date'),
                           _buildDatePicker(
                             hint: 'Select end date',
@@ -1372,7 +1375,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                                 setModalState(() => endDate = picked);
                             },
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Total Days'),
                           Container(
                             width: double.infinity,
@@ -1392,7 +1395,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Reason'),
                           Container(
                             decoration: BoxDecoration(
@@ -1415,7 +1418,7 @@ class _StaffLeavesScreenState extends State<StaffLeavesScreen> {
                               ),
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFormLabel('Attachment (Optional)'),
                           Container(
                             width: double.infinity,

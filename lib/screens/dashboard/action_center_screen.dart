@@ -1,4 +1,6 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../data/mock_data/dashboard_mock.dart';
 import '../../screens/auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
@@ -59,13 +61,13 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildKpiGrid(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFilters(),
                           const SizedBox(height: 20),
                           _buildAlertsList(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildRecommendedActions(),
                           const SizedBox(height: 24),
                         ],
@@ -129,7 +131,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                             _searchQuery = val.toLowerCase();
                           });
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           hintText: 'Search anything...',
                           hintStyle: TextStyle(
                             color: Color(0xFF8F96A3),
@@ -194,10 +196,11 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           decoration: BoxDecoration(
-            color: const Color(0xFFFF5C5C).withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xFFFDE9E9),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFF8D7D7)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -206,37 +209,37 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                 width: 6,
                 height: 6,
                 decoration: const BoxDecoration(
-                  color: Color(0xFFFF5C5C),
+                  color: Color(0xFFF72222),
                   shape: BoxShape.circle,
                 ),
               ),
               const SizedBox(width: 6),
-              const Text(
+              Text(
                 'LIVE • ACTION REQUIRED',
-                style: TextStyle(
-                  color: Color(0xFFFF5C5C),
+                style: GoogleFonts.inter(
                   fontSize: 10,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFFF72222),
                   letterSpacing: 0.5,
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 16),
-        const Text(
+        const SizedBox(height: 12),
+        Text(
           'Action Center',
-          style: TextStyle(
-            color: _textDark,
-            fontSize: 32,
+          style: GoogleFonts.inter(
+            fontSize: 28.sp,
             fontWeight: FontWeight.bold,
+            color: _textDark,
             letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 4),
-        const Text(
+        const SizedBox(height: 8),
+        Text(
           'Items requiring your attention across the school.',
-          style: TextStyle(color: Color(0xFF8F96A3), fontSize: 16),
+          style: GoogleFonts.inter(fontSize: 15, color: _textMuted),
         ),
       ],
     );
@@ -249,9 +252,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // [Responsive Fix]: Switch to 4 columns on tablets/landscape
         crossAxisCount: _isTablet ? 4 : 2,
-        mainAxisExtent: 160,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
+        mainAxisExtent: 80.h,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
       ),
       itemCount: MockData.actionCenterKpi.length,
       itemBuilder: (context, index) {
@@ -277,8 +280,8 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               Row(
                 children: [
                   Container(
-                    width: 32,
-                    height: 32,
+                    width: 24,
+                    height: 24,
                     decoration: BoxDecoration(
                       color: kpi['iconBg'] as Color,
                       shape: BoxShape.circle,
@@ -289,38 +292,38 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       color: kpi['iconColor'] as Color,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       kpi['title'] as String,
-                      style: const TextStyle(
-                        fontSize: 13,
+                      style: GoogleFonts.inter(
+                        fontSize: 11,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF8F96A3),
-                        height: 1.2,
+                        height: 1.1,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     kpi['value'] as String,
-                    style: const TextStyle(
-                      fontSize: 34,
+                    style: GoogleFonts.inter(
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF181B20),
                       height: 1.0,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 2),
                   Text(
                     kpi['subtitle'] as String,
-                    style: TextStyle(
-                      fontSize: 11,
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
                       fontWeight: FontWeight.w500,
                       color: kpi['subtitleColor'] as Color,
                     ),
@@ -331,14 +334,14 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
               ),
             ],
           ),
-        );
+        ),
+      );
       },
     );
   }
 
   Widget _buildFilters() {
-    final firstLineFilters = ['All', 'Critical', 'Attendance', 'Finance'];
-    final secondLineFilters = ['Admissions', 'Academics', 'Staff'];
+    final filters = ['All', 'Critical', 'Pending', 'Attendance', 'Finance', 'Admissions', 'Academics', 'Staff'];
 
     Widget buildFilterChip(String filter) {
       final isSelected = filter == _activeFilter;
@@ -349,7 +352,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           });
         },
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF7C5BFF) : Colors.white,
             borderRadius: BorderRadius.circular(24),
@@ -361,45 +364,20 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
           ),
           child: Text(
             filter,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               color: isSelected ? Colors.white : const Color(0xFF8F96A3),
               fontWeight: FontWeight.w600,
-              fontSize: 12,
+              fontSize: 13,
             ),
           ),
         ),
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: firstLineFilters.map((f) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: buildFilterChip(f),
-              );
-            }).toList(),
-          ),
-        ),
-        const SizedBox(height: 8),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Row(
-            children: secondLineFilters.map((f) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: buildFilterChip(f),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: filters.map((f) => buildFilterChip(f)).toList(),
     );
   }
 
@@ -481,7 +459,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => _handleAction('View all', {'title': section['sectionTitle']}),
                   child: Row(
                     children: const [
                       Text(
@@ -505,7 +483,9 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
             const SizedBox(height: 12),
             ...filteredItems.map((item) {
               final isCritical = item['isCritical'] as bool;
-              return Container(
+              return GestureDetector(
+                onTap: () => _showDetails(item),
+                child: Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -623,7 +603,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 16),
+                                SizedBox(height: 12.h),
                                 Text(
                                   item['title'] as String,
                                   style: const TextStyle(
@@ -711,9 +691,18 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                               ],
                             ),
                           ),
+                      if (isCritical)
+                        Positioned(
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          child: Container(
+                            width: 4,
+                            color: const Color(0xFFFF5C5C),
+                          ),
                         ),
-                      ],
-                    ),
+                    ],
+                  ),
                   ),
                 ),
               );
@@ -819,7 +808,7 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
                       height: 1.5,
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(vertical: 12),
@@ -845,6 +834,109 @@ class _ActionCenterScreenState extends State<ActionCenterScreen> {
         ],
       ),
     );
+  }
+
+  void _showDetails(Map<String, dynamic> item) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+        ),
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: item['badge'] == 'CRITICAL' ? const Color(0xFFFF5252) : (item['badgeColor'] ?? _accent) as Color,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    item['badge'] as String,
+                    style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              item['title'] as String,
+              style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              item['subtitle'] as String,
+              style: GoogleFonts.inter(fontSize: 16, color: _textMuted),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                const Icon(Icons.access_time, size: 16, color: _textMuted),
+                const SizedBox(width: 8),
+                Text(
+                  'Time: ${item['time'] ?? "N/A"}',
+                  style: GoogleFonts.inter(fontSize: 14, color: _textMuted),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                const Icon(Icons.category, size: 16, color: _textMuted),
+                const SizedBox(width: 8),
+                Text(
+                  'Category: ${item['category'] ?? "N/A"}',
+                  style: GoogleFonts.inter(fontSize: 14, color: _textMuted),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _accent,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text('Close Details', style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white)),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _handleAction(String actionName, Map<String, dynamic> item) {
+    if (actionName.toLowerCase().contains('view') || actionName.toLowerCase().contains('check')) {
+      _showDetails(item);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$actionName: ${item['title']}'),
+          backgroundColor: _accent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
   }
 
   Widget _buildBottomNav() {

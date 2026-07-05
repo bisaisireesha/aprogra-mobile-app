@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -208,7 +209,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
                         _buildPaymentModes(),
                         const SizedBox(height: 32),
                         _buildReceiptsListSection(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildInfoFooter(),
                         const SizedBox(height: 60),
                       ],
@@ -479,7 +480,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
 
         // Payment Mode List
         ..._paymentModes.map((m) => _buildPaymentModeCard(m)),
@@ -699,7 +700,7 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -758,9 +759,9 @@ class _PaymentsReceiptsScreenState extends State<PaymentsReceiptsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ..._receipts.map((r) => _buildReceiptCard(r)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Center(
           child: Text(
             'Showing ${_receipts.length} of ${_receipts.length} receipts',

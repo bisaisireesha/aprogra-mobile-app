@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../data/mock_data/dashboard_mock.dart';
 import '../widgets/common_app_bar.dart';
@@ -101,7 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       physics: const NeverScrollableScrollPhysics(),
       crossAxisSpacing: 12,
       mainAxisSpacing: 16,
-      mainAxisExtent: 140,
+      mainAxisExtent: 155.h,
       children: [
         _buildKPICard(
           title: 'STUDENTS',
@@ -154,7 +155,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Row(
@@ -197,7 +197,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -211,7 +211,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             height: 6,
             width: double.infinity,
@@ -293,7 +293,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -410,7 +410,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -424,7 +424,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Container(
             height: 6,
             width: double.infinity,
@@ -463,14 +463,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             // [Responsive Fix]: Expand grid to 4 items per row on tablets/landscape
             crossAxisCount: _isTablet ? 4 : 2,
-            mainAxisExtent: 220,
+            mainAxisExtent: 235.h,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
@@ -611,14 +611,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             color: _textDark,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             // [Responsive Fix]: 8 items on tablet row to save space, 4 on mobile
             crossAxisCount: _isTablet ? 8 : 4,
-            mainAxisExtent: 90,
+            mainAxisExtent: 105.h,
             crossAxisSpacing: 12,
             mainAxisSpacing: 16,
           ),
@@ -684,7 +684,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         ...MockData.aiInsights.map((insight) {
           return Container(
             margin: const EdgeInsets.only(bottom: 12),
@@ -782,7 +782,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -998,7 +998,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           const SizedBox(height: 24),
           const Divider(color: Color(0xFFF3F3F6)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -1157,7 +1157,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: const [

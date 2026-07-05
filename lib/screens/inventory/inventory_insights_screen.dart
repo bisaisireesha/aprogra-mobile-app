@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/inventory_mock.dart';
 import '../../widgets/app_bottom_nav.dart';
@@ -130,91 +131,20 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(color: const Color(0xFFE8F5E9), borderRadius: BorderRadius.circular(4)),
-                  child: Row(
-                    children: [
-                      Container(width: 6, height: 6, decoration: const BoxDecoration(color: Color(0xFF10B981), shape: BoxShape.circle)),
-                      const SizedBox(width: 6),
-                      const Text('Stockroom Active - Live', style: TextStyle(fontSize: 12, color: Color(0xFF10B981), fontWeight: FontWeight.w600)),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text('Synced just now', style: TextStyle(fontSize: 12, color: _textMuted)),
-              ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('Inventory Insights', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
-                  SizedBox(height: 4),
-                  Text('Monitor stock availability, inventory health, purchases, and operational readiness.', style: TextStyle(fontSize: 14, color: _textMuted)),
-                ],
-              ),
-            ),
-            if (_isTablet)
-              Row(
-                children: [
-                  _buildSearchBar(),
-                  const SizedBox(width: 12),
-                  _buildFilterButton(),
-                ],
-              ),
-          ],
-        ),
-        if (!_isTablet) ...[
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Expanded(child: _buildSearchBar()),
-              const SizedBox(width: 12),
-              _buildFilterButton(),
-            ],
+        Text(
+          'Stockroom Active - Live',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: _textDark,
           ),
-        ],
-        if (_activeFilters.isNotEmpty) ...[
-          const SizedBox(height: 16),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: _activeFilters.map((filter) {
-              return Chip(
-                label: Text(filter, style: const TextStyle(fontSize: 12)),
-                deleteIcon: const Icon(Icons.close, size: 14, color: Color(0xFF6B4EE6)),
-                onDeleted: () {
-                  setState(() {
-                    _activeFilters.remove(filter);
-                    if (filter == _selectedCategory) _selectedCategory = 'All Categories';
-                    if (filter == _selectedDateRange) _selectedDateRange = 'This Month';
-                    if (filter == _selectedFilter) _selectedFilter = 'All';
-                  });
-                },
-                backgroundColor: const Color(0xFFF3F0FF),
-                labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF6B4EE6)),
-                side: BorderSide.none,
-              );
-            }).toList(),
-          ),
-        ],
+        ),
+        _buildFilterButton(),
       ],
     );
   }
@@ -684,7 +614,6 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
@@ -700,7 +629,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(kpi['value'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(kpi['title'] as String, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
@@ -742,7 +671,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         LayoutBuilder(
           builder: (context, constraints) {
             int columns = _isTablet ? (constraints.maxWidth > 800 ? 3 : 2) : 1;
@@ -813,7 +742,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       Row(
                         children: [
                           Expanded(child: _buildDataBox('Low', status['low'] as String)),
@@ -823,7 +752,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
                           Expanded(child: _buildDataBox('Pending', status['pending'] as String)),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -912,7 +841,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -1006,7 +935,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Column(
           children: InventoryMockData.purchaseRequests.map((request) {
             Color badgeColor;
@@ -1099,7 +1028,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         LayoutBuilder(
           builder: (context, constraints) {
             int columns = constraints.maxWidth > 500 ? 2 : 1;
@@ -1209,7 +1138,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
@@ -1310,7 +1239,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         LayoutBuilder(
           builder: (context, constraints) {
             int columns = constraints.maxWidth > 500 ? 2 : 1;
@@ -1416,7 +1345,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1512,7 +1441,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         LayoutBuilder(
           builder: (context, constraints) {
             int columns = _isTablet ? (constraints.maxWidth > 800 ? 4 : 2) : 1;
@@ -1576,7 +1505,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 12.h),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -1646,7 +1575,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -1744,7 +1673,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             const Text('5 Active', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFEF4444))),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Column(
           children: _getFilteredData(InventoryMockData.alertsCenter).map((alert) {
             Color themeColor;
@@ -1829,7 +1758,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Details: ${alert['subtitle']}', style: const TextStyle(fontSize: 14, color: _textMuted)),
-              const SizedBox(height: 16),
+              SizedBox(height: 12.h),
               const Text('Please review this operational issue and take appropriate action to resolve it.'),
             ],
           ),
@@ -1873,7 +1802,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         LayoutBuilder(
           builder: (context, constraints) {
             int columns = _isTablet ? (constraints.maxWidth > 800 ? 6 : 3) : 2;
@@ -1942,7 +1871,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
             decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(8)),
             child: Icon(kpi['icon'] as IconData, color: mainColor, size: 20),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(kpi['value'] as String, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
           const SizedBox(height: 4),
           Text(kpi['subtitle'] as String, style: const TextStyle(fontSize: 12, color: _textMuted)),

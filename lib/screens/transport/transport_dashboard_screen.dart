@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
@@ -215,7 +216,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 32),
                   _buildListHeader(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildBusesList(),
                   const SizedBox(height: 24),
                 ],
@@ -227,35 +228,20 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Transport Dashboard',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox(height: 4),
-        Text(
-          'Live overview of school buses, routes and on-road status.',
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            color: const Color(0xFF595973),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _buildPrimaryButton('Add Bus', LucideIcons.plus, () {
-              _showAddBusModal(context);
-            }),
-          ],
-        ),
+        _buildPrimaryButton('Add Bus', LucideIcons.plus, () {}),
       ],
     );
   }
@@ -521,7 +507,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -594,7 +580,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -649,7 +635,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             color: const Color(0xFF595973),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -1103,7 +1089,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           // Row 3: Footer (Location & Fuel)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1679,7 +1665,7 @@ class _AddBusModalState extends State<AddBusModal> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,7 +158,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -286,9 +287,10 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -329,6 +331,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -539,7 +542,7 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -1152,13 +1155,13 @@ class _StaffWorkloadScreenState extends State<StaffWorkloadScreen> {
           ),
           const SizedBox(height: 24),
           _buildMostLoadedTeacherItem('Sanjay Verma', 'Physics', 1.13),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Priya Sharma', 'Mathematics', 1.07),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Vikram Nair', 'Mathematics', 1.00),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Rajan Pillai', 'Science', 0.93),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildMostLoadedTeacherItem('Kavita Mehta', 'Chemistry', 0.90),
         ],
       ),

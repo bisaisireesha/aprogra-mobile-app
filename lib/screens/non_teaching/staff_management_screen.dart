@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -33,7 +34,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Staff Management'),
+      drawer: const MenuScreen(activeScreen: 'Staff Overview'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -476,7 +477,6 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -1305,7 +1305,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           ),
           const SizedBox(height: 24),
           _buildWorkloadRow('Class Teachers', 42, 48, '42', ' / 48'),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildWorkloadRow('Subject Teachers', 96, 132, '96', ' / 132'),
           const SizedBox(height: 16),
           _buildWorkloadRow(
@@ -1435,7 +1435,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               Expanded(child: _buildLeaveCard('Pending', '6', _accent)),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -1744,7 +1744,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             ],
           ),
           if (!_isTablet) ...[
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -1753,7 +1753,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               ],
             ),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...staffMembers.map((staff) => _buildStaffCard(staff)),
         ],
       ),

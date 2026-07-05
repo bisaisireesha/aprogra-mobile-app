@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -146,7 +147,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildMapPlaceholder(),
                   const SizedBox(height: 24),
                   _buildLiveBusList(),
@@ -160,32 +161,17 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     );
   }
 
-  Widget _buildHeader() {
+    Widget _buildHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Live Tracking',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF181821),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Real-time location, ETA and speed for every bus in service.',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: const Color(0xFF595973),
-                ),
-              ),
-            ],
+        Text(
+          'Live Tracking',
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
         const SizedBox(width: 16),
@@ -284,7 +270,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -349,7 +335,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Text(
             value,
             style: GoogleFonts.inter(
@@ -671,7 +657,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Location Row
                     Row(
                       children: [
@@ -705,7 +691,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Progress Bar
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -746,7 +732,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     // Bottom Stats Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

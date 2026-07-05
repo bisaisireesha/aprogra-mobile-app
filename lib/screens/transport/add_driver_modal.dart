@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -257,7 +258,7 @@ class _AddDriverModalState extends State<AddDriverModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   _buildSectionCard(
                     title: 'License Information',
@@ -306,7 +307,7 @@ class _AddDriverModalState extends State<AddDriverModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
 
                   _buildSectionCard(
                     title: 'Vehicle & Route Assignment',
@@ -362,7 +363,7 @@ class _AddDriverModalState extends State<AddDriverModal> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   _buildSectionCard(
                     title: 'Emergency Contact',
@@ -384,7 +385,7 @@ class _AddDriverModalState extends State<AddDriverModal> {
                       _buildTextField('Phone Number', _emerPhoneController, hint: '+91 98xxxx 1234', required: false, prefixIcon: LucideIcons.phone),
                     ],
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   
                   _buildSectionCard(
                     title: 'Status',
@@ -514,7 +515,7 @@ class _AddDriverModalState extends State<AddDriverModal> {
               ]
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           ...children,
         ],
       ),

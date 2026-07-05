@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -56,7 +57,7 @@ class ExamDetailsScreen extends StatelessWidget {
             _buildInstructionsBox(),
             const SizedBox(height: 32),
             Text('Subject Papers', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF181B20))),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             ..._buildDynamicSubjectPapers(),
             const SizedBox(height: 32),
           ],
@@ -92,7 +93,7 @@ class ExamDetailsScreen extends StatelessWidget {
             marks: p['marks'],
             passMarks: p['passMarks'],
           ),
-          if (index < papers.length - 1) const SizedBox(height: 16),
+          if (index < papers.length - 1) SizedBox(height: 12.h),
         ],
       );
     });
@@ -235,7 +236,7 @@ class ExamDetailsScreen extends StatelessWidget {
                 _buildInfoRow(LucideIcons.user, 'Invigilator', invigilator),
                 const SizedBox(height: 12),
                 _buildInfoRow(LucideIcons.doorOpen, 'Room', room),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(12),

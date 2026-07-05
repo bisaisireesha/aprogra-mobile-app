@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -266,9 +267,10 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Student Attendance',
@@ -286,6 +288,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -306,7 +309,7 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -601,19 +604,19 @@ class _StudentAttendanceScreenState extends State<StudentAttendanceScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempClass,
                       items: availableClasses,
                       onChanged: (v) => setModalState(() => tempClass = v!),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempSection,
                       items: availableSections,
                       onChanged: (v) => setModalState(() => tempSection = v!),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     _buildRealDropdown(
                       value: tempStatus,
                       items: availableStatuses,

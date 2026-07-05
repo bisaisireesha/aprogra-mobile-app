@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -193,7 +194,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                         const SizedBox(height: 48),
 
                         _buildListFilters(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildRecentPayments(),
                         const SizedBox(height: 48),
 
@@ -258,25 +259,16 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
           children: [
             Text(
               'Financial Summary',
-              style: GoogleFonts.figtree(
-                fontSize: 22,
+              style: TextStyle(
+                fontSize: 28.sp,
                 fontWeight: FontWeight.bold,
                 color: _textDark,
-                letterSpacing: -0.5,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Overview of fee collection, expenses and\nnet balance for the academic year.',
-          style: GoogleFonts.figtree(
-            fontSize: 14,
-            color: _textMuted,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
+
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -1047,7 +1039,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -1189,7 +1181,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -1204,7 +1196,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(vertical: 14),

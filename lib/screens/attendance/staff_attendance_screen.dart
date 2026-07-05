@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,7 +142,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bgPrimary,
-      drawer: const MenuScreen(activeScreen: 'Attendance'),
+      drawer: const MenuScreen(activeScreen: 'Staff Attendance'),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -171,7 +172,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
                             ],
                           ),
                           if (!_isTablet) ...[
-                            const SizedBox(height: 16),
+                            SizedBox(height: 12.h),
                             _buildTopControls(),
                           ],
                           const SizedBox(height: 24),
@@ -287,9 +288,10 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -330,6 +332,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -477,7 +480,7 @@ class _StaffAttendanceScreenState extends State<StaffAttendanceScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

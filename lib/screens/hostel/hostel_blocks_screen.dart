@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -34,7 +35,7 @@ class HostelBlocksScreen extends StatelessWidget {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildBlocksListHeader(),
                   const SizedBox(height: 16),
                   _buildNewBlockCard(
@@ -527,7 +528,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -663,7 +664,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Align(
               alignment: Alignment.centerRight,
               child: GestureDetector(
@@ -862,7 +863,7 @@ class HostelBlocksScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _buildDetailRow(LucideIcons.building, 'Type', type),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             _buildDetailRow(LucideIcons.scan, 'Block Code', blockCode),
             const SizedBox(height: 16),
             _buildDetailRow(
@@ -901,7 +902,7 @@ class HostelBlocksScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
           ],
         ),
       ),

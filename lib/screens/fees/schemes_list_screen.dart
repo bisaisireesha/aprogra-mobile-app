@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -190,7 +191,7 @@ class _SchemesListScreenState extends State<SchemesListScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
 
             // Search Bar
             Padding(
@@ -221,7 +222,7 @@ class _SchemesListScreenState extends State<SchemesListScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
 
             // List
             Expanded(
@@ -328,7 +329,7 @@ class _SchemesListScreenState extends State<SchemesListScreen> {
                     const Icon(LucideIcons.chevronRight, size: 18, color: _muted),
                   ],
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(

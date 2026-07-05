@@ -4,6 +4,11 @@ import '../../routes/app_routes.dart';
 import '../../widgets/common_app_bar.dart';
 import '../../screens/auth/menu_screen.dart';
 import '../students/students_list_screen.dart';
+import '../calendar/calendar_screen.dart';
+import '../teachers/teachers_screen.dart';
+import '../attendance/student_attendance_screen.dart';
+import '../fees/fees_dashboard_screen.dart';
+import 'action_center_screen.dart';
 import 'dart:ui' as ui;
 import '../../widgets/app_bottom_nav.dart';
 
@@ -222,7 +227,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -236,7 +241,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           Container(
             height: 6,
             width: double.infinity,
@@ -498,7 +503,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             // [Responsive Fix]: Expand grid to 4 items per row on tablets/landscape
             crossAxisCount: _isTablet ? 4 : 2,
-            mainAxisExtent: 220,
+            mainAxisExtent: 175,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
@@ -508,19 +513,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
             final colorType = action['colorType'] as String;
 
             Color bgColor = Colors.white;
-            Color badgeBgColor = const Color(0xFFF3F3F6);
+            Color borderColor = const Color(0xFFF0F0F0);
+            Color badgeBgColor = Colors.transparent;
             Color badgeTextColor = _textDark;
 
             if (colorType == 'red') {
-              bgColor = const Color(0xFFFFF1F1);
+              bgColor = const Color(0xFFFFF4F4);
+              borderColor = const Color(0xFFFDE4E4);
               badgeBgColor = Colors.redAccent.withValues(alpha: 0.15);
               badgeTextColor = Colors.redAccent;
-            } else if (colorType == 'blue') {
-              badgeBgColor = Colors.blueAccent.withValues(alpha: 0.15);
-              badgeTextColor = Colors.blueAccent;
-            } else if (colorType == 'purple') {
-              badgeBgColor = _accent.withValues(alpha: 0.15);
-              badgeTextColor = _accent;
+              iconBgColor = Colors.white;
+              iconColor = Colors.redAccent;
             }
 
             return GestureDetector(
@@ -680,8 +683,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Container(
                     width: 56,
                     height: 56,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF0EDFA),
+                    decoration: BoxDecoration(
+                      color: index == 0 ? const Color(0xFFF0EDFA) : const Color(0xFFF3F3F6),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(action['icon'] as IconData, color: _accent),
@@ -912,10 +915,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  const SizedBox(width: 6),
+                                  Expanded(
+                                    child: Text(
+                                      event['location'] as String,
+                                      style: const TextStyle(fontSize: 14, color: _textMuted),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       IconButton(

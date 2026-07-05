@@ -1,0 +1,806 @@
+Analyzing aprogra-mobile...                                     
+
+warning • The declaration '_countForCategory' isn't referenced. Try removing the declaration of '_countForCategory' • lib/screens/assignments/assignments_screen.dart:83:7 • unused_element
+  error • Expected to find ',' • lib/screens/assignments/assignments_screen.dart:118:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/assignments/assignments_screen.dart:118:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/assignments/assignments_screen.dart:118:23 • expected_token
+  error • Expected to find ',' • lib/screens/assignments/assignments_screen.dart:153:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/assignments/assignments_screen.dart:153:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/assignments/assignments_screen.dart:153:23 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/assignments/assignments_screen.dart:163:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/assignments/assignments_screen.dart:462:57 • deprecated_member_use
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/assignments/assignments_screen.dart:512:37 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/assignments/assignments_screen.dart:513:37 • curly_braces_in_flow_control_structures
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/assignments/assignments_screen.dart:541:51 • deprecated_member_use
+   info • The private field _selectedDate could be 'final'. Try making the field 'final' • lib/screens/attendance/staff_attendance_screen.dart:27:12 • prefer_final_fields
+warning • The value of the field '_selectedDate' isn't used. Try removing the field, or using it • lib/screens/attendance/staff_attendance_screen.dart:27:12 • unused_field
+   info • The private field _selectedRole could be 'final'. Try making the field 'final' • lib/screens/attendance/staff_attendance_screen.dart:29:10 • prefer_final_fields
+   info • The private field _selectedShift could be 'final'. Try making the field 'final' • lib/screens/attendance/staff_attendance_screen.dart:30:10 • prefer_final_fields
+   info • The private field _selectedStatus could be 'final'. Try making the field 'final' • lib/screens/attendance/staff_attendance_screen.dart:31:10 • prefer_final_fields
+   info • The private field _isLocked could be 'final'. Try making the field 'final' • lib/screens/attendance/staff_attendance_screen.dart:32:8 • prefer_final_fields
+warning • The declaration '_monthString' isn't referenced. Try removing the declaration of '_monthString' • lib/screens/attendance/staff_attendance_screen.dart:76:10 • unused_element
+  error • Expected to find ',' • lib/screens/attendance/staff_attendance_screen.dart:98:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_attendance_screen.dart:98:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_attendance_screen.dart:98:24 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_attendance_screen.dart:108:44 • deprecated_member_use
+warning • The declaration '_buildRealDropdown' isn't referenced. Try removing the declaration of '_buildRealDropdown' • lib/screens/attendance/staff_attendance_screen.dart:388:10 • unused_element
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_documents_screen.dart:85:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/attendance/staff_documents_screen.dart:85:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_documents_screen.dart:85:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/attendance/staff_documents_screen.dart:85:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_documents_screen.dart:86:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/attendance/staff_documents_screen.dart:92:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_documents_screen.dart:92:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/attendance/staff_documents_screen.dart:92:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/attendance/staff_documents_screen.dart:92:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_documents_screen.dart:92:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_documents_screen.dart:92:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/attendance/staff_documents_screen.dart:92:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/attendance/staff_documents_screen.dart:92:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_documents_screen.dart:92:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_documents_screen.dart:92:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/attendance/staff_documents_screen.dart:108:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_documents_screen.dart:108:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_documents_screen.dart:108:27 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/attendance/staff_documents_screen.dart:112:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/attendance/staff_documents_screen.dart:112:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_documents_screen.dart:118:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_documents_screen.dart:659:51 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/attendance/staff_leaves_screen.dart:133:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_leaves_screen.dart:133:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_leaves_screen.dart:133:24 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_leaves_screen.dart:143:44 • deprecated_member_use
+warning • The value of the local variable 'pendingCount' isn't used. Try removing the variable or using it • lib/screens/attendance/staff_leaves_screen.dart:399:11 • unused_local_variable
+warning • The value of the local variable 'approvedCount' isn't used. Try removing the variable or using it • lib/screens/attendance/staff_leaves_screen.dart:400:11 • unused_local_variable
+warning • The value of the local variable 'rejectedCount' isn't used. Try removing the variable or using it • lib/screens/attendance/staff_leaves_screen.dart:401:11 • unused_local_variable
+warning • The value of the local variable 'allCount' isn't used. Try removing the variable or using it • lib/screens/attendance/staff_leaves_screen.dart:402:11 • unused_local_variable
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_leaves_screen.dart:714:51 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/attendance/staff_leaves_screen.dart:1050:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_leaves_screen.dart:1050:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_leaves_screen.dart:1050:24 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_payroll_screen.dart:125:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/attendance/staff_payroll_screen.dart:125:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_payroll_screen.dart:125:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/attendance/staff_payroll_screen.dart:125:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_payroll_screen.dart:126:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/attendance/staff_payroll_screen.dart:132:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_payroll_screen.dart:132:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/attendance/staff_payroll_screen.dart:132:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/attendance/staff_payroll_screen.dart:132:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_payroll_screen.dart:132:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_payroll_screen.dart:132:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/attendance/staff_payroll_screen.dart:132:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/attendance/staff_payroll_screen.dart:132:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_payroll_screen.dart:132:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_payroll_screen.dart:132:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/attendance/staff_payroll_screen.dart:148:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_payroll_screen.dart:148:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_payroll_screen.dart:148:32 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/attendance/staff_payroll_screen.dart:152:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/attendance/staff_payroll_screen.dart:152:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_payroll_screen.dart:158:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_workload_screen.dart:87:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/attendance/staff_workload_screen.dart:87:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_workload_screen.dart:87:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/attendance/staff_workload_screen.dart:87:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_workload_screen.dart:88:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/attendance/staff_workload_screen.dart:94:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_workload_screen.dart:94:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/attendance/staff_workload_screen.dart:94:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/attendance/staff_workload_screen.dart:94:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_workload_screen.dart:94:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/attendance/staff_workload_screen.dart:94:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/attendance/staff_workload_screen.dart:94:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/attendance/staff_workload_screen.dart:94:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/attendance/staff_workload_screen.dart:94:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/attendance/staff_workload_screen.dart:94:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/attendance/staff_workload_screen.dart:110:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/staff_workload_screen.dart:110:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/staff_workload_screen.dart:110:27 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/attendance/staff_workload_screen.dart:114:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/attendance/staff_workload_screen.dart:114:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/staff_workload_screen.dart:120:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/attendance/student_attendance_screen.dart:101:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/attendance/student_attendance_screen.dart:101:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/attendance/student_attendance_screen.dart:101:24 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/student_attendance_screen.dart:111:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/student_attendance_screen.dart:561:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/student_attendance_screen.dart:602:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/student_attendance_screen.dart:863:51 • deprecated_member_use
+warning • The declaration '_buildMobileBottomBar' isn't referenced. Try removing the declaration of '_buildMobileBottomBar' • lib/screens/attendance/student_attendance_screen.dart:885:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/attendance/student_attendance_screen.dart:890:51 • deprecated_member_use
+warning • Unused import: 'package:flutter_screenutil/flutter_screenutil.dart'. Try removing the import directive • lib/screens/auth/menu_screen.dart:2:8 • unused_import
+warning • Unused import: '../calendar/ptm_slot_booking_screen.dart'. Try removing the import directive • lib/screens/auth/menu_screen.dart:58:8 • unused_import
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:173:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:194:25 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:198:29 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:220:31 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:228:35 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:320:58 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:333:56 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:381:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:394:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:454:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:467:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:527:122 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:531:155 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:581:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:594:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:647:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:660:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:700:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:713:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:762:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:775:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:815:27 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:833:33 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:850:35 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:859:35 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:870:35 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:871:35 • dead_code
+warning • Dead code. Try removing the code, or fixing the code before it so that it can be reached • lib/screens/auth/menu_screen.dart:878:62 • dead_code
+warning • The value of the field '_showAddForm' isn't used. Try removing the field, or using it • lib/screens/calendar/calendar_screen.dart:91:8 • unused_field
+warning • The declaration '_addEvent' isn't referenced. Try removing the declaration of '_addEvent' • lib/screens/calendar/calendar_screen.dart:214:8 • unused_element
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/screens/calendar/calendar_screen.dart:1007:29 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores. Try using '_' • lib/screens/calendar/ptm_details_screen.dart:658:35 • unnecessary_underscores
+  error • Expected to find ',' • lib/screens/cctv/cctv_screen.dart:123:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/cctv/cctv_screen.dart:123:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/cctv/cctv_screen.dart:123:25 • expected_token
+  error • Expected to find ',' • lib/screens/cctv/cctv_screen.dart:199:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/cctv/cctv_screen.dart:199:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/cctv/cctv_screen.dart:199:25 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/cctv/cctv_screen.dart:209:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/cctv/cctv_screen.dart:434:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/cctv/cctv_screen.dart:434:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/cctv/cctv_screen.dart:434:25 • expected_token
+  error • Expected to find ',' • lib/screens/class_details_bottom_sheet.dart:162:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/class_details_bottom_sheet.dart:162:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/class_details_bottom_sheet.dart:162:30 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/class_details_bottom_sheet.dart:172:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/class_details_bottom_sheet.dart:2161:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/class_details_bottom_sheet.dart:2161:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/class_details_bottom_sheet.dart:2161:30 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/classes/create_class_wizard.dart:35:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/classes/create_class_wizard.dart:35:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/classes/create_class_wizard.dart:35:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/classes/create_class_wizard.dart:35:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/classes/create_class_wizard.dart:36:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/classes/create_class_wizard.dart:42:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/classes/create_class_wizard.dart:42:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/classes/create_class_wizard.dart:42:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/classes/create_class_wizard.dart:42:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/classes/create_class_wizard.dart:42:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/classes/create_class_wizard.dart:42:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/classes/create_class_wizard.dart:42:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/classes/create_class_wizard.dart:42:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/classes/create_class_wizard.dart:42:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/classes/create_class_wizard.dart:42:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/classes/create_class_wizard.dart:58:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/classes/create_class_wizard.dart:58:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/classes/create_class_wizard.dart:58:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/classes/create_class_wizard.dart:62:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/classes/create_class_wizard.dart:62:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/classes/create_class_wizard.dart:68:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/classes/create_class_wizard.dart:380:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/classes/create_class_wizard.dart:380:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/classes/create_class_wizard.dart:380:26 • expected_token
+  error • Expected to find ',' • lib/screens/classes/create_class_wizard.dart:443:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/classes/create_class_wizard.dart:443:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/classes/create_class_wizard.dart:443:26 • expected_token
+  error • Expected to find ',' • lib/screens/classes/create_class_wizard.dart:644:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/classes/create_class_wizard.dart:644:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/classes/create_class_wizard.dart:644:26 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/departments/departments_screen.dart:189:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/departments/departments_screen.dart:189:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/departments/departments_screen.dart:189:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/departments/departments_screen.dart:189:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/departments/departments_screen.dart:190:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/departments/departments_screen.dart:196:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/departments/departments_screen.dart:196:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/departments/departments_screen.dart:196:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/departments/departments_screen.dart:196:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/departments/departments_screen.dart:196:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/departments/departments_screen.dart:196:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/departments/departments_screen.dart:196:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/departments/departments_screen.dart:196:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/departments/departments_screen.dart:196:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/departments/departments_screen.dart:196:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/departments/departments_screen.dart:212:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/departments/departments_screen.dart:212:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/departments/departments_screen.dart:212:29 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/departments/departments_screen.dart:216:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/departments/departments_screen.dart:216:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/departments/departments_screen.dart:222:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/exams/create_exam_bottom_sheet.dart:51:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/exams/create_exam_bottom_sheet.dart:51:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/exams/create_exam_bottom_sheet.dart:51:24 • expected_token
+  error • Expected to find ',' • lib/screens/exams/create_exam_bottom_sheet.dart:59:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/exams/create_exam_bottom_sheet.dart:59:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/exams/create_exam_bottom_sheet.dart:59:24 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/exams/create_exam_bottom_sheet.dart:79:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/exams/create_exam_bottom_sheet.dart:79:16 • body_might_complete_normally_nullable
+  error • Expected to find ',' • lib/screens/exams/create_exam_bottom_sheet.dart:90:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/exams/create_exam_bottom_sheet.dart:90:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/exams/create_exam_bottom_sheet.dart:90:24 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/exams/create_exam_bottom_sheet.dart:95:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/exams/create_exam_bottom_sheet.dart:95:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/exams/create_exam_bottom_sheet.dart:95:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/exams/create_exam_bottom_sheet.dart:95:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/exams/create_exam_bottom_sheet.dart:96:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/exams/create_exam_bottom_sheet.dart:102:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/exams/create_exam_bottom_sheet.dart:102:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/exams/create_exam_bottom_sheet.dart:102:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/exams/create_exam_bottom_sheet.dart:102:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/exams/create_exam_bottom_sheet.dart:102:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/exams/create_exam_bottom_sheet.dart:102:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/exams/create_exam_bottom_sheet.dart:102:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/exams/create_exam_bottom_sheet.dart:102:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/exams/create_exam_bottom_sheet.dart:102:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/exams/create_exam_bottom_sheet.dart:102:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/exams/create_exam_bottom_sheet.dart:118:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/exams/create_exam_bottom_sheet.dart:118:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/exams/create_exam_bottom_sheet.dart:118:24 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/exams/create_exam_bottom_sheet.dart:122:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/exams/create_exam_bottom_sheet.dart:122:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/create_exam_bottom_sheet.dart:128:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/create_exam_bottom_sheet.dart:414:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exam_details_screen.dart:193:51 • deprecated_member_use
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:86:36 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:87:41 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:88:10 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:115:36 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:116:41 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/exams/exams_screen.dart:117:10 • curly_braces_in_flow_control_structures
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:516:51 • deprecated_member_use
+   info • Use the '??' operator rather than '?:' when testing for 'null'. Try rewriting the code to use '??' • lib/screens/exams/exams_screen.dart:670:22 • prefer_if_null_operators
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:768:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:834:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:876:101 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:1065:51 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/exams/exams_screen.dart:1130:51 • deprecated_member_use
+warning • The value of the field '_receiptGenerated' isn't used. Try removing the field, or using it • lib/screens/fees/collect_fee_screen.dart:28:8 • unused_field
+warning • The value of the field '_showSummary' isn't used. Try removing the field, or using it • lib/screens/fees/collect_fee_screen.dart:29:8 • unused_field
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/collect_fee_screen.dart:80:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/collect_fee_screen.dart:80:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/collect_fee_screen.dart:80:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/collect_fee_screen.dart:80:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/collect_fee_screen.dart:81:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/collect_fee_screen.dart:87:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/collect_fee_screen.dart:87:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/collect_fee_screen.dart:87:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/collect_fee_screen.dart:87:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/collect_fee_screen.dart:87:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/collect_fee_screen.dart:87:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/collect_fee_screen.dart:87:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/collect_fee_screen.dart:87:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/collect_fee_screen.dart:87:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/collect_fee_screen.dart:87:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/collect_fee_screen.dart:103:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/collect_fee_screen.dart:103:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/collect_fee_screen.dart:103:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/collect_fee_screen.dart:107:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/collect_fee_screen.dart:107:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/collect_fee_screen.dart:113:44 • deprecated_member_use
+warning • The declaration '_showFilterSheet' isn't referenced. Try removing the declaration of '_showFilterSheet' • lib/screens/fees/collect_fee_screen.dart:376:8 • unused_element
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/fees/collect_fee_screen.dart:439:40 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/fees/collect_fee_screen.dart:440:45 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/fees/collect_fee_screen.dart:441:45 • curly_braces_in_flow_control_structures
+warning • The declaration '_buildDropdown' isn't referenced. Try removing the declaration of '_buildDropdown' • lib/screens/fees/collect_fee_screen.dart:499:10 • unused_element
+warning • The declaration '_buildStickyBottomBar' isn't referenced. Try removing the declaration of '_buildStickyBottomBar' • lib/screens/fees/collect_fee_screen.dart:521:10 • unused_element
+warning • The declaration '_buildCollectionDetailsHeader' isn't referenced. Try removing the declaration of '_buildCollectionDetailsHeader' • lib/screens/fees/collect_fee_screen.dart:1351:10 • unused_element
+warning • The declaration '_buildStudentInformationCard' isn't referenced. Try removing the declaration of '_buildStudentInformationCard' • lib/screens/fees/collect_fee_screen.dart:1355:10 • unused_element
+warning • The declaration '_buildPaymentModeCard' isn't referenced. Try removing the declaration of '_buildPaymentModeCard' • lib/screens/fees/collect_fee_screen.dart:1524:10 • unused_element
+warning • The declaration '_buildDetailsStickyBar' isn't referenced. Try removing the declaration of '_buildDetailsStickyBar' • lib/screens/fees/collect_fee_screen.dart:1627:10 • unused_element
+warning • The declaration '_buildSummaryHeader' isn't referenced. Try removing the declaration of '_buildSummaryHeader' • lib/screens/fees/collect_fee_screen.dart:1644:10 • unused_element
+warning • The declaration '_buildSummaryStickyBar' isn't referenced. Try removing the declaration of '_buildSummaryStickyBar' • lib/screens/fees/collect_fee_screen.dart:1817:10 • unused_element
+warning • The declaration '_buildReceiptView' isn't referenced. Try removing the declaration of '_buildReceiptView' • lib/screens/fees/collect_fee_screen.dart:1850:10 • unused_element
+warning • The value of the field '_bg' isn't used. Try removing the field, or using it • lib/screens/fees/create_invoice_modal.dart:21:9 • unused_field
+   info • The private field _items could be 'final'. Try making the field 'final' • lib/screens/fees/create_invoice_modal.dart:31:30 • prefer_final_fields
+  error • Expected to find ',' • lib/screens/fees/create_invoice_modal.dart:105:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/create_invoice_modal.dart:105:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/create_invoice_modal.dart:105:31 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/create_invoice_modal.dart:115:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/defaulters_list_screen.dart:66:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/defaulters_list_screen.dart:66:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/defaulters_list_screen.dart:66:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/defaulters_list_screen.dart:66:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/defaulters_list_screen.dart:67:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/defaulters_list_screen.dart:73:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/defaulters_list_screen.dart:73:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/defaulters_list_screen.dart:73:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/defaulters_list_screen.dart:73:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/defaulters_list_screen.dart:73:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/defaulters_list_screen.dart:73:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/defaulters_list_screen.dart:73:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/defaulters_list_screen.dart:73:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/defaulters_list_screen.dart:73:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/defaulters_list_screen.dart:73:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/defaulters_list_screen.dart:89:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/defaulters_list_screen.dart:89:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/defaulters_list_screen.dart:89:28 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/defaulters_list_screen.dart:93:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/defaulters_list_screen.dart:93:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/defaulters_list_screen.dart:99:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/discounts_scholarships_screen.dart:98:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/discounts_scholarships_screen.dart:98:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/discounts_scholarships_screen.dart:98:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/discounts_scholarships_screen.dart:98:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/discounts_scholarships_screen.dart:99:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/discounts_scholarships_screen.dart:105:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/discounts_scholarships_screen.dart:105:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/discounts_scholarships_screen.dart:105:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/discounts_scholarships_screen.dart:105:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/discounts_scholarships_screen.dart:105:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/discounts_scholarships_screen.dart:105:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/discounts_scholarships_screen.dart:105:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/discounts_scholarships_screen.dart:105:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/discounts_scholarships_screen.dart:105:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/discounts_scholarships_screen.dart:105:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/discounts_scholarships_screen.dart:121:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/discounts_scholarships_screen.dart:121:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/discounts_scholarships_screen.dart:121:25 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/discounts_scholarships_screen.dart:125:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/discounts_scholarships_screen.dart:125:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/discounts_scholarships_screen.dart:131:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/due_payments_screen.dart:111:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/due_payments_screen.dart:111:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/due_payments_screen.dart:111:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/due_payments_screen.dart:111:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/due_payments_screen.dart:112:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/due_payments_screen.dart:118:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/due_payments_screen.dart:118:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/due_payments_screen.dart:118:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/due_payments_screen.dart:118:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/due_payments_screen.dart:118:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/due_payments_screen.dart:118:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/due_payments_screen.dart:118:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/due_payments_screen.dart:118:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/due_payments_screen.dart:118:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/due_payments_screen.dart:118:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/due_payments_screen.dart:134:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/due_payments_screen.dart:134:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/due_payments_screen.dart:134:25 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/due_payments_screen.dart:138:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/due_payments_screen.dart:138:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/due_payments_screen.dart:144:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fee_structure_screen.dart:66:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/fee_structure_screen.dart:66:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/fee_structure_screen.dart:66:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/fee_structure_screen.dart:66:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/fee_structure_screen.dart:67:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/fee_structure_screen.dart:73:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fee_structure_screen.dart:73:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/fee_structure_screen.dart:73:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/fee_structure_screen.dart:73:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fee_structure_screen.dart:73:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/fee_structure_screen.dart:73:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/fee_structure_screen.dart:73:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/fee_structure_screen.dart:73:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fee_structure_screen.dart:73:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/fee_structure_screen.dart:73:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/fee_structure_screen.dart:89:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/fee_structure_screen.dart:89:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/fee_structure_screen.dart:89:31 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/fee_structure_screen.dart:93:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/fee_structure_screen.dart:93:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/fee_structure_screen.dart:99:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fees_dashboard_screen.dart:115:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/fees_dashboard_screen.dart:115:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/fees_dashboard_screen.dart:115:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/fees_dashboard_screen.dart:115:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/fees_dashboard_screen.dart:116:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/fees_dashboard_screen.dart:122:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fees_dashboard_screen.dart:122:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/fees_dashboard_screen.dart:122:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/fees_dashboard_screen.dart:122:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fees_dashboard_screen.dart:122:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/fees_dashboard_screen.dart:122:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/fees_dashboard_screen.dart:122:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/fees_dashboard_screen.dart:122:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/fees_dashboard_screen.dart:122:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/fees_dashboard_screen.dart:122:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/fees_dashboard_screen.dart:138:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/fees_dashboard_screen.dart:138:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/fees_dashboard_screen.dart:138:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/fees_dashboard_screen.dart:142:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/fees_dashboard_screen.dart:142:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/fees_dashboard_screen.dart:148:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/fees/fees_dashboard_screen.dart:264:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/fees_dashboard_screen.dart:264:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/fees_dashboard_screen.dart:264:26 • expected_token
+  error • Expected to find ',' • lib/screens/fees/fees_dashboard_screen.dart:820:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/fees_dashboard_screen.dart:820:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/fees_dashboard_screen.dart:820:26 • expected_token
+  error • Expected to find ',' • lib/screens/fees/fees_dashboard_screen.dart:826:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/fees_dashboard_screen.dart:826:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/fees_dashboard_screen.dart:826:26 • expected_token
+  error • Expected to find ',' • lib/screens/fees/invoices_screen.dart:130:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/invoices_screen.dart:130:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/invoices_screen.dart:130:26 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/invoices_screen.dart:140:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payment_reminders_screen.dart:108:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/payment_reminders_screen.dart:108:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/payment_reminders_screen.dart:108:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/payment_reminders_screen.dart:108:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/payment_reminders_screen.dart:109:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/payment_reminders_screen.dart:115:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payment_reminders_screen.dart:115:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/payment_reminders_screen.dart:115:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/payment_reminders_screen.dart:115:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payment_reminders_screen.dart:115:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/payment_reminders_screen.dart:115:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/payment_reminders_screen.dart:115:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/payment_reminders_screen.dart:115:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payment_reminders_screen.dart:115:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/payment_reminders_screen.dart:115:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/payment_reminders_screen.dart:131:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/payment_reminders_screen.dart:131:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/payment_reminders_screen.dart:131:27 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/payment_reminders_screen.dart:135:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/payment_reminders_screen.dart:135:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/payment_reminders_screen.dart:141:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payments_receipts_screen.dart:68:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/payments_receipts_screen.dart:68:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/payments_receipts_screen.dart:68:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/payments_receipts_screen.dart:68:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/payments_receipts_screen.dart:69:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/payments_receipts_screen.dart:75:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payments_receipts_screen.dart:75:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/payments_receipts_screen.dart:75:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/payments_receipts_screen.dart:75:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payments_receipts_screen.dart:75:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/payments_receipts_screen.dart:75:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/payments_receipts_screen.dart:75:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/payments_receipts_screen.dart:75:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/payments_receipts_screen.dart:75:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/payments_receipts_screen.dart:75:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/payments_receipts_screen.dart:91:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/payments_receipts_screen.dart:91:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/payments_receipts_screen.dart:91:30 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/payments_receipts_screen.dart:95:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/payments_receipts_screen.dart:95:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/payments_receipts_screen.dart:101:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/receipts_list_screen.dart:56:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/receipts_list_screen.dart:56:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/receipts_list_screen.dart:56:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/receipts_list_screen.dart:56:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/receipts_list_screen.dart:57:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/receipts_list_screen.dart:63:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/receipts_list_screen.dart:63:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/receipts_list_screen.dart:63:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/receipts_list_screen.dart:63:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/receipts_list_screen.dart:63:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/receipts_list_screen.dart:63:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/receipts_list_screen.dart:63:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/receipts_list_screen.dart:63:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/receipts_list_screen.dart:63:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/receipts_list_screen.dart:63:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/receipts_list_screen.dart:79:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/receipts_list_screen.dart:79:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/receipts_list_screen.dart:79:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/receipts_list_screen.dart:83:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/receipts_list_screen.dart:83:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/receipts_list_screen.dart:89:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/reports_screen.dart:80:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/reports_screen.dart:80:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/reports_screen.dart:80:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/reports_screen.dart:80:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/reports_screen.dart:81:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/reports_screen.dart:87:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/reports_screen.dart:87:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/reports_screen.dart:87:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/reports_screen.dart:87:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/reports_screen.dart:87:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/reports_screen.dart:87:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/reports_screen.dart:87:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/reports_screen.dart:87:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/reports_screen.dart:87:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/reports_screen.dart:87:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/reports_screen.dart:103:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/reports_screen.dart:103:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/reports_screen.dart:103:29 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/reports_screen.dart:107:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/reports_screen.dart:107:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/reports_screen.dart:113:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/schemes_list_screen.dart:82:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/fees/schemes_list_screen.dart:82:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/schemes_list_screen.dart:82:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/fees/schemes_list_screen.dart:82:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/schemes_list_screen.dart:83:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/fees/schemes_list_screen.dart:89:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/schemes_list_screen.dart:89:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/fees/schemes_list_screen.dart:89:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/fees/schemes_list_screen.dart:89:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/schemes_list_screen.dart:89:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/fees/schemes_list_screen.dart:89:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/fees/schemes_list_screen.dart:89:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/fees/schemes_list_screen.dart:89:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/fees/schemes_list_screen.dart:89:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/fees/schemes_list_screen.dart:89:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/fees/schemes_list_screen.dart:105:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/fees/schemes_list_screen.dart:105:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/fees/schemes_list_screen.dart:105:25 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/fees/schemes_list_screen.dart:109:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/fees/schemes_list_screen.dart:109:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/fees/schemes_list_screen.dart:115:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/folder_details_screen.dart:113:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/folder_details_screen.dart:113:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/folder_details_screen.dart:113:27 • expected_token
+  error • Expected to find ',' • lib/screens/folder_details_screen.dart:173:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/folder_details_screen.dart:173:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/folder_details_screen.dart:173:27 • expected_token
+  error • Expected to find ',' • lib/screens/folder_details_screen.dart:193:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/folder_details_screen.dart:193:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/folder_details_screen.dart:193:27 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/folder_details_screen.dart:203:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/folder_details_screen.dart:348:114 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/homework/homework_screen.dart:106:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/homework/homework_screen.dart:106:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/homework/homework_screen.dart:106:23 • expected_token
+  error • Expected to find ',' • lib/screens/homework/homework_screen.dart:129:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/homework/homework_screen.dart:129:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/homework/homework_screen.dart:129:23 • expected_token
+  error • Expected to find ',' • lib/screens/homework/homework_screen.dart:147:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/homework/homework_screen.dart:147:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/homework/homework_screen.dart:147:23 • expected_token
+  error • Expected to find ',' • lib/screens/homework/homework_screen.dart:167:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/homework/homework_screen.dart:167:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/homework/homework_screen.dart:167:23 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/homework/homework_screen.dart:177:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/homework/homework_screen.dart:648:39 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/homework/homework_screen.dart:773:33 • deprecated_member_use
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • lib/screens/hostel/hostel_screens.dart:1:8 • unused_import
+warning • Unused import: '../auth/menu_screen.dart'. Try removing the import directive • lib/screens/hostel/hostel_screens.dart:2:8 • unused_import
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:361:65 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:534:19 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:536:19 • deprecated_member_use
+warning • The declaration '_buildHeaderAction' isn't referenced. Try removing the declaration of '_buildHeaderAction' • lib/screens/inventory/inventory_insights_screen.dart:557:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:679:41 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:783:57 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:838:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:920:63 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:1271:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:1456:48 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:1469:68 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:1601:72 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:1934:45 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/inventory/inventory_insights_screen.dart:2047:33 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/learning_resources_screen.dart:106:11 • deprecated_member_use
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:119:48 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:120:53 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:121:22 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:124:53 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:125:54 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/learning_resources_screen.dart:126:22 • curly_braces_in_flow_control_structures
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/learning_resources_screen.dart:556:53 • deprecated_member_use
+warning • The declaration '_buildHeaderButton' isn't referenced. Try removing the declaration of '_buildHeaderButton' • lib/screens/library/library_insights_screen.dart:264:10 • unused_element
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/library/library_insights_screen.dart:2179:65 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/library/library_insights_screen.dart:2353:19 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/library/library_insights_screen.dart:2355:19 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/messages/chat_screen.dart:51:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/messages/chat_screen.dart:51:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/messages/chat_screen.dart:51:26 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/chat_screen.dart:55:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/messages/chat_screen.dart:55:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/messages/chat_screen.dart:55:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/messages/chat_screen.dart:55:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/messages/chat_screen.dart:56:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/messages/chat_screen.dart:62:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/chat_screen.dart:62:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/messages/chat_screen.dart:62:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/messages/chat_screen.dart:62:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/chat_screen.dart:62:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/messages/chat_screen.dart:62:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/messages/chat_screen.dart:62:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/messages/chat_screen.dart:62:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/chat_screen.dart:62:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/messages/chat_screen.dart:62:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/messages/chat_screen.dart:78:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/messages/chat_screen.dart:78:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/messages/chat_screen.dart:78:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/messages/chat_screen.dart:82:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/messages/chat_screen.dart:82:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/messages/chat_screen.dart:88:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/messages_screen.dart:102:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/messages/messages_screen.dart:102:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/messages/messages_screen.dart:102:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/messages/messages_screen.dart:102:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/messages/messages_screen.dart:103:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/messages/messages_screen.dart:109:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/messages_screen.dart:109:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/messages/messages_screen.dart:109:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/messages/messages_screen.dart:109:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/messages_screen.dart:109:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/messages/messages_screen.dart:109:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/messages/messages_screen.dart:109:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/messages/messages_screen.dart:109:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/messages/messages_screen.dart:109:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/messages/messages_screen.dart:109:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/messages/messages_screen.dart:125:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/messages/messages_screen.dart:125:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/messages/messages_screen.dart:125:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/messages/messages_screen.dart:129:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/messages/messages_screen.dart:129:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/messages/messages_screen.dart:135:44 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/messages/messages_screen.dart:251:82 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/messages/messages_screen.dart:416:69 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/non_teaching_staff_screen.dart:92:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/non_teaching/non_teaching_staff_screen.dart:92:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/non_teaching_staff_screen.dart:92:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/non_teaching/non_teaching_staff_screen.dart:92:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/non_teaching_staff_screen.dart:93:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/non_teaching_staff_screen.dart:99:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/non_teaching/non_teaching_staff_screen.dart:115:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/non_teaching_staff_screen.dart:115:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/non_teaching_staff_screen.dart:115:26 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/non_teaching/non_teaching_staff_screen.dart:119:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/non_teaching/non_teaching_staff_screen.dart:119:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/non_teaching/non_teaching_staff_screen.dart:125:44 • deprecated_member_use
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/staff_insights_screen.dart:126:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/non_teaching/staff_insights_screen.dart:126:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/staff_insights_screen.dart:126:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/non_teaching/staff_insights_screen.dart:126:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/staff_insights_screen.dart:127:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/non_teaching/staff_insights_screen.dart:133:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/staff_insights_screen.dart:133:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/non_teaching/staff_insights_screen.dart:133:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/non_teaching/staff_insights_screen.dart:133:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/staff_insights_screen.dart:133:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/staff_insights_screen.dart:133:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/non_teaching/staff_insights_screen.dart:133:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/non_teaching/staff_insights_screen.dart:133:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/staff_insights_screen.dart:133:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/staff_insights_screen.dart:133:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/non_teaching/staff_insights_screen.dart:149:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/staff_insights_screen.dart:149:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/staff_insights_screen.dart:149:32 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/non_teaching/staff_insights_screen.dart:153:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/non_teaching/staff_insights_screen.dart:153:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/non_teaching/staff_insights_screen.dart:159:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/non_teaching/staff_insights_screen.dart:325:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/staff_insights_screen.dart:325:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/staff_insights_screen.dart:325:32 • expected_token
+  error • Expected to find ',' • lib/screens/non_teaching/staff_insights_screen.dart:822:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/staff_insights_screen.dart:822:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/staff_insights_screen.dart:822:32 • expected_token
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/teaching_staff_screen.dart:74:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/non_teaching/teaching_staff_screen.dart:74:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/teaching_staff_screen.dart:74:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/non_teaching/teaching_staff_screen.dart:74:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/teaching_staff_screen.dart:75:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/non_teaching/teaching_staff_screen.dart:81:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/teaching_staff_screen.dart:81:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/non_teaching/teaching_staff_screen.dart:81:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/non_teaching/teaching_staff_screen.dart:81:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/teaching_staff_screen.dart:81:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/non_teaching/teaching_staff_screen.dart:81:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/non_teaching/teaching_staff_screen.dart:81:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/non_teaching/teaching_staff_screen.dart:81:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/non_teaching/teaching_staff_screen.dart:81:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/non_teaching/teaching_staff_screen.dart:81:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/non_teaching/teaching_staff_screen.dart:97:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/teaching_staff_screen.dart:97:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/teaching_staff_screen.dart:97:29 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/non_teaching/teaching_staff_screen.dart:101:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/non_teaching/teaching_staff_screen.dart:101:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/non_teaching/teaching_staff_screen.dart:107:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/non_teaching/teaching_staff_screen.dart:335:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/non_teaching/teaching_staff_screen.dart:335:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/non_teaching/teaching_staff_screen.dart:335:29 • expected_token
+  error • Expected to find ',' • lib/screens/subjects/create_subject_wizard.dart:80:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/subjects/create_subject_wizard.dart:80:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/subjects/create_subject_wizard.dart:80:23 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/subjects/create_subject_wizard.dart:90:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/subjects/create_subject_wizard.dart:379:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/subjects/create_subject_wizard.dart:379:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/subjects/create_subject_wizard.dart:379:23 • expected_token
+  error • Expected to find ',' • lib/screens/subjects/create_subject_wizard.dart:405:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/subjects/create_subject_wizard.dart:405:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/subjects/create_subject_wizard.dart:405:23 • expected_token
+  error • Expected to find ',' • lib/screens/subjects/create_subject_wizard.dart:426:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/subjects/create_subject_wizard.dart:426:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/subjects/create_subject_wizard.dart:426:23 • expected_token
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/subjects/subjects_screen.dart:66:72 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/subjects/subjects_screen.dart:67:12 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/subjects/subjects_screen.dart:311:43 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/subjects/subjects_screen.dart:312:10 • curly_braces_in_flow_control_structures
+   info • Missing type annotation. Try adding a type annotation • lib/screens/teachers/teachers_list_screen.dart:105:3 • strict_top_level_inference
+   info • The variable name 'Future' isn't a lowerCamelCase identifier. Try changing the name to follow the lowerCamelCase style • lib/screens/teachers/teachers_list_screen.dart:105:3 • non_constant_identifier_names
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/teachers/teachers_list_screen.dart:105:3 • missing_method_parameters
+  error • Expected to find '>' • lib/screens/teachers/teachers_list_screen.dart:105:10 • expected_token
+  error • A function body must be provided. Try adding a function body • lib/screens/teachers/teachers_list_screen.dart:106:3 • missing_function_body
+   info • An uninitialized field should have an explicit type annotation. Try adding a type annotation • lib/screens/teachers/teachers_list_screen.dart:112:3 • prefer_typing_uninitialized_variables
+   info • Missing type annotation. Try adding a type annotation • lib/screens/teachers/teachers_list_screen.dart:112:3 • strict_top_level_inference
+  error • Expected to find ';' • lib/screens/teachers/teachers_list_screen.dart:112:3 • expected_token
+  error • Variables must be declared using the keywords 'const', 'final', 'var' or a type name. Try adding the name of the type of the variable or the keyword 'var' • lib/screens/teachers/teachers_list_screen.dart:112:3 • missing_const_final_var_or_type
+   info • Missing type annotation. Try adding a type annotation • lib/screens/teachers/teachers_list_screen.dart:112:5 • strict_top_level_inference
+  error • Methods must have an explicit list of parameters. Try adding a parameter list • lib/screens/teachers/teachers_list_screen.dart:112:5 • missing_method_parameters
+  error • Operator '>' should declare exactly 1 parameters, but 0 found • lib/screens/teachers/teachers_list_screen.dart:112:5 • wrong_number_of_parameters_for_operator
+  error • Operator declarations must be preceded by the keyword 'operator'. Try adding the keyword 'operator' • lib/screens/teachers/teachers_list_screen.dart:112:5 • missing_keyword_operator
+   info • Missing type annotation. Try adding a type annotation • lib/screens/teachers/teachers_list_screen.dart:112:7 • strict_top_level_inference
+  error • A function body must be provided. Try adding a function body • lib/screens/teachers/teachers_list_screen.dart:112:7 • missing_function_body
+  error • Expected to find ',' • lib/screens/teachers/teachers_list_screen.dart:128:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/teachers/teachers_list_screen.dart:128:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/teachers/teachers_list_screen.dart:128:29 • expected_token
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/teachers/teachers_list_screen.dart:132:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/teachers/teachers_list_screen.dart:132:16 • body_might_complete_normally_nullable
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/teachers/teachers_list_screen.dart:138:44 • deprecated_member_use
+  error • Undefined class 'Future'. Try changing the name to the name of an existing class, or creating a class with the name 'Future' • lib/screens/teachers/teachers_list_screen.dart:236:3 • undefined_class
+warning • This function has a nullable return type of 'FutureOr<Object?>', but ends without returning a value. Try adding a return statement, or if no value is ever returned, try changing the return type to 'void' • lib/screens/teachers/teachers_list_screen.dart:236:16 • body_might_complete_normally_nullable
+  error • Expected to find ',' • lib/screens/teachers/teachers_list_screen.dart:262:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/teachers/teachers_list_screen.dart:262:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/teachers/teachers_list_screen.dart:262:29 • expected_token
+  error • Expected to find ',' • lib/screens/teachers/teachers_list_screen.dart:403:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/teachers/teachers_list_screen.dart:403:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/teachers/teachers_list_screen.dart:403:29 • expected_token
+  error • Expected to find ',' • lib/screens/timetables/create_timetable_wizard.dart:209:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/timetables/create_timetable_wizard.dart:209:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/timetables/create_timetable_wizard.dart:209:30 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:219:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/timetables/create_timetable_wizard.dart:333:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/timetables/create_timetable_wizard.dart:333:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/timetables/create_timetable_wizard.dart:333:30 • expected_token
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:804:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:806:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:1044:40 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:1046:59 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/create_timetable_wizard.dart:1101:61 • deprecated_member_use
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/timetables/timetables_screen.dart:45:43 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/timetables/timetables_screen.dart:46:41 • curly_braces_in_flow_control_structures
+   info • Statements in an if should be enclosed in a block. Try wrapping the statement in a block • lib/screens/timetables/timetables_screen.dart:47:10 • curly_braces_in_flow_control_structures
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/timetables_screen.dart:225:38 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/timetables_screen.dart:272:61 • deprecated_member_use
+   info • 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss. Try replacing the use of the deprecated member with the replacement • lib/screens/timetables/timetables_screen.dart:301:40 • deprecated_member_use
+warning • The '!' will have no effect because the receiver can't be null. Try removing the '!' operator • lib/screens/transport/add_admission_modal.dart:260:144 • unnecessary_non_null_assertion
+warning • The value of the field '_selectedHelper' isn't used. Try removing the field, or using it • lib/screens/transport/add_log_job_screen.dart:24:11 • unused_field
+   info • Use the null-aware marker '?' rather than a null check via an 'if'. Try using '?' • lib/screens/transport/add_log_job_screen.dart:1088:17 • use_null_aware_elements
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/drivers_screen.dart:120:62 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/drivers_screen.dart:163:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/drivers_screen.dart:164:15 • deprecated_member_use
+   info • The local variable '_buildDetailRow' starts with an underscore. Try renaming the variable to not start with an underscore • lib/screens/transport/drivers_screen.dart:182:12 • no_leading_underscores_for_local_identifiers
+   info • The local variable '_buildSectionHeader' starts with an underscore. Try renaming the variable to not start with an underscore • lib/screens/transport/drivers_screen.dart:209:12 • no_leading_underscores_for_local_identifiers
+  error • Expected to find ',' • lib/screens/transport/live_tracking_screen.dart:108:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/transport/live_tracking_screen.dart:108:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/transport/live_tracking_screen.dart:108:23 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/live_tracking_screen.dart:118:44 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/live_tracking_screen.dart:474:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/live_tracking_screen.dart:475:15 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/maintenance_screen.dart:486:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/maintenance_screen.dart:487:15 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/routes_screen.dart:138:50 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/routes_screen.dart:283:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/routes_screen.dart:284:15 • deprecated_member_use
+   info • The local variable '_buildDetailRow' starts with an underscore. Try renaming the variable to not start with an underscore • lib/screens/transport/student_allocation_screen.dart:195:12 • no_leading_underscores_for_local_identifiers
+   info • The local variable '_buildSectionCard' starts with an underscore. Try renaming the variable to not start with an underscore • lib/screens/transport/student_allocation_screen.dart:270:12 • no_leading_underscores_for_local_identifiers
+   info • The local variable '_buildSectionRow' starts with an underscore. Try renaming the variable to not start with an underscore • lib/screens/transport/student_allocation_screen.dart:303:12 • no_leading_underscores_for_local_identifiers
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/student_allocation_screen.dart:591:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/student_allocation_screen.dart:592:15 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/transport_dashboard_screen.dart:181:62 • deprecated_member_use
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/transport_dashboard_screen.dart:184:66 • deprecated_member_use
+warning • The declaration '_buildSecondaryButton' isn't referenced. Try removing the declaration of '_buildSecondaryButton' • lib/screens/transport/transport_dashboard_screen.dart:268:10 • unused_element
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/transport_dashboard_screen.dart:467:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/transport_dashboard_screen.dart:468:15 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/transport/transport_screen.dart:148:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/transport/transport_screen.dart:148:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/transport/transport_screen.dart:148:26 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/transport_screen.dart:158:44 • deprecated_member_use
+  error • Expected to find ',' • lib/screens/transport/transport_screen.dart:738:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/transport/transport_screen.dart:738:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/transport/transport_screen.dart:738:26 • expected_token
+  error • Expected to find ',' • lib/screens/transport/transport_screen.dart:943:11 • expected_token
+  error • Too many positional arguments: 1 expected, but 2 found. Try removing the extra arguments • lib/screens/transport/transport_screen.dart:943:11 • extra_positional_arguments
+  error • Expected to find ')' • lib/screens/transport/transport_screen.dart:943:26 • expected_token
+   info • 'value' is deprecated and shouldn't be used. Use component accessors like .r or .g, or toARGB32 for an explicit conversion. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/vehicles_screen.dart:117:62 • deprecated_member_use
+   info • 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/vehicles_screen.dart:143:15 • deprecated_member_use
+   info • 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre. Try replacing the use of the deprecated member with the replacement • lib/screens/transport/vehicles_screen.dart:144:15 • deprecated_member_use
+warning • Unused import: 'package:flutter/material.dart'. Try removing the import directive • patch_invoices.dart:1:8 • unused_import
+

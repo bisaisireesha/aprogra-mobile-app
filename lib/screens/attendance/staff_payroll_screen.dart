@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -195,7 +196,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           _buildTopControls(),
                           const SizedBox(height: 24),
                           _buildStatsRow(),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 12.h),
                           _buildFinancialSummaryRow(),
                           const SizedBox(height: 32),
                           _buildSalaryRegister(),
@@ -284,9 +285,10 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -327,6 +329,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
             color: _textMuted,
           ),
         ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -598,7 +601,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         if (!_isTablet) ...[
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -620,7 +623,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _buildSalaryList(),
         ] else
           _buildSalaryTable(),
@@ -1034,7 +1037,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

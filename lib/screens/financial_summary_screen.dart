@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aprogra/screens/auth/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -156,11 +157,10 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                 const SizedBox(width: 12),
                 Text(
                   'Financial Summary',
-                  style: GoogleFonts.figtree(
-                    fontSize: 22,
+                  style: TextStyle(
+                    fontSize: 28.sp,
                     fontWeight: FontWeight.bold,
                     color: _textDark,
-                    letterSpacing: -0.5,
                   ),
                 ),
               ],
@@ -192,16 +192,8 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Overview of fee collection, expenses and\nnet balance for the academic year.',
-          style: GoogleFonts.figtree(
-            fontSize: 14,
-            color: _textMuted,
-            height: 1.4,
-          ),
-        ),
-        const SizedBox(height: 16),
+
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(child: _buildDropdown('2025-26')),
@@ -335,7 +327,6 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Text(
@@ -423,7 +414,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
             color: _textDark,
           ),
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         GridView.count(
           crossAxisCount: isTablet ? 3 : 2,
           shrinkWrap: true,
@@ -748,7 +739,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.60,
                   const Color(0xFF6366F1),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   'Cash',
                   '₹11.10L',
@@ -756,7 +747,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.27,
                   const Color(0xFF3B82F6),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   'Bank Transfer',
                   '₹3.28L',
@@ -764,7 +755,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.08,
                   const Color(0xFF10B981),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   'Card',
                   '₹1.64L',
@@ -772,7 +763,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.04,
                   const Color(0xFFF59E0B),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   'UPI',
                   '₹0.26L',
@@ -1046,7 +1037,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.40,
                   const Color(0xFF10B981),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   '31-60 Days',
                   '₹0.81L',
@@ -1054,7 +1045,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                   0.42,
                   const Color(0xFFF59E0B),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 _buildModeBar(
                   '60+ Days',
                   '₹0.25L',
@@ -1345,7 +1336,7 @@ class _FinancialSummaryScreenState extends State<FinancialSummaryScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 12.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

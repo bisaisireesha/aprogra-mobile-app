@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -113,26 +114,19 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
   // --- Header ---
   Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Admissions Insights',
-          style: GoogleFonts.figtree(
-            fontSize: 22,
+          style: TextStyle(
+            fontSize: 28.sp,
             fontWeight: FontWeight.bold,
             color: _textDark,
-            letterSpacing: -0.5,
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Monitor enrollment performance and conversion trends',
-          style: GoogleFonts.figtree(
-            fontSize: 14,
-            color: _textMuted,
-          ),
-        ),
+        const SizedBox.shrink(),
       ],
     );
   }
@@ -188,7 +182,7 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
         crossAxisCount: isTablet ? 4 : 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        mainAxisExtent: 200,
+        mainAxisExtent: 215.h,
       ),
       children: [
         _buildKPICard(
@@ -304,7 +298,7 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
 
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           // Value
           Text(
             value,
@@ -354,7 +348,6 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
           const Divider(height: 1, color: Color(0xFFF3F4F6)),
           const SizedBox(height: 12),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
                 child: FittedBox(

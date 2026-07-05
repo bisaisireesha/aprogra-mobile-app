@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -366,9 +367,10 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
@@ -424,7 +426,7 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
             crossAxisCount: _isTablet ? 4 : 2,
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
-            mainAxisExtent: 164,
+            mainAxisExtent: 179.h,
           ),
           children: [
             _buildKpiCard(
@@ -587,7 +589,7 @@ class _NonTeachingStaffScreenState extends State<NonTeachingStaffScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildStaffList(),
       ],
     );

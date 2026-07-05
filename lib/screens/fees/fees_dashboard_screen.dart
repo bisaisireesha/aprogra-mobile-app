@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -316,7 +317,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                         _buildSearchBar(),
                         const SizedBox(height: 32),
                         _buildFiltersRow(),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 12.h),
                         _buildInvoicesTable(),
                         const SizedBox(height: 32),
                         _buildCollectionStatus(),
@@ -445,7 +446,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           textSection,
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: buttonsSection,
@@ -688,7 +689,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 12.h),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(top: 8),
@@ -1026,7 +1027,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         if (items.isEmpty)
           Padding(
             padding: const EdgeInsets.all(32),
@@ -1039,7 +1040,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           )
         else
           ...items.map((inv) => _buildInvoiceCard(inv)),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         _buildPagination(),
       ],
     );
@@ -1296,7 +1297,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           Row(
             children: [
               const SizedBox(width: 30),
@@ -1467,11 +1468,11 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           ),
           const SizedBox(height: 32),
           _legend('Paid', '₹39.0L', '68%', const Color(0xFF8B5CF6)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _legend('Partial', '₹9.8L', '17%', const Color(0xFF3B82F6)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _legend('Pending', '₹5.7L', '10%', const Color(0xFFF59E0B)),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.h),
           _legend('Overdue', '₹2.9L', '5%', const Color(0xFFEF4444)),
           const SizedBox(height: 24),
           Container(

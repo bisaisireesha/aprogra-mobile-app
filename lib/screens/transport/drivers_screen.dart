@@ -1,3 +1,4 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -409,7 +410,7 @@ class _DriversScreenState extends State<DriversScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Divider(color: Colors.grey.withValues(alpha: 0.1)),
 
                     _buildSectionHeader(
@@ -567,7 +568,7 @@ class _DriversScreenState extends State<DriversScreen> {
                   _buildStatsGrid(),
                   const SizedBox(height: 24),
                   _buildSearchBar(),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 12.h),
                   _buildDriversList(),
                 ],
               ),
@@ -578,16 +579,17 @@ class _DriversScreenState extends State<DriversScreen> {
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Drivers',
-          style: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: const Color(0xFF181821),
+          style: TextStyle(
+            fontSize: 28.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xFF111827),
           ),
         ),
         const SizedBox(height: 4),
@@ -676,7 +678,7 @@ class _DriversScreenState extends State<DriversScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 12.h),
         Row(
           children: [
             Expanded(
@@ -1077,7 +1079,7 @@ class _DriversScreenState extends State<DriversScreen> {
                         color: const Color(0xFF94A3B8),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 12.h),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

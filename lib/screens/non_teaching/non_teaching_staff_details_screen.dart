@@ -2,6 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class NonTeachingStaffDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> staff;
@@ -33,7 +34,14 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Staff Details', style: GoogleFonts.figtree(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18)),
+        title: Text(
+          'Staff Details',
+          style: GoogleFonts.figtree(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -60,7 +68,11 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
                   backgroundColor: Colors.white,
                   child: Text(
                     staff['initials'],
-                    style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: const Color(0xFF0EA5E9)),
+                    style: GoogleFonts.figtree(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0EA5E9),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -68,18 +80,44 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(staff['name'], style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        staff['name'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(staff['role'], style: GoogleFonts.figtree(fontSize: 14, color: Colors.white.withValues(alpha: 0.9))),
+                      Text(
+                        staff['role'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: Colors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(12)),
-                        child: Text(status, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white)),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          status,
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -101,7 +139,7 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -114,11 +152,23 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _buildContactRow(LucideIcons.phone, 'Call', staff['contact'] ?? '+91 98450 11208'),
+          _buildContactRow(
+            LucideIcons.phone,
+            'Call',
+            staff['contact'] ?? '+91 98450 11208',
+          ),
           const Divider(height: 1, color: Color(0xFFF3F4F6)),
-          _buildContactRow(LucideIcons.mail, 'Email', '${staff['name'].toString().split(' ')[0].toLowerCase()}@school.edu'),
+          _buildContactRow(
+            LucideIcons.mail,
+            'Email',
+            '${staff['name'].toString().split(' ')[0].toLowerCase()}@school.edu',
+          ),
           const Divider(height: 1, color: Color(0xFFF3F4F6)),
-          _buildContactRow(LucideIcons.messageSquare, 'Message', 'Send message'),
+          _buildContactRow(
+            LucideIcons.messageSquare,
+            'Message',
+            'Send message',
+          ),
         ],
       ),
     );
@@ -131,16 +181,32 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(color: const Color(0xFFF4F1FF), borderRadius: BorderRadius.circular(12)),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF4F1FF),
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Icon(icon, color: const Color(0xFF4F46E5), size: 20),
           ),
           const SizedBox(width: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
+              Text(
+                title,
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF111827),
+                ),
+              ),
               const SizedBox(height: 2),
-              Text(subtitle, style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF6B7280))),
+              Text(
+                subtitle,
+                style: GoogleFonts.figtree(
+                  fontSize: 13,
+                  color: const Color(0xFF6B7280),
+                ),
+              ),
             ],
           ),
         ],
@@ -159,8 +225,15 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Overview', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          SizedBox(height: 12.h),
+          Text(
+            'Overview',
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF111827),
+            ),
+          ),
+          const SizedBox(height: 16),
           _buildInfoRow('Department', staff['dept']),
           const SizedBox(height: 12),
           _buildInfoRow('Joined On', staff['joined']),
@@ -172,11 +245,30 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Status', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF6B7280))),
+              Text(
+                'Status',
+                style: GoogleFonts.figtree(
+                  fontSize: 13,
+                  color: const Color(0xFF6B7280),
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                child: Text(status, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: statusText)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: statusBg,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  status,
+                  style: GoogleFonts.figtree(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: statusText,
+                  ),
+                ),
               ),
             ],
           ),
@@ -196,8 +288,15 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Additional Info', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          SizedBox(height: 12.h),
+          Text(
+            'Additional Info',
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF111827),
+            ),
+          ),
+          const SizedBox(height: 16),
           _buildInfoRow('Date of Birth', '12 Mar 1988'),
           const SizedBox(height: 12),
           _buildInfoRow('Address', 'Hyderabad, Telangana'),
@@ -214,8 +313,20 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF6B7280))),
-        Text(value, style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF111827))),
+        Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 13,
+            color: const Color(0xFF6B7280),
+          ),
+        ),
+        Text(
+          value,
+          style: GoogleFonts.figtree(
+            fontSize: 13,
+            color: const Color(0xFF111827),
+          ),
+        ),
       ],
     );
   }
@@ -231,8 +342,15 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Actions', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
-          SizedBox(height: 12.h),
+          Text(
+            'Actions',
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF111827),
+            ),
+          ),
+          const SizedBox(height: 16),
           _buildActionRow(LucideIcons.edit2, 'Edit Staff'),
           SizedBox(height: 12.h),
           _buildActionRow(LucideIcons.calendarCheck, 'Mark Attendance'),
@@ -250,7 +368,13 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
       children: [
         Icon(icon, size: 20, color: const Color(0xFF6B7280)),
         const SizedBox(width: 16),
-        Text(label, style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFF111827))),
+        Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 14,
+            color: const Color(0xFF111827),
+          ),
+        ),
       ],
     );
   }
@@ -259,7 +383,9 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: 1, // Staff
@@ -267,13 +393,28 @@ class NonTeachingStaffDetailsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         selectedItemColor: const Color(0xFF4F46E5),
         unselectedItemColor: const Color(0xFF6B7280),
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.calendar_today_outlined), label: 'Attendance'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today_outlined),
+            label: 'Attendance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
         ],
       ),
     );

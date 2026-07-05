@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
 import '../../widgets/common_app_bar.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../../screens/auth/menu_screen.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
@@ -32,6 +33,7 @@ class _AdmissionsInsightsScreenState extends State<AdmissionsInsightsScreen> {
     return Scaffold(
       backgroundColor: _bgColor,
       drawer: const MenuScreen(activeScreen: 'Admissions Insights'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(

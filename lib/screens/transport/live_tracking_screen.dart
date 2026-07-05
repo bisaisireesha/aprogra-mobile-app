@@ -8,6 +8,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class LiveTrackingScreen extends StatefulWidget {
   const LiveTrackingScreen({super.key});
@@ -88,7 +89,6 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     super.dispose();
   }
 
-  
   Future<void> _loadBuses() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__buses_data');
@@ -127,7 +127,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       drawer: const MenuScreen(activeScreen: 'Live Tracking'),
-      
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -137,7 +137,10 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -171,7 +174,72 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             color: const Color(0xFF111827),
           ),
         ),
-        const SizedBox.shrink(),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF10B981),
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  'Live · updated 12s ago',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF94A3B8),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Refreshing locations...')),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      LucideIcons.refreshCw,
+                      size: 14,
+                      color: Color(0xFF181821),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Refresh',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF181821),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -305,7 +373,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 18),
+                const Icon(
+                  LucideIcons.search,
+                  color: Color(0xFF94A3B8),
+                  size: 18,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
@@ -338,7 +410,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
           ),
-          child: const Icon(LucideIcons.filter, color: Color(0xFF595973), size: 20),
+          child: const Icon(
+            LucideIcons.filter,
+            color: Color(0xFF595973),
+            size: 20,
+          ),
         ),
       ],
     );
@@ -365,9 +441,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
           Positioned.fill(
             child: Opacity(
               opacity: 0.05,
-              child: CustomPaint(
-                painter: GridPainter(),
-              ),
+              child: CustomPaint(painter: GridPainter()),
             ),
           ),
           // Top Header
@@ -385,11 +459,16 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+                    border: Border.all(
+                      color: Colors.grey.withValues(alpha: 0.2),
+                    ),
                   ),
                   child: Text(
                     '5 buses live',
@@ -422,7 +501,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(LucideIcons.mapPin, size: 28, color: Color(0xFF6366F1)),
+                  const Icon(
+                    LucideIcons.mapPin,
+                    size: 28,
+                    color: Color(0xFF6366F1),
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     'Map view',
@@ -453,8 +536,8 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
     final filteredBuses = _buses.where((bus) {
       final searchLower = _searchQuery.toLowerCase();
       return bus['bus'].toString().toLowerCase().contains(searchLower) ||
-             bus['route'].toString().toLowerCase().contains(searchLower) ||
-             bus['driver'].toString().toLowerCase().contains(searchLower);
+          bus['route'].toString().toLowerCase().contains(searchLower) ||
+          bus['driver'].toString().toLowerCase().contains(searchLower);
     }).toList();
 
     if (filteredBuses.isEmpty) {
@@ -541,7 +624,10 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                           ],
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: statusColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(12),
@@ -575,7 +661,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                     // Location Row
                     Row(
                       children: [
-                        const Icon(LucideIcons.mapPin, size: 16, color: Color(0xFF595973)),
+                        const Icon(
+                          LucideIcons.mapPin,
+                          size: 16,
+                          color: Color(0xFF595973),
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           bus['currentStop'],
@@ -586,7 +676,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        const Icon(LucideIcons.arrowRight, size: 14, color: Color(0xFF94A3B8)),
+                        const Icon(
+                          LucideIcons.arrowRight,
+                          size: 14,
+                          color: Color(0xFF94A3B8),
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           bus['nextStop'],
@@ -645,7 +739,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                       children: [
                         Row(
                           children: [
-                            const Icon(LucideIcons.clock, size: 14, color: Color(0xFF94A3B8)),
+                            const Icon(
+                              LucideIcons.clock,
+                              size: 14,
+                              color: Color(0xFF94A3B8),
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               'ETA ${bus['eta']}',
@@ -658,7 +756,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                         Row(
                           children: [
-                            const Icon(LucideIcons.gauge, size: 14, color: Color(0xFF94A3B8)),
+                            const Icon(
+                              LucideIcons.gauge,
+                              size: 14,
+                              color: Color(0xFF94A3B8),
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               bus['speed'],
@@ -671,7 +773,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                         Row(
                           children: [
-                            const Icon(LucideIcons.activity, size: 14, color: Color(0xFF94A3B8)),
+                            const Icon(
+                              LucideIcons.activity,
+                              size: 14,
+                              color: Color(0xFF94A3B8),
+                            ),
                             const SizedBox(width: 4),
                             Text(
                               bus['updated'],
@@ -684,11 +790,19 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Calling ${bus['driver']}...')));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Calling ${bus['driver']}...'),
+                              ),
+                            );
                           },
                           child: Row(
                             children: [
-                              const Icon(LucideIcons.phone, size: 14, color: Color(0xFF94A3B8)),
+                              const Icon(
+                                LucideIcons.phone,
+                                size: 14,
+                                color: Color(0xFF94A3B8),
+                              ),
                               const SizedBox(width: 4),
                               Text(
                                 'Call',

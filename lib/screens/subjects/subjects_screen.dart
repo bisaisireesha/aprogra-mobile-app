@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../data/mock_data/subjects_mock.dart';
 import '../auth/menu_screen.dart';
 import 'create_subject_wizard.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -64,14 +65,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     if (!subjectWithCategory.containsKey('category')) {
       if (SubjectsMockData.prePrimarySubjects.contains(subject)) {
         subjectWithCategory['category'] = 'Pre-Primary';
-      } else if (SubjectsMockData.secondarySubjects.contains(subject)) subjectWithCategory['category'] = 'Secondary';
-      else subjectWithCategory['category'] = 'Primary';
+      } else if (SubjectsMockData.secondarySubjects.contains(subject))
+        subjectWithCategory['category'] = 'Secondary';
+      else
+        subjectWithCategory['category'] = 'Primary';
     }
 
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.3),
-      builder: (context) => CreateSubjectWizard(initialSubject: subjectWithCategory),
+      builder: (context) =>
+          CreateSubjectWizard(initialSubject: subjectWithCategory),
     );
 
     if (result != null) {
@@ -115,7 +119,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             children: [
               const Icon(Icons.edit_outlined, size: 18, color: _textDark),
               const SizedBox(width: 8),
-              Text('Edit', style: GoogleFonts.figtree(color: _textDark, fontSize: 14)),
+              Text(
+                'Edit',
+                style: GoogleFonts.figtree(color: _textDark, fontSize: 14),
+              ),
             ],
           ),
         ),
@@ -125,7 +132,10 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             children: [
               const Icon(Icons.delete_outline, size: 18, color: Colors.red),
               const SizedBox(width: 8),
-              Text('Delete', style: GoogleFonts.figtree(color: Colors.red, fontSize: 14)),
+              Text(
+                'Delete',
+                style: GoogleFonts.figtree(color: Colors.red, fontSize: 14),
+              ),
             ],
           ),
         ),
@@ -149,7 +159,12 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -170,7 +185,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Subjects'),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -190,7 +205,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
+                child: const Icon(
+                  Icons.menu_rounded,
+                  color: Color(0xFF8F96A3),
+                  size: 28,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -205,19 +224,31 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    const Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
                           hintText: 'Search subjects or teachers...',
-                          hintStyle: GoogleFonts.figtree(color: const Color(0xFF8F96A3), fontSize: 14),
+                          hintStyle: GoogleFonts.figtree(
+                            color: const Color(0xFF8F96A3),
+                            fontSize: 14,
+                          ),
                           border: InputBorder.none,
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
                         ),
-                        style: GoogleFonts.figtree(color: _textDark, fontSize: 14),
+                        style: GoogleFonts.figtree(
+                          color: _textDark,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -225,12 +256,23 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -255,14 +297,40 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: const Color(0xFF8F96A3),
-        selectedLabelStyle: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w500),
+        selectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Students'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Comm'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Students',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Comm',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
     );
@@ -273,12 +341,24 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Subjects',
-          style: TextStyle(
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-            color: _textDark,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Subjects',
+                style: GoogleFonts.figtree(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Subjects offered across every level, with assigned teachers and syllabus.',
+                style: GoogleFonts.figtree(fontSize: 16, color: _textMuted),
+              ),
+            ],
           ),
         ),
         _buildCreateButton(),
@@ -292,7 +372,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
       icon: const Icon(Icons.add, size: 18, color: Colors.white),
       label: Text(
         'Create Subject',
-        style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+        style: GoogleFonts.figtree(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: _accent,
@@ -307,15 +391,17 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     List<Map<String, dynamic>> list;
     if (_selectedFilterIndex == 0) {
       list = SubjectsMockData.prePrimarySubjects;
-    } else if (_selectedFilterIndex == 1) list = SubjectsMockData.primarySubjects;
-    else list = SubjectsMockData.secondarySubjects;
+    } else if (_selectedFilterIndex == 1)
+      list = SubjectsMockData.primarySubjects;
+    else
+      list = SubjectsMockData.secondarySubjects;
 
     final query = _searchController.text.trim().toLowerCase();
     if (query.isEmpty) return list;
 
     return list.where((subject) {
       return subject['subject'].toString().toLowerCase().contains(query) ||
-             subject['teacher'].toString().toLowerCase().contains(query);
+          subject['teacher'].toString().toLowerCase().contains(query);
     }).toList();
   }
 
@@ -331,8 +417,6 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
     );
   }
 
-
-
   Widget _buildFilterButton(String label, int index) {
     bool isSelected = _selectedFilterIndex == index;
     return GestureDetector(
@@ -346,8 +430,18 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
         decoration: BoxDecoration(
           color: isSelected ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: isSelected ? _accent : const Color(0xFFEBEBEB)),
-          boxShadow: isSelected ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
+          border: Border.all(
+            color: isSelected ? _accent : const Color(0xFFEBEBEB),
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: _accent.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         alignment: Alignment.center,
         child: Text(
@@ -390,9 +484,42 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                Expanded(flex: 3, child: Text('SUBJECT', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
-                Expanded(flex: 3, child: Text('TEACHER', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
-                Expanded(flex: 3, child: Text('SYLLABUS', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'SUBJECT',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'TEACHER',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'SYLLABUS',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
                 const SizedBox(width: 24), // For the action button
               ],
             ),
@@ -403,7 +530,8 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _filteredSubjects.length,
-            separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFEBEBEB)),
+            separatorBuilder: (context, index) =>
+                const Divider(height: 1, color: Color(0xFFEBEBEB)),
             itemBuilder: (context, index) {
               final subject = _filteredSubjects[index];
               return _buildSubjectRow(subject);
@@ -439,7 +567,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   color: const Color(0xFFF4F1FF),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: const Icon(Icons.menu_book_outlined, size: 20, color: _accent),
+                child: const Icon(
+                  Icons.menu_book_outlined,
+                  size: 20,
+                  color: _accent,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -448,12 +580,19 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   children: [
                     Text(
                       subject['subject'],
-                      style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark),
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       subject['teacher'],
-                      style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        color: _textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -490,7 +629,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
               const SizedBox(width: 16),
               Text(
                 '$progress/$total',
-                style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark),
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: _textDark,
+                ),
               ),
             ],
           ),
@@ -520,13 +663,21 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                     color: const Color(0xFFF4F1FF),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.menu_book_outlined, size: 16, color: _accent),
+                  child: const Icon(
+                    Icons.menu_book_outlined,
+                    size: 16,
+                    color: _accent,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     subject['subject'],
-                    style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark),
+                    style: GoogleFonts.figtree(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -579,7 +730,11 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Icon(Icons.format_list_bulleted, size: 14, color: _textMuted),
+                const Icon(
+                  Icons.format_list_bulleted,
+                  size: 14,
+                  color: _textMuted,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '$progress/$total',
@@ -589,10 +744,7 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             ),
           ),
           // ACTION BUTTON
-          SizedBox(
-            width: 24,
-            child: _buildSubjectActionMenu(subject),
-          ),
+          SizedBox(width: 24, child: _buildSubjectActionMenu(subject)),
         ],
       ),
     );

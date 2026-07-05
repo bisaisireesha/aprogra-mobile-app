@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -20,9 +21,6 @@ class StaffPayrollScreen extends StatefulWidget {
 }
 
 class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
-
-
-  
   @override
   void initState() {
     super.initState();
@@ -120,7 +118,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
       'net': '₹80,750',
       'date': '31 May 2025',
       'status': 'Pending',
-    }
+    },
   ];
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
@@ -131,7 +129,6 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
     super.dispose();
   }
 
-  
   Future<void> _loadPayrollrecords() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__payrollRecords_data');
@@ -181,16 +178,19 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(child: _buildHeader()),
-                            ],
+                            children: [Expanded(child: _buildHeader())],
                           ),
                           const SizedBox(height: 24),
                           _buildTopControls(),
@@ -210,7 +210,7 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           ),
         ),
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -242,21 +242,42 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+              child: Text(
+                'A',
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _accent,
+                ),
+              ),
             ),
           ],
         ),
@@ -269,12 +290,43 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Text(
+              'Home',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text(
+              'Staff',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text(
+              'Payroll',
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
         Text(
-          'Home',
-          style: TextStyle(
-            fontSize: 28.sp,
+          'Payroll',
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 32 : 28,
             fontWeight: FontWeight.bold,
             color: _textDark,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "Process monthly salary runs, review breakdowns, and track payment status.",
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 16 : 14,
+            color: _textMuted,
           ),
         ),
         const SizedBox.shrink(),
@@ -295,7 +347,14 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('May 2025', style: GoogleFonts.figtree(fontSize: 14, color: _textDark, fontWeight: FontWeight.w500)),
+              Text(
+                'May 2025',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  color: _textDark,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(width: 8),
               const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
             ],
@@ -314,7 +373,14 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
             children: [
               const Icon(LucideIcons.playCircle, size: 16, color: Colors.white),
               const SizedBox(width: 8),
-              Text('Run Payroll', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              Text(
+                'Run Payroll',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
         ),
@@ -333,17 +399,47 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           mainAxisSpacing: 12,
           childAspectRatio: _isTablet ? 1.4 : 1.05,
           children: [
-            _buildKpiCard('₹32.4L', 'Total Payroll (May)', LucideIcons.indianRupee, const Color(0xFF8463E9), const Color(0xFFF4F1FF)),
-            _buildKpiCard('38', 'Paid', LucideIcons.checkCircle2, const Color(0xFF10B981), const Color(0xFFD1FAE5)),
-            _buildKpiCard('7', 'Pending', LucideIcons.clock, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-            _buildKpiCard('₹72,000', 'Avg Salary', LucideIcons.trendingUp, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+            _buildKpiCard(
+              '₹32.4L',
+              'Total Payroll (May)',
+              LucideIcons.indianRupee,
+              const Color(0xFF8463E9),
+              const Color(0xFFF4F1FF),
+            ),
+            _buildKpiCard(
+              '38',
+              'Paid',
+              LucideIcons.checkCircle2,
+              const Color(0xFF10B981),
+              const Color(0xFFD1FAE5),
+            ),
+            _buildKpiCard(
+              '7',
+              'Pending',
+              LucideIcons.clock,
+              const Color(0xFFF59E0B),
+              const Color(0xFFFEF3C7),
+            ),
+            _buildKpiCard(
+              '₹72,000',
+              'Avg Salary',
+              LucideIcons.trendingUp,
+              const Color(0xFF0EA5E9),
+              const Color(0xFFE0F2FE),
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _buildKpiCard(String value, String title, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String value,
+    String title,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -365,12 +461,21 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           const SizedBox(height: 12),
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.w900, color: _textDark, height: 1.0),
+            style: GoogleFonts.figtree(
+              fontSize: 28,
+              fontWeight: FontWeight.w900,
+              color: _textDark,
+              height: 1.0,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             title,
-            style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textMuted),
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _textMuted,
+            ),
           ),
         ],
       ),
@@ -388,10 +493,26 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           mainAxisSpacing: 16,
           childAspectRatio: _isTablet ? 2.5 : 2.0,
           children: [
-            _buildFinancialMiniCard('₹38.6L', 'Gross Earnings', const Color(0xFF10B981)),
-            _buildFinancialMiniCard('₹6.2L', 'Total Deductions', const Color(0xFFEF4444)),
-            _buildFinancialMiniCard('₹32.4L', 'Net Payout', const Color(0xFF8463E9)),
-            _buildFinancialMiniCard('₹1.8L', 'Bonuses', const Color(0xFFF59E0B)),
+            _buildFinancialMiniCard(
+              '₹38.6L',
+              'Gross Earnings',
+              const Color(0xFF10B981),
+            ),
+            _buildFinancialMiniCard(
+              '₹6.2L',
+              'Total Deductions',
+              const Color(0xFFEF4444),
+            ),
+            _buildFinancialMiniCard(
+              '₹32.4L',
+              'Net Payout',
+              const Color(0xFF8463E9),
+            ),
+            _buildFinancialMiniCard(
+              '₹1.8L',
+              'Bonuses',
+              const Color(0xFFF59E0B),
+            ),
           ],
         );
       },
@@ -412,7 +533,12 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
         children: [
           Text(
             value,
-            style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.w900, color: valueColor, height: 1.0),
+            style: GoogleFonts.figtree(
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+              color: valueColor,
+              height: 1.0,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
@@ -433,10 +559,16 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
           children: [
             Row(
               children: [
-                Text('Department:', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                Text(
+                  'Department:',
+                  style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
+                ),
                 const SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE5E7EB)),
                     borderRadius: BorderRadius.circular(6),
@@ -444,14 +576,27 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                   ),
                   child: Row(
                     children: [
-                      Text('All', style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+                      Text(
+                        'All',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(width: 8),
-                      const Icon(LucideIcons.chevronDown, size: 14, color: _textMuted),
+                      const Icon(
+                        LucideIcons.chevronDown,
+                        size: 14,
+                        color: _textMuted,
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(width: 16),
-                Text('15 records', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                Text(
+                  '15 records',
+                  style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+                ),
               ],
             ),
           ],
@@ -467,7 +612,11 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
             ),
             child: const TextField(
               decoration: InputDecoration(
-                icon: Icon(LucideIcons.search, size: 16, color: Color(0xFF9CA3AF)),
+                icon: Icon(
+                  LucideIcons.search,
+                  size: 16,
+                  color: Color(0xFF9CA3AF),
+                ),
                 hintText: 'Search staff by name...',
                 hintStyle: TextStyle(color: Color(0xFF9CA3AF), fontSize: 14),
                 border: InputBorder.none,
@@ -499,23 +648,54 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(LucideIcons.indianRupee, size: 20, color: Color(0xFF8463E9)),
+                    const Icon(
+                      LucideIcons.indianRupee,
+                      size: 20,
+                      color: Color(0xFF8463E9),
+                    ),
                     const SizedBox(width: 8),
-                    Text('Salary Register ', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
-                    Text('(15 staff)', style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                    Text(
+                      'Salary Register ',
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
+                    Text(
+                      '(15 staff)',
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        color: _textMuted,
+                      ),
+                    ),
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     border: Border.all(color: const Color(0xFFE5E7EB)),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Row(
                     children: [
-                      const Icon(LucideIcons.download, size: 14, color: _textDark),
+                      const Icon(
+                        LucideIcons.download,
+                        size: 14,
+                        color: _textDark,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Export', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+                      Text(
+                        'Export',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -529,32 +709,177 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
               dataRowMinHeight: 64,
               dataRowMaxHeight: 64,
               columns: [
-                DataColumn(label: Text('STAFF', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('DEPARTMENT', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('DESIGNATION', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('GROSS (₹)', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('DEDUCTIONS (₹)', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('NET (₹)', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('PAY DATE', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('STATUS', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-                DataColumn(label: Text('ACTIONS', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
+                DataColumn(
+                  label: Text(
+                    'STAFF',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'DEPARTMENT',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'DESIGNATION',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'GROSS (₹)',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'DEDUCTIONS (₹)',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'NET (₹)',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'PAY DATE',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'STATUS',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'ACTIONS',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _textMuted,
+                    ),
+                  ),
+                ),
               ],
               rows: _payrollRecords.map((record) {
                 final isPaid = record['status'] == 'Paid';
                 return DataRow(
                   cells: [
-                    DataCell(Text(record['name'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark))),
-                    DataCell(Text(record['department'], style: GoogleFonts.figtree(fontSize: 14, color: _textMuted))),
-                    DataCell(Text(record['designation'], style: GoogleFonts.figtree(fontSize: 14, color: _textMuted))),
-                    DataCell(Text(record['gross'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                    DataCell(Text(record['deductions'], style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFFEF4444)))),
-                    DataCell(Text(record['net'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF10B981)))),
-                    DataCell(Text(record['date'], style: GoogleFonts.figtree(fontSize: 14, color: _textMuted))),
+                    DataCell(
+                      Text(
+                        record['name'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['department'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['designation'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['gross'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['deductions'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: const Color(0xFFEF4444),
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['net'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF10B981),
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        record['date'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ),
                     DataCell(
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: isPaid ? const Color(0xFFD1FAE5) : const Color(0xFFFEF3C7),
+                          color: isPaid
+                              ? const Color(0xFFD1FAE5)
+                              : const Color(0xFFFEF3C7),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
@@ -562,7 +887,9 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           style: GoogleFonts.figtree(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
-                            color: isPaid ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
+                            color: isPaid
+                                ? const Color(0xFF10B981)
+                                : const Color(0xFFF59E0B),
                           ),
                         ),
                       ),
@@ -573,12 +900,28 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                         children: [
                           Icon(LucideIcons.eye, size: 14, color: _textMuted),
                           const SizedBox(width: 4),
-                          Text('Payslip', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                          Text(
+                            'Payslip',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              color: _textMuted,
+                            ),
+                          ),
                           if (!isPaid) ...[
                             const SizedBox(width: 16),
-                            Icon(LucideIcons.refreshCw, size: 14, color: _accent),
+                            Icon(
+                              LucideIcons.refreshCw,
+                              size: 14,
+                              color: _accent,
+                            ),
                             const SizedBox(width: 4),
-                            Text('Reissue', style: GoogleFonts.figtree(fontSize: 13, color: _accent)),
+                            Text(
+                              'Reissue',
+                              style: GoogleFonts.figtree(
+                                fontSize: 13,
+                                color: _accent,
+                              ),
+                            ),
                           ],
                         ],
                       ),
@@ -595,23 +938,29 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
 
   Widget _buildSalaryList() {
     return Column(
-      children: _payrollRecords.map((record) => _buildSalaryMobileCard(record)).toList(),
+      children: _payrollRecords
+          .map((record) => _buildSalaryMobileCard(record))
+          .toList(),
     );
   }
 
   Widget _buildSalaryMobileCard(Map<String, dynamic> record) {
     final isPaid = record['status'] == 'Paid';
-    
+
     Color avatarBgColor;
     Color avatarTextColor;
     if (record['initials'] == 'PS' || record['initials'] == 'VN') {
-      avatarBgColor = const Color(0xFFFEE2E2); avatarTextColor = const Color(0xFFEF4444);
+      avatarBgColor = const Color(0xFFFEE2E2);
+      avatarTextColor = const Color(0xFFEF4444);
     } else if (record['initials'] == 'RP' || record['initials'] == 'AD') {
-      avatarBgColor = const Color(0xFFE0F2FE); avatarTextColor = const Color(0xFF0EA5E9);
+      avatarBgColor = const Color(0xFFE0F2FE);
+      avatarTextColor = const Color(0xFF0EA5E9);
     } else if (record['initials'] == 'MK') {
-      avatarBgColor = const Color(0xFFF4F1FF); avatarTextColor = const Color(0xFF8463E9);
+      avatarBgColor = const Color(0xFFF4F1FF);
+      avatarTextColor = const Color(0xFF8463E9);
     } else {
-      avatarBgColor = const Color(0xFFFEF3C7); avatarTextColor = const Color(0xFFF59E0B);
+      avatarBgColor = const Color(0xFFFEF3C7);
+      avatarTextColor = const Color(0xFFF59E0B);
     }
 
     return GestureDetector(
@@ -631,23 +980,48 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: avatarBgColor,
-                  child: Text(record['initials'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: avatarTextColor)),
+                  child: Text(
+                    record['initials'],
+                    style: GoogleFonts.figtree(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: avatarTextColor,
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(record['name'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                      Text(
+                        record['name'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
+                      ),
                       const SizedBox(height: 2),
-                      Text('${record['department']} • ${record['designation']}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                      Text(
+                        '${record['department']} • ${record['designation']}',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
-                    color: isPaid ? const Color(0xFFD1FAE5) : const Color(0xFFFEF3C7),
+                    color: isPaid
+                        ? const Color(0xFFD1FAE5)
+                        : const Color(0xFFFEF3C7),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
@@ -655,7 +1029,9 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                     style: GoogleFonts.figtree(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: isPaid ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
+                      color: isPaid
+                          ? const Color(0xFF10B981)
+                          : const Color(0xFFF59E0B),
                     ),
                   ),
                 ),
@@ -668,20 +1044,50 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Net Salary', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                    Text(
+                      'Net Salary',
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        color: _textMuted,
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(record['net'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: const Color(0xFF10B981))),
+                    Text(
+                      record['net'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF10B981),
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Pay Date', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted)),
+                    Text(
+                      'Pay Date',
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        color: _textMuted,
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(record['date'], style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+                    Text(
+                      record['date'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: _textDark,
+                      ),
+                    ),
                   ],
                 ),
-                const Icon(LucideIcons.chevronRight, size: 16, color: Color(0xFF9CA3AF)),
+                const Icon(
+                  LucideIcons.chevronRight,
+                  size: 16,
+                  color: Color(0xFF9CA3AF),
+                ),
               ],
             ),
           ],
@@ -696,13 +1102,17 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
     Color avatarBgColor;
     Color avatarTextColor;
     if (record['initials'] == 'PS' || record['initials'] == 'VN') {
-      avatarBgColor = const Color(0xFFFEE2E2); avatarTextColor = const Color(0xFFEF4444);
+      avatarBgColor = const Color(0xFFFEE2E2);
+      avatarTextColor = const Color(0xFFEF4444);
     } else if (record['initials'] == 'RP' || record['initials'] == 'AD') {
-      avatarBgColor = const Color(0xFFE0F2FE); avatarTextColor = const Color(0xFF0EA5E9);
+      avatarBgColor = const Color(0xFFE0F2FE);
+      avatarTextColor = const Color(0xFF0EA5E9);
     } else if (record['initials'] == 'MK') {
-      avatarBgColor = const Color(0xFFF4F1FF); avatarTextColor = const Color(0xFF8463E9);
+      avatarBgColor = const Color(0xFFF4F1FF);
+      avatarTextColor = const Color(0xFF8463E9);
     } else {
-      avatarBgColor = const Color(0xFFFEF3C7); avatarTextColor = const Color(0xFFF59E0B);
+      avatarBgColor = const Color(0xFFFEF3C7);
+      avatarTextColor = const Color(0xFFF59E0B);
     }
 
     showDialog(
@@ -710,7 +1120,9 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
       builder: (context) {
         return Dialog(
           backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Container(
             width: 380,
             color: Colors.white,
@@ -725,23 +1137,48 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                     CircleAvatar(
                       radius: 18,
                       backgroundColor: avatarBgColor,
-                      child: Text(record['initials'], style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: avatarTextColor)),
+                      child: Text(
+                        record['initials'],
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: avatarTextColor,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(record['name'], style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+                          Text(
+                            record['name'],
+                            style: GoogleFonts.figtree(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: _textDark,
+                            ),
+                          ),
                           const SizedBox(height: 2),
-                          Text(record['designation'], style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                          Text(
+                            record['designation'],
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: isPaid ? const Color(0xFFD1FAE5) : const Color(0xFFFEF3C7),
+                        color: isPaid
+                            ? const Color(0xFFD1FAE5)
+                            : const Color(0xFFFEF3C7),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -749,14 +1186,20 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                         style: GoogleFonts.figtree(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: isPaid ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
+                          color: isPaid
+                              ? const Color(0xFF10B981)
+                              : const Color(0xFFF59E0B),
                         ),
                       ),
                     ),
                     const SizedBox(width: 8),
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
-                      child: const Icon(Icons.close, size: 20, color: _textMuted),
+                      child: const Icon(
+                        Icons.close,
+                        size: 20,
+                        color: _textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -768,13 +1211,27 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
                 _buildPayslipRow('Gross Salary', record['gross']),
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
-                _buildPayslipRow('Deductions', record['deductions'], valueColor: const Color(0xFFEF4444)),
+                _buildPayslipRow(
+                  'Deductions',
+                  record['deductions'],
+                  valueColor: const Color(0xFFEF4444),
+                ),
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
-                _buildPayslipRow('Net Salary', record['net'], valueColor: const Color(0xFF10B981)),
+                _buildPayslipRow(
+                  'Net Salary',
+                  record['net'],
+                  valueColor: const Color(0xFF10B981),
+                ),
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
                 _buildPayslipRow('Pay Date', record['date']),
                 const Divider(height: 1, color: Color(0xFFF3F4F6)),
-                _buildPayslipRow('Status', record['status'], valueColor: isPaid ? const Color(0xFF10B981) : const Color(0xFFF59E0B)),
+                _buildPayslipRow(
+                  'Status',
+                  record['status'],
+                  valueColor: isPaid
+                      ? const Color(0xFF10B981)
+                      : const Color(0xFFF59E0B),
+                ),
                 const SizedBox(height: 24),
                 // Action buttons
                 Container(
@@ -793,12 +1250,27 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
                             children: [
-                              const Icon(LucideIcons.fileText, size: 18, color: _textDark),
+                              const Icon(
+                                LucideIcons.fileText,
+                                size: 18,
+                                color: _textDark,
+                              ),
                               const SizedBox(width: 12),
                               Expanded(
-                                child: Text('View Payslip', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                                child: Text(
+                                  'View Payslip',
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: _textDark,
+                                  ),
+                                ),
                               ),
-                              const Icon(LucideIcons.chevronRight, size: 18, color: _textMuted),
+                              const Icon(
+                                LucideIcons.chevronRight,
+                                size: 18,
+                                color: _textMuted,
+                              ),
                             ],
                           ),
                         ),
@@ -809,7 +1281,9 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Downloading payslip for ${record['name']}...'),
+                              content: Text(
+                                'Downloading payslip for ${record['name']}...',
+                              ),
                               backgroundColor: _textDark,
                               duration: const Duration(seconds: 2),
                             ),
@@ -819,12 +1293,27 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           padding: const EdgeInsets.all(16.0),
                           child: Row(
                             children: [
-                              const Icon(LucideIcons.download, size: 18, color: _textDark),
+                              const Icon(
+                                LucideIcons.download,
+                                size: 18,
+                                color: _textDark,
+                              ),
                               const SizedBox(width: 12),
                               Expanded(
-                                child: Text('Download Payslip', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                                child: Text(
+                                  'Download Payslip',
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: _textDark,
+                                  ),
+                                ),
                               ),
-                              const Icon(LucideIcons.chevronRight, size: 18, color: _textMuted),
+                              const Icon(
+                                LucideIcons.chevronRight,
+                                size: 18,
+                                color: _textMuted,
+                              ),
                             ],
                           ),
                         ),
@@ -846,7 +1335,14 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
-                          child: Text('Mark as Paid', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                          child: Text(
+                            'Mark as Paid',
+                            style: GoogleFonts.figtree(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -861,7 +1357,14 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
-                        child: Text('Mark as Paid', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                        child: Text(
+                          'Mark as Paid',
+                          style: GoogleFonts.figtree(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -879,7 +1382,10 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
+          ),
           Text(
             value,
             style: GoogleFonts.figtree(
@@ -897,7 +1403,13 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
     return Container(
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(color: Color(0xFFEBEBEB))),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, -4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -906,14 +1418,39 @@ class _StaffPayrollScreenState extends State<StaffPayrollScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

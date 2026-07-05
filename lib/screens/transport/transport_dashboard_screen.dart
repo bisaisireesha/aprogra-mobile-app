@@ -9,12 +9,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class TransportDashboardScreen extends StatefulWidget {
   const TransportDashboardScreen({super.key});
 
   @override
-  State<TransportDashboardScreen> createState() => _TransportDashboardScreenState();
+  State<TransportDashboardScreen> createState() =>
+      _TransportDashboardScreenState();
 }
 
 class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
@@ -194,7 +196,7 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9FB),
       drawer: const MenuScreen(activeScreen: 'Transport Dashboard'),
-      
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           children: [
@@ -204,7 +206,10 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             ),
             Expanded(
               child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 children: [
                   _buildHeader(),
                   const SizedBox(height: 24),
@@ -331,7 +336,9 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
         saveText: 'Save Changes',
         onSave: (updatedBus) {
           setState(() {
-            final index = _allBuses.indexWhere((b) => b['busId'] == bus['busId']);
+            final index = _allBuses.indexWhere(
+              (b) => b['busId'] == bus['busId'],
+            );
             if (index != -1) {
               _allBuses[index] = updatedBus;
             }
@@ -362,7 +369,9 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1))),
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -377,7 +386,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF181821)),
+                    child: const Icon(
+                      LucideIcons.x,
+                      size: 24,
+                      color: Color(0xFF181821),
+                    ),
                   ),
                 ],
               ),
@@ -386,7 +399,10 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               child: ListView(
                 padding: const EdgeInsets.all(20),
                 children: item.entries.map((e) {
-                  if (e.key == 'color' || e.key == 'statusColor' || e.key == 'progressColor') return const SizedBox();
+                  if (e.key == 'color' ||
+                      e.key == 'statusColor' ||
+                      e.key == 'progressColor')
+                    return const SizedBox();
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: Column(
@@ -434,20 +450,28 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Filter by Status', style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700)),
-            SizedBox(height: 12.h),
-            ...['All', 'On Route', 'At School', 'Idle', 'Maintenance'].map((status) => RadioListTile(
-              title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
-              activeColor: const Color(0xFF6366F1),
-              value: status,
-              groupValue: _filterStatus,
-              onChanged: (val) {
-                setState(() {
-                  _filterStatus = val.toString();
-                });
-                Navigator.pop(context);
-              },
-            )),
+            Text(
+              'Filter by Status',
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ...['All', 'On Route', 'At School', 'Idle', 'Maintenance'].map(
+              (status) => RadioListTile(
+                title: Text(status, style: GoogleFonts.inter(fontSize: 15)),
+                activeColor: const Color(0xFF6366F1),
+                value: status,
+                groupValue: _filterStatus,
+                onChanged: (val) {
+                  setState(() {
+                    _filterStatus = val.toString();
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -528,7 +552,9 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
         color: isPrimary ? const Color(0xFFF8F5FF) : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isPrimary ? const Color(0xFF7F61EA).withValues(alpha: 0.3) : Colors.grey.withValues(alpha: 0.1),
+          color: isPrimary
+              ? const Color(0xFF7F61EA).withValues(alpha: 0.3)
+              : Colors.grey.withValues(alpha: 0.1),
         ),
         boxShadow: [
           BoxShadow(
@@ -622,7 +648,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.search, color: Color(0xFF94A3B8), size: 16),
+                    const Icon(
+                      LucideIcons.search,
+                      color: Color(0xFF94A3B8),
+                      size: 16,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -640,7 +670,9 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                           ),
                           border: InputBorder.none,
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 11),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 11,
+                          ),
                         ),
                         style: GoogleFonts.inter(
                           fontSize: 13,
@@ -656,7 +688,10 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             GestureDetector(
               onTap: () => _showFilterModal(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
@@ -664,7 +699,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.filter, color: Color(0xFF181821), size: 16),
+                    const Icon(
+                      LucideIcons.filter,
+                      color: Color(0xFF181821),
+                      size: 16,
+                    ),
                     const SizedBox(width: 8),
                     Text(
                       'Filter',
@@ -689,14 +728,16 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
       final busId = bus['busId'].toString().toLowerCase();
       final route = bus['details'].toString().toLowerCase();
       final driver = bus['driver'].toString().toLowerCase();
-      
-      final matchesSearch = _searchQuery.isEmpty ||
-             busId.contains(_searchQuery) || 
-             route.contains(_searchQuery) || 
-             driver.contains(_searchQuery);
-             
-      final matchesFilter = _filterStatus == 'All' || bus['status'] == _filterStatus;
-      
+
+      final matchesSearch =
+          _searchQuery.isEmpty ||
+          busId.contains(_searchQuery) ||
+          route.contains(_searchQuery) ||
+          driver.contains(_searchQuery);
+
+      final matchesFilter =
+          _filterStatus == 'All' || bus['status'] == _filterStatus;
+
       return matchesSearch && matchesFilter;
     }).toList();
 
@@ -706,8 +747,12 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
         child: Center(
           child: Column(
             children: [
-              Icon(LucideIcons.search, size: 48, color: const Color(0xFF94A3B8).withValues(alpha: 0.5)),
-              SizedBox(height: 12.h),
+              Icon(
+                LucideIcons.search,
+                size: 48,
+                color: const Color(0xFF94A3B8).withValues(alpha: 0.5),
+              ),
+              const SizedBox(height: 16),
               Text(
                 'No buses found',
                 style: GoogleFonts.inter(
@@ -731,31 +776,35 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
     }
 
     return Column(
-      children: filteredBuses.map((bus) => _buildBusCard(
-        status: bus['status'],
-        statusColor: bus['statusColor'],
-        busId: bus['busId'],
-        details: bus['details'],
-        from: bus['from'],
-        to: bus['to'],
-        driver: bus['driver'],
-        occupancyText: bus['occupancyText'],
-        progress: bus['progress'],
-        progressColor: bus['progressColor'],
-        location: bus['location'],
-        fuel: bus['fuel'],
-        onView: () {
-          _showViewDetailsModal(context, bus);
-        },
-        onEdit: () {
-          _showEditBusModal(context, bus);
-        },
-        onDelete: () {
-          setState(() {
-            _allBuses.remove(bus);
-          });
-        },
-      )).toList(),
+      children: filteredBuses
+          .map(
+            (bus) => _buildBusCard(
+              status: bus['status'],
+              statusColor: bus['statusColor'],
+              busId: bus['busId'],
+              details: bus['details'],
+              from: bus['from'],
+              to: bus['to'],
+              driver: bus['driver'],
+              occupancyText: bus['occupancyText'],
+              progress: bus['progress'],
+              progressColor: bus['progressColor'],
+              location: bus['location'],
+              fuel: bus['fuel'],
+              onView: () {
+                _showViewDetailsModal(context, bus);
+              },
+              onEdit: () {
+                _showEditBusModal(context, bus);
+              },
+              onDelete: () {
+                setState(() {
+                  _allBuses.remove(bus);
+                });
+              },
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -798,7 +847,10 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -827,9 +879,15 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                 ),
               ),
               PopupMenuButton<String>(
-                icon: const Icon(LucideIcons.moreVertical, size: 18, color: Color(0xFF94A3B8)),
+                icon: const Icon(
+                  LucideIcons.moreVertical,
+                  size: 18,
+                  color: Color(0xFF94A3B8),
+                ),
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 onSelected: (value) {
                   if (value == 'view') {
                     onView();
@@ -844,9 +902,19 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                     value: 'view',
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.eye, size: 16, color: Color(0xFF595973)),
+                        const Icon(
+                          LucideIcons.eye,
+                          size: 16,
+                          color: Color(0xFF595973),
+                        ),
                         const SizedBox(width: 8),
-                        Text('View Details', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                        Text(
+                          'View Details',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: const Color(0xFF181821),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -854,9 +922,19 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                     value: 'edit',
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.edit2, size: 16, color: Color(0xFF595973)),
+                        const Icon(
+                          LucideIcons.edit2,
+                          size: 16,
+                          color: Color(0xFF595973),
+                        ),
                         const SizedBox(width: 8),
-                        Text('Edit', style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                        Text(
+                          'Edit',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: const Color(0xFF181821),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -864,9 +942,19 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                     value: 'delete',
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.trash2, size: 16, color: Colors.red),
+                        const Icon(
+                          LucideIcons.trash2,
+                          size: 16,
+                          color: Colors.red,
+                        ),
                         const SizedBox(width: 8),
-                        Text('Delete', style: GoogleFonts.inter(fontSize: 13, color: Colors.red)),
+                        Text(
+                          'Delete',
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: Colors.red,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -889,13 +977,18 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      const Icon(LucideIcons.bus, color: Color(0xFFD8B4FE), size: 32),
+                      const Icon(
+                        LucideIcons.bus,
+                        color: Color(0xFFD8B4FE),
+                        size: 32,
+                      ),
                       Image.asset(
                         'assets/images/school_bus.png',
                         width: 80,
                         height: 64,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => const SizedBox(),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const SizedBox(),
                       ),
                     ],
                   ),
@@ -935,7 +1028,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4),
-                          child: Icon(LucideIcons.arrowRight, size: 12, color: Color(0xFF94A3B8)),
+                          child: Icon(
+                            LucideIcons.arrowRight,
+                            size: 12,
+                            color: Color(0xFF94A3B8),
+                          ),
                         ),
                         Text(
                           to,
@@ -999,7 +1096,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(LucideIcons.mapPin, size: 14, color: Color(0xFF94A3B8)),
+                  const Icon(
+                    LucideIcons.mapPin,
+                    size: 14,
+                    color: Color(0xFF94A3B8),
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     location,
@@ -1012,7 +1113,11 @@ class _TransportDashboardScreenState extends State<TransportDashboardScreen> {
               ),
               Row(
                 children: [
-                  const Icon(LucideIcons.fuel, size: 14, color: Color(0xFF94A3B8)),
+                  const Icon(
+                    LucideIcons.fuel,
+                    size: 14,
+                    color: Color(0xFF94A3B8),
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     fuel,
@@ -1072,22 +1177,28 @@ class _AddBusModalState extends State<AddBusModal> {
     if (widget.initialBus != null) {
       _busIdController.text = widget.initialBus!['busId'] ?? '';
       _locationController.text = widget.initialBus!['location'] ?? '';
-      
+
       final validStatuses = ['On Route', 'At School', 'Idle', 'Maintenance'];
       if (validStatuses.contains(widget.initialBus!['status'])) {
         _status = widget.initialBus!['status'];
       }
-      
+
       final details = widget.initialBus!['details'] as String? ?? '';
       if (details.contains('Route ')) {
         _routeController.text = details.split('Route ').last;
       }
-      
+
       if (details.contains('seater')) {
         _capacityController.text = details.split(' ').first;
       }
-      
-      final validDrivers = ['Select driver', 'R. Sharma', 'Hannah Cruz', 'Alexi Park', 'David Kim'];
+
+      final validDrivers = [
+        'Select driver',
+        'R. Sharma',
+        'Hannah Cruz',
+        'Alexi Park',
+        'David Kim',
+      ];
       if (validDrivers.contains(widget.initialBus!['driver'])) {
         _driver = widget.initialBus!['driver'];
       }
@@ -1113,11 +1224,19 @@ class _AddBusModalState extends State<AddBusModal> {
   }
 
   void _handleSave() {
-    final busId = _busIdController.text.isNotEmpty ? _busIdController.text : 'BUS-XXX';
-    final capacity = _capacityController.text.isNotEmpty ? _capacityController.text : '52';
-    final route = _routeController.text.isNotEmpty ? _routeController.text : 'R-00';
+    final busId = _busIdController.text.isNotEmpty
+        ? _busIdController.text
+        : 'BUS-XXX';
+    final capacity = _capacityController.text.isNotEmpty
+        ? _capacityController.text
+        : '52';
+    final route = _routeController.text.isNotEmpty
+        ? _routeController.text
+        : 'R-00';
     final driver = _driver != 'Select driver' ? _driver : 'Unassigned';
-    final location = _locationController.text.isNotEmpty ? _locationController.text : 'Unknown Location';
+    final location = _locationController.text.isNotEmpty
+        ? _locationController.text
+        : 'Unknown Location';
 
     Color statusColor;
     if (_status == 'On Route') {
@@ -1161,15 +1280,23 @@ class _AddBusModalState extends State<AddBusModal> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-              border: Border(bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.2))),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
+              border: Border(
+                bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+              ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Icon(LucideIcons.x, size: 24, color: Color(0xFF181821)),
+                  child: const Icon(
+                    LucideIcons.x,
+                    size: 24,
+                    color: Color(0xFF181821),
+                  ),
                 ),
                 Text(
                   widget.title,
@@ -1198,194 +1325,281 @@ class _AddBusModalState extends State<AddBusModal> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                _buildSectionCard(
-                  'Bus Information',
-                  LucideIcons.bus,
-                  [
-                    Row(
-                      children: [
-                        Expanded(child: _buildTextField('Bus ID *', 'e.g. BUS-123', _busIdController)),
-                        const SizedBox(width: 12),
-                        Expanded(child: _buildTextField('Registration Number *', 'e.g. KA01AB1234', null)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdown(
-                            'Bus Type *',
-                            _busType,
-                            ['Select bus type', 'Standard Bus', 'Mini Bus', 'Van'],
-                            onChanged: (val) => setState(() => _busType = val!),
-                          ),
+                _buildSectionCard('Bus Information', LucideIcons.bus, [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextField(
+                          'Bus ID *',
+                          'e.g. BUS-123',
+                          _busIdController,
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(child: _buildTextField('Seating Capacity *', 'e.g. 52', _capacityController)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdown(
-                            'Fuel Type',
-                            _fuelType,
-                            ['Select fuel type', 'Diesel', 'Petrol', 'Electric', 'CNG'],
-                            onChanged: (val) => setState(() => _fuelType = val!),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(child: _buildTextField('Model / Year', 'e.g. 2023', null)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    _buildDropdown(
-                      'Color',
-                      _color,
-                      ['Select color', 'Yellow', 'White', 'Blue', 'Silver'],
-                      onChanged: (val) => setState(() => _color = val!),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12.h),
-                _buildSectionCard(
-                  'Route & Assignment',
-                  LucideIcons.map,
-                  [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField('Route *', 'e.g. Route R-12', _routeController),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: _buildDropdown(
-                            'Assigned Driver',
-                            _driver,
-                            ['Select driver', 'R. Sharma', 'Hannah Cruz', 'Alexi Park', 'David Kim'],
-                            onChanged: (val) => setState(() => _driver = val!),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    _buildDropdown(
-                      'Assistant / Conductor (Optional)',
-                      _assistant,
-                      ['Select assistant', 'A. Kumar', 'S. Singh', 'M. Patel'],
-                      onChanged: (val) => setState(() => _assistant = val!),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12.h),
-                _buildSectionCard(
-                  'Current Location',
-                  LucideIcons.mapPin,
-                  [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildDropdown(
-                            'Current Status *',
-                            _status,
-                            ['On Route', 'At School', 'Idle', 'Maintenance'],
-                            onChanged: (val) {
-                              if (val != null) {
-                                setState(() => _status = val);
-                              }
-                            },
-                            showDot: true,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(child: _buildTextField('Current Location', 'e.g. Park Lane', _locationController)),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(child: _buildTextField('Next Stop', 'e.g. Sector 42', null)),
-                        const SizedBox(width: 12),
-                        Expanded(child: _buildTextField('Live Tracking Device ID', 'e.g. TRK123456', null)),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 12.h),
-                _buildSectionCard(
-                  'Bus Image',
-                  LucideIcons.image,
-                  [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 24),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF8F5FF),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color(0xFFD8B4FE), style: BorderStyle.solid), // Should be dashed in reality
                       ),
-                      child: _selectedImage != null
-                          ? Column(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.file(_selectedImage!, height: 150, width: double.infinity, fit: BoxFit.cover),
-                                ),
-                                SizedBox(height: 12.h),
-                                GestureDetector(
-                                  onTap: _pickImage,
-                                  child: Text('Change Image', style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF6366F1))),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Icon(LucideIcons.uploadCloud, color: Color(0xFF8B5CF6), size: 24),
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  'Upload bus image',
-                                  style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF181821)),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  'JPG, PNG up to 5MB',
-                                  style: GoogleFonts.inter(fontSize: 12, color: const Color(0xFF94A3B8)),
-                                ),
-                                SizedBox(height: 12.h),
-                                GestureDetector(
-                                  onTap: _pickImage,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Icon(LucideIcons.image, size: 14, color: Color(0xFF6366F1)),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                          'Choose from Gallery',
-                                          style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: const Color(0xFF6366F1)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildTextField(
+                          'Registration Number *',
+                          'e.g. KA01AB1234',
+                          null,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildDropdown(
+                          'Bus Type *',
+                          _busType,
+                          [
+                            'Select bus type',
+                            'Standard Bus',
+                            'Mini Bus',
+                            'Van',
+                          ],
+                          onChanged: (val) => setState(() => _busType = val!),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildTextField(
+                          'Seating Capacity *',
+                          'e.g. 52',
+                          _capacityController,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildDropdown(
+                          'Fuel Type',
+                          _fuelType,
+                          [
+                            'Select fuel type',
+                            'Diesel',
+                            'Petrol',
+                            'Electric',
+                            'CNG',
+                          ],
+                          onChanged: (val) => setState(() => _fuelType = val!),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildTextField(
+                          'Model / Year',
+                          'e.g. 2023',
+                          null,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  _buildDropdown('Color', _color, [
+                    'Select color',
+                    'Yellow',
+                    'White',
+                    'Blue',
+                    'Silver',
+                  ], onChanged: (val) => setState(() => _color = val!)),
+                ]),
+                const SizedBox(height: 16),
+                _buildSectionCard('Route & Assignment', LucideIcons.map, [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextField(
+                          'Route *',
+                          'e.g. Route R-12',
+                          _routeController,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildDropdown(
+                          'Assigned Driver',
+                          _driver,
+                          [
+                            'Select driver',
+                            'R. Sharma',
+                            'Hannah Cruz',
+                            'Alexi Park',
+                            'David Kim',
+                          ],
+                          onChanged: (val) => setState(() => _driver = val!),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  _buildDropdown(
+                    'Assistant / Conductor (Optional)',
+                    _assistant,
+                    ['Select assistant', 'A. Kumar', 'S. Singh', 'M. Patel'],
+                    onChanged: (val) => setState(() => _assistant = val!),
+                  ),
+                ]),
+                const SizedBox(height: 16),
+                _buildSectionCard('Current Location', LucideIcons.mapPin, [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildDropdown(
+                          'Current Status *',
+                          _status,
+                          ['On Route', 'At School', 'Idle', 'Maintenance'],
+                          onChanged: (val) {
+                            if (val != null) {
+                              setState(() => _status = val);
+                            }
+                          },
+                          showDot: true,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildTextField(
+                          'Current Location',
+                          'e.g. Park Lane',
+                          _locationController,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _buildTextField(
+                          'Next Stop',
+                          'e.g. Sector 42',
+                          null,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _buildTextField(
+                          'Live Tracking Device ID',
+                          'e.g. TRK123456',
+                          null,
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+                const SizedBox(height: 16),
+                _buildSectionCard('Bus Image', LucideIcons.image, [
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8F5FF),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: const Color(0xFFD8B4FE),
+                        style: BorderStyle.solid,
+                      ), // Should be dashed in reality
                     ),
-                  ],
-                ),
+                    child: _selectedImage != null
+                        ? Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  _selectedImage!,
+                                  height: 150,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              GestureDetector(
+                                onTap: _pickImage,
+                                child: Text(
+                                  'Change Image',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF6366F1),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  LucideIcons.uploadCloud,
+                                  color: Color(0xFF8B5CF6),
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                'Upload bus image',
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF181821),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'JPG, PNG up to 5MB',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: const Color(0xFF94A3B8),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              GestureDetector(
+                                onTap: _pickImage,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(
+                                      color: Colors.grey.withValues(alpha: 0.2),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(
+                                        LucideIcons.image,
+                                        size: 14,
+                                        color: Color(0xFF6366F1),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        'Choose from Gallery',
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: const Color(0xFF6366F1),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                ]),
                 const SizedBox(height: 32),
               ],
             ),
@@ -1395,7 +1609,9 @@ class _AddBusModalState extends State<AddBusModal> {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
-              border: Border(top: BorderSide(color: Colors.grey.withValues(alpha: 0.2))),
+              border: Border(
+                top: BorderSide(color: Colors.grey.withValues(alpha: 0.2)),
+              ),
             ),
             child: GestureDetector(
               onTap: _handleSave,
@@ -1456,16 +1672,28 @@ class _AddBusModalState extends State<AddBusModal> {
     );
   }
 
-  Widget _buildTextField(String label, String hint, TextEditingController? controller) {
+  Widget _buildTextField(
+    String label,
+    String hint,
+    TextEditingController? controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
           text: TextSpan(
             text: label.replaceAll(' *', ''),
-            style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF595973)),
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF595973),
+            ),
             children: [
-              if (label.contains('*')) TextSpan(text: ' *', style: GoogleFonts.inter(color: Colors.red)),
+              if (label.contains('*'))
+                TextSpan(
+                  text: ' *',
+                  style: GoogleFonts.inter(color: Colors.red),
+                ),
             ],
           ),
         ),
@@ -1483,27 +1711,47 @@ class _AddBusModalState extends State<AddBusModal> {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: hint,
-              hintStyle: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF94A3B8)),
+              hintStyle: GoogleFonts.inter(
+                fontSize: 13,
+                color: const Color(0xFF94A3B8),
+              ),
               isDense: true,
               contentPadding: const EdgeInsets.symmetric(vertical: 11),
             ),
-            style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821)),
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              color: const Color(0xFF181821),
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _buildDropdown(String label, String value, List<String> items, {Function(String?)? onChanged, bool showDot = false}) {
+  Widget _buildDropdown(
+    String label,
+    String value,
+    List<String> items, {
+    Function(String?)? onChanged,
+    bool showDot = false,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         RichText(
           text: TextSpan(
             text: label.replaceAll(' *', ''),
-            style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w500, color: const Color(0xFF595973)),
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF595973),
+            ),
             children: [
-              if (label.contains('*')) TextSpan(text: ' *', style: GoogleFonts.inter(color: Colors.red)),
+              if (label.contains('*'))
+                TextSpan(
+                  text: ' *',
+                  style: GoogleFonts.inter(color: Colors.red),
+                ),
             ],
           ),
         ),
@@ -1521,7 +1769,11 @@ class _AddBusModalState extends State<AddBusModal> {
               dropdownColor: Colors.white,
               isExpanded: true,
               value: value,
-              icon: const Icon(LucideIcons.chevronDown, size: 16, color: Color(0xFF94A3B8)),
+              icon: const Icon(
+                LucideIcons.chevronDown,
+                size: 16,
+                color: Color(0xFF94A3B8),
+              ),
               items: items.map((item) {
                 return DropdownMenuItem(
                   value: item,
@@ -1533,12 +1785,24 @@ class _AddBusModalState extends State<AddBusModal> {
                           height: 8,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: item == 'On Route' ? const Color(0xFF10B981) : (item == 'At School' ? const Color(0xFF0EA5E9) : (item == 'Idle' ? const Color(0xFF94A3B8) : const Color(0xFFF59E0B))),
+                            color: item == 'On Route'
+                                ? const Color(0xFF10B981)
+                                : (item == 'At School'
+                                      ? const Color(0xFF0EA5E9)
+                                      : (item == 'Idle'
+                                            ? const Color(0xFF94A3B8)
+                                            : const Color(0xFFF59E0B))),
                           ),
                         ),
                         const SizedBox(width: 8),
                       ],
-                      Text(item, style: GoogleFonts.inter(fontSize: 13, color: const Color(0xFF181821))),
+                      Text(
+                        item,
+                        style: GoogleFonts.inter(
+                          fontSize: 13,
+                          color: const Color(0xFF181821),
+                        ),
+                      ),
                     ],
                   ),
                 );

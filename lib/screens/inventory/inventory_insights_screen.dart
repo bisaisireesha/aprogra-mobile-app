@@ -1,6 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import '../../data/mock_data/inventory_mock.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 
 class InventoryInsightsScreen extends StatefulWidget {
@@ -126,7 +127,7 @@ class _InventoryInsightsScreenState extends State<InventoryInsightsScreen> {
           ),
         ],
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 

@@ -6,6 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../routes/app_routes.dart';
+import '../../widgets/app_bottom_nav.dart';
+import '../auth/menu_screen.dart';
+
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
 const _muted = Color(0xFF595973);
@@ -110,6 +114,8 @@ class _DefaultersListScreenState extends State<DefaultersListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _bg,
+      drawer: const MenuScreen(activeScreen: 'Fee Defaulters'),
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -120,7 +126,12 @@ class _DefaultersListScreenState extends State<DefaultersListScreen> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () async {
+                      final didPop = await Navigator.maybePop(context);
+                      if (!didPop && mounted) {
+                        AppRoutes.replace(context, AppRoutes.fees);
+                      }
+                    },
                     child: const Icon(LucideIcons.arrowLeft, size: 24, color: _dark),
                   ),
                   const SizedBox(width: 16),

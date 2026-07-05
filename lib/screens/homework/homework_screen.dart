@@ -9,23 +9,44 @@ import '../../data/mock_data/homework_mock.dart';
 import '../auth/menu_screen.dart';
 import 'create_homework_bottom_sheet.dart';
 import 'view_homework_dialog.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 // Category lookup by class name (mirrors the map in create_homework_bottom_sheet.dart)
 const _homeworkCategoryMap = {
-  'Nursery A': 'Pre-Primary', 'Nursery B': 'Pre-Primary', 'Nursery C': 'Pre-Primary',
-  'LKG A': 'Pre-Primary', 'LKG B': 'Pre-Primary', 'LKG C': 'Pre-Primary',
-  'UKG A': 'Pre-Primary', 'UKG B': 'Pre-Primary', 'UKG C': 'Pre-Primary',
-  'Class 1A': 'Primary', 'Class 1B': 'Primary', 'Class 1C': 'Primary',
-  'Class 2A': 'Primary', 'Class 2B': 'Primary', 'Class 2C': 'Primary',
-  'Class 3A': 'Primary', 'Class 3B': 'Primary',
-  'Class 4A': 'Primary', 'Class 4B': 'Primary', 'Class 4C': 'Primary',
-  'Class 5A': 'Primary', 'Class 5B': 'Primary',
-  'Class 6A': 'Secondary', 'Class 6B': 'Secondary',
-  'Class 7A': 'Secondary', 'Class 7B': 'Secondary',
-  'Class 8A': 'Secondary', 'Class 8B': 'Secondary',
-  'Class 9A': 'Secondary', 'Class 9B': 'Secondary',
-  'Class 10A': 'Secondary', 'Class 10B': 'Secondary',
-  'Class 11A': 'Secondary', 'Class 12A': 'Secondary',
+  'Nursery A': 'Pre-Primary',
+  'Nursery B': 'Pre-Primary',
+  'Nursery C': 'Pre-Primary',
+  'LKG A': 'Pre-Primary',
+  'LKG B': 'Pre-Primary',
+  'LKG C': 'Pre-Primary',
+  'UKG A': 'Pre-Primary',
+  'UKG B': 'Pre-Primary',
+  'UKG C': 'Pre-Primary',
+  'Class 1A': 'Primary',
+  'Class 1B': 'Primary',
+  'Class 1C': 'Primary',
+  'Class 2A': 'Primary',
+  'Class 2B': 'Primary',
+  'Class 2C': 'Primary',
+  'Class 3A': 'Primary',
+  'Class 3B': 'Primary',
+  'Class 4A': 'Primary',
+  'Class 4B': 'Primary',
+  'Class 4C': 'Primary',
+  'Class 5A': 'Primary',
+  'Class 5B': 'Primary',
+  'Class 6A': 'Secondary',
+  'Class 6B': 'Secondary',
+  'Class 7A': 'Secondary',
+  'Class 7B': 'Secondary',
+  'Class 8A': 'Secondary',
+  'Class 8B': 'Secondary',
+  'Class 9A': 'Secondary',
+  'Class 9B': 'Secondary',
+  'Class 10A': 'Secondary',
+  'Class 10B': 'Secondary',
+  'Class 11A': 'Secondary',
+  'Class 12A': 'Secondary',
 };
 
 const _bgPrimary = Color(0xFFF6F6F8);
@@ -46,7 +67,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   int _bottomNavIndex = 1; // 1 for Academics
   final TextEditingController _searchController = TextEditingController();
   int _selectedFilterIndex = 2; // 2 for Primary
-  
+
   List<Map<String, dynamic>> _items = [];
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
@@ -67,17 +88,22 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     super.dispose();
   }
 
-  String get _currentCategory =>
-      _selectedFilterIndex == 1 ? 'Pre-Primary' : _selectedFilterIndex == 2 ? 'Primary' : 'Secondary';
+  String get _currentCategory => _selectedFilterIndex == 1
+      ? 'Pre-Primary'
+      : _selectedFilterIndex == 2
+      ? 'Primary'
+      : 'Secondary';
 
   List<Map<String, dynamic>> get _filteredItems {
     final query = _searchController.text.toLowerCase();
     return _items.where((item) {
       // Derive category from class name if not set
-      final category = item['category'] as String? ??
+      final category =
+          item['category'] as String? ??
           (_homeworkCategoryMap[item['class']] ?? 'Primary');
       final matchesCategory = category == _currentCategory;
-      final matchesQuery = query.isEmpty ||
+      final matchesQuery =
+          query.isEmpty ||
           (item['title'] as String).toLowerCase().contains(query) ||
           (item['class'] as String).toLowerCase().contains(query) ||
           (item['teacher'] as String).toLowerCase().contains(query);
@@ -85,12 +111,12 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     }).toList();
   }
 
-  int _countForCategory(String category) =>
-      _items.where((item) {
-        final cat = item['category'] as String? ??
-            (_homeworkCategoryMap[item['class']] ?? 'Primary');
-        return cat == category;
-      }).length;
+  int _countForCategory(String category) => _items.where((item) {
+    final cat =
+        item['category'] as String? ??
+        (_homeworkCategoryMap[item['class']] ?? 'Primary');
+    return cat == category;
+  }).length;
 
   void _handleCreateHomework() {
     showModalBottomSheet(
@@ -146,7 +172,6 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
     });
   }
 
-  
   Future<void> _loadItems() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__items_data');
@@ -196,7 +221,12 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -218,15 +248,13 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Homework'),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
   Widget _buildAppBar() {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
+      decoration: const BoxDecoration(color: Colors.white),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
         children: [
@@ -235,7 +263,11 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               onTap: () {
                 Scaffold.of(context).openDrawer();
               },
-              child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
+              child: const Icon(
+                Icons.menu_rounded,
+                color: Color(0xFF8F96A3),
+                size: 28,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -252,41 +284,142 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 decoration: const InputDecoration(
                   hintText: 'Search...',
                   hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                  prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color(0xFF8F96A3),
+                    size: 20,
+                  ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                 ),
               ),
             ),
           ),
           const SizedBox(width: 16),
-          const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+          const Icon(
+            Icons.notifications_none_rounded,
+            color: Color(0xFF8F96A3),
+            size: 24,
+          ),
           const SizedBox(width: 16),
           CircleAvatar(
-              radius: 16,
-              backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+            radius: 16,
+            backgroundColor: const Color(0xFFF4F1FF),
+            child: Text(
+              'A',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF8463E9),
+              ),
             ),
+          ),
         ],
       ),
     );
   }
 
-    Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Homework',
-          style: TextStyle(
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-            color: _textDark,
-          ),
-        ),
-        _buildCreateButton(),
-      ],
+  Widget _buildHeader() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = constraints.maxWidth < 600;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!isMobile)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              LucideIcons.notebookPen,
+                              color: _accent,
+                              size: 28,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Homework',
+                              style: GoogleFonts.figtree(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Assign daily homework to classes and track who has completed it.',
+                          style: GoogleFonts.figtree(
+                            fontSize: 16,
+                            color: _textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _buildCreateButton(),
+                ],
+              )
+            else ...[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              LucideIcons.notebookPen,
+                              color: _accent,
+                              size: 24,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              'Homework',
+                              style: GoogleFonts.figtree(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: _textDark,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Assign daily homework to classes and track who has completed it.',
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            color: _textMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerRight,
+                child: _buildCreateButton(),
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 
@@ -306,9 +439,7 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         backgroundColor: _accent,
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -316,11 +447,25 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   Widget _buildFilterButtons() {
     return Row(
       children: [
-        Expanded(child: _buildFilterButton('Pre-Primary', 1, _countForCategory('Pre-Primary'))),
+        Expanded(
+          child: _buildFilterButton(
+            'Pre-Primary',
+            1,
+            _countForCategory('Pre-Primary'),
+          ),
+        ),
         const SizedBox(width: 8),
-        Expanded(child: _buildFilterButton('Primary', 2, _countForCategory('Primary'))),
+        Expanded(
+          child: _buildFilterButton('Primary', 2, _countForCategory('Primary')),
+        ),
         const SizedBox(width: 8),
-        Expanded(child: _buildFilterButton('Secondary', 3, _countForCategory('Secondary'))),
+        Expanded(
+          child: _buildFilterButton(
+            'Secondary',
+            3,
+            _countForCategory('Secondary'),
+          ),
+        ),
       ],
     );
   }
@@ -338,8 +483,18 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         decoration: BoxDecoration(
           color: isSelected ? _accent : Colors.white,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: isSelected ? _accent : const Color(0xFFEBEBEB)),
-          boxShadow: isSelected ? [BoxShadow(color: _accent.withValues(alpha: 0.2), blurRadius: 8, offset: const Offset(0, 4))] : null,
+          border: Border.all(
+            color: isSelected ? _accent : const Color(0xFFEBEBEB),
+          ),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: _accent.withValues(alpha: 0.2),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
         ),
         alignment: Alignment.center,
         child: Row(
@@ -357,7 +512,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white.withValues(alpha: 0.25) : const Color(0xFFF3F4F6),
+                color: isSelected
+                    ? Colors.white.withValues(alpha: 0.25)
+                    : const Color(0xFFF3F4F6),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -374,9 +531,6 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
       ),
     );
   }
-
-
-
 
   Widget _buildSearchBarRow() {
     return Row(
@@ -395,9 +549,16 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
               decoration: const InputDecoration(
                 hintText: 'Search homework, teacher, or class',
                 hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Color(0xFF8F96A3),
+                  size: 20,
+                ),
                 border: InputBorder.none,
-                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
           ),
@@ -448,10 +609,22 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             ),
             child: Row(
               children: [
-                Expanded(flex: 4, child: Text('TITLE', style: _tableHeaderStyle())),
-                Expanded(flex: 2, child: Text('CLASS', style: _tableHeaderStyle())),
-                Expanded(flex: 3, child: Text('ASSIGNED TEACHER', style: _tableHeaderStyle())),
-                Expanded(flex: 2, child: Text('DUE', style: _tableHeaderStyle())),
+                Expanded(
+                  flex: 4,
+                  child: Text('TITLE', style: _tableHeaderStyle()),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text('CLASS', style: _tableHeaderStyle()),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text('ASSIGNED TEACHER', style: _tableHeaderStyle()),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text('DUE', style: _tableHeaderStyle()),
+                ),
                 const SizedBox(width: 32),
               ],
             ),
@@ -470,7 +643,11 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               decoration: BoxDecoration(
-                border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
+                border: isLast
+                    ? null
+                    : const Border(
+                        bottom: BorderSide(color: Color(0xFFE5E7EB)),
+                      ),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -485,38 +662,80 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                             color: _iconBg,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Icon(item['icon'], color: _iconColor, size: 20),
+                          child: Icon(
+                            item['icon'],
+                            color: _iconColor,
+                            size: 20,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(item['title'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                              Text(
+                                item['title'],
+                                style: GoogleFonts.figtree(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: _textDark,
+                                ),
+                              ),
                               const SizedBox(height: 4),
-                              Text('${item['submitted']}/${item['total']} submitted', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                              Text(
+                                '${item['submitted']}/${item['total']} submitted',
+                                style: GoogleFonts.figtree(
+                                  fontSize: 13,
+                                  color: _textMuted,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Expanded(flex: 2, child: Text(item['class'], style: GoogleFonts.figtree(fontSize: 14, color: _textDark))),
-                  Expanded(flex: 3, child: Text(item['teacher'], style: GoogleFonts.figtree(fontSize: 14, color: _textDark))),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      item['class'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        color: _textDark,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      item['teacher'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        color: _textDark,
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 2,
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.calendarDays, size: 16, color: _textMuted),
+                        const Icon(
+                          LucideIcons.calendarDays,
+                          size: 16,
+                          color: _textMuted,
+                        ),
                         const SizedBox(width: 8),
-                        Text(item['due'], style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+                        Text(
+                          item['due'],
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            color: _textDark,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 32,
-                    child: _buildPopupMenu(item),
-                  ),
+                  SizedBox(width: 32, child: _buildPopupMenu(item)),
                 ],
               ),
             );
@@ -593,9 +812,22 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(item['title'], style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                          Text(
+                            item['title'],
+                            style: GoogleFonts.figtree(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: _textDark,
+                            ),
+                          ),
                           const SizedBox(height: 4),
-                          Text('${item['class']} • ${item['teacher']}', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                          Text(
+                            '${item['class']} • ${item['teacher']}',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              color: _textMuted,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -606,12 +838,30 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('${item['submitted']}/${item['total']} submitted', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted, fontWeight: FontWeight.w600)),
+                    Text(
+                      '${item['submitted']}/${item['total']} submitted',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        color: _textMuted,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     Row(
                       children: [
-                        const Icon(LucideIcons.calendarDays, size: 14, color: _textMuted),
+                        const Icon(
+                          LucideIcons.calendarDays,
+                          size: 14,
+                          color: _textMuted,
+                        ),
                         const SizedBox(width: 6),
-                        Text(item['due'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark)),
+                        Text(
+                          item['due'],
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: _textDark,
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -620,7 +870,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
                 LinearProgressIndicator(
                   value: item['submitted'] / item['total'],
                   backgroundColor: const Color(0xFFF3F4F6),
-                  color: const Color(0xFF6B4EEA), // A slightly deeper purple for progress
+                  color: const Color(
+                    0xFF6B4EEA,
+                  ), // A slightly deeper purple for progress
                   minHeight: 4,
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -657,7 +909,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             children: [
               const Icon(LucideIcons.eye, size: 18, color: Color(0xFF595973)),
               const SizedBox(width: 12),
-              Text('View', style: GoogleFonts.figtree(color: const Color(0xFF181B20))),
+              Text(
+                'View',
+                style: GoogleFonts.figtree(color: const Color(0xFF181B20)),
+              ),
             ],
           ),
         ),
@@ -668,7 +923,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             children: [
               const Icon(LucideIcons.edit2, size: 18, color: Color(0xFF595973)),
               const SizedBox(width: 12),
-              Text('Edit', style: GoogleFonts.figtree(color: const Color(0xFF181B20))),
+              Text(
+                'Edit',
+                style: GoogleFonts.figtree(color: const Color(0xFF181B20)),
+              ),
             ],
           ),
         ),
@@ -679,7 +937,10 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
             children: [
               const Icon(LucideIcons.trash2, size: 18, color: Colors.redAccent),
               const SizedBox(width: 12),
-              Text('Delete', style: GoogleFonts.figtree(color: Colors.redAccent)),
+              Text(
+                'Delete',
+                style: GoogleFonts.figtree(color: Colors.redAccent),
+              ),
             ],
           ),
         ),
@@ -690,7 +951,9 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
   Widget _buildBottomNav() {
     return Container(
       decoration: BoxDecoration(
-        border: const Border(top: BorderSide(color: Color(0xFFEBEBEB), width: 1)),
+        border: const Border(
+          top: BorderSide(color: Color(0xFFEBEBEB), width: 1),
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.03),
@@ -710,23 +973,43 @@ class _HomeworkScreenState extends State<HomeworkScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: [
-          const BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          const BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
           BottomNavigationBarItem(
             icon: Stack(
               clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.show_chart),
-              ],
+              children: [const Icon(Icons.show_chart)],
             ),
             activeIcon: const Icon(Icons.show_chart),
             label: 'Activity',
           ),
-          const BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          const BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          const BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );

@@ -6,6 +6,7 @@ import '../../data/mock_data/students_mock.dart';
 import '../auth/menu_screen.dart';
 import 'create_student_wizard.dart';
 import 'student_details_popup.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -13,7 +14,9 @@ const _textMuted = Color(0xFF595973);
 const _accent = Color(0xFF8463E9);
 
 class StudentsScreen extends StatefulWidget {
-  const StudentsScreen({super.key});
+  const StudentsScreen({super.key, this.openCreateOnStart = false});
+
+  final bool openCreateOnStart;
 
   @override
   State<StudentsScreen> createState() => _StudentsScreenState();
@@ -24,6 +27,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
   final TextEditingController _searchController = TextEditingController();
   int _currentPage = 1;
   final int _itemsPerPage = 15;
+  bool _openedInitialCreate = false;
 
   bool get _isTablet => MediaQuery.sizeOf(context).width >= 600;
 
@@ -35,6 +39,13 @@ class _StudentsScreenState extends State<StudentsScreen> {
         _currentPage = 1; // Reset to first page on search
       });
     });
+    if (widget.openCreateOnStart) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || _openedInitialCreate) return;
+        _openedInitialCreate = true;
+        _showCreateStudentPopup();
+      });
+    }
   }
 
   @override
@@ -51,15 +62,22 @@ class _StudentsScreenState extends State<StudentsScreen> {
       final name = student['name']?.toString().toLowerCase() ?? '';
       final parent = student['parent']?.toString().toLowerCase() ?? '';
       final studentClass = student['class']?.toString().toLowerCase() ?? '';
-      return name.contains(query) || parent.contains(query) || studentClass.contains(query);
+      return name.contains(query) ||
+          parent.contains(query) ||
+          studentClass.contains(query);
     }).toList();
   }
 
-  Future<void> _showCreateStudentPopup({Map<String, dynamic>? initialStudent}) async {
+  Future<void> _showCreateStudentPopup({
+    Map<String, dynamic>? initialStudent,
+  }) async {
     final result = await showDialog<Map<String, dynamic>>(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.3),
-      builder: (context) => CreateStudentWizard(initialStudent: initialStudent, isEditing: initialStudent != null),
+      builder: (context) => CreateStudentWizard(
+        initialStudent: initialStudent,
+        isEditing: initialStudent != null,
+      ),
     );
 
     if (result != null) {
@@ -94,7 +112,12 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 16),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        16,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -117,7 +140,7 @@ class _StudentsScreenState extends State<StudentsScreen> {
         ),
       ),
       drawer: const MenuScreen(activeScreen: 'Students'),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -137,7 +160,11 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 onTap: () {
                   Scaffold.of(context).openDrawer();
                 },
-                child: const Icon(Icons.menu_rounded, color: Color(0xFF8F96A3), size: 28),
+                child: const Icon(
+                  Icons.menu_rounded,
+                  color: Color(0xFF8F96A3),
+                  size: 28,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -152,19 +179,31 @@ class _StudentsScreenState extends State<StudentsScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    const Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
                           hintText: 'Search students by name...',
-                          hintStyle: GoogleFonts.figtree(color: const Color(0xFF8F96A3), fontSize: 14),
+                          hintStyle: GoogleFonts.figtree(
+                            color: const Color(0xFF8F96A3),
+                            fontSize: 14,
+                          ),
                           border: InputBorder.none,
                           isDense: true,
-                          contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                          ),
                         ),
-                        style: GoogleFonts.figtree(color: _textDark, fontSize: 14),
+                        style: GoogleFonts.figtree(
+                          color: _textDark,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ],
@@ -172,12 +211,23 @@ class _StudentsScreenState extends State<StudentsScreen> {
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -191,7 +241,11 @@ class _StudentsScreenState extends State<StudentsScreen> {
       icon: const Icon(Icons.add, size: 18, color: Colors.white),
       label: Text(
         'Add Student',
-        style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
+        style: GoogleFonts.figtree(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+        ),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: _accent,
@@ -219,14 +273,40 @@ class _StudentsScreenState extends State<StudentsScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: const Color(0xFF8F96A3),
-        selectedLabelStyle: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w500),
+        selectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Students'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Comm'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), activeIcon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Students',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Comm',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
     );
@@ -237,12 +317,24 @@ class _StudentsScreenState extends State<StudentsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'Students',
-          style: TextStyle(
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-            color: _textDark,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Students',
+                style: GoogleFonts.figtree(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'All students enrolled across pre-primary, primary, and secondary.',
+                style: GoogleFonts.figtree(fontSize: 16, color: _textMuted),
+              ),
+            ],
           ),
         ),
         _buildCreateButton(),
@@ -256,44 +348,121 @@ class _StudentsScreenState extends State<StudentsScreen> {
         children: [
           Row(
             children: [
-              Expanded(child: _buildStatCard('174', 'Total Students', LucideIcons.users, _accent, isSelected: true)),
+              Expanded(
+                child: _buildStatCard(
+                  '174',
+                  'Total Students',
+                  LucideIcons.users,
+                  _accent,
+                  isSelected: true,
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildStatCard('38', 'Pre-Primary Students', LucideIcons.baby, Colors.redAccent)),
+              Expanded(
+                child: _buildStatCard(
+                  '38',
+                  'Pre-Primary Students',
+                  LucideIcons.baby,
+                  Colors.redAccent,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 12.h),
           Row(
             children: [
-              Expanded(child: _buildStatCard('72', 'Primary Students', LucideIcons.fileText, Colors.orange)),
+              Expanded(
+                child: _buildStatCard(
+                  '72',
+                  'Primary Students',
+                  LucideIcons.fileText,
+                  Colors.orange,
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildStatCard('64', 'Secondary Students', LucideIcons.graduationCap, Colors.green)),
+              Expanded(
+                child: _buildStatCard(
+                  '64',
+                  'Secondary Students',
+                  LucideIcons.graduationCap,
+                  Colors.green,
+                ),
+              ),
             ],
           ),
         ],
       );
     }
-    
+
     return Row(
       children: [
-        Expanded(child: _buildStatCard('174', 'Total Students', LucideIcons.users, _accent, isSelected: true)),
+        Expanded(
+          child: _buildStatCard(
+            '174',
+            'Total Students',
+            LucideIcons.users,
+            _accent,
+            isSelected: true,
+          ),
+        ),
         const SizedBox(width: 16),
-        Expanded(child: _buildStatCard('38', 'Pre-Primary Students', LucideIcons.baby, Colors.redAccent)),
+        Expanded(
+          child: _buildStatCard(
+            '38',
+            'Pre-Primary Students',
+            LucideIcons.baby,
+            Colors.redAccent,
+          ),
+        ),
         const SizedBox(width: 16),
-        Expanded(child: _buildStatCard('72', 'Primary Students', LucideIcons.fileText, Colors.orange)),
+        Expanded(
+          child: _buildStatCard(
+            '72',
+            'Primary Students',
+            LucideIcons.fileText,
+            Colors.orange,
+          ),
+        ),
         const SizedBox(width: 16),
-        Expanded(child: _buildStatCard('64', 'Secondary Students', LucideIcons.graduationCap, Colors.green)),
+        Expanded(
+          child: _buildStatCard(
+            '64',
+            'Secondary Students',
+            LucideIcons.graduationCap,
+            Colors.green,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildStatCard(String count, String label, IconData icon, Color color, {bool isSelected = false}) {
+  Widget _buildStatCard(
+    String count,
+    String label,
+    IconData icon,
+    Color color, {
+    bool isSelected = false,
+  }) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: isSelected ? color.withValues(alpha: 0.5) : const Color(0xFFEBEBEB), width: isSelected ? 1.5 : 1),
-        boxShadow: isSelected ? [BoxShadow(color: color.withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, 4))] : null,
+        border: Border.all(
+          color: isSelected
+              ? color.withValues(alpha: 0.5)
+              : const Color(0xFFEBEBEB),
+          width: isSelected ? 1.5 : 1,
+        ),
+        boxShadow: isSelected
+            ? [
+                BoxShadow(
+                  color: color.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ]
+            : null,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -306,10 +475,20 @@ class _StudentsScreenState extends State<StudentsScreen> {
             ),
             child: Icon(icon, color: color, size: 18),
           ),
-          SizedBox(height: 12.h),
-          Text(count, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark)),
+          const SizedBox(height: 16),
+          Text(
+            count,
+            style: GoogleFonts.figtree(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(label, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+          ),
         ],
       ),
     );
@@ -337,7 +516,10 @@ class _StudentsScreenState extends State<StudentsScreen> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'Search students, parents, or class',
-                      hintStyle: GoogleFonts.figtree(color: const Color(0xFF8F96A3), fontSize: 13),
+                      hintStyle: GoogleFonts.figtree(
+                        color: const Color(0xFF8F96A3),
+                        fontSize: 13,
+                      ),
                       border: InputBorder.none,
                       isDense: true,
                       contentPadding: const EdgeInsets.symmetric(vertical: 10),
@@ -365,13 +547,15 @@ class _StudentsScreenState extends State<StudentsScreen> {
     final allStudents = _filteredStudents;
     final totalPages = (allStudents.length / _itemsPerPage).ceil();
     if (_currentPage > totalPages && totalPages > 0) _currentPage = totalPages;
-    
+
     final startIndex = (_currentPage - 1) * _itemsPerPage;
-    final endIndex = (startIndex + _itemsPerPage < allStudents.length) 
-        ? startIndex + _itemsPerPage 
+    final endIndex = (startIndex + _itemsPerPage < allStudents.length)
+        ? startIndex + _itemsPerPage
         : allStudents.length;
-        
-    final paginatedStudents = allStudents.isNotEmpty ? allStudents.sublist(startIndex, endIndex) : <Map<String, dynamic>>[];
+
+    final paginatedStudents = allStudents.isNotEmpty
+        ? allStudents.sublist(startIndex, endIndex)
+        : <Map<String, dynamic>>[];
 
     return Container(
       decoration: BoxDecoration(
@@ -387,9 +571,42 @@ class _StudentsScreenState extends State<StudentsScreen> {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                Expanded(flex: 5, child: Text('STUDENT', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
-                Expanded(flex: 2, child: Text('CLASS', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
-                Expanded(flex: 3, child: Text('PARENT', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted, letterSpacing: 0.5))),
+                Expanded(
+                  flex: 5,
+                  child: Text(
+                    'STUDENT',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    'CLASS',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Text(
+                    'PARENT',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _textMuted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
+                ),
                 const SizedBox(width: 24), // For the action button
               ],
             ),
@@ -400,7 +617,10 @@ class _StudentsScreenState extends State<StudentsScreen> {
             Padding(
               padding: const EdgeInsets.all(32),
               child: Center(
-                child: Text('No students found', style: GoogleFonts.figtree(color: _textMuted)),
+                child: Text(
+                  'No students found',
+                  style: GoogleFonts.figtree(color: _textMuted),
+                ),
               ),
             )
           else
@@ -408,7 +628,8 @@ class _StudentsScreenState extends State<StudentsScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: paginatedStudents.length,
-              separatorBuilder: (context, index) => const Divider(height: 1, color: Color(0xFFEBEBEB)),
+              separatorBuilder: (context, index) =>
+                  const Divider(height: 1, color: Color(0xFFEBEBEB)),
               itemBuilder: (context, index) {
                 final student = paginatedStudents[index];
                 return _buildStudentRow(student);
@@ -432,18 +653,36 @@ class _StudentsScreenState extends State<StudentsScreen> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildPageButton(Icons.chevron_left, _currentPage > 1 ? () {
-                        setState(() { _currentPage--; });
-                      } : null),
+                      _buildPageButton(
+                        Icons.chevron_left,
+                        _currentPage > 1
+                            ? () {
+                                setState(() {
+                                  _currentPage--;
+                                });
+                              }
+                            : null,
+                      ),
                       const SizedBox(width: 16),
                       Text(
                         'Page $_currentPage / ${totalPages == 0 ? 1 : totalPages}',
-                        style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textDark),
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
                       ),
                       const SizedBox(width: 16),
-                      _buildPageButton(Icons.chevron_right, _currentPage < totalPages ? () {
-                        setState(() { _currentPage++; });
-                      } : null),
+                      _buildPageButton(
+                        Icons.chevron_right,
+                        _currentPage < totalPages
+                            ? () {
+                                setState(() {
+                                  _currentPage++;
+                                });
+                              }
+                            : null,
+                      ),
                     ],
                   ),
                 ],
@@ -466,7 +705,11 @@ class _StudentsScreenState extends State<StudentsScreen> {
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: const Color(0xFFEBEBEB)),
         ),
-        child: Icon(icon, size: 16, color: onPressed != null ? _textDark : const Color(0xFFD1D5DB)),
+        child: Icon(
+          icon,
+          size: 16,
+          color: onPressed != null ? _textDark : const Color(0xFFD1D5DB),
+        ),
       ),
     );
   }
@@ -486,7 +729,11 @@ class _StudentsScreenState extends State<StudentsScreen> {
                   backgroundColor: const Color(0xFFF4F1FF),
                   child: Text(
                     student['initials'],
-                    style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent),
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: _accent,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -496,13 +743,20 @@ class _StudentsScreenState extends State<StudentsScreen> {
                     children: [
                       Text(
                         student['name'],
-                        style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark),
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _textDark,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         student['roll'],
-                        style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -533,17 +787,24 @@ class _StudentsScreenState extends State<StudentsScreen> {
           SizedBox(
             width: 24,
             child: PopupMenuButton<String>(
-              icon: const Icon(LucideIcons.moreVertical, size: 18, color: _textMuted),
+              icon: const Icon(
+                LucideIcons.moreVertical,
+                size: 18,
+                color: _textMuted,
+              ),
               padding: EdgeInsets.zero,
               color: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               onSelected: (value) {
                 if (value == 'view') {
                   showDialog(
                     context: context,
                     builder: (context) => StudentDetailsPopup(
                       student: student,
-                      onEdit: () => _showCreateStudentPopup(initialStudent: student),
+                      onEdit: () =>
+                          _showCreateStudentPopup(initialStudent: student),
                     ),
                   );
                 } else if (value == 'edit') {
@@ -559,9 +820,19 @@ class _StudentsScreenState extends State<StudentsScreen> {
                   value: 'view',
                   child: Row(
                     children: [
-                      const Icon(Icons.visibility_outlined, size: 18, color: _textDark),
+                      const Icon(
+                        Icons.visibility_outlined,
+                        size: 18,
+                        color: _textDark,
+                      ),
                       const SizedBox(width: 12),
-                      Text('View Details', style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+                      Text(
+                        'View Details',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -569,9 +840,19 @@ class _StudentsScreenState extends State<StudentsScreen> {
                   value: 'edit',
                   child: Row(
                     children: [
-                      const Icon(Icons.edit_outlined, size: 18, color: _textDark),
+                      const Icon(
+                        Icons.edit_outlined,
+                        size: 18,
+                        color: _textDark,
+                      ),
                       const SizedBox(width: 12),
-                      Text('Edit', style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+                      Text(
+                        'Edit',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -579,9 +860,19 @@ class _StudentsScreenState extends State<StudentsScreen> {
                   value: 'delete',
                   child: Row(
                     children: [
-                      const Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                      const Icon(
+                        Icons.delete_outline,
+                        size: 18,
+                        color: Colors.red,
+                      ),
                       const SizedBox(width: 12),
-                      Text('Delete', style: GoogleFonts.figtree(fontSize: 14, color: Colors.red)),
+                      Text(
+                        'Delete',
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: Colors.red,
+                        ),
+                      ),
                     ],
                   ),
                 ),

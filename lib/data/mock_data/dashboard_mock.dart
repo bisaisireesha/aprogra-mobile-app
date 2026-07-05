@@ -22,7 +22,8 @@ class MockData {
       'subtitle': '3 classes below 80%',
       'action': 'Review →',
       'colorType': 'red',
-      'icon': Icons.people_outline,
+      'icon': Icons.cancel_outlined,
+      'route': '/academics/student-attendance',
     },
     {
       'type': 'ATTENTION',
@@ -30,8 +31,9 @@ class MockData {
       'value': '5 absent',
       'subtitle': '2 requests pending',
       'action': 'View →',
-      'colorType': 'black',
-      'icon': Icons.error_outline,
+      'colorType': 'purple',
+      'icon': Icons.schedule_outlined,
+      'route': '/staff/attendance',
     },
     {
       'type': 'REVIEW',
@@ -39,8 +41,9 @@ class MockData {
       'value': '₹1.2L pending',
       'subtitle': 'From 42 students',
       'action': 'Remind →',
-      'colorType': 'black',
-      'icon': Icons.credit_card_outlined,
+      'colorType': 'blue',
+      'icon': Icons.receipt_long_outlined,
+      'route': '/fees/defaulters',
     },
     {
       'type': 'NOTICE',
@@ -48,8 +51,9 @@ class MockData {
       'value': 'Syllabus lagging',
       'subtitle': 'Class 10 Science',
       'action': 'Details →',
-      'colorType': 'black',
-      'icon': Icons.menu_book_outlined,
+      'colorType': 'grey',
+      'icon': Icons.library_books_outlined,
+      'route': '/academics/exams',
     },
   ];
 
@@ -67,7 +71,7 @@ class MockData {
     ],
     // Dummy values for 5 days: Tue, Wed, Thu, Fri, Sat
     // We will normalize these to draw the curve: 0.0 to 1.0
-    'chartPoints': [0.55, 0.35, 0.85, 0.65, 0.15], 
+    'chartPoints': [0.55, 0.35, 0.85, 0.65, 0.15],
   };
 
   static const financialInsights = {
@@ -78,7 +82,14 @@ class MockData {
     'thisMonth': '₹1.98L',
     'recovery': '82%',
     // Dummy values for Dec to Apr (5 bars)
-    'chartValues': [0.4, 0.6, 0.7, 0.9, 0.75, 0.85], // wait, screenshot shows Dec, Jan, Feb, Mar, Apr
+    'chartValues': [
+      0.4,
+      0.6,
+      0.7,
+      0.9,
+      0.75,
+      0.85,
+    ], // wait, screenshot shows Dec, Jan, Feb, Mar, Apr
   };
 
   static const upcomingEvents = [
@@ -106,26 +117,50 @@ class MockData {
     {
       'type': 'FORECAST',
       'icon': Icons.error_outline_rounded,
-      'description': 'Fee collection may miss this month\'s target by ₹45,000 at current recovery rate.',
+      'description':
+          'Fee collection may miss this month\'s target by ₹45,000 at current recovery rate.',
       'action': 'Plan recovery →',
+      'route': '/fees/defaulters',
     },
     {
       'type': 'OPPORTUNITY',
       'icon': Icons.trending_up,
-      'description': 'Admissions are 18% ahead of last year — momentum strongest in Class 1 and Class 6.',
+      'description':
+          'Admissions are 18% ahead of last year — momentum strongest in Class 1 and Class 6.',
       'action': 'Explore funnel →',
+      'route': '/admissions-insights',
     },
   ];
 
   static const quickActions = [
-    {'icon': Icons.person_add_alt, 'label': 'Admit'},
-    {'icon': Icons.credit_card, 'label': 'Collect'},
-    {'icon': Icons.check_circle_outline, 'label': 'Attend'},
-    {'icon': Icons.campaign_outlined, 'label': 'Notice'},
-    {'icon': Icons.calendar_today_outlined, 'label': 'Event'},
-    {'icon': Icons.description_outlined, 'label': 'Report'},
-    {'icon': Icons.groups_outlined, 'label': 'Staff'},
-    {'icon': Icons.add, 'label': 'More'},
+    {
+      'icon': Icons.person_add_alt,
+      'label': 'Admit',
+      'route': '/academics/students?action=create',
+    },
+    {'icon': Icons.credit_card, 'label': 'Collect', 'route': '/fees/collect'},
+    {
+      'icon': Icons.check_circle_outline,
+      'label': 'Attend',
+      'route': '/academics/student-attendance',
+    },
+    {
+      'icon': Icons.campaign_outlined,
+      'label': 'Notice',
+      'route': '/notifications',
+    },
+    {
+      'icon': Icons.calendar_today_outlined,
+      'label': 'Event',
+      'route': '/events',
+    },
+    {
+      'icon': Icons.description_outlined,
+      'label': 'Report',
+      'route': '/academics/report-cards',
+    },
+    {'icon': Icons.groups_outlined, 'label': 'Staff', 'route': '/staff'},
+    {'icon': Icons.add, 'label': 'More', 'route': '/'},
   ];
 
   static const activityFeedKpi = [
@@ -134,7 +169,8 @@ class MockData {
       'value': '1,284',
       'subtitle': '',
       'trend': '+18%',
-      'icon': Icons.show_chart, // Using a similar looking icon since exact wave is custom
+      'icon': Icons
+          .show_chart, // Using a similar looking icon since exact wave is custom
       'iconBg': Color(0xFFF3F0FF),
       'iconColor': Color(0xFF8463E9),
     },
@@ -252,7 +288,7 @@ class MockData {
           'detail2Value': '42',
           'action': 'Open ledger v',
         },
-      ]
+      ],
     },
     {
       'groupTime': '10:00 AM',
@@ -288,8 +324,8 @@ class MockData {
           'detail2Value': 'Ananya S. — 9A',
           'action': '',
         },
-      ]
-    }
+      ],
+    },
   ];
 
   static final actionCenterKpi = [
@@ -350,8 +386,8 @@ class MockData {
           'btn1': 'View Details',
           'btn2': 'Escalate',
           'btn2Color': Colors.redAccent,
-        }
-      ]
+        },
+      ],
     },
     {
       'sectionTitle': 'Attendance Actions',
@@ -371,8 +407,8 @@ class MockData {
           'btn1': 'Notify',
           'btn2': 'Resolve',
           'btn2Color': Colors.redAccent,
-        }
-      ]
+        },
+      ],
     },
     {
       'sectionTitle': 'Financial Actions',
@@ -392,8 +428,8 @@ class MockData {
           'btn1': 'Review',
           'btn2': 'Remind All',
           'btn2Color': Colors.redAccent,
-        }
-      ]
+        },
+      ],
     },
     {
       'sectionTitle': 'Academic Actions',
@@ -413,9 +449,9 @@ class MockData {
           'btn1': 'View',
           'btn2': 'Remind Teacher',
           'btn2Color': const Color(0xFF8463E9),
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
 
   static final actionCenterRecommendations = [
@@ -428,7 +464,7 @@ class MockData {
       'title': 'Fee collection may miss monthly target by ₹50,000',
       'subtitle': 'Recommend contacting top 20 defaulters this week.',
       'btn': 'Apply Suggestion',
-    }
+    },
   ];
 
   // ─── Student Insights Data ──────────────────────────────────────────────────
@@ -663,7 +699,8 @@ class MockData {
       'status': 'Complete',
       'statusColor': Color(0xFF8463E9),
       'statusBg': Colors.white,
-      'avatar': 'https://ui-avatars.com/api/?name=Riya+Sharma&background=EBE6FF&color=6C5CE7',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Riya+Sharma&background=EBE6FF&color=6C5CE7',
     },
     {
       'name': 'Kabir Nair',
@@ -671,7 +708,8 @@ class MockData {
       'status': 'On-hold',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'https://ui-avatars.com/api/?name=Kabir+Nair&background=F3F0FF&color=6C5CE7',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Kabir+Nair&background=F3F0FF&color=6C5CE7',
     },
     {
       'name': 'Sara Ali',
@@ -679,7 +717,8 @@ class MockData {
       'status': 'Pending Docs',
       'statusColor': Color(0xFF595973),
       'statusBg': Colors.white,
-      'avatar': 'https://ui-avatars.com/api/?name=Sara+Ali&background=EBE6FF&color=6C5CE7',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Sara+Ali&background=EBE6FF&color=6C5CE7',
     },
   ];
 
@@ -741,58 +780,114 @@ class MockData {
         'name': 'Meera Joshi',
         'students': 25,
         'section': 'NURSERY A',
-        'avatar': 'https://ui-avatars.com/api/?name=Meera+Joshi&background=EBE6FF&color=6C5CE7',
+        'avatar':
+            'https://ui-avatars.com/api/?name=Meera+Joshi&background=EBE6FF&color=6C5CE7',
       },
       {
         'name': 'Riya Kapoor',
         'students': 24,
         'section': 'NURSERY B',
-        'avatar': 'https://ui-avatars.com/api/?name=Riya+Kapoor&background=F3F0FF&color=6C5CE7',
+        'avatar':
+            'https://ui-avatars.com/api/?name=Riya+Kapoor&background=F3F0FF&color=6C5CE7',
       },
-    ]
+    ],
   };
 
   static const classTimetable = [
-    {
-      'period': 'P1',
-      'subject': 'Music & Rhymes',
-      'time': '08:00 - 08:45',
-    },
-    {
-      'period': 'P2',
-      'subject': 'Interactive Play',
-      'time': '08:45 - 09:30',
-    },
-    {
-      'period': 'P3',
-      'subject': 'Story Time',
-      'time': '09:30 - 10:15',
-    },
-    {
-      'period': 'P4',
-      'subject': 'Snack Break',
-      'time': '10:15 - 11:00',
-    },
-    {
-      'period': 'P5',
-      'subject': 'Art & Craft',
-      'time': '11:00 - 11:45',
-    },
+    {'period': 'P1', 'subject': 'Music & Rhymes', 'time': '08:00 - 08:45'},
+    {'period': 'P2', 'subject': 'Interactive Play', 'time': '08:45 - 09:30'},
+    {'period': 'P3', 'subject': 'Story Time', 'time': '09:30 - 10:15'},
+    {'period': 'P4', 'subject': 'Snack Break', 'time': '10:15 - 11:00'},
+    {'period': 'P5', 'subject': 'Art & Craft', 'time': '11:00 - 11:45'},
   ];
 
   static const classStudentsList = [
-    {'name': 'Aarav Sharma', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://ui-avatars.com/api/?name=Aarav+Sharma&background=EBE6FF&color=6C5CE7'},
-    {'name': 'Ayaan Nair', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Ayaan+Nair&background=F3F0FF&color=6C5CE7'},
-    {'name': 'Pari Joshi', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Pari+Joshi&background=EBE6FF&color=6C5CE7'},
-    {'name': 'Vivaan Gupta', 'gender': 'BOY', 'status': 'LOW ATTD.', 'avatar': 'https://ui-avatars.com/api/?name=Vivaan+Gupta&background=F3F0FF&color=6C5CE7'},
-    {'name': 'Krishna Iyer', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Krishna+Iyer&background=EBE6FF&color=6C5CE7'},
-    {'name': 'Anika Kapoor', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Anika+Kapoor&background=F3F0FF&color=6C5CE7'},
-    {'name': 'Aditya Menon', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Aditya+Menon&background=EBE6FF&color=6C5CE7'},
-    {'name': 'Ishaan Verma', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Ishaan+Verma&background=F3F0FF&color=6C5CE7'},
-    {'name': 'Navya Reddy', 'gender': 'GIRL', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Navya+Reddy&background=EBE6FF&color=6C5CE7'},
-    {'name': 'Vihaan Bhat', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Vihaan+Bhat&background=F3F0FF&color=6C5CE7'},
-    {'name': 'Buddala Harsha Kumar', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Buddala+Harsha+Kumar&background=EBE6FF&color=6C5CE7', 'section': 'NURSERY A'},
-    {'name': 'Thungunta Ram Rathan Reddy', 'gender': 'BOY', 'status': 'ACTIVE', 'avatar': 'https://ui-avatars.com/api/?name=Thungunta+Ram+Rathan+Reddy&background=F3F0FF&color=6C5CE7', 'section': 'NURSERY A'},
+    {
+      'name': 'Aarav Sharma',
+      'gender': 'BOY',
+      'status': 'LOW ATTD.',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Aarav+Sharma&background=EBE6FF&color=6C5CE7',
+    },
+    {
+      'name': 'Ayaan Nair',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Ayaan+Nair&background=F3F0FF&color=6C5CE7',
+    },
+    {
+      'name': 'Pari Joshi',
+      'gender': 'GIRL',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Pari+Joshi&background=EBE6FF&color=6C5CE7',
+    },
+    {
+      'name': 'Vivaan Gupta',
+      'gender': 'BOY',
+      'status': 'LOW ATTD.',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Vivaan+Gupta&background=F3F0FF&color=6C5CE7',
+    },
+    {
+      'name': 'Krishna Iyer',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Krishna+Iyer&background=EBE6FF&color=6C5CE7',
+    },
+    {
+      'name': 'Anika Kapoor',
+      'gender': 'GIRL',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Anika+Kapoor&background=F3F0FF&color=6C5CE7',
+    },
+    {
+      'name': 'Aditya Menon',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Aditya+Menon&background=EBE6FF&color=6C5CE7',
+    },
+    {
+      'name': 'Ishaan Verma',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Ishaan+Verma&background=F3F0FF&color=6C5CE7',
+    },
+    {
+      'name': 'Navya Reddy',
+      'gender': 'GIRL',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Navya+Reddy&background=EBE6FF&color=6C5CE7',
+    },
+    {
+      'name': 'Vihaan Bhat',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Vihaan+Bhat&background=F3F0FF&color=6C5CE7',
+    },
+    {
+      'name': 'Buddala Harsha Kumar',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Buddala+Harsha+Kumar&background=EBE6FF&color=6C5CE7',
+      'section': 'NURSERY A',
+    },
+    {
+      'name': 'Thungunta Ram Rathan Reddy',
+      'gender': 'BOY',
+      'status': 'ACTIVE',
+      'avatar':
+          'https://ui-avatars.com/api/?name=Thungunta+Ram+Rathan+Reddy&background=F3F0FF&color=6C5CE7',
+      'section': 'NURSERY A',
+    },
   ];
 }
 

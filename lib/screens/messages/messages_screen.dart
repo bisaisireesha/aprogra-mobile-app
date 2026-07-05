@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
+import '../../widgets/app_bottom_nav.dart';
 import '../auth/menu_screen.dart';
 import 'chat_screen.dart';
 
@@ -154,7 +155,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
             _buildAppBar(),
             _buildHeader(),
             _buildMessageList(),
-            _buildBottomNav(),
+            const AppBottomNav(),
           ],
         ),
       ),

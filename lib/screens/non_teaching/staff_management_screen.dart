@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF9FAFB);
 const _textDark = Color(0xFF181B20);
@@ -45,7 +46,12 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 32 : 16, 24, _isTablet ? 32 : 16, 32),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 32 : 16,
+                        24,
+                        _isTablet ? 32 : 16,
+                        32,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -65,16 +71,23 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                                     children: [
                                       Row(
                                         children: [
-                                          Expanded(child: _buildAttendanceChart()),
+                                          Expanded(
+                                            child: _buildAttendanceChart(),
+                                          ),
                                           const SizedBox(width: 16),
-                                          Expanded(child: _buildDepartmentChart()),
+                                          Expanded(
+                                            child: _buildDepartmentChart(),
+                                          ),
                                         ],
                                       ),
                                       const SizedBox(height: 24),
                                       Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Expanded(child: _buildWorkloadOverview()),
+                                          Expanded(
+                                            child: _buildWorkloadOverview(),
+                                          ),
                                           const SizedBox(width: 16),
                                           Expanded(child: _buildLeaveSummary()),
                                         ],
@@ -115,7 +128,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           ),
         ),
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -147,21 +160,42 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -173,7 +207,9 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -182,34 +218,151 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), activeIcon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            activeIcon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );
   }
 
-    Widget _buildHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Staff Management',
-          style: TextStyle(
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-            color: _textDark,
-          ),
-        ),
-        const SizedBox.shrink(),
-      ],
+  Widget _buildHeader() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final titleCol = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Staff Management',
+              style: GoogleFonts.figtree(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Manage teaching, non-teaching, and administrative staff with attendance, workload, leaves, and performance insights.',
+              style: GoogleFonts.figtree(fontSize: 14, color: _textMuted),
+            ),
+          ],
+        );
+
+        final buttons = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            OutlinedButton.icon(
+              onPressed: () {},
+              icon: const Icon(
+                LucideIcons.download,
+                size: 16,
+                color: _textDark,
+              ),
+              label: Text(
+                'Export Staff Report',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                side: const BorderSide(color: Color(0xFFE5E7EB)),
+                backgroundColor: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 16),
+            ElevatedButton.icon(
+              onPressed: () {},
+              icon: const Icon(Icons.add, size: 18, color: Colors.white),
+              label: Text(
+                'Add Staff',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _accent,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                elevation: 0,
+              ),
+            ),
+          ],
+        );
+
+        if (_isTablet) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: titleCol),
+              const SizedBox(width: 24),
+              buttons,
+            ],
+          );
+        } else {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              titleCol,
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.centerRight,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: buttons,
+                ),
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 
@@ -225,7 +378,14 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         children: [
           Icon(icon, size: 16, color: _accent),
           const SizedBox(width: 8),
-          Text(label, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(width: 4),
           const Icon(LucideIcons.chevronDown, size: 16, color: _textMuted),
         ],
@@ -312,7 +472,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -322,14 +482,33 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                  color: iconBg,
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Icon(icon, size: 16, color: iconColor),
               ),
               const SizedBox(width: 8),
-              Expanded(child: Text(title, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
+              Expanded(
+                child: Text(
+                  title,
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: _textMuted,
+                  ),
+                ),
+              ),
             ],
           ),
-          Text(value, style: GoogleFonts.figtree(fontSize: 32, fontWeight: FontWeight.w900, color: _textDark)),
+          Text(
+            value,
+            style: GoogleFonts.figtree(
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+              color: _textDark,
+            ),
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -338,7 +517,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               Expanded(
                 child: Text(
                   trendText,
-                  style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: trendColor),
+                  style: GoogleFonts.figtree(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: trendColor,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -358,12 +541,42 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
 
   Widget _buildQuickActions() {
     final actions = [
-      {'title': 'Add Staff', 'icon': Icons.add, 'color': _accent, 'bg': const Color(0xFFF4F1FF)},
-      {'title': 'Mark\nAttendance', 'icon': LucideIcons.clipboardCheck, 'color': const Color(0xFF22C55E), 'bg': const Color(0xFFDCFCE7)},
-      {'title': 'Assign\nDepartment', 'icon': LucideIcons.building, 'color': const Color(0xFF3B82F6), 'bg': const Color(0xFFDBEAFE)},
-      {'title': 'Approve\nLeave', 'icon': LucideIcons.calendarClock, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFEF3C7)},
-      {'title': 'Upload\nDocuments', 'icon': LucideIcons.filePlus, 'color': _accent, 'bg': const Color(0xFFF4F1FF)},
-      {'title': 'Download\nReport', 'icon': LucideIcons.downloadCloud, 'color': const Color(0xFF3B82F6), 'bg': const Color(0xFFDBEAFE)},
+      {
+        'title': 'Add Staff',
+        'icon': Icons.add,
+        'color': _accent,
+        'bg': const Color(0xFFF4F1FF),
+      },
+      {
+        'title': 'Mark\nAttendance',
+        'icon': LucideIcons.clipboardCheck,
+        'color': const Color(0xFF22C55E),
+        'bg': const Color(0xFFDCFCE7),
+      },
+      {
+        'title': 'Assign\nDepartment',
+        'icon': LucideIcons.building,
+        'color': const Color(0xFF3B82F6),
+        'bg': const Color(0xFFDBEAFE),
+      },
+      {
+        'title': 'Approve\nLeave',
+        'icon': LucideIcons.calendarClock,
+        'color': const Color(0xFFF59E0B),
+        'bg': const Color(0xFFFEF3C7),
+      },
+      {
+        'title': 'Upload\nDocuments',
+        'icon': LucideIcons.filePlus,
+        'color': _accent,
+        'bg': const Color(0xFFF4F1FF),
+      },
+      {
+        'title': 'Download\nReport',
+        'icon': LucideIcons.downloadCloud,
+        'color': const Color(0xFF3B82F6),
+        'bg': const Color(0xFFDBEAFE),
+      },
     ];
 
     return LayoutBuilder(
@@ -375,18 +588,27 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           crossAxisSpacing: 12,
           mainAxisSpacing: 16,
           childAspectRatio: _isTablet ? 0.8 : 0.65,
-          children: actions.map((action) => _buildQuickActionCard(
-            title: action['title'] as String,
-            icon: action['icon'] as IconData,
-            color: action['color'] as Color,
-            bgColor: action['bg'] as Color,
-          )).toList(),
+          children: actions
+              .map(
+                (action) => _buildQuickActionCard(
+                  title: action['title'] as String,
+                  icon: action['icon'] as IconData,
+                  color: action['color'] as Color,
+                  bgColor: action['bg'] as Color,
+                ),
+              )
+              .toList(),
         );
       },
     );
   }
 
-  Widget _buildQuickActionCard({required String title, required IconData icon, required Color color, required Color bgColor}) {
+  Widget _buildQuickActionCard({
+    required String title,
+    required IconData icon,
+    required Color color,
+    required Color bgColor,
+  }) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
       decoration: BoxDecoration(
@@ -398,7 +620,7 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -418,7 +640,12 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark, height: 1.2),
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                  height: 1.2,
+                ),
               ),
             ),
           ),
@@ -429,12 +656,48 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
 
   Widget _buildPrincipalInsights() {
     final insights = [
-      {'title': 'Shortage: Sciences', 'subtitle': 'Needs 2 more teachers', 'icon': LucideIcons.building2, 'color': const Color(0xFFEF4444), 'bg': const Color(0xFFFEE2E2)},
-      {'title': '12 absent today', 'subtitle': 'Across 5 departments', 'icon': LucideIcons.userMinus, 'color': const Color(0xFFF59E0B), 'bg': const Color(0xFFFEF3C7)},
-      {'title': '6 leave approvals', 'subtitle': 'Awaiting your review', 'icon': LucideIcons.calendarCheck, 'color': _accent, 'bg': const Color(0xFFF4F1FF)},
-      {'title': '4 teachers overloaded', 'subtitle': '>32 periods this week', 'icon': LucideIcons.listTodo, 'color': const Color(0xFF0EA5E9), 'bg': const Color(0xFFE0F2FE)},
-      {'title': '9 documents pending', 'subtitle': 'Verification required', 'icon': LucideIcons.fileText, 'color': _accent, 'bg': const Color(0xFFF4F1FF)},
-      {'title': '3 contract renewals', 'subtitle': 'Due within 30 days', 'icon': LucideIcons.calendarClock, 'color': const Color(0xFF22C55E), 'bg': const Color(0xFFDCFCE7)},
+      {
+        'title': 'Shortage: Sciences',
+        'subtitle': 'Needs 2 more teachers',
+        'icon': LucideIcons.building2,
+        'color': const Color(0xFFEF4444),
+        'bg': const Color(0xFFFEE2E2),
+      },
+      {
+        'title': '12 absent today',
+        'subtitle': 'Across 5 departments',
+        'icon': LucideIcons.userMinus,
+        'color': const Color(0xFFF59E0B),
+        'bg': const Color(0xFFFEF3C7),
+      },
+      {
+        'title': '6 leave approvals',
+        'subtitle': 'Awaiting your review',
+        'icon': LucideIcons.calendarCheck,
+        'color': _accent,
+        'bg': const Color(0xFFF4F1FF),
+      },
+      {
+        'title': '4 teachers overloaded',
+        'subtitle': '>32 periods this week',
+        'icon': LucideIcons.listTodo,
+        'color': const Color(0xFF0EA5E9),
+        'bg': const Color(0xFFE0F2FE),
+      },
+      {
+        'title': '9 documents pending',
+        'subtitle': 'Verification required',
+        'icon': LucideIcons.fileText,
+        'color': _accent,
+        'bg': const Color(0xFFF4F1FF),
+      },
+      {
+        'title': '3 contract renewals',
+        'subtitle': 'Due within 30 days',
+        'icon': LucideIcons.calendarClock,
+        'color': const Color(0xFF22C55E),
+        'bg': const Color(0xFFDCFCE7),
+      },
     ];
 
     final quickActions = [
@@ -450,7 +713,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -458,61 +727,125 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Principal Insights', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Principal Insights',
+                style: GoogleFonts.figtree(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
               _buildDropdownButton('Today', LucideIcons.calendar),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Action-required signals across staff', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+          Text(
+            'Action-required signals across staff',
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
           const SizedBox(height: 24),
-          ...insights.map((item) => Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE5E7EB)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: item['bg'] as Color, borderRadius: BorderRadius.circular(10)),
-                    child: Icon(item['icon'] as IconData, size: 20, color: item['color'] as Color),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item['title'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
-                        const SizedBox(height: 4),
-                        Text(item['subtitle'] as String, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-                      ],
+          ...insights.map(
+            (item) => Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFE5E7EB)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: item['bg'] as Color,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        item['icon'] as IconData,
+                        size: 20,
+                        color: item['color'] as Color,
+                      ),
                     ),
-                  ),
-                  const Icon(LucideIcons.arrowUpRight, size: 18, color: _textMuted),
-                ],
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item['title'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: _textDark,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            item['subtitle'] as String,
+                            style: GoogleFonts.figtree(
+                              fontSize: 12,
+                              color: _textMuted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Icon(
+                      LucideIcons.arrowUpRight,
+                      size: 18,
+                      color: _textMuted,
+                    ),
+                  ],
+                ),
               ),
             ),
-          )),
-          SizedBox(height: 12.h),
-          Text('QUICK ACTIONS', style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'QUICK ACTIONS',
+            style: GoogleFonts.figtree(
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+              color: _textMuted,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 12),
           Wrap(
             spacing: 12,
             runSpacing: 12,
-            children: quickActions.map((action) => OutlinedButton.icon(
-              onPressed: () {},
-              icon: Icon(action['icon'] as IconData, size: 14, color: _accent),
-              label: Text(action['title'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                side: const BorderSide(color: Color(0xFFE5E7EB)),
-              ),
-            )).toList(),
+            children: quickActions
+                .map(
+                  (action) => OutlinedButton.icon(
+                    onPressed: () {},
+                    icon: Icon(
+                      action['icon'] as IconData,
+                      size: 14,
+                      color: _accent,
+                    ),
+                    label: Text(
+                      action['title'] as String,
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: _textDark,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      side: const BorderSide(color: Color(0xFFE5E7EB)),
+                    ),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -527,7 +860,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -535,7 +874,14 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Staff Attendance Trend', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Staff Attendance Trend',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
               Row(
                 children: [
                   _buildLegendIndicator(const Color(0xFF22C55E), 'Present'),
@@ -546,7 +892,10 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             ],
           ),
           const SizedBox(height: 4),
-          Text('Present vs Absent · last 6 weeks', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+          Text(
+            'Present vs Absent · last 6 weeks',
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
           const SizedBox(height: 32),
           Expanded(
             child: Center(
@@ -565,15 +914,29 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                         getTooltipItem: (group, groupIndex, rod, rodIndex) {
                           return BarTooltipItem(
                             'Wk ${group.x.toInt()}\n',
-                            GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark),
+                            GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: _textDark,
+                            ),
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Present : ${group.barRods[0].toY.toInt()}\n',
-                                style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFF22C55E)),
+                                text:
+                                    'Present : ${group.barRods[0].toY.toInt()}\n',
+                                style: GoogleFonts.figtree(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFF22C55E),
+                                ),
                               ),
                               TextSpan(
-                                text: 'Absent : ${group.barRods[1].toY.toInt()}',
-                                style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFFEF4444)),
+                                text:
+                                    'Absent : ${group.barRods[1].toY.toInt()}',
+                                style: GoogleFonts.figtree(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xFFEF4444),
+                                ),
                               ),
                             ],
                           );
@@ -588,7 +951,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                           getTitlesWidget: (value, meta) {
                             return Padding(
                               padding: const EdgeInsets.only(top: 8),
-                              child: Text('Wk ${value.toInt()}', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                              child: Text(
+                                'Wk ${value.toInt()}',
+                                style: GoogleFonts.figtree(
+                                  fontSize: 12,
+                                  color: _textMuted,
+                                ),
+                              ),
                             );
                           },
                           reservedSize: 28,
@@ -599,19 +968,32 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                           showTitles: true,
                           getTitlesWidget: (value, meta) {
                             if (value % 60 != 0) return const SizedBox.shrink();
-                            return Text('${value.toInt()}', style: GoogleFonts.figtree(fontSize: 11, color: _textMuted));
+                            return Text(
+                              '${value.toInt()}',
+                              style: GoogleFonts.figtree(
+                                fontSize: 11,
+                                color: _textMuted,
+                              ),
+                            );
                           },
                           reservedSize: 32,
                         ),
                       ),
-                      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
+                      rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false),
+                      ),
                     ),
                     gridData: FlGridData(
                       show: true,
                       drawVerticalLine: false,
                       horizontalInterval: 60,
-                      getDrawingHorizontalLine: (value) => FlLine(color: const Color(0xFFF3F4F6), strokeWidth: 1),
+                      getDrawingHorizontalLine: (value) => FlLine(
+                        color: const Color(0xFFF3F4F6),
+                        strokeWidth: 1,
+                      ),
                     ),
                     borderData: FlBorderData(show: false),
                     barGroups: [
@@ -636,8 +1018,24 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
     return BarChartGroupData(
       x: x,
       barRods: [
-        BarChartRodData(toY: present, color: const Color(0xFF10B981), width: 24, borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))),
-        BarChartRodData(toY: absent, color: const Color(0xFFEF4444), width: 24, borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), topRight: Radius.circular(4))),
+        BarChartRodData(
+          toY: present,
+          color: const Color(0xFF10B981),
+          width: 24,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(4),
+            topRight: Radius.circular(4),
+          ),
+        ),
+        BarChartRodData(
+          toY: absent,
+          color: const Color(0xFFEF4444),
+          width: 24,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(4),
+            topRight: Radius.circular(4),
+          ),
+        ),
       ],
     );
   }
@@ -645,9 +1043,19 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
   Widget _buildLegendIndicator(Color color, String label) {
     return Row(
       children: [
-        Container(width: 10, height: 10, decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(2))),
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
         const SizedBox(width: 6),
-        Text(label, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+        Text(
+          label,
+          style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+        ),
       ],
     );
   }
@@ -670,7 +1078,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -678,22 +1092,45 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Department-wise Staff', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Department-wise Staff',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: const Color(0xFFF4F1FF), borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF4F1FF),
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Row(
                   children: [
                     const Icon(LucideIcons.users, size: 14, color: _accent),
                     const SizedBox(width: 4),
-                    Text('248 total', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                    Text(
+                      '248 total',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: _accent,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Distribution across all departments', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+          Text(
+            'Distribution across all departments',
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
           const SizedBox(height: 32),
           Expanded(
             child: Row(
@@ -707,19 +1144,38 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                         PieChartData(
                           sectionsSpace: 2,
                           centerSpaceRadius: 40,
-                          sections: depts.map((d) => PieChartSectionData(
-                            color: d['color'] as Color,
-                            value: d['value'] as double,
-                            title: '',
-                            radius: 24,
-                          )).toList(),
+                          sections: depts
+                              .map(
+                                (d) => PieChartSectionData(
+                                  color: d['color'] as Color,
+                                  value: d['value'] as double,
+                                  title: '',
+                                  radius: 24,
+                                ),
+                              )
+                              .toList(),
                         ),
                       ),
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('STAFF', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
-                          Text('248', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.w900, color: _textDark)),
+                          Text(
+                            'STAFF',
+                            style: GoogleFonts.figtree(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                              color: _textMuted,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          Text(
+                            '248',
+                            style: GoogleFonts.figtree(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w900,
+                              color: _textDark,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -731,22 +1187,47 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: depts.map((d) => Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(width: 8, height: 8, decoration: BoxDecoration(color: d['color'] as Color, shape: BoxShape.circle)),
-                                const SizedBox(width: 8),
-                                Text(d['name'] as String, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
-                              ],
+                      children: depts
+                          .map(
+                            (d) => Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 8,
+                                        height: 8,
+                                        decoration: BoxDecoration(
+                                          color: d['color'] as Color,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        d['name'] as String,
+                                        style: GoogleFonts.figtree(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: _textDark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    '${(d['value'] as double).toInt()}',
+                                    style: GoogleFonts.figtree(
+                                      fontSize: 13,
+                                      color: _textMuted,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text('${(d['value'] as double).toInt()}', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-                          ],
-                        ),
-                      )).toList(),
+                          )
+                          .toList(),
                     ),
                   ),
                 ),
@@ -765,7 +1246,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -773,47 +1260,103 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Workload Overview', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Workload Overview',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(color: const Color(0xFFFEF3C7), borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF3C7),
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.slidersHorizontal, size: 12, color: Color(0xFFF59E0B)),
+                    const Icon(
+                      LucideIcons.slidersHorizontal,
+                      size: 12,
+                      color: Color(0xFFF59E0B),
+                    ),
                     const SizedBox(width: 4),
-                    Text('4 overloaded', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: const Color(0xFFF59E0B))),
+                    Text(
+                      '4 overloaded',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFF59E0B),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Teaching assignment & period load', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+          Text(
+            'Teaching assignment & period load',
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
           const SizedBox(height: 24),
           _buildWorkloadRow('Class Teachers', 42, 48, '42', ' / 48'),
           SizedBox(height: 12.h),
           _buildWorkloadRow('Subject Teachers', 96, 132, '96', ' / 132'),
-          SizedBox(height: 12.h),
-          _buildWorkloadRow('Periods Assigned', 1820, 2160, '1,820', ' / 2,160'),
-          SizedBox(height: 12.h),
+          const SizedBox(height: 16),
+          _buildWorkloadRow(
+            'Periods Assigned',
+            1820,
+            2160,
+            '1,820',
+            ' / 2,160',
+          ),
+          const SizedBox(height: 16),
           _buildWorkloadRow('Free Periods', 340, 2160, '340', ' / 2,160'),
         ],
       ),
     );
   }
 
-  Widget _buildWorkloadRow(String title, double current, double max, String currentText, String maxText) {
+  Widget _buildWorkloadRow(
+    String title,
+    double current,
+    double max,
+    String currentText,
+    String maxText,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
+            Text(
+              title,
+              style: GoogleFonts.figtree(
+                fontSize: 13,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
             Row(
               children: [
-                Text(currentText, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _textDark)),
-                Text(maxText, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                Text(
+                  currentText,
+                  style: GoogleFonts.figtree(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: _textDark,
+                  ),
+                ),
+                Text(
+                  maxText,
+                  style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+                ),
               ],
             ),
           ],
@@ -822,12 +1365,18 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         Container(
           height: 8,
           width: double.infinity,
-          decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(4)),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF3F4F6),
+            borderRadius: BorderRadius.circular(4),
+          ),
           child: FractionallySizedBox(
             alignment: Alignment.centerLeft,
             widthFactor: current / max,
             child: Container(
-              decoration: BoxDecoration(color: _accent, borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(
+                color: _accent,
+                borderRadius: BorderRadius.circular(4),
+              ),
             ),
           ),
         ),
@@ -842,7 +1391,13 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -850,16 +1405,32 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Leave Summary', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Leave Summary',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
               _buildDropdownButton('This Month', LucideIcons.calendar),
             ],
           ),
           const SizedBox(height: 4),
-          Text('Approved, pending, rejected & upcoming', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+          Text(
+            'Approved, pending, rejected & upcoming',
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
           const SizedBox(height: 24),
           Row(
             children: [
-              Expanded(child: _buildLeaveCard('Approved', '28', const Color(0xFF22C55E))),
+              Expanded(
+                child: _buildLeaveCard(
+                  'Approved',
+                  '28',
+                  const Color(0xFF22C55E),
+                ),
+              ),
               const SizedBox(width: 16),
               Expanded(child: _buildLeaveCard('Pending', '6', _accent)),
             ],
@@ -867,9 +1438,21 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           SizedBox(height: 12.h),
           Row(
             children: [
-              Expanded(child: _buildLeaveCard('Rejected', '3', const Color(0xFFEF4444))),
+              Expanded(
+                child: _buildLeaveCard(
+                  'Rejected',
+                  '3',
+                  const Color(0xFFEF4444),
+                ),
+              ),
               const SizedBox(width: 16),
-              Expanded(child: _buildLeaveCard('Upcoming', '11', const Color(0xFF0EA5E9))),
+              Expanded(
+                child: _buildLeaveCard(
+                  'Upcoming',
+                  '11',
+                  const Color(0xFF0EA5E9),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 20),
@@ -888,13 +1471,31 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('6 leave requests await your approval', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: _accent)),
+                      Text(
+                        '6 leave requests await your approval',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: _accent,
+                        ),
+                      ),
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Text('Review now', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _accent)),
+                          Text(
+                            'Review now',
+                            style: GoogleFonts.figtree(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: _accent,
+                            ),
+                          ),
                           const SizedBox(width: 4),
-                          const Icon(LucideIcons.arrowUpRight, size: 14, color: _accent),
+                          const Icon(
+                            LucideIcons.arrowUpRight,
+                            size: 14,
+                            color: _accent,
+                          ),
                         ],
                       ),
                     ],
@@ -921,13 +1522,27 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         children: [
           Row(
             children: [
-              Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+              ),
               const SizedBox(width: 8),
-              Text(title, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+              Text(
+                title,
+                style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+              ),
             ],
           ),
           const SizedBox(height: 12),
-          Text(count, style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: color)),
+          Text(
+            count,
+            style: GoogleFonts.figtree(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
         ],
       ),
     );
@@ -935,10 +1550,78 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
 
   Widget _buildStaffDirectory() {
     final staffMembers = [
-      {'name': 'Anjali Sharma', 'id': 'EMP-101', 'role': 'Senior Math Teacher', 'dept': 'Mathematics', 'initials': 'AS', 'color': const Color(0xFFE0E7FF), 'textColor': const Color(0xFF4F46E5), 'status1': 'Present', 'status1Color': const Color(0xFFDCFCE7), 'status1Text': const Color(0xFF16A34A), 'status2': '-', 'status2Color': const Color(0xFFF3F4F6), 'status2Text': const Color(0xFF9CA3AF), 'status3': 'Active', 'status3Color': const Color(0xFFDCFCE7), 'status3Text': const Color(0xFF16A34A)},
-      {'name': 'Rajesh Iyer', 'id': 'EMP-102', 'role': 'Physics Teacher', 'dept': 'Sciences', 'initials': 'RI', 'color': const Color(0xFFE0F2FE), 'textColor': const Color(0xFF0284C7), 'status1': 'On Leave', 'status1Color': const Color(0xFFFEF3C7), 'status1Text': const Color(0xFFD97706), 'status2': 'Approved', 'status2Color': const Color(0xFFDCFCE7), 'status2Text': const Color(0xFF16A34A), 'status3': 'Active', 'status3Color': const Color(0xFFDCFCE7), 'status3Text': const Color(0xFF16A34A)},
-      {'name': 'Meera Kapoor', 'id': 'EMP-103', 'role': 'English Teacher', 'dept': 'Languages', 'initials': 'MK', 'color': const Color(0xFFDCFCE7), 'textColor': const Color(0xFF16A34A), 'status1': 'Present', 'status1Color': const Color(0xFFDCFCE7), 'status1Text': const Color(0xFF16A34A), 'status2': '-', 'status2Color': const Color(0xFFF3F4F6), 'status2Text': const Color(0xFF9CA3AF), 'status3': 'Active', 'status3Color': const Color(0xFFDCFCE7), 'status3Text': const Color(0xFF16A34A)},
-      {'name': 'Suresh Iyer', 'id': 'EMP-201', 'role': 'Front Desk Executive', 'dept': 'Admin', 'initials': 'SI', 'color': const Color(0xFFFEF3C7), 'textColor': const Color(0xFFD97706), 'status1': 'Absent', 'status1Color': const Color(0xFFFEE2E2), 'status1Text': const Color(0xFFDC2626), 'status2': '-', 'status2Color': const Color(0xFFF3F4F6), 'status2Text': const Color(0xFF9CA3AF), 'status3': 'Active', 'status3Color': const Color(0xFFDCFCE7), 'status3Text': const Color(0xFF16A34A)},
+      {
+        'name': 'Anjali Sharma',
+        'id': 'EMP-101',
+        'role': 'Senior Math Teacher',
+        'dept': 'Mathematics',
+        'initials': 'AS',
+        'color': const Color(0xFFE0E7FF),
+        'textColor': const Color(0xFF4F46E5),
+        'status1': 'Present',
+        'status1Color': const Color(0xFFDCFCE7),
+        'status1Text': const Color(0xFF16A34A),
+        'status2': '-',
+        'status2Color': const Color(0xFFF3F4F6),
+        'status2Text': const Color(0xFF9CA3AF),
+        'status3': 'Active',
+        'status3Color': const Color(0xFFDCFCE7),
+        'status3Text': const Color(0xFF16A34A),
+      },
+      {
+        'name': 'Rajesh Iyer',
+        'id': 'EMP-102',
+        'role': 'Physics Teacher',
+        'dept': 'Sciences',
+        'initials': 'RI',
+        'color': const Color(0xFFE0F2FE),
+        'textColor': const Color(0xFF0284C7),
+        'status1': 'On Leave',
+        'status1Color': const Color(0xFFFEF3C7),
+        'status1Text': const Color(0xFFD97706),
+        'status2': 'Approved',
+        'status2Color': const Color(0xFFDCFCE7),
+        'status2Text': const Color(0xFF16A34A),
+        'status3': 'Active',
+        'status3Color': const Color(0xFFDCFCE7),
+        'status3Text': const Color(0xFF16A34A),
+      },
+      {
+        'name': 'Meera Kapoor',
+        'id': 'EMP-103',
+        'role': 'English Teacher',
+        'dept': 'Languages',
+        'initials': 'MK',
+        'color': const Color(0xFFDCFCE7),
+        'textColor': const Color(0xFF16A34A),
+        'status1': 'Present',
+        'status1Color': const Color(0xFFDCFCE7),
+        'status1Text': const Color(0xFF16A34A),
+        'status2': '-',
+        'status2Color': const Color(0xFFF3F4F6),
+        'status2Text': const Color(0xFF9CA3AF),
+        'status3': 'Active',
+        'status3Color': const Color(0xFFDCFCE7),
+        'status3Text': const Color(0xFF16A34A),
+      },
+      {
+        'name': 'Suresh Iyer',
+        'id': 'EMP-201',
+        'role': 'Front Desk Executive',
+        'dept': 'Admin',
+        'initials': 'SI',
+        'color': const Color(0xFFFEF3C7),
+        'textColor': const Color(0xFFD97706),
+        'status1': 'Absent',
+        'status1Color': const Color(0xFFFEE2E2),
+        'status1Text': const Color(0xFFDC2626),
+        'status2': '-',
+        'status2Color': const Color(0xFFF3F4F6),
+        'status2Text': const Color(0xFF9CA3AF),
+        'status3': 'Active',
+        'status3Color': const Color(0xFFDCFCE7),
+        'status3Text': const Color(0xFF16A34A),
+      },
     ];
 
     return Container(
@@ -947,12 +1630,25 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E7EB)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 10, offset: const Offset(0, 4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Staff Directory', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(
+            'Staff Directory',
+            style: GoogleFonts.figtree(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 24),
           Row(
             children: [
@@ -967,10 +1663,20 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   child: TextField(
                     decoration: const InputDecoration(
                       hintText: 'Search staff name, ID, phone or department',
-                      hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 13),
-                      prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 18),
+                      hintStyle: TextStyle(
+                        color: Color(0xFF8F96A3),
+                        fontSize: 13,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Color(0xFF8F96A3),
+                        size: 18,
+                      ),
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
                     ),
                     style: GoogleFonts.figtree(fontSize: 13),
                   ),
@@ -991,9 +1697,20 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(LucideIcons.filter, size: 16, color: Color(0xFF6B7280)),
+                      const Icon(
+                        LucideIcons.filter,
+                        size: 16,
+                        color: Color(0xFF6B7280),
+                      ),
                       const SizedBox(width: 8),
-                      Text('Filters', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF111827))),
+                      Text(
+                        'Filters',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF111827),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -1004,11 +1721,20 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('248 members', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+              Text(
+                '248 members',
+                style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+              ),
               if (_isTablet)
                 Row(
                   children: [
-                    Text('Showing 1-10 of 248', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                    Text(
+                      'Showing 1-10 of 248',
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        color: _textMuted,
+                      ),
+                    ),
                     const SizedBox(width: 16),
                     _buildDirectoryDropdown('Sort: Newest'),
                     const SizedBox(width: 12),
@@ -1045,7 +1771,14 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(width: 8),
           const Icon(LucideIcons.chevronDown, size: 14, color: _textMuted),
         ],
@@ -1075,7 +1808,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
             alignment: Alignment.center,
             child: Text(
               staff['initials'] as String,
-              style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: staff['textColor'] as Color),
+              style: GoogleFonts.figtree(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: staff['textColor'] as Color,
+              ),
             ),
           ),
           const SizedBox(width: 16),
@@ -1086,15 +1823,28 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(staff['name'] as String, style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: _textDark)),
+                    Text(
+                      staff['name'] as String,
+                      style: GoogleFonts.figtree(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
                     const Icon(Icons.more_vert, color: _textMuted, size: 20),
                   ],
                 ),
                 const SizedBox(height: 4),
-                Text('${staff['id']} • ${staff['role']}', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                Text(
+                  '${staff['id']} • ${staff['role']}',
+                  style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+                ),
                 const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: const Color(0xFFF4F1FF),
                     borderRadius: BorderRadius.circular(6),
@@ -1104,18 +1854,37 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                     children: [
                       const Icon(LucideIcons.monitor, size: 12, color: _accent),
                       const SizedBox(width: 4),
-                      Text(staff['dept'] as String, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _accent)),
+                      Text(
+                        staff['dept'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: _accent,
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    _buildStatusPill(staff['status1'] as String, staff['status1Color'] as Color, staff['status1Text'] as Color),
+                    _buildStatusPill(
+                      staff['status1'] as String,
+                      staff['status1Color'] as Color,
+                      staff['status1Text'] as Color,
+                    ),
                     const SizedBox(width: 8),
-                    _buildStatusPill(staff['status2'] as String, staff['status2Color'] as Color, staff['status2Text'] as Color),
+                    _buildStatusPill(
+                      staff['status2'] as String,
+                      staff['status2Color'] as Color,
+                      staff['status2Text'] as Color,
+                    ),
                     const SizedBox(width: 8),
-                    _buildStatusPill(staff['status3'] as String, staff['status3Color'] as Color, staff['status3Text'] as Color),
+                    _buildStatusPill(
+                      staff['status3'] as String,
+                      staff['status3Color'] as Color,
+                      staff['status3Text'] as Color,
+                    ),
                   ],
                 ),
               ],
@@ -1135,7 +1904,11 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       ),
       child: Text(
         text,
-        style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: textColor),
+        style: GoogleFonts.figtree(
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+          color: textColor,
+        ),
       ),
     );
   }
@@ -1146,7 +1919,9 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
       builder: (BuildContext context) {
         return Dialog(
           backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Container(
             width: 400,
             padding: const EdgeInsets.all(24),
@@ -1158,7 +1933,14 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Filters', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: const Color(0xFF111827))),
+                      Text(
+                        'Filters',
+                        style: GoogleFonts.figtree(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFF111827),
+                        ),
+                      ),
                       IconButton(
                         icon: const Icon(Icons.close, color: Color(0xFF6B7280)),
                         onPressed: () => Navigator.pop(context),
@@ -1168,15 +1950,42 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  _buildFilterSection('Staff Type', ['All Staff Type', 'Teaching', 'Non-Teaching', 'Admin']),
-                  SizedBox(height: 12.h),
-                  _buildFilterSection('Department', ['All Departments', 'Sciences', 'Languages', 'Mathematics', 'Physical Education']),
-                  SizedBox(height: 12.h),
-                  _buildFilterSection('Role', ['All Roles', 'Senior Teacher', 'Teacher', 'HOD', 'Assistant']),
-                  SizedBox(height: 12.h),
-                  _buildFilterSection('Attendance', ['All Attendance', 'Present', 'Absent', 'On Leave']),
-                  SizedBox(height: 12.h),
-                  _buildFilterSection('Employment', ['All Employment', 'Permanent', 'Contract', 'Probation']),
+                  _buildFilterSection('Staff Type', [
+                    'All Staff Type',
+                    'Teaching',
+                    'Non-Teaching',
+                    'Admin',
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildFilterSection('Department', [
+                    'All Departments',
+                    'Sciences',
+                    'Languages',
+                    'Mathematics',
+                    'Physical Education',
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildFilterSection('Role', [
+                    'All Roles',
+                    'Senior Teacher',
+                    'Teacher',
+                    'HOD',
+                    'Assistant',
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildFilterSection('Attendance', [
+                    'All Attendance',
+                    'Present',
+                    'Absent',
+                    'On Leave',
+                  ]),
+                  const SizedBox(height: 16),
+                  _buildFilterSection('Employment', [
+                    'All Employment',
+                    'Permanent',
+                    'Contract',
+                    'Probation',
+                  ]),
                   const SizedBox(height: 24),
                   Row(
                     children: [
@@ -1186,9 +1995,18 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             side: const BorderSide(color: Color(0xFFE5E7EB)),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
-                          child: Text('Clear', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFF374151))),
+                          child: Text(
+                            'Clear',
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF374151),
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -1198,10 +2016,19 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF4F46E5),
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                             elevation: 0,
                           ),
-                          child: Text('Apply Filters', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                          child: Text(
+                            'Apply Filters',
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -1219,7 +2046,14 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFF374151))),
+        Text(
+          title,
+          style: GoogleFonts.figtree(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: const Color(0xFF374151),
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -1231,8 +2065,18 @@ class _StaffManagementScreenState extends State<StaffManagementScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(options.first, style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFF111827))),
-              const Icon(LucideIcons.chevronDown, size: 16, color: Color(0xFF6B7280)),
+              Text(
+                options.first,
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  color: const Color(0xFF111827),
+                ),
+              ),
+              const Icon(
+                LucideIcons.chevronDown,
+                size: 16,
+                color: Color(0xFF6B7280),
+              ),
             ],
           ),
         ),

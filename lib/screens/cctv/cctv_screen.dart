@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../core/constants/app_colors.dart';
 import '../../widgets/common_app_bar.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 class CCTVScreen extends StatefulWidget {
   const CCTVScreen({super.key});
@@ -20,7 +21,7 @@ class CCTVScreen extends StatefulWidget {
 
 class _CCTVScreenState extends State<CCTVScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  
+
   List<Map<String, dynamic>> _cameras = [
     {'id': '1', 'name': 'Main Gate', 'location': 'Entrance · Block A'},
     {'id': '2', 'name': 'Playground', 'location': 'Outdoor · North'},
@@ -62,7 +63,9 @@ class _CCTVScreenState extends State<CCTVScreen> {
       context: context,
       builder: (context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
           child: Container(
             width: 400,
             padding: const EdgeInsets.all(24),
@@ -90,11 +93,23 @@ class _CCTVScreenState extends State<CCTVScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                _buildTextField('CAMERA NAME', 'Main Gate', controller: nameController),
-                SizedBox(height: 12.h),
-                _buildTextField('LOCATION', 'Block A · Ground Floor', controller: locationController),
-                SizedBox(height: 12.h),
-                _buildTextField('STREAM URL (OPTIONAL)', 'https://.../stream.mp4', controller: urlController),
+                _buildTextField(
+                  'CAMERA NAME',
+                  'Main Gate',
+                  controller: nameController,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  'LOCATION',
+                  'Block A · Ground Floor',
+                  controller: locationController,
+                ),
+                const SizedBox(height: 16),
+                _buildTextField(
+                  'STREAM URL (OPTIONAL)',
+                  'https://.../stream.mp4',
+                  controller: urlController,
+                ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -102,21 +117,32 @@ class _CCTVScreenState extends State<CCTVScreen> {
                     TextButton(
                       onPressed: () => Navigator.pop(context),
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                           side: const BorderSide(color: Color(0xFFE5E7EB)),
                         ),
                       ),
-                      child: Text('Cancel', style: GoogleFonts.figtree(color: const Color(0xFF171A21), fontWeight: FontWeight.w600)),
+                      child: Text(
+                        'Cancel',
+                        style: GoogleFonts.figtree(
+                          color: const Color(0xFF171A21),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     ElevatedButton(
                       onPressed: () {
-                        if (nameController.text.trim().isNotEmpty && locationController.text.trim().isNotEmpty) {
+                        if (nameController.text.trim().isNotEmpty &&
+                            locationController.text.trim().isNotEmpty) {
                           setState(() {
                             _cameras.add({
-                              'id': DateTime.now().millisecondsSinceEpoch.toString(),
+                              'id': DateTime.now().millisecondsSinceEpoch
+                                  .toString(),
                               'name': nameController.text.trim(),
                               'location': locationController.text.trim(),
                             });
@@ -126,11 +152,22 @@ class _CCTVScreenState extends State<CCTVScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF6B4EFF),
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 12,
+                        ),
                         elevation: 0,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
-                      child: Text('Add Camera', style: GoogleFonts.figtree(color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        'Add Camera',
+                        style: GoogleFonts.figtree(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -142,7 +179,11 @@ class _CCTVScreenState extends State<CCTVScreen> {
     );
   }
 
-  Widget _buildTextField(String label, String hint, {required TextEditingController controller}) {
+  Widget _buildTextField(
+    String label,
+    String hint, {
+    required TextEditingController controller,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -172,14 +213,16 @@ class _CCTVScreenState extends State<CCTVScreen> {
               borderRadius: BorderRadius.circular(8),
               borderSide: const BorderSide(color: Color(0xFF6B4EFF)),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
           ),
         ),
       ],
     );
   }
 
-  
   Future<void> _loadCameras() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__cameras_data');
@@ -219,7 +262,7 @@ class _CCTVScreenState extends State<CCTVScreen> {
       key: _scaffoldKey,
       backgroundColor: AppColors.background,
       drawer: const MenuScreen(activeScreen: 'CCTV Cameras'),
-      
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,15 +273,16 @@ class _CCTVScreenState extends State<CCTVScreen> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 24.0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(),
                     const SizedBox(height: 24),
-                    Expanded(
-                      child: _buildCameraGrid(),
-                    ),
+                    Expanded(child: _buildCameraGrid()),
                   ],
                 ),
               ),
@@ -254,12 +298,48 @@ class _CCTVScreenState extends State<CCTVScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          'CCTV Cameras',
-          style: TextStyle(
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF111827),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'CCTV Cameras',
+                style: GoogleFonts.figtree(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF171A21),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Live feeds from ${_cameras.length} cameras across campus · ${_cameras.length} online',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  color: const Color(0xFF6B7280),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 16),
+        ElevatedButton.icon(
+          onPressed: () => _showAddCameraModal(context),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF6B4EFF),
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+          icon: const Icon(LucideIcons.plus, size: 16),
+          label: Text(
+            'Add CCTV Camera',
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         const SizedBox.shrink(),
@@ -375,7 +455,11 @@ class _CCTVScreenState extends State<CCTVScreen> {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          const Icon(LucideIcons.mapPin, size: 12, color: Color(0xFF6B7280)),
+                          const Icon(
+                            LucideIcons.mapPin,
+                            size: 12,
+                            color: Color(0xFF6B7280),
+                          ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
@@ -423,7 +507,9 @@ class _CCTVScreenState extends State<CCTVScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: 0,
@@ -432,23 +518,41 @@ class _CCTVScreenState extends State<CCTVScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: const Color(0xFF6B4EFF),
         unselectedItemColor: const Color(0xFF9CA3AF),
-        selectedLabelStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
           BottomNavigationBarItem(
-            icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(LucideIcons.video)),
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 4),
+              child: Icon(LucideIcons.video),
+            ),
             label: 'Live Feeds',
           ),
           BottomNavigationBarItem(
-            icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(LucideIcons.history)),
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 4),
+              child: Icon(LucideIcons.history),
+            ),
             label: 'Recordings',
           ),
           BottomNavigationBarItem(
-            icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(LucideIcons.alertTriangle)),
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 4),
+              child: Icon(LucideIcons.alertTriangle),
+            ),
             label: 'Alerts',
           ),
           BottomNavigationBarItem(
-            icon: Padding(padding: EdgeInsets.only(bottom: 4), child: Icon(LucideIcons.settings)),
+            icon: Padding(
+              padding: EdgeInsets.only(bottom: 4),
+              child: Icon(LucideIcons.settings),
+            ),
             label: 'Settings',
           ),
         ],

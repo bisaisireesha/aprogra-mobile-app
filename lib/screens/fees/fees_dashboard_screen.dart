@@ -14,6 +14,7 @@ import 'fee_structure_screen.dart';
 import 'due_payments_screen.dart';
 import 'create_invoice_modal.dart';
 import 'fees_filter_bottom_sheet.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bg = Color(0xFFF9F9FB);
 const _dark = Color(0xFF181821);
@@ -29,9 +30,6 @@ class FeesDashboardScreen extends StatefulWidget {
 }
 
 class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
-
-
-  
   @override
   void initState() {
     super.initState();
@@ -50,20 +48,115 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   int _touchedBarIndex = -1;
 
   List<Map<String, dynamic>> _invoices = [
-    {'id': 'INV-2025-1048', 'student': 'Aryan Reddy', 'class': 'Class 6A', 'type': 'Tuition Fee', 'due': '27 May 2025', 'amount': '₹24,500', 'status': 'Pending'},
-    {'id': 'INV-2025-1047', 'student': 'Saanvi Patel', 'class': 'Class 4B', 'type': 'Transport', 'due': '25 May 2025', 'amount': '₹3,200', 'status': 'Paid'},
-    {'id': 'INV-2025-1046', 'student': 'Vivaan Singh', 'class': 'Class 9C', 'type': 'Tuition Fee', 'due': '24 May 2025', 'amount': '₹28,000', 'status': 'Overdue'},
-    {'id': 'INV-2025-1045', 'student': 'Aadhya Sharma', 'class': 'Class 2A', 'type': 'Hostel Fee', 'due': '22 May 2025', 'amount': '₹15,000', 'status': 'Partial'},
-    {'id': 'INV-2025-1044', 'student': 'Reyansh Gupta', 'class': 'Class 10A', 'type': 'Tuition Fee', 'due': '20 May 2025', 'amount': '₹30,000', 'status': 'Pending'},
-    {'id': 'INV-2025-1043', 'student': 'Myra Verma', 'class': 'Class 5B', 'type': 'Exam Fee', 'due': '18 May 2025', 'amount': '₹1,500', 'status': 'Paid'},
-    {'id': 'INV-2025-1042', 'student': 'Kabir Desai', 'class': 'Class 11C', 'type': 'Transport', 'due': '15 May 2025', 'amount': '₹4,500', 'status': 'Overdue'},
-    {'id': 'INV-2025-1041', 'student': 'Ananya Iyer', 'class': 'Class 7C', 'type': 'Tuition Fee', 'due': '10 May 2025', 'amount': '₹24,500', 'status': 'Paid'},
-    {'id': 'INV-2025-1040', 'student': 'Priya Sharma', 'class': 'Class 8B', 'type': 'Hostel Fee', 'due': '10 May 2025', 'amount': '₹18,000', 'status': 'Pending'},
-    {'id': 'INV-2025-1039', 'student': 'Rohan Mehta', 'class': 'Class 10A', 'type': 'Transport', 'due': '05 May 2025', 'amount': '₹4,500', 'status': 'Overdue'},
-    {'id': 'INV-2025-1038', 'student': 'Arjun Das', 'class': 'Class 1A', 'type': 'Tuition Fee', 'due': '01 May 2025', 'amount': '₹20,000', 'status': 'Paid'},
-    {'id': 'INV-2025-1037', 'student': 'Kiran Nair', 'class': 'Class 9B', 'type': 'Exam Fee', 'due': '15 Apr 2025', 'amount': '₹2,000', 'status': 'Pending'},
+    {
+      'id': 'INV-2025-1048',
+      'student': 'Aryan Reddy',
+      'class': 'Class 6A',
+      'type': 'Tuition Fee',
+      'due': '27 May 2025',
+      'amount': '₹24,500',
+      'status': 'Pending',
+    },
+    {
+      'id': 'INV-2025-1047',
+      'student': 'Saanvi Patel',
+      'class': 'Class 4B',
+      'type': 'Transport',
+      'due': '25 May 2025',
+      'amount': '₹3,200',
+      'status': 'Paid',
+    },
+    {
+      'id': 'INV-2025-1046',
+      'student': 'Vivaan Singh',
+      'class': 'Class 9C',
+      'type': 'Tuition Fee',
+      'due': '24 May 2025',
+      'amount': '₹28,000',
+      'status': 'Overdue',
+    },
+    {
+      'id': 'INV-2025-1045',
+      'student': 'Aadhya Sharma',
+      'class': 'Class 2A',
+      'type': 'Hostel Fee',
+      'due': '22 May 2025',
+      'amount': '₹15,000',
+      'status': 'Partial',
+    },
+    {
+      'id': 'INV-2025-1044',
+      'student': 'Reyansh Gupta',
+      'class': 'Class 10A',
+      'type': 'Tuition Fee',
+      'due': '20 May 2025',
+      'amount': '₹30,000',
+      'status': 'Pending',
+    },
+    {
+      'id': 'INV-2025-1043',
+      'student': 'Myra Verma',
+      'class': 'Class 5B',
+      'type': 'Exam Fee',
+      'due': '18 May 2025',
+      'amount': '₹1,500',
+      'status': 'Paid',
+    },
+    {
+      'id': 'INV-2025-1042',
+      'student': 'Kabir Desai',
+      'class': 'Class 11C',
+      'type': 'Transport',
+      'due': '15 May 2025',
+      'amount': '₹4,500',
+      'status': 'Overdue',
+    },
+    {
+      'id': 'INV-2025-1041',
+      'student': 'Ananya Iyer',
+      'class': 'Class 7C',
+      'type': 'Tuition Fee',
+      'due': '10 May 2025',
+      'amount': '₹24,500',
+      'status': 'Paid',
+    },
+    {
+      'id': 'INV-2025-1040',
+      'student': 'Priya Sharma',
+      'class': 'Class 8B',
+      'type': 'Hostel Fee',
+      'due': '10 May 2025',
+      'amount': '₹18,000',
+      'status': 'Pending',
+    },
+    {
+      'id': 'INV-2025-1039',
+      'student': 'Rohan Mehta',
+      'class': 'Class 10A',
+      'type': 'Transport',
+      'due': '05 May 2025',
+      'amount': '₹4,500',
+      'status': 'Overdue',
+    },
+    {
+      'id': 'INV-2025-1038',
+      'student': 'Arjun Das',
+      'class': 'Class 1A',
+      'type': 'Tuition Fee',
+      'due': '01 May 2025',
+      'amount': '₹20,000',
+      'status': 'Paid',
+    },
+    {
+      'id': 'INV-2025-1037',
+      'student': 'Kiran Nair',
+      'class': 'Class 9B',
+      'type': 'Exam Fee',
+      'due': '15 Apr 2025',
+      'amount': '₹2,000',
+      'status': 'Pending',
+    },
   ];
-
 
   void _showInvoiceDetails(BuildContext context, Map<String, dynamic> inv) {
     showModalBottomSheet(
@@ -72,7 +165,10 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,8 +176,18 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Invoice Details', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _dark)),
-                IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(LucideIcons.x))
+                Text(
+                  'Invoice Details',
+                  style: GoogleFonts.figtree(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: _dark,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(LucideIcons.x),
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -97,8 +203,21 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(backgroundColor: _primary, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                child: Text('Close', style: GoogleFonts.figtree(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _primary,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  'Close',
+                  style: GoogleFonts.figtree(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -115,13 +234,19 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
-          Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+          Text(
+            value,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: _dark,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  
   Future<void> _loadInvoices() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__invoices_data');
@@ -162,7 +287,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       key: _scaffoldKey,
       backgroundColor: _bg,
       drawer: const MenuScreen(activeScreen: 'Fee Dashboard'),
-      
+      bottomNavigationBar: const AppBottomNav(),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -176,7 +301,10 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -217,7 +345,12 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       children: [
         Text(
           'Fees & Invoices',
-          style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _dark, letterSpacing: -0.5),
+          style: GoogleFonts.figtree(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: _dark,
+            letterSpacing: -0.5,
+          ),
         ),
         const SizedBox(height: 6),
         Text(
@@ -242,7 +375,14 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
             children: [
               const Icon(LucideIcons.download, size: 14, color: _muted),
               const SizedBox(width: 8),
-              Text('Export Report', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _dark)),
+              Text(
+                'Export Report',
+                style: GoogleFonts.figtree(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: _dark,
+                ),
+              ),
             ],
           ),
         ),
@@ -255,7 +395,9 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
               builder: (context) => Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top + 20,
+                ),
                 child: const CreateInvoiceModal(),
               ),
             );
@@ -276,7 +418,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                   color: _primary.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 3),
-                )
+                ),
               ],
             ),
             child: Row(
@@ -284,7 +426,14 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               children: [
                 const Icon(LucideIcons.plus, size: 16, color: Colors.white),
                 const SizedBox(width: 8),
-                Text('Create Invoice', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
+                Text(
+                  'Create Invoice',
+                  style: GoogleFonts.figtree(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ),
@@ -326,10 +475,23 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
             decoration: InputDecoration(
               hintText: 'Search invoice or student...',
               hintStyle: GoogleFonts.figtree(fontSize: 14, color: _muted),
-              prefixIcon: const Icon(LucideIcons.search, size: 18, color: _muted),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
-              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
-              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _primary)),
+              prefixIcon: const Icon(
+                LucideIcons.search,
+                size: 18,
+                color: _muted,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: _border),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: _border),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: _primary),
+              ),
               contentPadding: const EdgeInsets.symmetric(vertical: 12),
               filled: true,
               fillColor: Colors.white,
@@ -344,7 +506,9 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
               builder: (context) => Padding(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top + 20,
+                ),
                 child: FeesFilterBottomSheet(
                   selectedClass: _selectedClass,
                   selectedFeeType: _selectedFeeType,
@@ -370,7 +534,11 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           },
           child: Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(12), color: Colors.white),
+            decoration: BoxDecoration(
+              border: Border.all(color: _border),
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.white,
+            ),
             child: const Icon(LucideIcons.filter, size: 20, color: _dark),
           ),
         ),
@@ -381,60 +549,60 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   Widget _buildKPIs(bool isTablet) {
     final kpis = [
       {
-        'label': 'TOTAL INVOICED', 
-        'value': '₹57.4L', 
-        'trend': '▲ ₹4.8L (+9.12%)', 
-        'sub': 'vs last month', 
-        'positive': true, 
-        'icon': LucideIcons.fileText, 
-        'iconBg': const Color(0xFF6366F1), 
-        'cardBg': Colors.white, 
-        'cardBorder': const Color(0xFFEBE5FF), 
+        'label': 'TOTAL INVOICED',
+        'value': '₹57.4L',
+        'trend': '▲ ₹4.8L (+9.12%)',
+        'sub': 'vs last month',
+        'positive': true,
+        'icon': LucideIcons.fileText,
+        'iconBg': const Color(0xFF6366F1),
+        'cardBg': Colors.white,
+        'cardBorder': const Color(0xFFEBE5FF),
         'trendColor': const Color(0xFF22C55E),
-        'sparkColor': const Color(0xFF6366F1), 
-        'data': [3.0, 3.5, 4.2, 4.8, 5.1, 5.4, 5.7]
+        'sparkColor': const Color(0xFF6366F1),
+        'data': [3.0, 3.5, 4.2, 4.8, 5.1, 5.4, 5.7],
       },
       {
-        'label': 'AMOUNT COLLECTED', 
-        'value': '₹48.6L', 
-        'trend': '▲ ₹3.2L (+7.04%)', 
-        'sub': '84.7% collected', 
-        'positive': true, 
-        'icon': LucideIcons.wallet, 
-        'iconBg': const Color(0xFF22C55E), 
+        'label': 'AMOUNT COLLECTED',
+        'value': '₹48.6L',
+        'trend': '▲ ₹3.2L (+7.04%)',
+        'sub': '84.7% collected',
+        'positive': true,
+        'icon': LucideIcons.wallet,
+        'iconBg': const Color(0xFF22C55E),
         'cardBg': Colors.white,
-        'cardBorder': const Color(0xFFE0F3E8), 
+        'cardBorder': const Color(0xFFE0F3E8),
         'trendColor': const Color(0xFF22C55E),
-        'sparkColor': const Color(0xFF22C55E), 
-        'data': [2.5, 3.0, 3.8, 4.1, 4.5, 4.7, 4.9]
+        'sparkColor': const Color(0xFF22C55E),
+        'data': [2.5, 3.0, 3.8, 4.1, 4.5, 4.7, 4.9],
       },
       {
-        'label': 'PENDING DUES', 
-        'value': '₹8.74L', 
-        'trend': '▼ ₹0.82L (+10.35%)', 
-        'sub': 'requires follow-up', 
-        'positive': false, 
-        'icon': LucideIcons.clock, 
-        'iconBg': const Color(0xFFF59E0B), 
+        'label': 'PENDING DUES',
+        'value': '₹8.74L',
+        'trend': '▼ ₹0.82L (+10.35%)',
+        'sub': 'requires follow-up',
+        'positive': false,
+        'icon': LucideIcons.clock,
+        'iconBg': const Color(0xFFF59E0B),
         'cardBg': Colors.white,
-        'cardBorder': const Color(0xFFFDE8D4), 
+        'cardBorder': const Color(0xFFFDE8D4),
         'trendColor': const Color(0xFFEF4444),
-        'sparkColor': const Color(0xFFF59E0B), 
-        'data': [0.8, 0.9, 0.9, 1.2, 1.0, 1.1, 1.3]
+        'sparkColor': const Color(0xFFF59E0B),
+        'data': [0.8, 0.9, 0.9, 1.2, 1.0, 1.1, 1.3],
       },
       {
-        'label': 'OVERDUE INVOICES', 
-        'value': '126', 
-        'trend': '▼ 18', 
-        'sub': 'past due date', 
-        'positive': false, 
-        'icon': LucideIcons.alertCircle, 
-        'iconBg': const Color(0xFFEF4444), 
+        'label': 'OVERDUE INVOICES',
+        'value': '126',
+        'trend': '▼ 18',
+        'sub': 'past due date',
+        'positive': false,
+        'icon': LucideIcons.alertCircle,
+        'iconBg': const Color(0xFFEF4444),
         'cardBg': Colors.white,
-        'cardBorder': const Color(0xFFFCE1E1), 
+        'cardBorder': const Color(0xFFFCE1E1),
         'trendColor': const Color(0xFFEF4444),
-        'sparkColor': const Color(0xFFEF4444), 
-        'data': [130.0, 140.0, 125.0, 135.0, 120.0, 130.0, 126.0]
+        'sparkColor': const Color(0xFFEF4444),
+        'data': [130.0, 140.0, 125.0, 135.0, 120.0, 130.0, 126.0],
       },
     ];
 
@@ -455,7 +623,7 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     final cardBg = k['cardBg'] as Color;
     final cardBorder = k['cardBorder'] as Color;
     final trendColor = k['trendColor'] as Color;
-    
+
     return Container(
       decoration: BoxDecoration(
         color: cardBg,
@@ -474,17 +642,50 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(color: iconBg, borderRadius: BorderRadius.circular(10)),
-                    child: Icon(k['icon'] as IconData, size: 20, color: Colors.white),
+                    decoration: BoxDecoration(
+                      color: iconBg,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      k['icon'] as IconData,
+                      size: 20,
+                      color: Colors.white,
+                    ),
                   ),
-                  SizedBox(height: 12.h),
-                  Text(k['label'], style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w600, color: _muted, letterSpacing: 0.5)),
+                  const SizedBox(height: 16),
+                  Text(
+                    k['label'],
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: _muted,
+                      letterSpacing: 0.5,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(k['value'], style: GoogleFonts.figtree(fontSize: 28, fontWeight: FontWeight.bold, color: _dark, height: 1.1)),
+                  Text(
+                    k['value'],
+                    style: GoogleFonts.figtree(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: _dark,
+                      height: 1.1,
+                    ),
+                  ),
                   const SizedBox(height: 8),
-                  Text(k['trend'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: trendColor)),
+                  Text(
+                    k['trend'],
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: trendColor,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text(k['sub'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    k['sub'],
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
             ),
@@ -494,17 +695,30 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 padding: const EdgeInsets.only(top: 8),
                 child: LineChart(
                   LineChartData(
-                    minX: 0, 
+                    minX: 0,
                     maxX: (k['data'] as List).length.toDouble() - 1,
-                    minY: (k['data'] as List).cast<double>().reduce((a,b)=>a<b?a:b) * 0.95,
-                    maxY: (k['data'] as List).cast<double>().reduce((a,b)=>a>b?a:b) * 1.05,
+                    minY:
+                        (k['data'] as List).cast<double>().reduce(
+                          (a, b) => a < b ? a : b,
+                        ) *
+                        0.95,
+                    maxY:
+                        (k['data'] as List).cast<double>().reduce(
+                          (a, b) => a > b ? a : b,
+                        ) *
+                        1.05,
                     gridData: FlGridData(show: false),
                     titlesData: FlTitlesData(show: false),
                     borderData: FlBorderData(show: false),
                     lineTouchData: LineTouchData(enabled: false),
                     lineBarsData: [
                       LineChartBarData(
-                        spots: (k['data'] as List).cast<double>().asMap().entries.map((e) => FlSpot(e.key.toDouble(), e.value)).toList(),
+                        spots: (k['data'] as List)
+                            .cast<double>()
+                            .asMap()
+                            .entries
+                            .map((e) => FlSpot(e.key.toDouble(), e.value))
+                            .toList(),
                         isCurved: true,
                         curveSmoothness: 0.35,
                         color: sparkColor,
@@ -529,11 +743,51 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
   Widget _buildQuickActions(bool isTablet) {
     final actions = [
-      {'label': 'Collect Fee', 'desc': 'Record fee payments', 'icon': LucideIcons.wallet, 'color': const Color(0xFF22C55E), 'bg': Colors.white, 'border': const Color(0xFFE0F3E8), 'iconBg': const Color(0xFFDCFCE7)},
-      {'label': 'Send Reminder', 'desc': 'Send payment reminders', 'icon': LucideIcons.bell, 'color': const Color(0xFFF59E0B), 'bg': Colors.white, 'border': const Color(0xFFFDE8D4), 'iconBg': const Color(0xFFFFF7ED)},
-      {'label': 'Fee Structure', 'desc': 'Manage fee structures', 'icon': LucideIcons.settings, 'color': const Color(0xFF3B82F6), 'bg': Colors.white, 'border': const Color(0xFFE5EDFF), 'iconBg': const Color(0xFFEFF6FF)},
-      {'label': 'Bulk Invoice', 'desc': 'Create invoices in bulk', 'icon': LucideIcons.layers, 'color': const Color(0xFF8B5CF6), 'bg': Colors.white, 'border': const Color(0xFFEBE5FF), 'iconBg': const Color(0xFFF5F3FF)},
-      {'label': 'Download Report', 'desc': 'Download fee reports', 'icon': LucideIcons.download, 'color': const Color(0xFF0EA5E9), 'bg': Colors.white, 'border': const Color(0xFFE0F2FE), 'iconBg': const Color(0xFFE0F2FE)},
+      {
+        'label': 'Collect Fee',
+        'desc': 'Record fee payments',
+        'icon': LucideIcons.wallet,
+        'color': const Color(0xFF22C55E),
+        'bg': Colors.white,
+        'border': const Color(0xFFE0F3E8),
+        'iconBg': const Color(0xFFDCFCE7),
+      },
+      {
+        'label': 'Send Reminder',
+        'desc': 'Send payment reminders',
+        'icon': LucideIcons.bell,
+        'color': const Color(0xFFF59E0B),
+        'bg': Colors.white,
+        'border': const Color(0xFFFDE8D4),
+        'iconBg': const Color(0xFFFFF7ED),
+      },
+      {
+        'label': 'Fee Structure',
+        'desc': 'Manage fee structures',
+        'icon': LucideIcons.settings,
+        'color': const Color(0xFF3B82F6),
+        'bg': Colors.white,
+        'border': const Color(0xFFE5EDFF),
+        'iconBg': const Color(0xFFEFF6FF),
+      },
+      {
+        'label': 'Bulk Invoice',
+        'desc': 'Create invoices in bulk',
+        'icon': LucideIcons.layers,
+        'color': const Color(0xFF8B5CF6),
+        'bg': Colors.white,
+        'border': const Color(0xFFEBE5FF),
+        'iconBg': const Color(0xFFF5F3FF),
+      },
+      {
+        'label': 'Download Report',
+        'desc': 'Download fee reports',
+        'icon': LucideIcons.download,
+        'color': const Color(0xFF0EA5E9),
+        'bg': Colors.white,
+        'border': const Color(0xFFE0F2FE),
+        'iconBg': const Color(0xFFE0F2FE),
+      },
     ];
     return GridView.count(
       crossAxisCount: isTablet ? 6 : 3,
@@ -549,9 +803,21 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   Widget _buildQuickActionBtn(Map<String, dynamic> a, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (a['label'] == 'Collect Fee') Navigator.push(context, MaterialPageRoute(builder: (_) => const CollectFeeScreen()));
-        if (a['label'] == 'Fee Structure') Navigator.push(context, MaterialPageRoute(builder: (_) => const FeeStructureScreen()));
-        if (a['label'] == 'Send Reminder') Navigator.push(context, MaterialPageRoute(builder: (_) => const DuePaymentsScreen()));
+        if (a['label'] == 'Collect Fee')
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CollectFeeScreen()),
+          );
+        if (a['label'] == 'Fee Structure')
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const FeeStructureScreen()),
+          );
+        if (a['label'] == 'Send Reminder')
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const DuePaymentsScreen()),
+          );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -565,13 +831,29 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: a['iconBg'], shape: BoxShape.circle),
+              decoration: BoxDecoration(
+                color: a['iconBg'],
+                shape: BoxShape.circle,
+              ),
               child: Icon(a['icon'] as IconData, size: 24, color: a['color']),
             ),
             const SizedBox(height: 12),
-            Text(a['label'], style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _dark), textAlign: TextAlign.center),
+            Text(
+              a['label'],
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _dark,
+              ),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 4),
-            Text(a['desc'], style: GoogleFonts.figtree(fontSize: 10, color: _muted), textAlign: TextAlign.center, maxLines: 2),
+            Text(
+              a['desc'],
+              style: GoogleFonts.figtree(fontSize: 10, color: _muted),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
           ],
         ),
       ),
@@ -587,9 +869,19 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Recent Invoices', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+              Text(
+                'Recent Invoices',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _dark,
+                ),
+              ),
               const SizedBox(height: 2),
-              Text('1,486 invoices', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+              Text(
+                '1,486 invoices',
+                style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+              ),
             ],
           ),
         ),
@@ -604,7 +896,20 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         final day = int.parse(parts[0]);
         final monthStr = parts[1];
         final year = int.parse(parts[2]);
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ];
         final month = months.indexOf(monthStr) + 1;
         if (month > 0) return DateTime(year, month, day);
       }
@@ -626,14 +931,19 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
       bool searchMatch = true;
       if (_searchQuery.trim().isNotEmpty) {
         final q = _searchQuery.toLowerCase();
-        searchMatch = inv['id'].toString().toLowerCase().contains(q) ||
-                      inv['student'].toString().toLowerCase().contains(q);
+        searchMatch =
+            inv['id'].toString().toLowerCase().contains(q) ||
+            inv['student'].toString().toLowerCase().contains(q);
       }
 
       // 2. Class, Type, Status
-      final classMatch = _selectedClass == 'All Classes' || inv['class'] == _selectedClass;
-      final typeMatch = _selectedFeeType == 'All Fee Types' || inv['type'] == _selectedFeeType;
-      final statusMatch = _selectedStatus == 'All Status' || inv['status'] == _selectedStatus;
+      final classMatch =
+          _selectedClass == 'All Classes' || inv['class'] == _selectedClass;
+      final typeMatch =
+          _selectedFeeType == 'All Fee Types' ||
+          inv['type'] == _selectedFeeType;
+      final statusMatch =
+          _selectedStatus == 'All Status' || inv['status'] == _selectedStatus;
 
       // 3. Amount Range
       bool amountMatch = true;
@@ -650,16 +960,36 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
       // 4. Date Range
       bool dateMatch = true;
-      if (_selectedDateRange == 'Custom Range' && _customFromDate != null && _customToDate != null) {
+      if (_selectedDateRange == 'Custom Range' &&
+          _customFromDate != null &&
+          _customToDate != null) {
         final invDate = _parseInvoiceDate(inv['due']);
         if (invDate != null) {
-          final from = DateTime(_customFromDate!.year, _customFromDate!.month, _customFromDate!.day);
-          final to = DateTime(_customToDate!.year, _customToDate!.month, _customToDate!.day, 23, 59, 59);
-          dateMatch = invDate.isAfter(from.subtract(const Duration(days: 1))) && invDate.isBefore(to.add(const Duration(days: 1)));
+          final from = DateTime(
+            _customFromDate!.year,
+            _customFromDate!.month,
+            _customFromDate!.day,
+          );
+          final to = DateTime(
+            _customToDate!.year,
+            _customToDate!.month,
+            _customToDate!.day,
+            23,
+            59,
+            59,
+          );
+          dateMatch =
+              invDate.isAfter(from.subtract(const Duration(days: 1))) &&
+              invDate.isBefore(to.add(const Duration(days: 1)));
         }
       }
 
-      return searchMatch && classMatch && typeMatch && statusMatch && amountMatch && dateMatch;
+      return searchMatch &&
+          classMatch &&
+          typeMatch &&
+          statusMatch &&
+          amountMatch &&
+          dateMatch;
     }).toList();
   }
 
@@ -672,23 +1002,41 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(8)),
+              decoration: BoxDecoration(
+                border: Border.all(color: _border),
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Row(
                 children: [
-                  Text('10 per page', style: GoogleFonts.figtree(fontSize: 12, color: _dark, fontWeight: FontWeight.w500)),
+                  Text(
+                    '10 per page',
+                    style: GoogleFonts.figtree(
+                      fontSize: 12,
+                      color: _dark,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   const SizedBox(width: 4),
                   const Icon(LucideIcons.chevronDown, size: 14, color: _muted),
                 ],
               ),
             ),
-            Text('Showing 1-7 of 1,486', style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+            Text(
+              'Showing 1-7 of 1,486',
+              style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+            ),
           ],
         ),
         SizedBox(height: 12.h),
         if (items.isEmpty)
           Padding(
             padding: const EdgeInsets.all(32),
-            child: Center(child: Text('No invoices found', style: GoogleFonts.figtree(fontSize: 14, color: _muted))),
+            child: Center(
+              child: Text(
+                'No invoices found',
+                style: GoogleFonts.figtree(fontSize: 14, color: _muted),
+              ),
+            ),
           )
         else
           ...items.map((inv) => _buildInvoiceCard(inv)),
@@ -726,7 +1074,14 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         border: Border.all(color: isActive ? const Color(0xFF6366F1) : _border),
       ),
       child: content is String
-          ? Text(content, style: GoogleFonts.figtree(fontSize: 12, fontWeight: isActive ? FontWeight.bold : FontWeight.w500, color: isActive ? Colors.white : _dark))
+          ? Text(
+              content,
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.w500,
+                color: isActive ? Colors.white : _dark,
+              ),
+            )
           : Icon(content as IconData, size: 14, color: _dark),
     );
   }
@@ -736,13 +1091,20 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     Color statusBg;
     switch (inv['status']) {
       case 'Paid':
-        statusColor = const Color(0xFF22C55E); statusBg = const Color(0xFFDCFCE7); break;
+        statusColor = const Color(0xFF22C55E);
+        statusBg = const Color(0xFFDCFCE7);
+        break;
       case 'Overdue':
-        statusColor = const Color(0xFFEF4444); statusBg = const Color(0xFFFEE2E2); break;
+        statusColor = const Color(0xFFEF4444);
+        statusBg = const Color(0xFFFEE2E2);
+        break;
       case 'Partial':
-        statusColor = const Color(0xFF0EA5E9); statusBg = const Color(0xFFE0F2FE); break;
+        statusColor = const Color(0xFF0EA5E9);
+        statusBg = const Color(0xFFE0F2FE);
+        break;
       default:
-        statusColor = const Color(0xFFF59E0B); statusBg = const Color(0xFFFEF3C7);
+        statusColor = const Color(0xFFF59E0B);
+        statusBg = const Color(0xFFFEF3C7);
     }
 
     return Container(
@@ -762,12 +1124,22 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 margin: const EdgeInsets.only(top: 4, right: 12),
                 width: 18,
                 height: 18,
-                decoration: BoxDecoration(border: Border.all(color: _border), borderRadius: BorderRadius.circular(4)),
+                decoration: BoxDecoration(
+                  border: Border.all(color: _border),
+                  borderRadius: BorderRadius.circular(4),
+                ),
               ),
               Container(
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(color: const Color(0xFFEEF2FF), borderRadius: BorderRadius.circular(8)),
-                child: const Icon(LucideIcons.fileText, size: 20, color: Color(0xFF6366F1)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEEF2FF),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  LucideIcons.fileText,
+                  size: 20,
+                  color: Color(0xFF6366F1),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -775,30 +1147,66 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(inv['id'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                    Text(
+                      inv['id'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: _dark,
+                      ),
+                    ),
                     const SizedBox(height: 2),
-                    Text(inv['student'], style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                    Text(
+                      inv['student'],
+                      style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+                    ),
                   ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(inv['amount'], style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
+                  Text(
+                    inv['amount'],
+                    style: GoogleFonts.figtree(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: _dark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                    decoration: BoxDecoration(color: statusBg, borderRadius: BorderRadius.circular(12)),
-                    child: Text(inv['status'], style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600, color: statusColor)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: statusBg,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      inv['status'],
+                      style: GoogleFonts.figtree(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                        color: statusColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const SizedBox(width: 8),
               PopupMenuButton<String>(
-                icon: const Icon(LucideIcons.moreHorizontal, size: 20, color: _muted),
+                icon: const Icon(
+                  LucideIcons.moreHorizontal,
+                  size: 20,
+                  color: _muted,
+                ),
                 padding: EdgeInsets.zero,
                 color: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 onSelected: (value) async {
                   if (value == 'view') {
                     _showInvoiceDetails(context, inv);
@@ -808,13 +1216,17 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (context) => Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).padding.top + 20,
+                        ),
                         child: CreateInvoiceModal(initialData: inv),
                       ),
                     );
                     if (result != null && result is Map<String, dynamic>) {
                       setState(() {
-                        final index = _invoices.indexWhere((element) => element['id'] == inv['id']);
+                        final index = _invoices.indexWhere(
+                          (element) => element['id'] == inv['id'],
+                        );
                         if (index != -1) {
                           _invoices[index] = result;
                         }
@@ -822,7 +1234,9 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                     }
                   } else if (value == 'delete') {
                     setState(() {
-                      _invoices.removeWhere((element) => element['id'] == inv['id']);
+                      _invoices.removeWhere(
+                        (element) => element['id'] == inv['id'],
+                      );
                     });
                   }
                 },
@@ -833,7 +1247,13 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       children: [
                         const Icon(LucideIcons.eye, size: 16, color: _dark),
                         const SizedBox(width: 8),
-                        Text('View Details', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
+                        Text(
+                          'View Details',
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            color: _dark,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -843,7 +1263,13 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       children: [
                         const Icon(LucideIcons.edit2, size: 16, color: _dark),
                         const SizedBox(width: 8),
-                        Text('Edit Invoice', style: GoogleFonts.figtree(fontSize: 14, color: _dark)),
+                        Text(
+                          'Edit Invoice',
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            color: _dark,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -851,9 +1277,19 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                     value: 'delete',
                     child: Row(
                       children: [
-                        const Icon(LucideIcons.trash2, size: 16, color: Color(0xFFEF4444)),
+                        const Icon(
+                          LucideIcons.trash2,
+                          size: 16,
+                          color: Color(0xFFEF4444),
+                        ),
                         const SizedBox(width: 8),
-                        Text('Delete', style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFFEF4444))),
+                        Text(
+                          'Delete',
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            color: const Color(0xFFEF4444),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -867,9 +1303,16 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
               const SizedBox(width: 30),
               Row(
                 children: [
-                  const Icon(LucideIcons.graduationCap, size: 14, color: _muted),
+                  const Icon(
+                    LucideIcons.graduationCap,
+                    size: 14,
+                    color: _muted,
+                  ),
                   const SizedBox(width: 6),
-                  Text(inv['class'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    inv['class'],
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
               const SizedBox(width: 20),
@@ -877,7 +1320,10 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 children: [
                   const Icon(LucideIcons.tag, size: 14, color: _muted),
                   const SizedBox(width: 6),
-                  Text(inv['type'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    inv['type'],
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
               const SizedBox(width: 20),
@@ -885,7 +1331,10 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 children: [
                   const Icon(LucideIcons.calendar, size: 14, color: _muted),
                   const SizedBox(width: 6),
-                  Text(inv['due'], style: GoogleFonts.figtree(fontSize: 12, color: _muted)),
+                  Text(
+                    inv['due'],
+                    style: GoogleFonts.figtree(fontSize: 12, color: _muted),
+                  ),
                 ],
               ),
             ],
@@ -898,19 +1347,57 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   Widget _buildCollectionStatus() {
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('Collection Status', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
-            Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: _border)),
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text('This Month', style: GoogleFonts.figtree(fontSize: 12, color: _dark, fontWeight: FontWeight.w500)),
-                const SizedBox(width: 4), const Icon(LucideIcons.chevronDown, size: 14, color: _muted),
-              ]),
-            ),
-          ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Collection Status',
+                style: GoogleFonts.figtree(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: _dark,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: _border),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'This Month',
+                      style: GoogleFonts.figtree(
+                        fontSize: 12,
+                        color: _dark,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(
+                      LucideIcons.chevronDown,
+                      size: 14,
+                      color: _muted,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 32),
           Center(
             child: SizedBox(
@@ -925,19 +1412,54 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       centerSpaceRadius: 70,
                       startDegreeOffset: -90,
                       sections: [
-                        PieChartSectionData(value: 68, title: '', color: const Color(0xFF8B5CF6), radius: 30),
-                        PieChartSectionData(value: 17, title: '', color: const Color(0xFF3B82F6), radius: 30),
-                        PieChartSectionData(value: 10, title: '', color: const Color(0xFFF59E0B), radius: 30),
-                        PieChartSectionData(value: 5, title: '', color: const Color(0xFFEF4444), radius: 30),
+                        PieChartSectionData(
+                          value: 68,
+                          title: '',
+                          color: const Color(0xFF8B5CF6),
+                          radius: 30,
+                        ),
+                        PieChartSectionData(
+                          value: 17,
+                          title: '',
+                          color: const Color(0xFF3B82F6),
+                          radius: 30,
+                        ),
+                        PieChartSectionData(
+                          value: 10,
+                          title: '',
+                          color: const Color(0xFFF59E0B),
+                          radius: 30,
+                        ),
+                        PieChartSectionData(
+                          value: 5,
+                          title: '',
+                          color: const Color(0xFFEF4444),
+                          radius: 30,
+                        ),
                       ],
                     ),
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('TOTAL', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w700, color: _muted, letterSpacing: 1.0)),
+                      Text(
+                        'TOTAL',
+                        style: GoogleFonts.inter(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                          color: _muted,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
                       const SizedBox(height: 4),
-                      Text('₹57.4L', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _dark)),
+                      Text(
+                        '₹57.4L',
+                        style: GoogleFonts.figtree(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: _dark,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -955,15 +1477,32 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
           const SizedBox(height: 24),
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(color: const Color(0xFFFFF6F6), borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFFCE1E1))),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFF6F6),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFFCE1E1)),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    const Icon(LucideIcons.alertCircle, size: 18, color: Color(0xFFEF4444)),
+                    const Icon(
+                      LucideIcons.alertCircle,
+                      size: 18,
+                      color: Color(0xFFEF4444),
+                    ),
                     const SizedBox(width: 8),
-                    Expanded(child: Text('126 overdue invoices need follow-up', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: const Color(0xFFEF4444)))),
+                    Expanded(
+                      child: Text(
+                        '126 overdue invoices need follow-up',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFEF4444),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -971,9 +1510,20 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                   padding: const EdgeInsets.only(left: 26),
                   child: Row(
                     children: [
-                      Text('Send Reminders', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFFEF4444))),
+                      Text(
+                        'Send Reminders',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: const Color(0xFFEF4444),
+                        ),
+                      ),
                       const SizedBox(width: 4),
-                      const Icon(LucideIcons.arrowUpRight, size: 14, color: Color(0xFFEF4444)),
+                      const Icon(
+                        LucideIcons.arrowUpRight,
+                        size: 14,
+                        color: Color(0xFFEF4444),
+                      ),
                     ],
                   ),
                 ),
@@ -986,22 +1536,44 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
   }
 
   Widget _legend(String label, String value, String percent, Color color) {
-    return Row(children: [
-      Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 12),
-      Expanded(child: Text(label, style: GoogleFonts.figtree(fontSize: 14, color: _dark))),
-      Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-      const SizedBox(width: 6),
-      Text('·', style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
-      const SizedBox(width: 6),
-      Text(percent, style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
-    ]);
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            label,
+            style: GoogleFonts.figtree(fontSize: 14, color: _dark),
+          ),
+        ),
+        Text(
+          value,
+          style: GoogleFonts.figtree(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: _dark,
+          ),
+        ),
+        const SizedBox(width: 6),
+        Text('·', style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
+        const SizedBox(width: 6),
+        Text(percent, style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
+      ],
+    );
   }
 
   Widget _buildCollectionTrendChart() {
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1013,22 +1585,60 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Fee Collection Trend', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                    Text(
+                      'Fee Collection Trend',
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _dark,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('Invoiced vs Collected · last 6 months', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                    Text(
+                      'Invoiced vs Collected · last 6 months',
+                      style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
               Row(
                 children: [
-                  Container(width: 12, height: 12, decoration: BoxDecoration(color: const Color(0xFF8B5CF6), borderRadius: BorderRadius.circular(3))),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF8B5CF6),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
                   const SizedBox(width: 6),
-                  Text('Invoiced', style: GoogleFonts.inter(fontSize: 12, color: _muted, fontWeight: FontWeight.w500)),
+                  Text(
+                    'Invoiced',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: _muted,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Container(width: 12, height: 12, decoration: BoxDecoration(color: const Color(0xFF22C55E), borderRadius: BorderRadius.circular(3))),
+                  Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF22C55E),
+                      borderRadius: BorderRadius.circular(3),
+                    ),
+                  ),
                   const SizedBox(width: 6),
-                  Text('Collected', style: GoogleFonts.inter(fontSize: 12, color: _muted, fontWeight: FontWeight.w500)),
+                  Text(
+                    'Collected',
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: _muted,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -1044,7 +1654,10 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                   enabled: true,
                   touchTooltipData: BarTouchTooltipData(
                     getTooltipColor: (_) => Colors.white,
-                    tooltipPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    tooltipPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     tooltipMargin: 8,
                     tooltipBorder: const BorderSide(color: Color(0xFFE5E7EB)),
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
@@ -1054,56 +1667,101 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                       final collected = group.barRods[1].toY.toInt();
                       return BarTooltipItem(
                         '$month\n',
-                        GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark),
+                        GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: _dark,
+                        ),
                         children: [
-                          TextSpan(text: '\nInvoiced : $invoiced\n', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF8B5CF6))),
-                          TextSpan(text: '\nCollected : $collected', style: GoogleFonts.figtree(fontSize: 13, color: const Color(0xFF22C55E))),
+                          TextSpan(
+                            text: '\nInvoiced : $invoiced\n',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              color: const Color(0xFF8B5CF6),
+                            ),
+                          ),
+                          TextSpan(
+                            text: '\nCollected : $collected',
+                            style: GoogleFonts.figtree(
+                              fontSize: 13,
+                              color: const Color(0xFF22C55E),
+                            ),
+                          ),
                         ],
                       );
                     },
                   ),
                   touchCallback: (FlTouchEvent event, barTouchResponse) {
                     setState(() {
-                      if (!event.isInterestedForInteractions || barTouchResponse == null || barTouchResponse.spot == null) {
+                      if (!event.isInterestedForInteractions ||
+                          barTouchResponse == null ||
+                          barTouchResponse.spot == null) {
                         _touchedBarIndex = -1;
                         return;
                       }
-                      _touchedBarIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+                      _touchedBarIndex =
+                          barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
                 titlesData: FlTitlesData(
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
-                      showTitles: true, 
+                      showTitles: true,
                       reservedSize: 40,
                       interval: 30,
                       getTitlesWidget: (v, _) => Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: Text('₹${v.toInt()}L', style: GoogleFonts.inter(fontSize: 11, color: _muted), textAlign: TextAlign.right),
+                        child: Text(
+                          '₹${v.toInt()}L',
+                          style: GoogleFonts.inter(fontSize: 11, color: _muted),
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ),
                   ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
-                      showTitles: true, 
+                      showTitles: true,
                       getTitlesWidget: (v, _) {
-                        final months = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr'];
+                        final months = [
+                          'Nov',
+                          'Dec',
+                          'Jan',
+                          'Feb',
+                          'Mar',
+                          'Apr',
+                        ];
                         final idx = v.toInt();
                         return Padding(
                           padding: const EdgeInsets.only(top: 8),
-                          child: idx >= 0 && idx < months.length ? Text(months[idx], style: GoogleFonts.inter(fontSize: 12, color: _muted)) : const SizedBox(),
+                          child: idx >= 0 && idx < months.length
+                              ? Text(
+                                  months[idx],
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    color: _muted,
+                                  ),
+                                )
+                              : const SizedBox(),
                         );
-                      }
+                      },
                     ),
                   ),
-                  topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
+                  rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
+                  ),
                 ),
                 gridData: FlGridData(
-                  drawVerticalLine: false, 
+                  drawVerticalLine: false,
                   horizontalInterval: 30,
-                  getDrawingHorizontalLine: (_) => FlLine(color: _border.withValues(alpha: 0.3), strokeWidth: 1)
+                  getDrawingHorizontalLine: (_) => FlLine(
+                    color: _border.withValues(alpha: 0.3),
+                    strokeWidth: 1,
+                  ),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: [
@@ -1122,21 +1780,26 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
     );
   }
 
-  BarChartGroupData _doubleBarGroup(int x, double y1, double y2, bool isTouched) {
+  BarChartGroupData _doubleBarGroup(
+    int x,
+    double y1,
+    double y2,
+    bool isTouched,
+  ) {
     return BarChartGroupData(
       x: x,
       barsSpace: 4,
       barRods: [
         BarChartRodData(
-          toY: y1, 
-          color: const Color(0xFF8B5CF6), 
-          width: 14, 
+          toY: y1,
+          color: const Color(0xFF8B5CF6),
+          width: 14,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
         ),
         BarChartRodData(
-          toY: y2, 
-          color: const Color(0xFF22C55E), 
-          width: 14, 
+          toY: y2,
+          color: const Color(0xFF22C55E),
+          width: 14,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
         ),
       ],
@@ -1155,7 +1818,11 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
 
     return Container(
       padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: _border)),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: _border),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1167,54 +1834,105 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Overdue by Class', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _dark)),
+                    Text(
+                      'Overdue by Class',
+                      style: GoogleFonts.figtree(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: _dark,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text('Distribution of overdue invoices', style: GoogleFonts.figtree(fontSize: 13, color: _muted)),
+                    Text(
+                      'Distribution of overdue invoices',
+                      style: GoogleFonts.figtree(fontSize: 13, color: _muted),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(width: 8),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(color: const Color(0xFFFFF1F2), borderRadius: BorderRadius.circular(20)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFF1F2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: Row(
                   children: [
-                    const Icon(LucideIcons.trendingUp, size: 14, color: Color(0xFFF43F5E)),
+                    const Icon(
+                      LucideIcons.trendingUp,
+                      size: 14,
+                      color: Color(0xFFF43F5E),
+                    ),
                     const SizedBox(width: 4),
-                    Text('126 total', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: const Color(0xFFF43F5E))),
+                    Text(
+                      '126 total',
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFFF43F5E),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
           const SizedBox(height: 24),
-          ...overdueData.map((data) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(data['class'] as String, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
-                        Row(
-                          children: [
-                            Text('${data['count']}', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _dark)),
-                            Text(' overdue', style: GoogleFonts.figtree(fontSize: 14, color: _muted)),
-                          ],
+          ...overdueData.map(
+            (data) => Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        data['class'] as String,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: _dark,
                         ),
-                      ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            '${data['count']}',
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: _dark,
+                            ),
+                          ),
+                          Text(
+                            ' overdue',
+                            style: GoogleFonts.figtree(
+                              fontSize: 14,
+                              color: _muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  LinearProgressIndicator(
+                    value: data['percent'] as double,
+                    backgroundColor: const Color(0xFFF3F4F6),
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Color(0xFFF43F5E),
                     ),
-                    const SizedBox(height: 8),
-                    LinearProgressIndicator(
-                      value: data['percent'] as double,
-                      backgroundColor: const Color(0xFFF3F4F6),
-                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF43F5E)),
-                      minHeight: 6,
-                      borderRadius: BorderRadius.circular(3),
-                    ),
-                  ],
-                ),
-              )),
+                    minHeight: 6,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -1241,15 +1959,33 @@ class _FeesDashboardScreenState extends State<FeesDashboardScreen> {
         unselectedFontSize: 10,
         showUnselectedLabels: true,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), activeIcon: Icon(Icons.account_balance_wallet), label: 'Fees'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance_wallet_outlined),
+            activeIcon: Icon(Icons.account_balance_wallet),
+            label: 'Fees',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );
   }
 }
-
-

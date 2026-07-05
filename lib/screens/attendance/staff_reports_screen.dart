@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgPrimary = Color(0xFFF6F6F8);
 const _textDark = Color(0xFF181B20);
@@ -44,16 +45,19 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(_isTablet ? 40 : 16, 24, _isTablet ? 40 : 16, 24),
+                      padding: EdgeInsets.fromLTRB(
+                        _isTablet ? 40 : 16,
+                        24,
+                        _isTablet ? 40 : 16,
+                        24,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(child: _buildHeader()),
-                            ],
+                            children: [Expanded(child: _buildHeader())],
                           ),
                           const SizedBox(height: 24),
                           _buildTopControls(),
@@ -73,7 +77,7 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           ),
         ),
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -105,21 +109,42 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
                   controller: _searchController,
                   decoration: const InputDecoration(
                     hintText: 'Search...',
-                    hintStyle: TextStyle(color: Color(0xFF8F96A3), fontSize: 14),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFF8F96A3), size: 20),
+                    hintStyle: TextStyle(
+                      color: Color(0xFF8F96A3),
+                      fontSize: 14,
+                    ),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Color(0xFF8F96A3),
+                      size: 20,
+                    ),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(width: 16),
-            const Icon(Icons.notifications_none_rounded, color: Color(0xFF8F96A3), size: 24),
+            const Icon(
+              Icons.notifications_none_rounded,
+              color: Color(0xFF8F96A3),
+              size: 24,
+            ),
             const SizedBox(width: 16),
             CircleAvatar(
               radius: 16,
               backgroundColor: const Color(0xFFF4F1FF),
-              child: Text('A', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF8463E9))),
+              child: Text(
+                'A',
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF8463E9),
+                ),
+              ),
             ),
           ],
         ),
@@ -132,12 +157,43 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Row(
+          children: [
+            Text(
+              'Home',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text(
+              'Staff',
+              style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+            ),
+            const Icon(Icons.chevron_right, size: 14, color: Color(0xFF6B7280)),
+            Text(
+              'Reports',
+              style: GoogleFonts.figtree(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
         Text(
-          'Home',
-          style: TextStyle(
-            fontSize: 28.sp,
+          'Staff Reports',
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 32 : 28,
             fontWeight: FontWeight.bold,
             color: _textDark,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          "Generate, schedule, and download HR and operational reports.",
+          style: GoogleFonts.figtree(
+            fontSize: _isTablet ? 16 : 14,
+            color: _textMuted,
           ),
         ),
         const SizedBox.shrink(),
@@ -161,7 +217,14 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
             children: [
               const Icon(LucideIcons.calendar, size: 16, color: _textDark),
               const SizedBox(width: 8),
-              Text('Schedule', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+              Text(
+                'Schedule',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: _textDark,
+                ),
+              ),
             ],
           ),
         ),
@@ -178,7 +241,14 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
             children: [
               const Icon(LucideIcons.download, size: 16, color: Colors.white),
               const SizedBox(width: 8),
-              Text('Export All', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white)),
+              Text(
+                'Export All',
+                style: GoogleFonts.figtree(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
             ],
           ),
         ),
@@ -197,17 +267,52 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           mainAxisSpacing: 16,
           childAspectRatio: _isTablet ? 1.4 : 0.85,
           children: [
-            _buildKpiCard('84', 'Reports Generated', 'This month', LucideIcons.fileText, const Color(0xFF8463E9), const Color(0xFFF4F1FF)),
-            _buildKpiCard('7', 'Scheduled Reports', 'Active schedules', LucideIcons.refreshCw, const Color(0xFF10B981), const Color(0xFFD1FAE5)),
-            _buildKpiCard('Payroll\nSummary', 'Most Downloaded', '38 downloads', LucideIcons.star, const Color(0xFFF59E0B), const Color(0xFFFEF3C7)),
-            _buildKpiCard('1.2s', 'Avg Gen Time', 'Across all types', LucideIcons.clock, const Color(0xFF0EA5E9), const Color(0xFFE0F2FE)),
+            _buildKpiCard(
+              '84',
+              'Reports Generated',
+              'This month',
+              LucideIcons.fileText,
+              const Color(0xFF8463E9),
+              const Color(0xFFF4F1FF),
+            ),
+            _buildKpiCard(
+              '7',
+              'Scheduled Reports',
+              'Active schedules',
+              LucideIcons.refreshCw,
+              const Color(0xFF10B981),
+              const Color(0xFFD1FAE5),
+            ),
+            _buildKpiCard(
+              'Payroll\nSummary',
+              'Most Downloaded',
+              '38 downloads',
+              LucideIcons.star,
+              const Color(0xFFF59E0B),
+              const Color(0xFFFEF3C7),
+            ),
+            _buildKpiCard(
+              '1.2s',
+              'Avg Gen Time',
+              'Across all types',
+              LucideIcons.clock,
+              const Color(0xFF0EA5E9),
+              const Color(0xFFE0F2FE),
+            ),
           ],
         );
       },
     );
   }
 
-  Widget _buildKpiCard(String value, String title, String subtitle, IconData icon, Color iconColor, Color bgColor) {
+  Widget _buildKpiCard(
+    String value,
+    String title,
+    String subtitle,
+    IconData icon,
+    Color iconColor,
+    Color bgColor,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -230,17 +335,21 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
           Text(
             value,
             style: GoogleFonts.figtree(
-              fontSize: value.length > 5 ? 22 : 28, 
-              fontWeight: FontWeight.w900, 
-              color: _textDark, 
-              height: 1.1
+              fontSize: value.length > 5 ? 22 : 28,
+              fontWeight: FontWeight.w900,
+              color: _textDark,
+              height: 1.1,
             ),
             maxLines: 2,
           ),
           const SizedBox(height: 4),
           Text(
             title,
-            style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark),
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: _textDark,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -288,17 +397,65 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Staff Strength Trend', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    'Staff Strength Trend',
+                    style: GoogleFonts.figtree(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text('Teaching vs Non-Teaching · last 6 months', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                  Text(
+                    'Teaching vs Non-Teaching · last 6 months',
+                    style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Row(children: [Container(width: 10, height: 10, decoration: BoxDecoration(color: _accent, shape: BoxShape.circle)), const SizedBox(width: 6), Text('Teaching', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted))]),
+                  Row(
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: _accent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Teaching',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 4),
-                  Row(children: [Container(width: 10, height: 10, decoration: BoxDecoration(color: const Color(0xFF10B981), shape: BoxShape.circle)), const SizedBox(width: 6), Text('Non-Teaching', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted))]),
+                  Row(
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF10B981),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Non-Teaching',
+                        style: GoogleFonts.figtree(
+                          fontSize: 12,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -342,12 +499,26 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Attendance by Department', style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+                  Text(
+                    'Attendance by Department',
+                    style: GoogleFonts.figtree(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _textDark,
+                    ),
+                  ),
                   const SizedBox(height: 4),
-                  Text('May 2025 · average attendance %', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                  Text(
+                    'May 2025 · average attendance %',
+                    style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                  ),
                 ],
               ),
-              const Icon(LucideIcons.barChart2, color: Color(0xFF10B981), size: 22),
+              const Icon(
+                LucideIcons.barChart2,
+                color: Color(0xFF10B981),
+                size: 22,
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -369,12 +540,54 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
 
   Widget _buildReportTemplates() {
     final templates = [
-      {'icon': LucideIcons.user, 'iconBg': const Color(0xFFF4F1FF), 'iconColor': _accent, 'title': 'Attendance Report', 'desc': 'Department-wise and individual daily attendance analysis.', 'downloads': '38 downloads'},
-      {'icon': LucideIcons.wallet, 'iconBg': const Color(0xFFD1FAE5), 'iconColor': const Color(0xFF10B981), 'title': 'Payroll Summary', 'desc': 'Monthly gross, deductions, net payout by department.', 'downloads': '34 downloads'},
-      {'icon': LucideIcons.calendar, 'iconBg': const Color(0xFFFEF3C7), 'iconColor': const Color(0xFFF59E0B), 'title': 'Leave Analysis', 'desc': 'Leave type distribution, approval rates, and seasonal trends.', 'downloads': '28 downloads'},
-      {'icon': LucideIcons.clipboardList, 'iconBg': const Color(0xFFFEE2E2), 'iconColor': const Color(0xFFEF4444), 'title': 'Workload Report', 'desc': 'Periods per teacher, subject load, and overload flagging.', 'downloads': '22 downloads'},
-      {'icon': LucideIcons.clock, 'iconBg': const Color(0xFFE0F2FE), 'iconColor': const Color(0xFF0EA5E9), 'title': 'Document Expiry', 'desc': 'Contracts, certificates, and IDs expiring in next 60 days.', 'downloads': '19 downloads'},
-      {'icon': LucideIcons.trendingUp, 'iconBg': const Color(0xFFF4F1FF), 'iconColor': _accent, 'title': 'Headcount Report', 'desc': 'Staff strength trend, attrition, and new joins by month.', 'downloads': '15 downloads'},
+      {
+        'icon': LucideIcons.user,
+        'iconBg': const Color(0xFFF4F1FF),
+        'iconColor': _accent,
+        'title': 'Attendance Report',
+        'desc': 'Department-wise and individual daily attendance analysis.',
+        'downloads': '38 downloads',
+      },
+      {
+        'icon': LucideIcons.wallet,
+        'iconBg': const Color(0xFFD1FAE5),
+        'iconColor': const Color(0xFF10B981),
+        'title': 'Payroll Summary',
+        'desc': 'Monthly gross, deductions, net payout by department.',
+        'downloads': '34 downloads',
+      },
+      {
+        'icon': LucideIcons.calendar,
+        'iconBg': const Color(0xFFFEF3C7),
+        'iconColor': const Color(0xFFF59E0B),
+        'title': 'Leave Analysis',
+        'desc': 'Leave type distribution, approval rates, and seasonal trends.',
+        'downloads': '28 downloads',
+      },
+      {
+        'icon': LucideIcons.clipboardList,
+        'iconBg': const Color(0xFFFEE2E2),
+        'iconColor': const Color(0xFFEF4444),
+        'title': 'Workload Report',
+        'desc': 'Periods per teacher, subject load, and overload flagging.',
+        'downloads': '22 downloads',
+      },
+      {
+        'icon': LucideIcons.clock,
+        'iconBg': const Color(0xFFE0F2FE),
+        'iconColor': const Color(0xFF0EA5E9),
+        'title': 'Document Expiry',
+        'desc': 'Contracts, certificates, and IDs expiring in next 60 days.',
+        'downloads': '19 downloads',
+      },
+      {
+        'icon': LucideIcons.trendingUp,
+        'iconBg': const Color(0xFFF4F1FF),
+        'iconColor': _accent,
+        'title': 'Headcount Report',
+        'desc': 'Staff strength trend, attrition, and new joins by month.',
+        'downloads': '15 downloads',
+      },
     ];
 
     return Column(
@@ -383,8 +596,18 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Report Templates', style: GoogleFonts.figtree(fontSize: 18, fontWeight: FontWeight.bold, color: _textDark)),
-            Text('6 report types', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+            Text(
+              'Report Templates',
+              style: GoogleFonts.figtree(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _textDark,
+              ),
+            ),
+            Text(
+              '6 report types',
+              style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+            ),
           ],
         ),
         SizedBox(height: 12.h),
@@ -414,30 +637,68 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
                   color: t['iconBg'] as Color,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(t['icon'] as IconData, color: t['iconColor'] as Color, size: 20),
+                child: Icon(
+                  t['icon'] as IconData,
+                  color: t['iconColor'] as Color,
+                  size: 20,
+                ),
               ),
-              Text(t['downloads'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+              Text(
+                t['downloads'] as String,
+                style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+              ),
             ],
           ),
           const SizedBox(height: 14),
-          Text(t['title'] as String, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(
+            t['title'] as String,
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 6),
-          Text(t['desc'] as String, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-          SizedBox(height: 12.h),
+          Text(
+            t['desc'] as String,
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
+          const SizedBox(height: 16),
           Row(
             children: [
               GestureDetector(
                 onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Downloading ${t['title']} as PDF...'), backgroundColor: _textDark, duration: const Duration(seconds: 2)),
+                  SnackBar(
+                    content: Text('Downloading ${t['title']} as PDF...'),
+                    backgroundColor: _textDark,
+                    duration: const Duration(seconds: 2),
+                  ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                  decoration: BoxDecoration(color: _accent, borderRadius: BorderRadius.circular(8)),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _accent,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Row(
                     children: [
-                      const Icon(LucideIcons.download, size: 14, color: Colors.white),
+                      const Icon(
+                        LucideIcons.download,
+                        size: 14,
+                        color: Colors.white,
+                      ),
                       const SizedBox(width: 6),
-                      Text('PDF', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                      Text(
+                        'PDF',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -445,10 +706,17 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
               const SizedBox(width: 12),
               GestureDetector(
                 onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Downloading ${t['title']} as Excel...'), backgroundColor: _textDark, duration: const Duration(seconds: 2)),
+                  SnackBar(
+                    content: Text('Downloading ${t['title']} as Excel...'),
+                    backgroundColor: _textDark,
+                    duration: const Duration(seconds: 2),
+                  ),
                 ),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 8,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(8),
@@ -456,9 +724,20 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(LucideIcons.fileSpreadsheet, size: 14, color: _textDark),
+                      const Icon(
+                        LucideIcons.fileSpreadsheet,
+                        size: 14,
+                        color: _textDark,
+                      ),
                       const SizedBox(width: 6),
-                      Text('Excel', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+                      Text(
+                        'Excel',
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -474,7 +753,13 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
     return Container(
       decoration: BoxDecoration(
         border: const Border(top: BorderSide(color: Color(0xFFEBEBEB))),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 10, offset: const Offset(0, -4))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 10,
+            offset: const Offset(0, -4),
+          ),
+        ],
       ),
       child: BottomNavigationBar(
         currentIndex: _bottomNavIndex,
@@ -483,14 +768,39 @@ class _StaffReportsScreenState extends State<StaffReportsScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _accent,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: const TextStyle(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.school_outlined), activeIcon: Icon(Icons.school), label: 'Academics'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Activity'),
-          BottomNavigationBarItem(icon: Icon(Icons.people_outline), activeIcon: Icon(Icons.people), label: 'Staff'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), activeIcon: Icon(Icons.chat_bubble), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school_outlined),
+            activeIcon: Icon(Icons.school),
+            label: 'Academics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Activity',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people_outline),
+            activeIcon: Icon(Icons.people),
+            label: 'Staff',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            activeIcon: Icon(Icons.chat_bubble),
+            label: 'Messages',
+          ),
         ],
       ),
     );
@@ -525,7 +835,8 @@ class _LineChartPainter extends CustomPainter {
     const double maxVal = 60;
 
     double xOf(int i) => leftPad + (i / (months.length - 1)) * chartW;
-    double yOf(double v) => topPad + chartH - ((v - minVal) / (maxVal - minVal)) * chartH;
+    double yOf(double v) =>
+        topPad + chartH - ((v - minVal) / (maxVal - minVal)) * chartH;
 
     // Grid lines
     final gridPaint = Paint()
@@ -533,14 +844,24 @@ class _LineChartPainter extends CustomPainter {
       ..strokeWidth = 1;
     for (int i = 0; i <= 4; i++) {
       final y = topPad + (i / 4) * chartH;
-      canvas.drawLine(Offset(leftPad, y), Offset(size.width - rightPad, y), gridPaint);
+      canvas.drawLine(
+        Offset(leftPad, y),
+        Offset(size.width - rightPad, y),
+        gridPaint,
+      );
       final label = ((4 - i) / 4 * (maxVal - minVal)).round().toString();
       _drawText(canvas, label, Offset(0, y - 6), const Color(0xFFBFC4CE), 10);
     }
 
     // Month labels
     for (int i = 0; i < months.length; i++) {
-      _drawText(canvas, months[i], Offset(xOf(i) - 12, size.height - 16), const Color(0xFFBFC4CE), 10);
+      _drawText(
+        canvas,
+        months[i],
+        Offset(xOf(i) - 12, size.height - 16),
+        const Color(0xFFBFC4CE),
+        10,
+      );
     }
 
     // Helper to draw a smooth line
@@ -558,7 +879,14 @@ class _LineChartPainter extends CustomPainter {
           path.cubicTo(cpX, prevY, cpX, y, x, y);
         }
       }
-      canvas.drawPath(path, Paint()..color = color..strokeWidth = 2.5..style = PaintingStyle.stroke..strokeCap = StrokeCap.round);
+      canvas.drawPath(
+        path,
+        Paint()
+          ..color = color
+          ..strokeWidth = 2.5
+          ..style = PaintingStyle.stroke
+          ..strokeCap = StrokeCap.round,
+      );
     }
 
     drawLine(teachingData, const Color(0xFF8463E9));
@@ -566,30 +894,105 @@ class _LineChartPainter extends CustomPainter {
 
     // Highlight vertical line + dots at highlightIndex
     final hx = xOf(highlightIndex);
-    canvas.drawLine(Offset(hx, topPad), Offset(hx, topPad + chartH), Paint()..color = const Color(0xFFE5E7EB)..strokeWidth = 1.5);
+    canvas.drawLine(
+      Offset(hx, topPad),
+      Offset(hx, topPad + chartH),
+      Paint()
+        ..color = const Color(0xFFE5E7EB)
+        ..strokeWidth = 1.5,
+    );
 
     // Teaching dot
-    canvas.drawCircle(Offset(hx, yOf(teachingData[highlightIndex])), 5, Paint()..color = Colors.white);
-    canvas.drawCircle(Offset(hx, yOf(teachingData[highlightIndex])), 5, Paint()..color = const Color(0xFF8463E9)..style = PaintingStyle.stroke..strokeWidth = 2);
+    canvas.drawCircle(
+      Offset(hx, yOf(teachingData[highlightIndex])),
+      5,
+      Paint()..color = Colors.white,
+    );
+    canvas.drawCircle(
+      Offset(hx, yOf(teachingData[highlightIndex])),
+      5,
+      Paint()
+        ..color = const Color(0xFF8463E9)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
 
     // Non-teaching dot
-    canvas.drawCircle(Offset(hx, yOf(nonTeachingData[highlightIndex])), 5, Paint()..color = Colors.white);
-    canvas.drawCircle(Offset(hx, yOf(nonTeachingData[highlightIndex])), 5, Paint()..color = const Color(0xFF10B981)..style = PaintingStyle.stroke..strokeWidth = 2);
+    canvas.drawCircle(
+      Offset(hx, yOf(nonTeachingData[highlightIndex])),
+      5,
+      Paint()..color = Colors.white,
+    );
+    canvas.drawCircle(
+      Offset(hx, yOf(nonTeachingData[highlightIndex])),
+      5,
+      Paint()
+        ..color = const Color(0xFF10B981)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2,
+    );
 
     // Tooltip
     final tooltipX = hx + 8;
     final tooltipY = yOf(teachingData[highlightIndex]) - 20;
-    final rrect = RRect.fromRectAndRadius(Rect.fromLTWH(tooltipX, tooltipY, 130, 60), const Radius.circular(10));
-    canvas.drawRRect(rrect, Paint()..color = Colors.white..style = PaintingStyle.fill);
-    canvas.drawRRect(rrect, Paint()..color = const Color(0xFFE5E7EB)..style = PaintingStyle.stroke..strokeWidth = 1);
-    _drawText(canvas, months[highlightIndex], Offset(tooltipX + 8, tooltipY + 6), const Color(0xFF181B20), 12, bold: true);
-    _drawText(canvas, 'Teaching : ${teachingData[highlightIndex].toInt()}', Offset(tooltipX + 8, tooltipY + 24), const Color(0xFF8463E9), 11);
-    _drawText(canvas, 'NonTeaching : ${nonTeachingData[highlightIndex].toInt()}', Offset(tooltipX + 8, tooltipY + 40), const Color(0xFF10B981), 11);
+    final rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(tooltipX, tooltipY, 130, 60),
+      const Radius.circular(10),
+    );
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.fill,
+    );
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..color = const Color(0xFFE5E7EB)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1,
+    );
+    _drawText(
+      canvas,
+      months[highlightIndex],
+      Offset(tooltipX + 8, tooltipY + 6),
+      const Color(0xFF181B20),
+      12,
+      bold: true,
+    );
+    _drawText(
+      canvas,
+      'Teaching : ${teachingData[highlightIndex].toInt()}',
+      Offset(tooltipX + 8, tooltipY + 24),
+      const Color(0xFF8463E9),
+      11,
+    );
+    _drawText(
+      canvas,
+      'NonTeaching : ${nonTeachingData[highlightIndex].toInt()}',
+      Offset(tooltipX + 8, tooltipY + 40),
+      const Color(0xFF10B981),
+      11,
+    );
   }
 
-  void _drawText(Canvas canvas, String text, Offset offset, Color color, double fontSize, {bool bold = false}) {
+  void _drawText(
+    Canvas canvas,
+    String text,
+    Offset offset,
+    Color color,
+    double fontSize, {
+    bool bold = false,
+  }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: TextStyle(color: color, fontSize: fontSize, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: color,
+          fontSize: fontSize,
+          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, offset);
@@ -632,12 +1035,24 @@ class _BarChartPainter extends CustomPainter {
     double barH(double v) => ((v - minVal) / (maxVal - minVal)) * chartH;
 
     // Grid lines + y labels
-    final gridPaint = Paint()..color = const Color(0xFFF3F4F6)..strokeWidth = 1;
+    final gridPaint = Paint()
+      ..color = const Color(0xFFF3F4F6)
+      ..strokeWidth = 1;
     for (int i = 0; i <= 3; i++) {
       final val = minVal + (maxVal - minVal) * i / 3;
       final y = topPad + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
-      canvas.drawLine(Offset(leftPad, y), Offset(size.width - rightPad, y), gridPaint);
-      _drawText(canvas, val.round().toString(), Offset(0, y - 6), const Color(0xFFBFC4CE), 10);
+      canvas.drawLine(
+        Offset(leftPad, y),
+        Offset(size.width - rightPad, y),
+        gridPaint,
+      );
+      _drawText(
+        canvas,
+        val.round().toString(),
+        Offset(0, y - 6),
+        const Color(0xFFBFC4CE),
+        10,
+      );
     }
 
     // Bars
@@ -651,28 +1066,78 @@ class _BarChartPainter extends CustomPainter {
       );
 
       final isHighlight = i == highlightIndex;
-      final barColor = isHighlight ? const Color(0xFFCBBFF8) : const Color(0xFF8463E9);
+      final barColor = isHighlight
+          ? const Color(0xFFCBBFF8)
+          : const Color(0xFF8463E9);
       canvas.drawRRect(rect, Paint()..color = barColor);
 
       if (isHighlight) {
         // Tooltip above highlighted bar
         final tx = cx - 30;
         final ty = topPad + chartH - bh - 56;
-        final tooltipRect = RRect.fromRectAndRadius(Rect.fromLTWH(tx, ty, 60, 40), const Radius.circular(8));
-        canvas.drawRRect(tooltipRect, Paint()..color = Colors.white..style = PaintingStyle.fill);
-        canvas.drawRRect(tooltipRect, Paint()..color = const Color(0xFFE5E7EB)..style = PaintingStyle.stroke..strokeWidth = 1);
-        _drawText(canvas, departments[i], Offset(tx + 6, ty + 4), const Color(0xFF181B20), 11, bold: true);
-        _drawText(canvas, '${values[i].toInt()}%', Offset(tx + 8, ty + 20), const Color(0xFF8463E9), 12, bold: true);
+        final tooltipRect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(tx, ty, 60, 40),
+          const Radius.circular(8),
+        );
+        canvas.drawRRect(
+          tooltipRect,
+          Paint()
+            ..color = Colors.white
+            ..style = PaintingStyle.fill,
+        );
+        canvas.drawRRect(
+          tooltipRect,
+          Paint()
+            ..color = const Color(0xFFE5E7EB)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
+        _drawText(
+          canvas,
+          departments[i],
+          Offset(tx + 6, ty + 4),
+          const Color(0xFF181B20),
+          11,
+          bold: true,
+        );
+        _drawText(
+          canvas,
+          '${values[i].toInt()}%',
+          Offset(tx + 8, ty + 20),
+          const Color(0xFF8463E9),
+          12,
+          bold: true,
+        );
       }
 
       // Department label
-      _drawText(canvas, departments[i], Offset(cx - departments[i].length * 3.2, topPad + chartH + 8), const Color(0xFFBFC4CE), 10);
+      _drawText(
+        canvas,
+        departments[i],
+        Offset(cx - departments[i].length * 3.2, topPad + chartH + 8),
+        const Color(0xFFBFC4CE),
+        10,
+      );
     }
   }
 
-  void _drawText(Canvas canvas, String text, Offset offset, Color color, double fontSize, {bool bold = false}) {
+  void _drawText(
+    Canvas canvas,
+    String text,
+    Offset offset,
+    Color color,
+    double fontSize, {
+    bool bold = false,
+  }) {
     final tp = TextPainter(
-      text: TextSpan(text: text, style: TextStyle(color: color, fontSize: fontSize, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
+      text: TextSpan(
+        text: text,
+        style: TextStyle(
+          color: color,
+          fontSize: fontSize,
+          fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     tp.paint(canvas, offset);

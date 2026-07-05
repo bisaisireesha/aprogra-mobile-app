@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../screens/auth/menu_screen.dart';
+import '../../widgets/app_bottom_nav.dart';
 
 const _bgColor = Color(0xFFF9F9FB);
 const _textDark = Color(0xFF181821);
@@ -18,7 +19,8 @@ class TransportInsightsScreen extends StatefulWidget {
   const TransportInsightsScreen({super.key});
 
   @override
-  State<TransportInsightsScreen> createState() => _TransportInsightsScreenState();
+  State<TransportInsightsScreen> createState() =>
+      _TransportInsightsScreenState();
 }
 
 class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
@@ -115,10 +117,18 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
 
   List<Map<String, dynamic>> get _filteredVehicles {
     return _vehicles.where((v) {
-      final matchesSearch = v['vehicleNo'].toString().toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                            v['route'].toString().toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                            v['driver'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
-      final matchesFilter = _activeFilter == 'All' || v['status'] == _activeFilter;
+      final matchesSearch =
+          v['vehicleNo'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ) ||
+          v['route'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          ) ||
+          v['driver'].toString().toLowerCase().contains(
+            _searchQuery.toLowerCase(),
+          );
+      final matchesFilter =
+          _activeFilter == 'All' || v['status'] == _activeFilter;
       return matchesSearch && matchesFilter;
     }).toList();
   }
@@ -129,7 +139,6 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     super.dispose();
   }
 
-  
   Future<void> _loadVehicles() async {
     final prefs = await SharedPreferences.getInstance();
     final dataString = prefs.getString('cache__vehicles_data');
@@ -175,7 +184,10 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             _buildAppBar(),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -185,23 +197,25 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                     const SizedBox(height: 24),
                     _buildSearchAndFilter(),
                     const SizedBox(height: 24),
-                    ..._filteredVehicles.map((v) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: _buildVehicleCard(
-                        status: v['status'] as String,
-                        statusColor: v['statusColor'] as Color,
-                        bayNumber: v['bayNumber'] as String,
-                        vehicleNo: v['vehicleNo'] as String,
-                        route: v['route'] as String,
-                        capacity: v['capacity'] as String,
-                        driver: v['driver'] as String,
-                        progress: v['progress'] as double,
-                        progressText: v['progressText'] as String,
-                        isReady: v['isReady'] as bool,
-                        isIdle: v['isIdle'] as bool? ?? false,
+                    ..._filteredVehicles.map(
+                      (v) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: _buildVehicleCard(
+                          status: v['status'] as String,
+                          statusColor: v['statusColor'] as Color,
+                          bayNumber: v['bayNumber'] as String,
+                          vehicleNo: v['vehicleNo'] as String,
+                          route: v['route'] as String,
+                          capacity: v['capacity'] as String,
+                          driver: v['driver'] as String,
+                          progress: v['progress'] as double,
+                          progressText: v['progressText'] as String,
+                          isReady: v['isReady'] as bool,
+                          isIdle: v['isIdle'] as bool? ?? false,
+                        ),
                       ),
-                    )),
-                    SizedBox(height: 12.h),
+                    ),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -209,7 +223,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           ],
         ),
       ),
-      
+      bottomNavigationBar: const AppBottomNav(),
     );
   }
 
@@ -277,7 +291,9 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.black.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.black.withValues(alpha: 0.05)),
+        ),
       ),
       child: BottomNavigationBar(
         currentIndex: 0,
@@ -286,13 +302,28 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
         backgroundColor: Colors.white,
         selectedItemColor: _primary,
         unselectedItemColor: _textMuted,
-        selectedLabelStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w600),
-        unselectedLabelStyle: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.w500),
+        selectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
+        unselectedLabelStyle: GoogleFonts.figtree(
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
         items: const [
-          BottomNavigationBarItem(icon: Icon(LucideIcons.layoutGrid), label: 'Dashboard'),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.layoutGrid),
+            label: 'Dashboard',
+          ),
           BottomNavigationBarItem(icon: Icon(LucideIcons.map), label: 'Routes'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bus), label: 'Vehicles'),
-          BottomNavigationBarItem(icon: Icon(LucideIcons.bell), label: 'Alerts'),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.bus),
+            label: 'Vehicles',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(LucideIcons.bell),
+            label: 'Alerts',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
         ],
       ),
@@ -309,9 +340,24 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Transport Overview', style: GoogleFonts.figtree(fontSize: 24, fontWeight: FontWeight.bold, color: _textDark, letterSpacing: -0.5)),
+              Text(
+                'Transport Overview',
+                style: GoogleFonts.figtree(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                  letterSpacing: -0.5,
+                ),
+              ),
               const SizedBox(height: 4),
-              Text('Live yard view of vehicles, routes and dispatch readiness.', style: GoogleFonts.figtree(fontSize: 13, color: _textMuted, height: 1.3)),
+              Text(
+                'Live yard view of vehicles, routes and dispatch readiness.',
+                style: GoogleFonts.figtree(
+                  fontSize: 13,
+                  color: _textMuted,
+                  height: 1.3,
+                ),
+              ),
             ],
           ),
         ),
@@ -331,7 +377,14 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 children: [
                   const Icon(LucideIcons.download, size: 16, color: _textDark),
                   const SizedBox(width: 8),
-                  Text('Export', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _textDark)),
+                  Text(
+                    'Export',
+                    style: GoogleFonts.figtree(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: _textDark,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -339,7 +392,10 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             GestureDetector(
               onTap: () => _showAddRouteDialog(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFF7F61EA),
                   borderRadius: BorderRadius.circular(8),
@@ -349,7 +405,14 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                   children: [
                     const Icon(Icons.add, size: 16, color: Colors.white),
                     const SizedBox(width: 6),
-                    Text('Add Route', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.white)),
+                    Text(
+                      'Add Route',
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -369,22 +432,58 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
       mainAxisSpacing: 12,
       childAspectRatio: 1.5, // Making cards even shorter
       children: [
-        _buildSmallKPI(LucideIcons.bus, const Color(0xFFF4F1FD), const Color(0xFF7F61EA), '8', 'Vehicles Inside'),
-        _buildSmallKPI(LucideIcons.mapPin, const Color(0xFFFFF7ED), const Color(0xFFF59E0B), '1', 'Unassigned Routes'),
-        _buildSmallKPI(LucideIcons.user, const Color(0xFFE0F2FE), const Color(0xFF0EA5E9), '32', 'Active Pickup Points'),
-        _buildSmallKPI(LucideIcons.checkCircle2, const Color(0xFFDCFCE7), const Color(0xFF10B981), '4', 'Dispatch Ready'),
+        _buildSmallKPI(
+          LucideIcons.bus,
+          const Color(0xFFF4F1FD),
+          const Color(0xFF7F61EA),
+          '8',
+          'Vehicles Inside',
+        ),
+        _buildSmallKPI(
+          LucideIcons.mapPin,
+          const Color(0xFFFFF7ED),
+          const Color(0xFFF59E0B),
+          '1',
+          'Unassigned Routes',
+        ),
+        _buildSmallKPI(
+          LucideIcons.user,
+          const Color(0xFFE0F2FE),
+          const Color(0xFF0EA5E9),
+          '32',
+          'Active Pickup Points',
+        ),
+        _buildSmallKPI(
+          LucideIcons.checkCircle2,
+          const Color(0xFFDCFCE7),
+          const Color(0xFF10B981),
+          '4',
+          'Dispatch Ready',
+        ),
       ],
     );
   }
 
-  Widget _buildSmallKPI(IconData icon, Color bg, Color iconColor, String value, String title) {
+  Widget _buildSmallKPI(
+    IconData icon,
+    Color bg,
+    Color iconColor,
+    String value,
+    String title,
+  ) {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: _cardBorder, width: 1.5),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 8, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -396,21 +495,42 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(
+                  color: bg,
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 child: Icon(icon, size: 16, color: iconColor),
               ),
               Container(
                 width: 6,
                 height: 6,
                 margin: const EdgeInsets.only(top: 4, right: 2),
-                decoration: BoxDecoration(color: iconColor, shape: BoxShape.circle),
+                decoration: BoxDecoration(
+                  color: iconColor,
+                  shape: BoxShape.circle,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Text(value, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark, height: 1.1)),
+          Text(
+            value,
+            style: GoogleFonts.figtree(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+              height: 1.1,
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(title, style: GoogleFonts.figtree(fontSize: 11, color: _textMuted, height: 1.2)),
+          Text(
+            title,
+            style: GoogleFonts.figtree(
+              fontSize: 11,
+              color: _textMuted,
+              height: 1.2,
+            ),
+          ),
         ],
       ),
     );
@@ -429,14 +549,21 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           ),
           child: Row(
             children: [
-              const Icon(LucideIcons.search, size: 18, color: Color(0xFF9CA3AF)),
+              const Icon(
+                LucideIcons.search,
+                size: 18,
+                color: Color(0xFF9CA3AF),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: TextField(
                   onChanged: (value) => setState(() => _searchQuery = value),
                   decoration: InputDecoration(
                     hintText: 'Search vehicle, route, driver...',
-                    hintStyle: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFF9CA3AF)),
+                    hintStyle: GoogleFonts.figtree(
+                      fontSize: 14,
+                      color: const Color(0xFF9CA3AF),
+                    ),
                     border: InputBorder.none,
                     isDense: true,
                     contentPadding: const EdgeInsets.symmetric(vertical: 14),
@@ -475,16 +602,33 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
         decoration: BoxDecoration(
           color: isActive ? const Color(0xFFF4F1FD) : Colors.white,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: isActive ? const Color(0xFF7F61EA) : _cardBorder, width: 1.5),
+          border: Border.all(
+            color: isActive ? const Color(0xFF7F61EA) : _cardBorder,
+            width: 1.5,
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             if (dotColor != null) ...[
-              Container(width: 8, height: 8, decoration: BoxDecoration(color: dotColor, shape: BoxShape.circle)),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: dotColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
               const SizedBox(width: 8),
             ],
-            Text(label, style: GoogleFonts.figtree(fontSize: 13, fontWeight: isActive ? FontWeight.bold : FontWeight.w600, color: isActive ? const Color(0xFF7F61EA) : _textMuted)),
+            Text(
+              label,
+              style: GoogleFonts.figtree(
+                fontSize: 13,
+                fontWeight: isActive ? FontWeight.bold : FontWeight.w600,
+                color: isActive ? const Color(0xFF7F61EA) : _textMuted,
+              ),
+            ),
           ],
         ),
       ),
@@ -510,7 +654,13 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: _cardBorder, width: 1.5),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 8, offset: const Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,19 +671,40 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
-                  color: isReady ? const Color(0xFFDCFCE7) : (isIdle ? const Color(0xFFF3F4F6) : const Color(0xFFF4F1FD)),
+                  color: isReady
+                      ? const Color(0xFFDCFCE7)
+                      : (isIdle
+                            ? const Color(0xFFF3F4F6)
+                            : const Color(0xFFF4F1FD)),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(width: 6, height: 6, decoration: BoxDecoration(color: statusColor, shape: BoxShape.circle)),
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: statusColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                     const SizedBox(width: 6),
-                    Text(status, style: GoogleFonts.figtree(fontSize: 11, fontWeight: FontWeight.bold, color: statusColor)),
+                    Text(
+                      status,
+                      style: GoogleFonts.figtree(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: statusColor,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              Text(bayNumber, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+              Text(
+                bayNumber,
+                style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+              ),
             ],
           ),
           SizedBox(height: 12.h),
@@ -548,20 +719,45 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               child: Icon(LucideIcons.bus, size: 40, color: _primary),
             ),
           ),
-          SizedBox(height: 12.h),
-          Text(vehicleNo, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: _textDark)),
+          const SizedBox(height: 16),
+          Text(
+            vehicleNo,
+            style: GoogleFonts.figtree(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(route, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
-          SizedBox(height: 12.h),
+          Text(
+            route,
+            style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+          ),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('CAPACITY', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                    Text(
+                      'CAPACITY',
+                      style: GoogleFonts.figtree(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: _textMuted,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(capacity, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                    Text(
+                      capacity,
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: _textDark,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -569,9 +765,24 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('DRIVER', style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+                    Text(
+                      'DRIVER',
+                      style: GoogleFonts.figtree(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: _textMuted,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                     const SizedBox(height: 4),
-                    Text(driver, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: isIdle ? const Color(0xFFEF4444) : _textDark)),
+                    Text(
+                      driver,
+                      style: GoogleFonts.figtree(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isIdle ? const Color(0xFFEF4444) : _textDark,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -581,17 +792,39 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Loading progress', style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
-              Text(progressText, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textDark)),
+              Text(
+                'Loading progress',
+                style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+              ),
+              Text(
+                progressText,
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _textDark,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 8),
           Stack(
             children: [
-              Container(height: 6, decoration: BoxDecoration(color: const Color(0xFFF3F4F6), borderRadius: BorderRadius.circular(3))),
+              Container(
+                height: 6,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF3F4F6),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
               FractionallySizedBox(
                 widthFactor: progress,
-                child: Container(height: 6, decoration: BoxDecoration(color: const Color(0xFF10B981), borderRadius: BorderRadius.circular(3))),
+                child: Container(
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF10B981),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
               ),
             ],
           ),
@@ -599,7 +832,10 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(bayNumber, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+              Text(
+                bayNumber,
+                style: GoogleFonts.figtree(fontSize: 13, color: _textMuted),
+              ),
               GestureDetector(
                 onTap: () {
                   _showVehicleDetailsDialog(
@@ -615,9 +851,20 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 },
                 child: Row(
                   children: [
-                    Text('View details', style: GoogleFonts.figtree(fontSize: 13, fontWeight: FontWeight.w600, color: _primary)),
+                    Text(
+                      'View details',
+                      style: GoogleFonts.figtree(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: _primary,
+                      ),
+                    ),
                     const SizedBox(width: 4),
-                    const Icon(LucideIcons.arrowRight, size: 16, color: _primary),
+                    const Icon(
+                      LucideIcons.arrowRight,
+                      size: 16,
+                      color: _primary,
+                    ),
                   ],
                 ),
               ),
@@ -634,7 +881,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     final routeController = TextEditingController();
     final driverController = TextEditingController();
     final bayController = TextEditingController();
-    
+
     String selectedType = 'Buses';
     String selectedStatus = 'Idle';
 
@@ -644,7 +891,9 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
         return StatefulBuilder(
           builder: (context, setModalState) {
             return Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               backgroundColor: Colors.white,
               insetPadding: const EdgeInsets.all(16),
               child: Container(
@@ -657,7 +906,14 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Add Route', style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
+                        Text(
+                          'Add Route',
+                          style: GoogleFonts.figtree(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
+                        ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: const Icon(Icons.close, color: _textMuted),
@@ -667,30 +923,68 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                     const SizedBox(height: 24),
                     Row(
                       children: [
-                        Expanded(child: _buildFormField('Plate', 'KA00XX0000', plateController)),
-                        const SizedBox(width: 16),
-                        Expanded(child: _buildFormField('Capacity', '45', capacityController)),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    _buildFormField('Route', 'Route 02 • Area', routeController),
-                    SizedBox(height: 12.h),
-                    Row(
-                      children: [
-                        Expanded(child: _buildFormField('Driver', 'Unassigned', driverController)),
-                        const SizedBox(width: 16),
-                        Expanded(child: _buildFormField('Bay', 'Bay A-01', bayController)),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Row(
-                      children: [
                         Expanded(
-                          child: _buildDropdownField('Type', selectedType, ['Buses', 'Vans'], (val) => setModalState(() => selectedType = val!)),
+                          child: _buildFormField(
+                            'Plate',
+                            'KA00XX0000',
+                            plateController,
+                          ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: _buildDropdownField('Status', selectedStatus, ['Idle', 'Ready', 'Loading'], (val) => setModalState(() => selectedStatus = val!)),
+                          child: _buildFormField(
+                            'Capacity',
+                            '45',
+                            capacityController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _buildFormField(
+                      'Route',
+                      'Route 02 • Area',
+                      routeController,
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildFormField(
+                            'Driver',
+                            'Unassigned',
+                            driverController,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildFormField(
+                            'Bay',
+                            'Bay A-01',
+                            bayController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildDropdownField(
+                            'Type',
+                            selectedType,
+                            ['Buses', 'Vans'],
+                            (val) => setModalState(() => selectedType = val!),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildDropdownField(
+                            'Status',
+                            selectedStatus,
+                            ['Idle', 'Ready', 'Loading'],
+                            (val) => setModalState(() => selectedStatus = val!),
+                          ),
                         ),
                       ],
                     ),
@@ -701,12 +995,24 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFFE5E7EB)),
+                              border: Border.all(
+                                color: const Color(0xFFE5E7EB),
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text('Cancel', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
+                            child: Text(
+                              'Cancel',
+                              style: GoogleFonts.figtree(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: _textDark,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -715,12 +1021,26 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                             setState(() {
                               _vehicles.insert(0, {
                                 'status': selectedStatus,
-                                'statusColor': selectedStatus == 'Ready' ? const Color(0xFF10B981) : (selectedStatus == 'Loading' ? const Color(0xFF7F61EA) : const Color(0xFF6B7280)),
-                                'bayNumber': bayController.text.isNotEmpty ? bayController.text : 'Bay A-01',
-                                'vehicleNo': plateController.text.isNotEmpty ? plateController.text : 'KA00XX0000',
-                                'route': routeController.text.isNotEmpty ? routeController.text : 'Route 02 • Area',
-                                'capacity': capacityController.text.isNotEmpty ? '${capacityController.text} seats' : '45 seats',
-                                'driver': driverController.text.isNotEmpty ? driverController.text : 'Unassigned',
+                                'statusColor': selectedStatus == 'Ready'
+                                    ? const Color(0xFF10B981)
+                                    : (selectedStatus == 'Loading'
+                                          ? const Color(0xFF7F61EA)
+                                          : const Color(0xFF6B7280)),
+                                'bayNumber': bayController.text.isNotEmpty
+                                    ? bayController.text
+                                    : 'Bay A-01',
+                                'vehicleNo': plateController.text.isNotEmpty
+                                    ? plateController.text
+                                    : 'KA00XX0000',
+                                'route': routeController.text.isNotEmpty
+                                    ? routeController.text
+                                    : 'Route 02 • Area',
+                                'capacity': capacityController.text.isNotEmpty
+                                    ? '${capacityController.text} seats'
+                                    : '45 seats',
+                                'driver': driverController.text.isNotEmpty
+                                    ? driverController.text
+                                    : 'Unassigned',
                                 'progress': 0.0,
                                 'progressText': '0%',
                                 'isReady': selectedStatus == 'Ready',
@@ -730,12 +1050,22 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 10,
+                            ),
                             decoration: BoxDecoration(
                               color: const Color(0xFF7F61EA),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Text('Create', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                            child: Text(
+                              'Create',
+                              style: GoogleFonts.figtree(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -744,17 +1074,28 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 ),
               ),
             );
-          }
+          },
         );
-      }
+      },
     );
   }
 
-  Widget _buildFormField(String label, String hint, TextEditingController controller) {
+  Widget _buildFormField(
+    String label,
+    String hint,
+    TextEditingController controller,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted)),
+        Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: _textMuted,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -767,7 +1108,10 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: hint,
-              hintStyle: GoogleFonts.figtree(color: _textMuted.withValues(alpha: 0.5), fontSize: 14),
+              hintStyle: GoogleFonts.figtree(
+                color: _textMuted.withValues(alpha: 0.5),
+                fontSize: 14,
+              ),
             ),
             style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
           ),
@@ -776,11 +1120,23 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     );
   }
 
-  Widget _buildDropdownField(String label, String value, List<String> items, Function(String?) onChanged) {
+  Widget _buildDropdownField(
+    String label,
+    String value,
+    List<String> items,
+    Function(String?) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.w600, color: _textMuted)),
+        Text(
+          label,
+          style: GoogleFonts.figtree(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: _textMuted,
+          ),
+        ),
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -796,7 +1152,10 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
               items: items.map((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
-                  child: Text(item, style: GoogleFonts.figtree(fontSize: 14, color: _textDark)),
+                  child: Text(
+                    item,
+                    style: GoogleFonts.figtree(fontSize: 14, color: _textDark),
+                  ),
                 );
               }).toList(),
               onChanged: onChanged,
@@ -807,7 +1166,8 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     );
   }
 
-  void _showVehicleDetailsDialog(BuildContext context, {
+  void _showVehicleDetailsDialog(
+    BuildContext context, {
     required String vehicleNo,
     required String route,
     required String capacity,
@@ -837,150 +1197,251 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Top Header
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF4F1FD),
-                              borderRadius: BorderRadius.circular(12),
+                    children: [
+                      // Top Header
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF4F1FD),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                LucideIcons.bus,
+                                color: Color(0xFF7F61EA),
+                                size: 24,
+                              ),
                             ),
-                            child: const Icon(LucideIcons.bus, color: Color(0xFF7F61EA), size: 24),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    vehicleNo,
+                                    style: GoogleFonts.figtree(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: _textDark,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    route,
+                                    style: GoogleFonts.figtree(
+                                      fontSize: 14,
+                                      color: _textMuted,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: const Icon(
+                                Icons.close,
+                                color: _textMuted,
+                                size: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Tabs
+                      Container(
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(color: Color(0xFFE5E7EB)),
                           ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 24),
+                              GestureDetector(
+                                onTap: () => setModalState(
+                                  () => activeTab = 'Bus Details',
+                                ),
+                                child: _buildTab(
+                                  'Bus Details',
+                                  LucideIcons.bus,
+                                  activeTab == 'Bus Details',
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              GestureDetector(
+                                onTap: () => setModalState(
+                                  () => activeTab = 'Route Map',
+                                ),
+                                child: _buildTab(
+                                  'Route Map',
+                                  LucideIcons.map,
+                                  activeTab == 'Route Map',
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              GestureDetector(
+                                onTap: () =>
+                                    setModalState(() => activeTab = 'Students'),
+                                child: _buildTab(
+                                  'Students',
+                                  LucideIcons.users,
+                                  activeTab == 'Students',
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                              GestureDetector(
+                                onTap: () =>
+                                    setModalState(() => activeTab = 'Staff'),
+                                child: _buildTab(
+                                  'Staff',
+                                  LucideIcons.user,
+                                  activeTab == 'Staff',
+                                ),
+                              ),
+                              const SizedBox(width: 24),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Body
+                      Padding(
+                        padding: const EdgeInsets.all(24),
+                        child: activeTab == 'Students'
+                            ? _buildStudentsTab(vehicleNo)
+                            : activeTab == 'Staff'
+                            ? _buildStaffTab(vehicleNo)
+                            : activeTab == 'Route Map'
+                            ? _buildRouteMapTab(vehicleNo, route)
+                            : _buildBusDetailsTab(
+                                vehicleNo,
+                                capacity,
+                                driver,
+                                bayNumber,
+                                status,
+                                loaded,
+                              ),
+                      ),
+                      // Footer
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          border: Border(
+                            top: BorderSide(color: Color(0xFFE5E7EB)),
+                          ),
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(24),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _vehicles.removeWhere(
+                                    (v) => v['vehicleNo'] == vehicleNo,
+                                  );
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 8,
+                                ),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: const Color(
+                                      0xFFEF4444,
+                                    ).withValues(alpha: 0.3),
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  'Remove',
+                                  style: GoogleFonts.figtree(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFFEF4444),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Row(
                               children: [
-                                Text(vehicleNo, style: GoogleFonts.figtree(fontSize: 20, fontWeight: FontWeight.bold, color: _textDark)),
-                                const SizedBox(height: 4),
-                                Text(route, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted)),
+                                GestureDetector(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: const Color(0xFFE5E7EB),
+                                      ),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      'Close',
+                                      style: GoogleFonts.figtree(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: _textDark,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF7F61EA),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '+10% Loaded',
+                                    style: GoogleFonts.figtree(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: const Icon(Icons.close, color: _textMuted, size: 24),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Tabs
-                Container(
-                  decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color(0xFFE5E7EB))),
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 24),
-                        GestureDetector(
-                          onTap: () => setModalState(() => activeTab = 'Bus Details'),
-                          child: _buildTab('Bus Details', LucideIcons.bus, activeTab == 'Bus Details'),
+                          ],
                         ),
-                        const SizedBox(width: 24),
-                        GestureDetector(
-                          onTap: () => setModalState(() => activeTab = 'Route Map'),
-                          child: _buildTab('Route Map', LucideIcons.map, activeTab == 'Route Map'),
-                        ),
-                        const SizedBox(width: 24),
-                        GestureDetector(
-                          onTap: () => setModalState(() => activeTab = 'Students'),
-                          child: _buildTab('Students', LucideIcons.users, activeTab == 'Students'),
-                        ),
-                        const SizedBox(width: 24),
-                        GestureDetector(
-                          onTap: () => setModalState(() => activeTab = 'Staff'),
-                          child: _buildTab('Staff', LucideIcons.user, activeTab == 'Staff'),
-                        ),
-                        const SizedBox(width: 24),
-                      ],
-                    ),
-                  ),
-                ),
-                // Body
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: activeTab == 'Students'
-                    ? _buildStudentsTab(vehicleNo)
-                    : activeTab == 'Staff'
-                      ? _buildStaffTab(vehicleNo)
-                      : activeTab == 'Route Map' 
-                        ? _buildRouteMapTab(vehicleNo, route)
-                        : _buildBusDetailsTab(vehicleNo, capacity, driver, bayNumber, status, loaded),
-                ),
-                // Footer
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    border: Border(top: BorderSide(color: Color(0xFFE5E7EB))),
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _vehicles.removeWhere((v) => v['vehicleNo'] == vehicleNo);
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: const Color(0xFFEF4444).withValues(alpha: 0.3)),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text('Remove', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: const Color(0xFFEF4444))),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xFFE5E7EB)),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text('Close', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF7F61EA),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text('+10% Loaded', style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
-                          ),
-                        ],
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      );
-      }
+              ),
+            );
+          },
+        );
+      },
     );
   }
-);
-}
 
-  Widget _buildBusDetailsTab(String vehicleNo, String capacity, String driver, String bayNumber, String status, String loaded) {
+  Widget _buildBusDetailsTab(
+    String vehicleNo,
+    String capacity,
+    String driver,
+    String bayNumber,
+    String status,
+    String loaded,
+  ) {
     return Column(
       children: [
         Container(
@@ -1017,7 +1478,7 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                 _buildStatBox('FITNESS', 'Valid • Apr 2026'),
               ],
             );
-          }
+          },
         ),
       ],
     );
@@ -1025,11 +1486,15 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
 
   Widget _buildRouteMapTab(String vehicleNo, String route) {
     final int seed = vehicleNo.hashCode.abs();
-    
+
     final List<List<Map<String, dynamic>>> mockRoutes = [
       [
         {'title': 'Depot — Bay A-03', 'time': '7:05 AM', 'action': 'Start'},
-        {'title': 'Indiranagar 12th Main', 'time': '7:18 AM', 'action': 'Picked 12'},
+        {
+          'title': 'Indiranagar 12th Main',
+          'time': '7:18 AM',
+          'action': 'Picked 12',
+        },
         {'title': 'CMH Road', 'time': '7:26 AM', 'action': 'Picked 8'},
         {'title': 'Jeevan Bima Nagar', 'time': '7:35 AM', 'action': 'Picked 6'},
         {'title': 'Domlur Signal', 'time': '7:48 AM', 'action': 'Picked 9'},
@@ -1044,13 +1509,21 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
       ],
       [
         {'title': 'Depot — Bay C-05', 'time': '6:50 AM', 'action': 'Start'},
-        {'title': 'Jayanagar 4th Block', 'time': '7:15 AM', 'action': 'Picked 11'},
-        {'title': 'JP Nagar 1st Phase', 'time': '7:30 AM', 'action': 'Picked 9'},
+        {
+          'title': 'Jayanagar 4th Block',
+          'time': '7:15 AM',
+          'action': 'Picked 11',
+        },
+        {
+          'title': 'JP Nagar 1st Phase',
+          'time': '7:30 AM',
+          'action': 'Picked 9',
+        },
         {'title': 'Banashankari', 'time': '7:45 AM', 'action': 'Picked 14'},
         {'title': 'School Campus', 'time': '8:10 AM', 'action': 'Drop'},
       ],
     ];
-    
+
     final stops = mockRoutes[seed % mockRoutes.length];
 
     return Column(
@@ -1070,9 +1543,20 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(LucideIcons.mapPin, size: 36, color: Color(0xFF7F61EA)),
+                const Icon(
+                  LucideIcons.mapPin,
+                  size: 36,
+                  color: Color(0xFF7F61EA),
+                ),
                 const SizedBox(height: 8),
-                Text(route, style: GoogleFonts.figtree(fontSize: 14, color: const Color(0xFF7F61EA), fontWeight: FontWeight.w500)),
+                Text(
+                  route,
+                  style: GoogleFonts.figtree(
+                    fontSize: 14,
+                    color: const Color(0xFF7F61EA),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),
@@ -1082,7 +1566,13 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
           final isFirst = index == 0;
           final isLast = index == stops.length - 1;
           final stop = stops[index];
-          return _buildTimelineStop(stop['title']!, stop['time']!, stop['action']!, isFirst, isLast);
+          return _buildTimelineStop(
+            stop['title']!,
+            stop['time']!,
+            stop['action']!,
+            isFirst,
+            isLast,
+          );
         }),
       ],
     );
@@ -1090,28 +1580,60 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
 
   Widget _buildStudentsTab(String vehicleNo) {
     final int seed = vehicleNo.hashCode.abs();
-    
+
     final List<List<Map<String, String>>> mockStudentsLists = [
       [
-        {'name': 'Aarav Sharma', 'class': 'Grade 6-A', 'stop': 'Indiranagar 12th Main'},
+        {
+          'name': 'Aarav Sharma',
+          'class': 'Grade 6-A',
+          'stop': 'Indiranagar 12th Main',
+        },
         {'name': 'Diya Patel', 'class': 'Grade 4-B', 'stop': 'CMH Road'},
-        {'name': 'Ishaan Verma', 'class': 'Grade 8-C', 'stop': 'Jeevan Bima Nagar'},
+        {
+          'name': 'Ishaan Verma',
+          'class': 'Grade 8-C',
+          'stop': 'Jeevan Bima Nagar',
+        },
         {'name': 'Sara Khan', 'class': 'Grade 5-A', 'stop': '100 Feet Road'},
         {'name': 'Kabir Reddy', 'class': 'Grade 9-B', 'stop': 'Domlur'},
         {'name': 'Meera Iyer', 'class': 'Grade 3-A', 'stop': 'Old Madras Road'},
       ],
       [
-        {'name': 'Priya Singh', 'class': 'Grade 7-A', 'stop': 'Whitefield Forum'},
+        {
+          'name': 'Priya Singh',
+          'class': 'Grade 7-A',
+          'stop': 'Whitefield Forum',
+        },
         {'name': 'Rahul Gupta', 'class': 'Grade 5-C', 'stop': 'ITPL Gate 2'},
-        {'name': 'Riya Patel', 'class': 'Grade 6-B', 'stop': 'Kundalahalli Gate'},
-        {'name': 'Arjun Kumar', 'class': 'Grade 4-A', 'stop': 'Whitefield Forum'},
+        {
+          'name': 'Riya Patel',
+          'class': 'Grade 6-B',
+          'stop': 'Kundalahalli Gate',
+        },
+        {
+          'name': 'Arjun Kumar',
+          'class': 'Grade 4-A',
+          'stop': 'Whitefield Forum',
+        },
         {'name': 'Sneha Reddy', 'class': 'Grade 8-A', 'stop': 'ITPL Gate 2'},
       ],
       [
-        {'name': 'Ananya Reddy', 'class': 'Grade 9-A', 'stop': 'Jayanagar 4th Block'},
-        {'name': 'Rohan Iyer', 'class': 'Grade 6-C', 'stop': 'JP Nagar 1st Phase'},
+        {
+          'name': 'Ananya Reddy',
+          'class': 'Grade 9-A',
+          'stop': 'Jayanagar 4th Block',
+        },
+        {
+          'name': 'Rohan Iyer',
+          'class': 'Grade 6-C',
+          'stop': 'JP Nagar 1st Phase',
+        },
         {'name': 'Neha Sharma', 'class': 'Grade 7-B', 'stop': 'Banashankari'},
-        {'name': 'Aditya Rao', 'class': 'Grade 5-B', 'stop': 'Jayanagar 4th Block'},
+        {
+          'name': 'Aditya Rao',
+          'class': 'Grade 5-B',
+          'stop': 'Jayanagar 4th Block',
+        },
       ],
     ];
 
@@ -1122,94 +1644,230 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
       children: [
         Row(
           children: [
-            Expanded(flex: 2, child: Text('STUDENT', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-            Expanded(flex: 1, child: Text('CLASS', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
-            Expanded(flex: 2, child: Text('PICKUP STOP', style: GoogleFonts.figtree(fontSize: 12, fontWeight: FontWeight.bold, color: _textMuted))),
+            Expanded(
+              flex: 2,
+              child: Text(
+                'STUDENT',
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Text(
+                'CLASS',
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Text(
+                'PICKUP STOP',
+                style: GoogleFonts.figtree(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: _textMuted,
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 12),
         const Divider(color: Color(0xFFE5E7EB), height: 1),
-        ...students.map((s) => Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                children: [
-                  Expanded(flex: 2, child: Text(s['name']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark))),
-                  Expanded(flex: 1, child: Text(s['class']!, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted))),
-                  Expanded(flex: 2, child: Text(s['stop']!, style: GoogleFonts.figtree(fontSize: 14, color: _textMuted))),
-                ],
+        ...students.map(
+          (s) => Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        s['name']!,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: _textDark,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        s['class']!,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text(
+                        s['stop']!,
+                        style: GoogleFonts.figtree(
+                          fontSize: 14,
+                          color: _textMuted,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Divider(color: Color(0xFFE5E7EB), height: 1),
-          ],
-        )),
+              const Divider(color: Color(0xFFE5E7EB), height: 1),
+            ],
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildStaffTab(String vehicleNo) {
     final int seed = vehicleNo.hashCode.abs();
-    
+
     final List<List<Map<String, String>>> mockStaffLists = [
       [
-        {'name': 'Vinod Reddy', 'role': 'Driver · Morning · 6:30 AM', 'phone': '+91 98xxx 12345', 'initial': 'V'},
-        {'name': 'Lakshmi Devi', 'role': 'Attendant · Morning · 6:45 AM', 'phone': '+91 98xxx 22113', 'initial': 'L'},
-        {'name': 'Manjunath S.', 'role': 'Co-Driver · Afternoon · 2:30 PM', 'phone': '+91 98xxx 55421', 'initial': 'M'},
+        {
+          'name': 'Vinod Reddy',
+          'role': 'Driver · Morning · 6:30 AM',
+          'phone': '+91 98xxx 12345',
+          'initial': 'V',
+        },
+        {
+          'name': 'Lakshmi Devi',
+          'role': 'Attendant · Morning · 6:45 AM',
+          'phone': '+91 98xxx 22113',
+          'initial': 'L',
+        },
+        {
+          'name': 'Manjunath S.',
+          'role': 'Co-Driver · Afternoon · 2:30 PM',
+          'phone': '+91 98xxx 55421',
+          'initial': 'M',
+        },
       ],
       [
-        {'name': 'Ramesh B.', 'role': 'Driver · Morning · 6:15 AM', 'phone': '+91 98xxx 33445', 'initial': 'R'},
-        {'name': 'Sunita K.', 'role': 'Attendant · Morning · 6:30 AM', 'phone': '+91 98xxx 77889', 'initial': 'S'},
+        {
+          'name': 'Ramesh B.',
+          'role': 'Driver · Morning · 6:15 AM',
+          'phone': '+91 98xxx 33445',
+          'initial': 'R',
+        },
+        {
+          'name': 'Sunita K.',
+          'role': 'Attendant · Morning · 6:30 AM',
+          'phone': '+91 98xxx 77889',
+          'initial': 'S',
+        },
       ],
       [
-        {'name': 'Suresh N.', 'role': 'Driver · Morning · 6:20 AM', 'phone': '+91 98xxx 11223', 'initial': 'S'},
-        {'name': 'Kavitha R.', 'role': 'Attendant · Morning · 6:30 AM', 'phone': '+91 98xxx 99887', 'initial': 'K'},
-        {'name': 'Ashok M.', 'role': 'Co-Driver · Afternoon · 2:15 PM', 'phone': '+91 98xxx 55667', 'initial': 'A'},
+        {
+          'name': 'Suresh N.',
+          'role': 'Driver · Morning · 6:20 AM',
+          'phone': '+91 98xxx 11223',
+          'initial': 'S',
+        },
+        {
+          'name': 'Kavitha R.',
+          'role': 'Attendant · Morning · 6:30 AM',
+          'phone': '+91 98xxx 99887',
+          'initial': 'K',
+        },
+        {
+          'name': 'Ashok M.',
+          'role': 'Co-Driver · Afternoon · 2:15 PM',
+          'phone': '+91 98xxx 55667',
+          'initial': 'A',
+        },
       ],
     ];
 
     final staff = mockStaffLists[seed % mockStaffLists.length];
 
     return Column(
-      children: staff.map((s) => Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Row(
+      children: staff
+          .map(
+            (s) => Column(
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF4F1FD),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Center(
-                    child: Text(s['initial']!, style: GoogleFonts.figtree(fontSize: 16, fontWeight: FontWeight.bold, color: const Color(0xFF7F61EA))),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
                     children: [
-                      Text(s['name']!, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.w600, color: _textDark)),
-                      const SizedBox(height: 2),
-                      Text(s['role']!, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFF4F1FD),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Text(
+                            s['initial']!,
+                            style: GoogleFonts.figtree(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF7F61EA),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              s['name']!,
+                              style: GoogleFonts.figtree(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: _textDark,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              s['role']!,
+                              style: GoogleFonts.figtree(
+                                fontSize: 13,
+                                color: _textMuted,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        s['phone']!,
+                        style: GoogleFonts.figtree(
+                          fontSize: 13,
+                          color: _textMuted,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                Text(s['phone']!, style: GoogleFonts.figtree(fontSize: 13, color: _textMuted)),
+                const Divider(color: Color(0xFFE5E7EB), height: 1),
               ],
             ),
-          ),
-          const Divider(color: Color(0xFFE5E7EB), height: 1),
-        ],
-      )).toList(),
+          )
+          .toList(),
     );
   }
 
-  Widget _buildTimelineStop(String title, String time, String action, bool isFirst, bool isLast) {
+  Widget _buildTimelineStop(
+    String title,
+    String time,
+    String action,
+    bool isFirst,
+    bool isLast,
+  ) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -1227,15 +1885,22 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                    color: isFirst || isLast ? const Color(0xFF7F61EA) : Colors.white,
+                    color: isFirst || isLast
+                        ? const Color(0xFF7F61EA)
+                        : Colors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF7F61EA), width: isFirst || isLast ? 0 : 2),
+                    border: Border.all(
+                      color: const Color(0xFF7F61EA),
+                      width: isFirst || isLast ? 0 : 2,
+                    ),
                   ),
                 ),
                 Expanded(
                   child: Container(
                     width: 2,
-                    color: isLast ? Colors.transparent : const Color(0xFFE5E7EB),
+                    color: isLast
+                        ? Colors.transparent
+                        : const Color(0xFFE5E7EB),
                   ),
                 ),
               ],
@@ -1252,13 +1917,29 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+                        Text(
+                          title,
+                          style: GoogleFonts.figtree(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: _textDark,
+                          ),
+                        ),
                         const SizedBox(height: 2),
-                        Text(time, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                        Text(
+                          time,
+                          style: GoogleFonts.figtree(
+                            fontSize: 12,
+                            color: _textMuted,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Text(action, style: GoogleFonts.figtree(fontSize: 12, color: _textMuted)),
+                  Text(
+                    action,
+                    style: GoogleFonts.figtree(fontSize: 12, color: _textMuted),
+                  ),
                 ],
               ),
             ),
@@ -1272,13 +1953,29 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
     return Container(
       padding: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: isActive ? const Color(0xFF7F61EA) : Colors.transparent, width: 2)),
+        border: Border(
+          bottom: BorderSide(
+            color: isActive ? const Color(0xFF7F61EA) : Colors.transparent,
+            width: 2,
+          ),
+        ),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: isActive ? const Color(0xFF7F61EA) : _textMuted),
+          Icon(
+            icon,
+            size: 16,
+            color: isActive ? const Color(0xFF7F61EA) : _textMuted,
+          ),
           const SizedBox(width: 8),
-          Text(title, style: GoogleFonts.figtree(fontSize: 14, fontWeight: isActive ? FontWeight.w600 : FontWeight.w500, color: isActive ? const Color(0xFF7F61EA) : _textMuted)),
+          Text(
+            title,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+              color: isActive ? const Color(0xFF7F61EA) : _textMuted,
+            ),
+          ),
         ],
       ),
     );
@@ -1296,9 +1993,24 @@ class _TransportInsightsScreenState extends State<TransportInsightsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(label, style: GoogleFonts.figtree(fontSize: 10, fontWeight: FontWeight.bold, color: _textMuted, letterSpacing: 0.5)),
+          Text(
+            label,
+            style: GoogleFonts.figtree(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: _textMuted,
+              letterSpacing: 0.5,
+            ),
+          ),
           const SizedBox(height: 4),
-          Text(value, style: GoogleFonts.figtree(fontSize: 14, fontWeight: FontWeight.bold, color: _textDark)),
+          Text(
+            value,
+            style: GoogleFonts.figtree(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: _textDark,
+            ),
+          ),
         ],
       ),
     );
